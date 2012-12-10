@@ -1,0 +1,7 @@
+github.com/opscode-cookbooks/apt.git
+github.com/opscode-cookbooks/build-essential.git
+github.com/opscode-cookbooks/git.git
+github.com/opscode-cookbooks/vim.git
+github.com/opscode-cookbooks/mysql
+github.com/phlipper/chef-curl
+github.com/mdxp/nodejs-cookbook

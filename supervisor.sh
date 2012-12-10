@@ -1,0 +1,1 @@
+supervisor -w /home/vagrant/generated_files,/vagrant/src /vagrant/src/app.js
