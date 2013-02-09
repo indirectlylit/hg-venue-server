@@ -1,4 +1,6 @@
-
+// Devon Rueckner
+// The Human Grid
+// All Rights Reserved
 
 /*
     Configuration

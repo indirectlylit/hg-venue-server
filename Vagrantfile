@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# The Human Grid
+# All Rights Reserved
+
 Vagrant::Config.run do |config|
 
 	config.vm.box = "precise32"
