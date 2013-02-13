@@ -29,8 +29,9 @@ if (!Date.now) {
 */
 
 var max_data = 50;
-var data = [];
-
+var bikeData = {};   // object of lists, where each key is an address
+var bikeAddrs = [];  // list of the keys in bikeData
+var shuntData = [];  // list data
 
 
 /*
@@ -41,9 +42,15 @@ function last_n(d_arr, n) {
   return d_arr.slice(d_arr.length-Math.min(n, d_arr.length));
 }
 
-function p1(d) {
-  return d.data.p1;
+function purge(data) {
+  var outOfRange = function(d) {
+    return d.t < Date.now()-1000*(TIME_WINDOW+0.5);
+  };
+  while(data.length !== 0 && outOfRange(data[0]))
+    data.shift();
 }
+
+
 
 
 /*
@@ -64,8 +71,8 @@ var MetricsTracker = (function(){
     Calculate the average rate that we're receiving
     data from the stream
     */
-    var samples = last_n(data, 10).map(
-        function(x){ return x.timestamp; }
+    var samples = last_n(shuntData, 10).map(
+        function(x){ return x.t; }
       );
     var rateSum = 0;
     samples.forEach(
@@ -78,7 +85,7 @@ var MetricsTracker = (function(){
   };
 
   MetricsTracker.update = function(){
-    if (data.length < 2)
+    if (shuntData.length < 2)
       return;
 
     var now = Date.now();
@@ -86,7 +93,7 @@ var MetricsTracker = (function(){
     if (now - lastUpdateTime < MIN_REFRESH_INTERVAL)
       return;
 
-    var t0 = data[data.length - 1].timestamp;
+    var t0 = shuntData[shuntData.length - 1].t;
 
     if (now - t0 > 750)
       rateElement.text("no data");
@@ -159,15 +166,15 @@ var Graph = (function(){
 
   var area = d3.svg.area()
       .interpolate("basis")
-      .x(function(d, i) { return xScale(d.timestamp); })
+      .x(function(d, i) { return xScale(d.t); })
       .y0(height())
-      .y1(function(d, i) { return yScale(p1(d)); });
+      .y1(function(d, i) { return yScale(d.p); });
 
   var pathContainer = svg.append("g")
       .attr("clip-path", "url(#clip)");
 
   var dataPath = pathContainer.append("path")
-      .data([data])
+      .data([shuntData])
       .attr("class", "area")
       .attr("d", area);
 
@@ -191,10 +198,10 @@ var Graph = (function(){
 
   Graph.redraw = function() {
 
-    if (data.length === 0)
+    if (shuntData.length === 0)
       return;
 
-    var powervals = data.map(function(d){return p1(d);});
+    var powervals = shuntData.map(function(d){return d.p;});
     var mean = d3.mean(powervals);
     avgs[0] = avgs[1] = mean;
     valueElement.text(d3.round(mean));
@@ -204,7 +211,6 @@ var Graph = (function(){
     yScale.domain([0, Math.max(POWER_DOMAIN, d3.max(powervals))]);
     yAxisElement.call(yAxis);
     dataPath.attr("d", area);
-
     avgPath.attr("d", line);
   };
 
@@ -246,16 +252,30 @@ var StreamHandler = (function(){
     // d.arrival_time = Date.now();
     // console.log(d.timestamp - d.arrival_time);
 
-    data.push(d);
+    if (d['machine'] == "bike") {
+      var addr = d['address'];
+      if (bikeData[addr] === undefined) {
+        bikeData[addr] = [];
+        bikeAddrs.push(addr);
+      }
+      dataPoint = {
+        't' : d['timestamp'],
+        'p' : d['data']['p2']
+      };
+      bikeData[addr].push(dataPoint);
+      purge(bikeData[addr]);
+    }
 
-    var outOfRange = function(d){
-      return d.timestamp < Date.now()-1000*(TIME_WINDOW+0.5);
-    };
+    else if (d['machine'] == "shunt") {
+      dataPoint = {
+        't' : d['timestamp'],
+        'p' : d['data']['p1']
+      };
+      shuntData.push(dataPoint);
+      purge(shuntData);
+    }
 
-    while(data.length !== 0 && outOfRange(data[0]))
-      data.shift();
-
-    MetricsTracker.update();
+//    MetricsTracker.update();
 
   };
 

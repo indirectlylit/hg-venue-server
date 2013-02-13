@@ -42,18 +42,16 @@
 
         <div class="main-container">
             <div class="main wrapper clearfix">
-
                 <div class="block">
                     <h1>Average Power: <span id="value">?</span> watts</h1>
                     <div id="graph"></div>
                 </div>
-
             </div> <!-- #main -->
         </div> <!-- #main-container -->
 
         <div class="footer-container">
             <footer>
-                <p id="datarate">not connected</p>
+<!--                 <p id="datarate">not connected</p> -->
             </footer>
         </div>
 
