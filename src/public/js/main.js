@@ -180,19 +180,19 @@ var Graph = (function(){
       .x(function(d, i) { return xScale(d.t); })
       .y(function(d, i) { return yScale(d.p); });
 
-  // var genAreaData = d3.svg.area()
-  //     .interpolate("basis")
-  //     .x(function(d, i) { return xScale(d.t); })
-  //     .y0(height())
-  //     .y1(function(d, i) { return yScale(d.p); });
+  var genAreaData = d3.svg.area()
+      .interpolate("basis")
+      .x(function(d, i) { return xScale(d.t); })
+      .y0(height())
+      .y1(function(d, i) { return yScale(d.p); });
 
   var pathContainer = svg.append("g")
       .attr("clip-path", "url(#clip)");
 
-  // var generatedPath = pathContainer.append("path")
-  //     .data([shuntData['in']])
-  //     .attr("class", "consumedline")
-  //     .attr("d", consumedLineData);
+  var generatedPath = pathContainer.append("path")
+      .data([shuntData['in']])
+      .attr("class", "area")
+      .attr("d", consumedLineData);
 
   var consumedPath = pathContainer.append("path")
       .data([shuntData['out']])
@@ -229,6 +229,7 @@ var Graph = (function(){
       valueElements['in'].text(d3.round(means['in']));
       valueElements['out'].text(d3.round(means['out']));
       consumedPath.attr("d", consumedLineData);
+      generatedPath.attr("d", genAreaData);
       maxY = Math.max(maxY, d3.max(powervals['in']));
       maxY = Math.max(maxY, d3.max(powervals['out']));
     }
