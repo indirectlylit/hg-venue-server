@@ -29,9 +29,17 @@ if (!Date.now) {
 */
 
 var max_data = 50;
-var bikeData = {};   // object of lists, where each key is an address
-var bikeAddrs = [];  // list of the keys in bikeData
-var shuntData = [];  // list data
+var bikeData = {
+  0:[],
+  1:[],
+  2:[],
+  3:[]
+};   // object of lists, where each key is an address
+var bikeAddrs = [0, 1, 2, 3];  // list of the keys in bikeData
+var shuntData = {
+  'in' : [],
+  'out': []
+};
 
 
 /*
@@ -71,7 +79,7 @@ var MetricsTracker = (function(){
     Calculate the average rate that we're receiving
     data from the stream
     */
-    var samples = last_n(shuntData, 10).map(
+    var samples = last_n(shuntData['in'], 10).map(
         function(x){ return x.t; }
       );
     var rateSum = 0;
@@ -85,7 +93,7 @@ var MetricsTracker = (function(){
   };
 
   MetricsTracker.update = function(){
-    if (shuntData.length < 2)
+    if (shuntData['in'].length < 2)
       return;
 
     var now = Date.now();
@@ -93,7 +101,7 @@ var MetricsTracker = (function(){
     if (now - lastUpdateTime < MIN_REFRESH_INTERVAL)
       return;
 
-    var t0 = shuntData[shuntData.length - 1].t;
+    var t0 = shuntData['in'][shuntData['in'].length - 1].t;
 
     if (now - t0 > 750)
       rateElement.text("no data");
@@ -124,7 +132,10 @@ var MetricsTracker = (function(){
 var Graph = (function(){
   Graph = {};
   var margin = {top: 6, right: 6, bottom: 20, left: 40};
-  var valueElement = $("#value");
+  var valueElements = {
+    'in' : $("#value_in"),
+    'out' : $("#value_out"),
+  };
   var svgElement = $("#graph");
   function width(){return svgElement.width()-margin.right-margin.left;}
   function height(){return 200-margin.top-margin.bottom;}
@@ -164,29 +175,33 @@ var Graph = (function(){
       .attr("transform", "translate(0.5," + (0.5 + height()) + ")")
       .attr("class", "x axis");
 
-  var area = d3.svg.area()
+  var consumedLineData = d3.svg.line()
       .interpolate("basis")
       .x(function(d, i) { return xScale(d.t); })
-      .y0(height())
-      .y1(function(d, i) { return yScale(d.p); });
+      .y(function(d, i) { return yScale(d.p); });
+
+  // var genAreaData = d3.svg.area()
+  //     .interpolate("basis")
+  //     .x(function(d, i) { return xScale(d.t); })
+  //     .y0(height())
+  //     .y1(function(d, i) { return yScale(d.p); });
 
   var pathContainer = svg.append("g")
       .attr("clip-path", "url(#clip)");
 
-  var dataPath = pathContainer.append("path")
-      .data([shuntData])
-      .attr("class", "area")
-      .attr("d", area);
+  // var generatedPath = pathContainer.append("path")
+  //     .data([shuntData['in']])
+  //     .attr("class", "consumedline")
+  //     .attr("d", consumedLineData);
+
+  var consumedPath = pathContainer.append("path")
+      .data([shuntData['out']])
+      .attr("class", "consumedline")
+      .attr("d", consumedLineData);
 
   var line = d3.svg.line()
       .x(function(d, i) { return i ? 0 : width(); })
       .y(function(d, i) { return yScale(d); });
-
-  var avgs = [0, 0];
-  var avgPath = pathContainer.append("path")
-      .data([avgs])
-      .attr("class", "line")
-      .attr("d", line);
 
   Graph.sizeGraph = function() {
     svg.attr("width", width() + margin.left + margin.right);
@@ -198,20 +213,30 @@ var Graph = (function(){
 
   Graph.redraw = function() {
 
-    if (shuntData.length === 0)
-      return;
+    var maxY = POWER_DOMAIN;
 
-    var powervals = shuntData.map(function(d){return d.p;});
-    var mean = d3.mean(powervals);
-    avgs[0] = avgs[1] = mean;
-    valueElement.text(d3.round(mean));
+    if (shuntData['in'].length)
+    {
+      var powervals = {
+        'in': shuntData['in'].map(function(d){return d.p;}),
+        'out': shuntData['out'].map(function(d){return d.p;})
+      };
+
+      var means = {
+        'in' : d3.mean(powervals['in']),
+        'out' : d3.mean(powervals['out'])
+      };
+      valueElements['in'].text(d3.round(means['in']));
+      valueElements['out'].text(d3.round(means['out']));
+      consumedPath.attr("d", consumedLineData);
+      maxY = Math.max(maxY, d3.max(powervals['in']));
+      maxY = Math.max(maxY, d3.max(powervals['out']));
+    }
 
     var now = Date.now();
     xScale.domain([now-TIME_WINDOW*1000, now]);
-    yScale.domain([0, Math.max(POWER_DOMAIN, d3.max(powervals))]);
+    yScale.domain([0, maxY]);
     yAxisElement.call(yAxis);
-    dataPath.attr("d", area);
-    avgPath.attr("d", line);
   };
 
   Graph.sizeGraph();
@@ -271,8 +296,14 @@ var StreamHandler = (function(){
         't' : d['timestamp'],
         'p' : d['data']['p1']
       };
-      shuntData.push(dataPoint);
-      purge(shuntData);
+      shuntData['in'].push(dataPoint);
+      dataPoint = {
+        't' : d['timestamp'],
+        'p' : d['data']['p2']
+      };
+      shuntData['out'].push(dataPoint);
+      purge(shuntData['in']);
+      purge(shuntData['out']);
     }
 
 //    MetricsTracker.update();

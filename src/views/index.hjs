@@ -43,7 +43,10 @@
         <div class="main-container">
             <div class="main wrapper clearfix">
                 <div class="block">
-                    <h1>Average Power: <span id="value">?</span> watts</h1>
+                    <div class="readings">
+                        <h1>Generating:<span id="value_in" class="value in">?</span> watts</h1>
+                        <h1>Consuming:<span id="value_out" class="value out">?</span> watts</h1>
+                    </div>
                     <div id="graph"></div>
                 </div>
             </div> <!-- #main -->
