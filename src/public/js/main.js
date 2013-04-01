@@ -138,7 +138,7 @@ var Graph = (function(){
   };
   var svgElement = $("#graph");
   function width(){return svgElement.width()-margin.right-margin.left;}
-  function height(){return 200-margin.top-margin.bottom;}
+  function height(){return 600-margin.top-margin.bottom;}
 
   var xScale = d3.scale.linear();
   var yScale = d3.scale.linear()
