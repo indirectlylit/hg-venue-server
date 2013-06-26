@@ -1,4 +1,22 @@
 
+
+# Setting up the dev environment #
+
+1. Install [VirtualBox](https://www.virtualbox.org/). This is the virtualization software that will allow us to create any virtual machine we want and run it on our current machine at the same time as our main OS. We will use virtual machines to create web servers that will feed the web app directly to our browser.
+    * On Linux, use `sudo apt-get install virtualbox` to install it.
+    * On OS X and Windows, choose [the appropriate installer](https://www.virtualbox.org/wiki/Downloads) for your OS.
+2. Install [Vagrant](http://www.vagrantup.com/). This is a helper software that will allow us to customize our virtual machines and create them on the fly on the command line.
+    * On Linux, use `sudo apt-get install vagrant` to install it.
+    * On OS X and Windows, choose [the most recent installer](http://downloads.vagrantup.com/) for your OS.
+3. Make sure you have git installed. It should be a valid command when you type “git” in your terminal. This is the version control software that will allow us to manage our code.
+    * On Linux, use `sudo apt-get install git`
+    * On OS X and Windows, choose the [appropriate installer](http://git-scm.com/downloads).
+4. Create a [BitBucket](https://bitbucket.org/) account, the place where our code is stored. Ask Devon to give you access to their repository.
+5. Clone the repository to your computer. For example: `git clone https://bitbucket.org/pedalpower/venue-server.git`
+6. In your terminal, make sure you are in the directory where you cloned the repository.
+
+
+
 # Venue Server
 
 This is our real-time visualization application. It takes data from our sensor network and renders it in real-time via a web server.
@@ -6,8 +24,8 @@ This is our real-time visualization application. It takes data from our sensor n
 
 You'll need two terminal window in these directories:
 
-* `software/basic_logger`
-* `software/venue_server`
+* `network_coordinator`
+* `venue_server`
 
 
 ## Starting up the server
@@ -33,7 +51,7 @@ Start the server with:
 
 To run the logger, you'll need `python`, `pip`, and some libraries installed.
 
-First, in the `basic_logger` terminal, check that `python` and `pip` are installed by running from the command line:
+First, in the `network_coordinator` terminal, check that `python` and `pip` are installed by running from the command line:
 
     > python --version
     > pip --version
@@ -46,7 +64,15 @@ Then, for a single sensor node without the MUX:
 
     > python logger.py -v
 
-You should see a combination of '-', 'R', and 'F' characters at the beginning of every data packet (delimited by `{...}`). An 'R' means that the data is being fed to the server, and an 'F' means that it's being logged to a file.
+To log data to a file, run
+
+    > python logger.py -l fileName.txt
+
+To 'simulate' or play back a data file logged earlier, run
+
+    > python logger.py -vs sampleData.txt
+
+You should see a combination of **-**, **R**, and **F** characters at the beginning of every data packet (delimited by `{...}`). An 'R' means that the data is being fed to the server, and an 'F' means that it's being logged to a file.
 
 
 For further help (e.g. on using with the MUX), type:
