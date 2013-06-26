@@ -22,7 +22,7 @@
 This is our real-time visualization application. It takes data from our sensor network and renders it in real-time via a web server.
 
 
-You'll need two terminal window in these directories:
+You'll need two terminal windows in these directories:
 
 * `network_coordinator`
 * `venue_server`
