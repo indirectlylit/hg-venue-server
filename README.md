@@ -1,36 +1,42 @@
 
 
-# Setting up the dev environment #
-
-1. Install [VirtualBox](https://www.virtualbox.org/). This is the virtualization software that will allow us to create any virtual machine we want and run it on our current machine at the same time as our main OS. We will use virtual machines to create web servers that will feed the web app directly to our browser.
-    * On Linux, use `sudo apt-get install virtualbox` to install it.
-    * On OS X and Windows, choose [the appropriate installer](https://www.virtualbox.org/wiki/Downloads) for your OS.
-2. Install [Vagrant](http://www.vagrantup.com/). This is a helper software that will allow us to customize our virtual machines and create them on the fly on the command line.
-    * On Linux, use `sudo apt-get install vagrant` to install it.
-    * On OS X and Windows, choose [the most recent installer](http://downloads.vagrantup.com/) for your OS.
-3. Make sure you have git installed. It should be a valid command when you type “git” in your terminal. This is the version control software that will allow us to manage our code.
-    * On Linux, use `sudo apt-get install git`
-    * On OS X and Windows, choose the [appropriate installer](http://git-scm.com/downloads).
-4. Create a [BitBucket](https://bitbucket.org/) account, the place where our code is stored. Ask Devon to give you access to their repository.
-5. Clone the repository to your computer. For example: `git clone https://bitbucket.org/pedalpower/venue-server.git`
-6. In your terminal, make sure you are in the directory where you cloned the repository.
-
-
 
 # Venue Server
 
 This is our real-time visualization application. It takes data from our sensor network and renders it in real-time via a web server.
 
 
-You'll need two terminal windows in these directories:
+## Setting up the dev environment ##
 
-* `network_coordinator`
-* `venue_server`
+### Virtual Machine ###
+
+The application server should run on any OS: We leverage virtual machines to create a reproducible virtual machine.
+
+1. Install [VirtualBox](https://www.virtualbox.org/). This is the virtualization software that allows us easily set up and run a self-contained application server.
+2. Install [Vagrant](http://www.vagrantup.com/). This wrapper software allows us to provision new virtual machines in a reproducible way.
+3. Make sure you have git installed.
+4. Clone this repository to your computer. For example: `git clone https://bitbucket.org/pedalpower/venue-server.git`
+
+
+### Python Dependencies ###
+
+We also have a python script which currently runs outside of the VM on the host. To run this, you'll need Python and a few libraries installed. You can either install these directly to your system's Python packages, or use [virtualenv](http://www.virtualenv.org/en/latest/) to keep them isolated.
+
+Check that `python` and `pip` are installed by running from the command line:
+
+    > python --version
+    > pip --version
+
+Next, in the `network_coordinator` directory, install the dependency libraries by running the following. (sudo is not necessary if using `virtualenv`)
+
+    > sudo pip install -r requirements.txt
+
+
 
 
 ## Starting up the server
 
-In the `venue_server` terminal:
+Open a terminal in the `venue_server` directory and run:
 
     > vagrant up
 
@@ -49,35 +55,33 @@ Start the server with:
 
 ## Starting up logging script
 
-To run the logger, you'll need `python`, `pip`, and some libraries installed.
+Open a terminal in the `network_coordinator` directory. Run `logger.py` with `-h` for help:
 
-First, in the `network_coordinator` terminal, check that `python` and `pip` are installed by running from the command line:
 
-    > python --version
-    > pip --version
+    network_coordinator$ python logger.py -h
+    Usage: logger.py [OPTIONS]
 
-Next, install the dependency libraries by running:
+    Options:
+      -h, --help   show this help message and exit
+      -n NUMBER    Number of mutexed serial ports to cycle over. Default: 0 (for a
+                   direct connection)
+      -p PERIOD    Milliseconds to wait between each data request. Default: 100
+      -l           Log data to a file.
+      -v           Verbose: output all data to the console
+      -s SIM_FILE  Replay a logged file
 
-    > sudo pip install -r requirements.txt
-
-Then, for a single sensor node without the MUX:
-
-    > python logger.py -v
-
-To log data to a file, run
-
-    > python logger.py -l fileName.txt
 
 To 'simulate' or play back a data file logged earlier, run
 
     > python logger.py -vs sampleData.txt
 
-You should see a combination of **-**, **R**, and **F** characters at the beginning of every data packet (delimited by `{...}`). An 'R' means that the data is being fed to the server, and an 'F' means that it's being logged to a file.
+For a single sensor node without the MUX:
+
+    > python logger.py -v
 
 
-For further help (e.g. on using with the MUX), type:
+You should see a combination of **-**, **R**, and **F** characters at the beginning of every data packet (delimited by `{...}`). An **R** means that the data is being fed to the server, and an **F** means that it's being logged to a file.
 
-    > python logger.py -h
 
 
 ## Viewing the data
