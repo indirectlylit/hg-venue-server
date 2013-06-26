@@ -1,0 +1,49 @@
+
+note -- 25w load is always on
+
+
+==== test 1 ====
+
+scenario:
+ * basic step over 1V range at 25v w/ .2 interval & .2 hysteresis
+ 
+ 
+first try, not all lights were working.
+
+
+observations:
+ * initial lightbulbs didn't present much difficulty
+ * we were consiously trying to push the lightbulbs on as opposed to just pedalling normally and being braked
+ 
+
+==== test 2 ====
+
+scenario:
+ * one big step
+ * all 500watts on
+ * hysteresis = 1v
+ * on-threshold: 26v
+ 
+ 
+observations:
+ * no significant change in difficulty when all load is on
+ * charge/discharge cycle seemed fast
+ 
+ 
+==== test 3 ====
+
+similar to 2 with 28v threshold and 3v hyst
+
+ * no significant change in difficulty when all load is on again
+ * we noticed that rate of charge was twice as fast for 25-26, and ~constant for 26-28
+
+==== test 4 ====
+
+same as 3 with 4v hyst
+
+starting to feel a slight diff in resistance when lights are on.  not sure if its because of larger hyst or because we are getting tired
+
+
+
+
+ 

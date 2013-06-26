@@ -1,0 +1,7 @@
+2012-10-05 20:58:41.346778	pedal it up
+2012-10-05 21:10:18.563619	test one done. those were the resistors
+2012-10-05 22:18:49.949085	test two -- halogen
+2012-10-05 22:26:22.506925	test two again. prev had relays tied together
+2012-10-05 22:35:13.674158	test three -- waffle ironpython note.py test two again. prev had relays tied together
+2012-10-05 22:35:31.167977	test three -- waffle iron!
+2012-10-05 22:43:59.040135	test 3 again
