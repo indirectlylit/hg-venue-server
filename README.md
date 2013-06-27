@@ -55,7 +55,7 @@ Start the server with:
 
 ## Starting up logging script
 
-Open a terminal in the `network_coordinator` directory. Run `logger.py` with `-h` for help:
+Open another terminal on the host machine in the `network_coordinator` directory. Run `logger.py` with `-h` for help:
 
 
     network_coordinator$ python logger.py -h
