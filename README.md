@@ -55,10 +55,12 @@ Start the server with:
 
 ## Starting up logging script
 
-Open another terminal on the host machine in the `network_coordinator` directory. Run `logger.py` with `-h` for help:
+Open another terminal on the host machine in the `network_coordinator` directory. Run the logger script with `-h` for options:
 
+    > python logger.py -h
 
-    network_coordinator$ python logger.py -h
+prints:
+
     Usage: logger.py [OPTIONS]
 
     Options:
@@ -86,8 +88,9 @@ You should see a combination of **-**, **R**, and **F** characters at the beginn
 
 ## Viewing the data
 
+The logger script takes data either from the sensor network or a log file and streams it to the server. The server in turn accepts websocket connections from clients for display.
 
-In your browser, navigate to [localhost:8080](localhost:8080)
+Once both the server and logger script are running, you can display the data: In your browser, navigate to [localhost:8080](localhost:8080)
 
 
 ## Shutting Down
