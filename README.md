@@ -27,7 +27,7 @@ Check that `python` and `pip` are installed by running from the command line:
     > python --version
     > pip --version
 
-Next, in the `network_coordinator` directory, install the dependency libraries by running the following. (sudo is not necessary if using `virtualenv`)
+Next, in the `network_coordinator` directory, install the dependency libraries by running the following. (sudo is not necessary if using virtualenv)
 
     > sudo pip install -r requirements.txt
 
@@ -40,11 +40,11 @@ Open a terminal in the `venue_server` directory and run:
 
     > vagrant up
 
-This may take a while the first time, as it is different from the docs_server virtual machine. We will need to manually start the server for this app. Once it is finished, you can ssh into the VM, which will be running in the background, by typing in:
+This may take a while the first time. Once it is finished, you can ssh into the VM, which will be running in the background, by typing in:
 
     > vagrant ssh
 
-Once you are on the virtual machine, you should see the terminal prompt change to `vagrant@precise32:~$`. You can now use this virtual machine environment to run the web server. The virtual machine (called the 'guest') will have a shared directory with the 'host' machine (your primary operating system). This is located at `/vagrant`, and the server's source code is at `/vagrant/src/`. Navigate there by typing:
+Once you are on the virtual machine, you should see the terminal prompt change to `vagrant@precise32:~$`. You can now use this virtual machine environment to run the web server. The VM (called the 'guest') will have a shared directory with the host machine (your primary OS). This is located at `/vagrant`, and the server's source code is at `/vagrant/src/`. Navigate there by typing:
 
     > cd /vagrant/src
 
