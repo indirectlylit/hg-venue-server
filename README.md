@@ -10,7 +10,7 @@ This is our real-time visualization application. It takes data from our sensor n
 
 ### Virtual Machine ###
 
-The application server should run on any OS: We leverage virtual machines to create a reproducible virtual machine.
+The application server should run on any OS: We leverage virtual machines to create a reproducible environment.
 
 1. Install [VirtualBox](https://www.virtualbox.org/). This is the virtualization software that allows us easily set up and run a self-contained application server.
 2. Install [Vagrant](http://www.vagrantup.com/). This wrapper software allows us to provision new virtual machines in a reproducible way.
