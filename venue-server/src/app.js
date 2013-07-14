@@ -36,7 +36,7 @@ sockjsServer.on('connection', function(conn) {
 });
 
 sockjsServer.installHandlers(httpStreamServer, {prefix:'/data'});
-httpStreamServer.listen(8081, '0.0.0.0', function(){
+httpStreamServer.listen(8081, function(){
 	console.log("Stream server listening on port 8081");
 });
 
