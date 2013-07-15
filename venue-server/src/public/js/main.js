@@ -263,7 +263,7 @@ var Graph = (function(){
 
 var StreamHandler = (function(){
 
-  var sock = new SockJS('http://127.0.0.1:8081/data');
+  var sock = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
 
   sock.onmessage = function(e) {
     /*
