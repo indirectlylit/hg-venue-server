@@ -97,5 +97,43 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
 
 
 
+/**
+ * Set up a socket server
+ */
+
+
+var net = require('net');		// Load the TCP Library
+var rl = require('readline');
+
+var tcpClients = [];			// Keep track of the chat clients
+
+// Start a TCP Server
+var streamServer = net.createServer(function(socket) {
+  socket.name = socket.remoteAddress + ":" + socket.remotePort;
+  tcpClients.push(socket);
+
+  // Send a nice welcome message and announce
+  console.log("tcp socket connection: "+tcpClients.length);
+
+  // line-by-line
+  var rlInterface = rl.createInterface(socket, socket);
+  rlInterface.on('line', function (line) {
+    for (var i = 0; i < webSockets.length; i++) {
+      webSockets[i].write(line);
+    }
+  });
+
+  // Remove the client from the list when it leaves
+  socket.on('end', function () {
+    tcpClients.splice(tcpClients.indexOf(socket), 1);
+    console.log("tcp socket connection closed: "+tcpClients.length);
+  });
+
+});
+
+streamServer.listen(8082);
+
+console.log("Socket server listening on port 8082");
+
 
 
