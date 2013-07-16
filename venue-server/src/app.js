@@ -109,7 +109,19 @@ var tcpClients = [];			// Keep track of the chat clients
 
 // Start a TCP Server
 var streamServer = net.createServer(function(socket) {
+
+  // Send a message to all clients
+  function broadcast(message) {
+    tcpClients.forEach(function (client) {
+      // Don't want to send it to sender
+      client.write(message);
+    });
+  }
+
   socket.name = socket.remoteAddress + ":" + socket.remotePort;
+  socket.setTimeout(10000, function() {
+    socket.end();
+  });
   tcpClients.push(socket);
 
   // Send a nice welcome message and announce
@@ -121,6 +133,12 @@ var streamServer = net.createServer(function(socket) {
     for (var i = 0; i < webSockets.length; i++) {
       webSockets[i].write(line);
     }
+    console.log("line: "+line);
+    broadcast("thanks!");
+  });
+
+  socket.on('data', function (data) {
+    console.log("data: "+data);
   });
 
   // Remove the client from the list when it leaves
