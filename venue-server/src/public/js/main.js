@@ -6,8 +6,8 @@
     Configuration
 */
 
-var TIME_WINDOW = 3;      // x-axis (seconds)
-var POWER_DOMAIN = 1000;  // y-axis (watts)
+var TIME_WINDOW = 30;      // x-axis (seconds)
+var POWER_DOMAIN = 1600;  // y-axis (watts)
 var FRAME_PERIOD = 25;    // how often to try and repaint (ms)
 
 
