@@ -89,7 +89,8 @@ expressApp.configure('development', function() {
 	expressApp.use(express.errorHandler());
 });
 
-expressApp.get('/', routes.index);
+expressApp.get('/graph', routes.index);
+expressApp.get('/', routes.phone);
 
 http.createServer(expressApp).listen(expressApp.get('port'), function(){
 	console.log("Web server listening on port " + expressApp.get('port'));
