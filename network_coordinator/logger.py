@@ -17,6 +17,8 @@ from optparse import OptionParser
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
+STREAM_RATIO = 3  # only one out of every of this number will get sent to the web server
+
 
 def parseCommandLineFlags():
     parser = OptionParser(usage='%prog [OPTIONS]')
@@ -176,6 +178,8 @@ class BasicLogger:
 
         self._fileHandle = None
         self._verbose = verbose
+        self._streamIndex = 0
+
         if logToFile:
             fname = str(datetime.now()).replace(':', '_') + ".txt"
             self._fileHandle = open(fname, 'w')
@@ -200,7 +204,11 @@ class BasicLogger:
             self._fileHandle.flush()
 
         try:
-            wroteToRedis = self._redisClient.publish("data", line)
+            self._streamIndex = (self._streamIndex + 1) % STREAM_RATIO
+            if self._streamIndex == 0:
+                wroteToRedis = self._redisClient.publish("data", line)
+            else:
+                wroteToRedis = False
         except redis.exceptions.ConnectionError:
             wroteToRedis = False
 
