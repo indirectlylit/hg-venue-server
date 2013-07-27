@@ -265,18 +265,23 @@ var StreamHandler = (function(){
 
   var sock = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
 
+  var offset;
+
   sock.onmessage = function(e) {
     /*
     Handle each incoming message.
     Limit the size to max_data.
     */
     var d = jQuery.parseJSON(e.data);
-    // pretend it's slightly in the future to prevent incoming data flicker
-    d.timestamp = Date.parse(d.timestamp)+500;
+    d.timestamp = Date.parse(d.timestamp);
 
-    // // assuming clocks are synchronized, this is the delay from client to server:
-    // d.arrival_time = Date.now();
-    // console.log(d.timestamp - d.arrival_time);
+    if (!offset) {
+      // account for clock skew between devices
+      offset = Date.now() - d.timestamp;
+    }
+
+    // also pretend it's slightly in the future to prevent incoming data flicker
+    d.timestamp += offset + 1000;
 
     if (d['machine'] == "bike") {
       var addr = d['address'];
