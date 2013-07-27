@@ -134,7 +134,7 @@ var Graph = (function(){
   var margin = {top: 6, right: 6, bottom: 20, left: 40};
   var valueElements = {
     'in' : $("#value_in"),
-    'out' : $("#value_out"),
+    'out' : $("#value_out")
   };
   var svgElement = $("#graph");
   function width(){return svgElement.width()-margin.right-margin.left;}
