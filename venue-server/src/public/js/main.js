@@ -38,7 +38,8 @@ var bikeData = {
 var bikeAddrs = [0, 1, 2, 3];  // list of the keys in bikeData
 var shuntData = {
   'in' : [],
-  'out': []
+  'out': [],
+  'volts': []
 };
 
 
@@ -129,23 +130,20 @@ var MetricsTracker = (function(){
     Graphing
 */
 
-var Graph = (function(){
+var VoltageGraph = (function(){
   Graph = {};
   var margin = {top: 6, right: 6, bottom: 20, left: 40};
-  var valueElements = {
-    'in' : $("#value_in"),
-    'out' : $("#value_out")
-  };
-  var svgElement = $("#graph");
+  var valueElement = $("#value_volts");
+  var svgElement = $("#graph-power");
   function width(){return svgElement.width()-margin.right-margin.left;}
-  function height(){return 600-margin.top-margin.bottom;}
+  function height(){return 150-margin.top-margin.bottom;}
 
   var xScale = d3.scale.linear();
   var yScale = d3.scale.linear()
-      .domain([0, POWER_DOMAIN])
+      .domain([23.5, 31.5])
       .range([height(), 0]);
 
-  var svg = d3.select("#graph").append("svg")
+  var svg = d3.select("#graph-voltage").append("svg")
       .attr("class", "chart")
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -158,7 +156,114 @@ var Graph = (function(){
 
   var yAxis = d3.svg.axis()
       .scale(yScale)
-      .tickValues(d3.range(0, 5000, 200))
+      .tickValues(d3.range(23.5, 31.5, 2))
+      .orient("left");
+
+  var yAxisElement = svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(0.5,0.5)") // align to pixels
+      .call(yAxis);
+
+  var xAxis = d3.svg.axis()
+      .tickValues([-TIME_WINDOW, 0])
+      .tickFormat(d3.format("f"))
+      .orient("bottom");
+
+  var xAxisElement = svg.append("g")
+      .attr("transform", "translate(0.5," + (0.5 + height()) + ")")
+      .attr("class", "x axis");
+
+  var voltageLineData = d3.svg.line()
+      .interpolate("basis")
+      .x(function(d, i) { return xScale(d.t); })
+      .y(function(d, i) { return yScale(d.v); });
+
+  var pathContainer = svg.append("g")
+      .attr("clip-path", "url(#clip)");
+
+  var voltagePath = pathContainer.append("path")
+      .data([shuntData['volts']])
+      .attr("class", "voltageline")
+      .attr("d", voltageLineData);
+
+  var line = d3.svg.line()
+      .x(function(d, i) { return i ? 0 : width(); })
+      .y(function(d, i) { return yScale(d); });
+
+  Graph.sizeGraph = function() {
+    svg.attr("width", width() + margin.left + margin.right);
+    xScale.range([0, width()]);
+    clipPathRect.attr("width", width());
+    xAxisElement.call(xAxis.scale(xScale.domain([-TIME_WINDOW, 0])));
+  };
+
+
+  Graph.redraw = function() {
+
+    var maxY = 31.5;
+    console.log("REDRAW");
+    if (shuntData['volts'].length)
+    {
+      var voltage_vals = shuntData['volts'].map(function(d){return d.v;});
+      var mean = d3.mean(voltage_vals);
+
+      valueElement.text(d3.round(mean));
+      voltagePath.attr("d", voltageLineData);
+      maxY = Math.max(maxY, d3.max(voltage_vals));
+    }
+
+    var now = Date.now();
+    xScale.domain([now-TIME_WINDOW*1000, now]);
+    yScale.domain([23.5, maxY]);
+    yAxisElement.call(yAxis);
+  };
+
+  Graph.sizeGraph();
+  $(window).resize(Graph.sizeGraph);
+
+  setTimeout(
+      function(){
+        Graph.redraw();
+        setTimeout(arguments.callee, FRAME_PERIOD);
+      },
+      FRAME_PERIOD
+    );
+
+  return Graph;
+
+})();
+
+
+var PowerGraph = (function(){
+  PowerGraph = {};
+  var margin = {top: 6, right: 6, bottom: 20, left: 40};
+  var valueElements = {
+    'in' : $("#value_in"),
+    'out' : $("#value_out")
+  };
+  var svgElement = $("#graph-power");
+  function width(){return svgElement.width()-margin.right-margin.left;}
+  function height(){return 150-margin.top-margin.bottom;}
+
+  var xScale = d3.scale.linear();
+  var yScale = d3.scale.linear()
+      .domain([0, POWER_DOMAIN])
+      .range([height(), 0]);
+
+  var svg = d3.select("#graph-power").append("svg")
+      .attr("class", "chart")
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .attr("height", height() + margin.top + margin.bottom);
+
+  var clipPathRect = svg.append("defs").append("clipPath")
+      .attr("id", "clip")
+    .append("rect")
+      .attr("height", height());
+
+  var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .tickValues(d3.range(0, 5000, 300))
       .orient("left");
 
   var yAxisElement = svg.append("g")
@@ -203,7 +308,7 @@ var Graph = (function(){
       .x(function(d, i) { return i ? 0 : width(); })
       .y(function(d, i) { return yScale(d); });
 
-  Graph.sizeGraph = function() {
+  PowerGraph.sizeGraph = function() {
     svg.attr("width", width() + margin.left + margin.right);
     xScale.range([0, width()]);
     clipPathRect.attr("width", width());
@@ -211,7 +316,7 @@ var Graph = (function(){
   };
 
 
-  Graph.redraw = function() {
+  PowerGraph.redraw = function() {
 
     var maxY = POWER_DOMAIN;
 
@@ -240,18 +345,18 @@ var Graph = (function(){
     yAxisElement.call(yAxis);
   };
 
-  Graph.sizeGraph();
+  PowerGraph.sizeGraph();
   $(window).resize(Graph.sizeGraph);
 
   setTimeout(
       function(){
-        Graph.redraw();
+        PowerGraph.redraw();
         setTimeout(arguments.callee, FRAME_PERIOD);
       },
       FRAME_PERIOD
     );
 
-  return Graph;
+  return PowerGraph;
 
 })();
 
@@ -266,6 +371,9 @@ var StreamHandler = (function(){
   var sock = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
 
   var offset;
+  var inv_elem = $("#inverter_val");
+  var tiers_elem = $("#tiers_val");
+  var shunts_elem = $("#shunts_val");
 
   sock.onmessage = function(e) {
     /*
@@ -308,8 +416,18 @@ var StreamHandler = (function(){
         'p' : d['data']['p2']
       };
       shuntData['out'].push(dataPoint);
+      dataPoint = {
+        't' : d['timestamp'],
+        'v' : d['data']['v']
+      };
+      shuntData['volts'].push(dataPoint);
       purge(shuntData['in']);
       purge(shuntData['out']);
+      purge(shuntData['volts']);
+
+      inv_elem.text(d['data']['inverter'] ? 'On' : 'Off');
+      tiers_elem.text(d['data']['tiers']);
+      shunts_elem.text(d['data']['shunts']);
     }
 
 //    MetricsTracker.update();

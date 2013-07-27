@@ -17,7 +17,7 @@ from optparse import OptionParser
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
-STREAM_RATIO = 3  # only one out of every of this number will get sent to the web server
+STREAM_RATIO = 5  # only one out of every of this number will get sent to the web server
 
 
 def parseCommandLineFlags():
