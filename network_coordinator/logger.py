@@ -23,8 +23,8 @@ def parseCommandLineFlags():
     parser.add_option('-n', type='int', dest="number", default=0,
                     help='Number of mutexed serial ports to cycle over. Default: 0 (for a direct connection)')
 
-    parser.add_option('-p', type='int', dest="period", default=100,
-                    help='Milliseconds to wait between each data request. Default: 100')
+    parser.add_option('-p', type='int', dest="period", default=30,
+                    help='Milliseconds to wait between each data request. Default: 30')
 
     parser.add_option('-l', action="store_true", dest="log_file", default=False,
                     help='Log data to a file.')
@@ -77,7 +77,7 @@ class DataLink:
 
 
 class SerialDataLink(DataLink):
-    def __init__(self, messageHandler, period=100):
+    def __init__(self, messageHandler, period=30):
         DataLink.__init__(self, messageHandler)
         self._serialPort = getPort()
         self._period = period
