@@ -6,7 +6,7 @@
     Configuration
 */
 
-var TIME_WINDOW = 15;      // x-axis (seconds)
+var TIME_WINDOW = 3;      // x-axis (seconds)
 var POWER_DOMAIN = 1600;  // y-axis (watts)
 var FRAME_PERIOD = 25;    // how often to try and repaint (ms)
 
@@ -110,9 +110,9 @@ var StreamHandler = (function(){
       purge(shuntData['out']);
       purge(shuntData['volts']);
 
-      in_elem.text(Math.floor(average(shuntData['in'])));
-      out_elem.text(Math.floor(average(shuntData['out'])));
-      volts_elem.text(average(shuntData['volts']).toFixed(1));
+      in_elem.text(Math.floor(average(shuntData['in'])) + " watts");
+      out_elem.text(Math.floor(average(shuntData['out'])) + " watts");
+      volts_elem.text(average(shuntData['volts']).toFixed(1) + " volts");
 
       inv_elem.text(d['data']['inverter'] ? 'On' : 'Off');
       tiers_elem.text(d['data']['tiers']);

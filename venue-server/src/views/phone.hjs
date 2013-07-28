@@ -31,22 +31,22 @@
             <div class="main wrapper clearfix">
                 <div class="block">
                     <div class="readings">
-                        <h1>Inverter:<span id="inverter_val" class="value">?</span></h1>
-                        <h1>Tiers:<span id="tiers_val" class="value">?</span></h1>
-                        <h1>Shunts:<span id="shunts_val" class="value">?</span></h1>
+                        <h1><label>Inverter:</label><span id="inverter_val" class="value">?</span></h1>
+                        <h1><label>Tiers:</label><span id="tiers_val" class="value">?</span></h1>
+                        <h1><label>Shunts:</label><span id="shunts_val" class="value">?</span></h1>
                     </div>
                 </div>
                 <br>
                 <div class="block">
                     <div class="readings">
-                        <h1>Voltage:<span id="value_volts" class="value">?</span> volts</h1>
+                        <h1><label>Voltage:</label><span id="value_volts" class="value">?</span></h1>
                     </div>
                 </div>
                 <br>
                 <div class="block">
                     <div class="readings">
-                        <h1>Generating:<span id="value_in" class="value in">?</span> watts</h1>
-                        <h1>Consuming:<span id="value_out" class="value out">?</span> watts</h1>
+                        <h1><label>Generating:</label><span id="value_in" class="value in">?</span></h1>
+                        <h1><label>Consuming:</label><span id="value_out" class="value out">?</span></h1>
                     </div>
                 </div>
             </div> <!-- #main -->

@@ -76,7 +76,6 @@ body {
 
 h1 {
   font-size: 18px;
-  text-align: center;
   font-weight: 700;
   color: @secondary-color;
   text-shadow: rgba(0, 0, 0, 1) 1px 1px 0;
@@ -102,15 +101,19 @@ footer {
 .readings {
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
 }
 
 .readings h1 {
   margin-top: 0;
   margin-bottom: 0;
-  display: inline-block;
   margin-left: 20px;
   margin-right: 20px;
+  width: 100%;
+}
+
+.label {
+  display: inline-block;
+  text-align: left;
 }
 
 #datarate {
@@ -125,6 +128,8 @@ footer {
   display: inline-block;
   text-align: right;
   color: white;
+  float: right;
+  margin-right: 20px;
 }
 
 .value.out {
