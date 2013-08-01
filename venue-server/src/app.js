@@ -15,6 +15,7 @@ var http = require('http');
 var path = require('path');
 var sockjs = require('sockjs');
 var redis = require("redis");
+var dgram = require("dgram");
 
 
 /**
@@ -98,5 +99,22 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
 
 
 
+/**
+ * UDP Listener
+ */
+
+var udpServer = dgram.createSocket("udp4");
+
+udpServer.on("message", function (msg, rinfo) {
+	console.log("udpServer got: " + msg + " from " +
+	rinfo.address + ":" + rinfo.port);
+});
+
+udpServer.on("listening", function () {
+	var address = udpServer.address();
+	console.log("udpServer listening " + address.address + ":" + address.port);
+});
+
+udpServer.bind(7777);
 
 
