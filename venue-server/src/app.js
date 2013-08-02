@@ -16,6 +16,7 @@ var path = require('path');
 var sockjs = require('sockjs');
 var redis = require("redis");
 var dgram = require("dgram");
+var fs = require("fs");
 
 
 /**
@@ -103,11 +104,19 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
  * UDP Listener
  */
 
+
 var udpServer = dgram.createSocket("udp4");
+var fileStream = fs.createWriteStream("./data.log");
 
 udpServer.on("message", function (msg, rinfo) {
-	console.log("udpServer got: " + msg + " from " +
-	rinfo.address + ":" + rinfo.port);
+	var data = JSON.parse(msg);
+	var isodate = new Date().toISOString();
+	data['timestamp'] = isodate;
+	data['address'] = rinfo.address;
+
+	var line = JSON.stringify(data);
+	console.log('[' + rinfo.address + '] ' + line);
+	fileStream.write(line + '\n');
 });
 
 udpServer.on("listening", function () {
