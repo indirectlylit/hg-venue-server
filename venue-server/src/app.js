@@ -124,6 +124,6 @@ udpServer.on("listening", function () {
 	console.log("udpServer listening " + address.address + ":" + address.port);
 });
 
-// udpServer.bind(7777);
+udpServer.bind(7777);
 
 
