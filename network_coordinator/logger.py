@@ -8,6 +8,7 @@ import serial
 import redis
 import redis.exceptions
 import serial.tools.list_ports
+import socket
 from datetime import datetime
 import dateutil.parser
 import time
@@ -17,16 +18,14 @@ from optparse import OptionParser
 
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
-STREAM_RATIO = 5  # only one out of every of this number will get sent to the web server
-
 
 def parseCommandLineFlags():
     parser = OptionParser(usage='%prog [OPTIONS]')
     parser.add_option('-n', type='int', dest="number", default=0,
                     help='Number of mutexed serial ports to cycle over. Default: 0 (for a direct connection)')
 
-    parser.add_option('-p', type='int', dest="period", default=30,
-                    help='Milliseconds to wait between each data request. Default: 30')
+    parser.add_option('-p', type='int', dest="period", default=100,
+                    help='Milliseconds to wait between each data request. Default: 100')
 
     parser.add_option('-l', action="store_true", dest="log_file", default=False,
                     help='Log data to a file.')
@@ -37,12 +36,15 @@ def parseCommandLineFlags():
     parser.add_option('-s', action="store", dest="sim_file",
                     help='Replay a logged file')
 
+    parser.add_option('-c', action="store", dest="connection", default="redis",
+                    help='Connection type: udp or redis. Default: udp')
+
     options, args = parser.parse_args()
     if options.number > 4:
         print "More than four mutexed ports are not currently supported"
         dealWithIt()
 
-    return options.number, options.period, options.log_file, options.sim_file, options.verbose
+    return options.number, options.period, options.log_file, options.sim_file, options.verbose, options.connection
 
 
 def getPort():
@@ -79,7 +81,7 @@ class DataLink:
 
 
 class SerialDataLink(DataLink):
-    def __init__(self, messageHandler, period=30):
+    def __init__(self, messageHandler, period=100):
         DataLink.__init__(self, messageHandler)
         self._serialPort = getPort()
         self._period = period
@@ -174,17 +176,19 @@ class SimulatedDataLink(DataLink):
 
 class BasicLogger:
 
-    def __init__(self, logToFile=False, verbose=False):
+    def __init__(self, logToFile=False, verbose=False, useRedis=False):
 
         self._fileHandle = None
         self._verbose = verbose
-        self._streamIndex = 0
-
+        self._useRedis = useRedis
         if logToFile:
             fname = str(datetime.now()).replace(':', '_') + ".txt"
             self._fileHandle = open(fname, 'w')
 
-        self._redisClient = redis.StrictRedis()
+        if useRedis:
+            self._redisClient = redis.StrictRedis()
+
+
 
     def handleData(self, data):
 
@@ -203,16 +207,19 @@ class BasicLogger:
             self._fileHandle.write(line + '\n')
             self._fileHandle.flush()
 
-        try:
-            self._streamIndex = (self._streamIndex + 1) % STREAM_RATIO
-            if self._streamIndex == 0:
-                wroteToRedis = self._redisClient.publish("data", line)
-            else:
-                wroteToRedis = False
-        except redis.exceptions.ConnectionError:
-            wroteToRedis = False
+        successfulWrite = False
+        if self._useRedis:
+            try:
+                successfulWrite = self._redisClient.publish("data", line)
+            except redis.exceptions.ConnectionError:
+                pass
+        else:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.sendto(line, ("10.0.0.102", 7777))
+            successfulWrite = True
 
-        consolePrefix += "R" if wroteToRedis else '-'
+        connectionPrefix = "R" if self._useRedis else "U"
+        consolePrefix += connectionPrefix if successfulWrite else '-'
         consolePrefix += "F" if self._fileHandle else '-'
 
         if self._verbose:
@@ -224,8 +231,8 @@ def dealWithIt():
 
 
 def main():
-    numPorts, period, logToFile, simFile, verbose = parseCommandLineFlags()
-    logger = BasicLogger(logToFile, verbose)
+    numPorts, period, logToFile, simFile, verbose, connection = parseCommandLineFlags()
+    logger = BasicLogger(logToFile, verbose, connection == 'udp')
 
     if simFile:
         dataLink = SimulatedDataLink(logger.handleData, simFile)
