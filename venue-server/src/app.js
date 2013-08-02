@@ -14,7 +14,6 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var sockjs = require('sockjs');
-var redis = require("redis");
 var dgram = require("dgram");
 var fs = require("fs");
 
@@ -41,27 +40,6 @@ sockjsServer.installHandlers(httpStreamServer, {prefix:'/data'});
 httpStreamServer.listen(8081, function(){
 	console.log("Stream server listening on port 8081");
 });
-
-
-
-/**
- * Set up Redis client.
- */
-
-var redisClient = redis.createClient();
-
-redisClient.on("message", function(chan, msg) {
-	for (var i = 0; i < webSockets.length; i++) {
-		webSockets[i].write(msg);
-    }
-});
-
-redisClient.on("subscribe", function(chan, count) {
-	console.log("Redis client subscribed to "+chan);
-});
-
-redisClient.subscribe("data");
-
 
 
 /**

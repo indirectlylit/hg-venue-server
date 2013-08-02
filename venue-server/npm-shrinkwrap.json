@@ -2,12 +2,6 @@
   "name": "venue_server",
   "version": "0.0.1",
   "dependencies": {
-    "redis": {
-      "version": "0.8.1"
-    },
-    "hiredis": {
-      "version": "0.1.14"
-    },
     "express": {
       "version": "3.0.0rc5",
       "dependencies": {

@@ -5,8 +5,6 @@ All Rights Reserved
 '''
 
 import serial
-import redis
-import redis.exceptions
 import serial.tools.list_ports
 import socket
 from datetime import datetime
@@ -36,15 +34,12 @@ def parseCommandLineFlags():
     parser.add_option('-s', action="store", dest="sim_file",
                     help='Replay a logged file')
 
-    parser.add_option('-c', action="store", dest="connection", default="redis",
-                    help='Connection type: udp or redis. Default: udp')
-
     options, args = parser.parse_args()
     if options.number > 4:
         print "More than four mutexed ports are not currently supported"
         dealWithIt()
 
-    return options.number, options.period, options.log_file, options.sim_file, options.verbose, options.connection
+    return options.number, options.period, options.log_file, options.sim_file, options.verbose
 
 
 def getPort():
@@ -176,19 +171,13 @@ class SimulatedDataLink(DataLink):
 
 class BasicLogger:
 
-    def __init__(self, logToFile=False, verbose=False, useRedis=False):
+    def __init__(self, logToFile=False, verbose=False):
 
         self._fileHandle = None
         self._verbose = verbose
-        self._useRedis = useRedis
         if logToFile:
             fname = str(datetime.now()).replace(':', '_') + ".txt"
             self._fileHandle = open(fname, 'w')
-
-        if useRedis:
-            self._redisClient = redis.StrictRedis()
-
-
 
     def handleData(self, data):
 
@@ -207,23 +196,11 @@ class BasicLogger:
             self._fileHandle.write(line + '\n')
             self._fileHandle.flush()
 
-        successfulWrite = False
-        if self._useRedis:
-            try:
-                successfulWrite = self._redisClient.publish("data", line)
-            except redis.exceptions.ConnectionError:
-                pass
-        else:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.sendto(line, ("10.0.0.102", 7777))
-            successfulWrite = True
-
-        connectionPrefix = "R" if self._useRedis else "U"
-        consolePrefix += connectionPrefix if successfulWrite else '-'
-        consolePrefix += "F" if self._fileHandle else '-'
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.sendto(line, ("10.0.0.10", 7777))
 
         if self._verbose:
-            print consolePrefix + "\t" + line
+            print line
 
 
 def dealWithIt():
@@ -231,8 +208,8 @@ def dealWithIt():
 
 
 def main():
-    numPorts, period, logToFile, simFile, verbose, connection = parseCommandLineFlags()
-    logger = BasicLogger(logToFile, verbose, connection == 'udp')
+    numPorts, period, logToFile, simFile, verbose = parseCommandLineFlags()
+    logger = BasicLogger(logToFile, verbose)
 
     if simFile:
         dataLink = SimulatedDataLink(logger.handleData, simFile)
