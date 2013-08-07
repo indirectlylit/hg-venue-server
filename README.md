@@ -105,7 +105,11 @@ In the `venue-server` console:
 And to stop the logger script, type `^C` (`Ctrl-C`)
 
 
+## Installing on real hardware
 
+We have a convinience script here, `bootstrap`, which will turn a default raspbian-running raspberry pi into a super human-powered machine!
+
+It grabs the latest dependencies for the project, export some init scripts, and setup the network. There are a few configurable options in case your network is different in the header of that script. Just edit it and run again.
 
 
 -----------
