@@ -87,7 +87,15 @@ var udpServer = dgram.createSocket("udp4");
 var fileStream = fs.createWriteStream("./data.log");
 
 udpServer.on("message", function (msg, rinfo) {
-	var data = JSON.parse(msg);
+	var data = {};
+
+	try {
+		data = JSON.parse(msg);
+	} catch(e) {
+		console.log('[' + rinfo.address + '] msg: ' + msg);
+		return;
+	}
+
 	var isodate = new Date().toISOString();
 	data['timestamp'] = isodate;
 	data['address'] = rinfo.address;
