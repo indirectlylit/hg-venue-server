@@ -16,7 +16,7 @@ logdir="log/"
 logname=`date "+%Y.%m%.%d.%H%M.log"`
 log=${logdir}${logname}
 [[ -e $logdir ]] || mkdir -p $logdir
-touch $log
+date > $log
 
 # Quit on error
 set -e
