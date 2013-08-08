@@ -1,3 +1,5 @@
+#!env bash
+
 ### PedalPower Bootstrap
 
 # This script will install the necessary dependencies, code and init scripts to run a pedalpower server node.
