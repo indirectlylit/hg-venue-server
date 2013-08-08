@@ -5,15 +5,17 @@
 # This script will install the necessary dependencies, code and init scripts to run a pedalpower server node.
 # It should only be run on a clean raspbian image, and only need to run if your config changes
 
-# exit on error
-set -e
-
 ### Configuration
 # Set the hostname and static ip here
 # Setup logfile
 local name="pedalpower-server"
 local ip="10.0.0.10"
 local log="bootstrap.log"
+
+# Quit on error
+set -e
+
+_piline="------------------------------------------------------------------------------------"
 
 # Display colorized warning output
 function _error() {
@@ -23,11 +25,11 @@ function _error() {
     echo "Please see the log at $log for more details"
 }
 
-### Setup a log
+### Setup a logfile with the start date
 touch $log
-echo '*****' >> $log
+echo $_piline >> $log
 date >> $log
-echo '*****' >> $log
+echo $_piline >> $log
 
 ### Check that we have a network connection
 ping -o -t 60 google.com >> $log || _error "can't ping google"
