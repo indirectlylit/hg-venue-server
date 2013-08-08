@@ -103,6 +103,10 @@ udpServer.on("message", function (msg, rinfo) {
 	var line = JSON.stringify(data);
 	console.log('[' + rinfo.address + '] ' + line);
 	fileStream.write(line + '\n');
+
+	for (var i = 0; i < webSockets.length; i++) {
+        webSockets[i].write(line);
+    }
 });
 
 udpServer.on("listening", function () {
