@@ -8,14 +8,18 @@
 ### Configuration
 # Set the hostname and static ip here
 # Setup logfile
-local name="pedalpower-server"
-local ip="10.0.0.10"
-local log="bootstrap.log"
+name="pedalpower-server"
+ip="10.0.0.10"
+
+# create the log
+logdir="log/"
+logname=`date "+%Y.%m%.%d.%H%M.log"`
+log=${logdir}${logname}
+[[ -e $logdir ]] || mkdir -p $logdir
+touch $log
 
 # Quit on error
 set -e
-
-_piline="------------------------------------------------------------------------------------"
 
 # Display colorized warning output
 function _error() {
@@ -24,12 +28,6 @@ function _error() {
     echo -e "${COLOR}[Error] ${@}${RESET}"
     echo "Please see the log at $log for more details"
 }
-
-### Setup a logfile with the start date
-touch $log
-echo $_piline >> $log
-date >> $log
-echo $_piline >> $log
 
 ### Check that we have a network connection
 ping -o -t 60 google.com >> $log || _error "can't ping google"
