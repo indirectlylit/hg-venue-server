@@ -105,12 +105,27 @@ In the `venue-server` console:
 And to stop the logger script, type `^C` (`Ctrl-C`)
 
 
-## Installing on real hardware
+## Installing on a Raspberry Pi
 
-We have a convinience script here, `bootstrap`, which will turn a default raspbian-running raspberry pi into a super human-powered machine!
 
-It grabs the latest dependencies for the project, export some init scripts, and setup the network. There are a few configurable options in case your network is different in the header of that script. Just edit it and run again.
+If you have a raspberry pi, there are two scripts to help get you from a blank sd card to a super human-powered machine.
 
+The first script is `install`, which can download and install an image (OSX only) to a blank SD card. We support raspbian, so after an SD card is plugged into your computer, run:
+
+    > sudo ./install http://files.velocix.com/c1410/images/raspbian/2013-05-25-wheezy-raspbian/2013-05-25-wheezy-raspbian.zip
+
+Make sure to choose the right disk, because this can and will overwrite whatever is on there!
+
+Now that raspbian is installed to the SD card, plug it in the Pi, and boot by plugging in a microusb cable.
+
+There are a bunch of ways to connect to the pi. If it has a network address, try `ssh pi@raspberry.local` (password *raspberry*). Otherwise connect a keyboard and monitor, and login with username *pi*, password *raspberry*. A serial connection is also available through the GPIO.
+
+Once the machine is booted, make sure the latest code is installed, then run the bootstrap script:
+
+     > git clone bitbucket.org/pedalpowernyc/venue-server.git && cd venue-server/venue-server
+     > ./raspberrypi/bootstrap
+
+This bootstrap script updates linux to the latest version, installs dependencies and libraries for the server, changes the hostname to `pedalpower-server` and ip to `10.0.0.10`. The client software has this ip hard-coded, so if you change it be sure to change the config at the top of the `raspberrypi/bootstrap` script. 
 
 -----------
 
