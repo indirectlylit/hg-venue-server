@@ -88,11 +88,11 @@ var fileStream = fs.createWriteStream("./data.log");
 
 udpServer.on("message", function (msg, rinfo) {
 	var data = {};
+	console.log('[' + rinfo.address + '] ' + msg);
 
 	try {
 		data = JSON.parse(msg);
 	} catch(e) {
-		console.log('[' + rinfo.address + '] msg: ' + msg);
 		return;
 	}
 
@@ -101,7 +101,6 @@ udpServer.on("message", function (msg, rinfo) {
 	data['address'] = rinfo.address;
 
 	var line = JSON.stringify(data);
-	console.log('[' + rinfo.address + '] ' + line);
 	fileStream.write(line + '\n');
 
 	for (var i = 0; i < webSockets.length; i++) {
