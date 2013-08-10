@@ -53,7 +53,7 @@ sudo aptitude update
 _info "Upgrading system software"
 sudo aptitude upgrade
 _info "Installing package dependencies"
-sudo aptitude install node
+sudo aptitude install -y node
 _info "Installing libraries"
 npm install
 
