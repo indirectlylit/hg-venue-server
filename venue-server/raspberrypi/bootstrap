@@ -34,6 +34,7 @@ function _info() {
     echo "Please see the log at $log for more details"
 }
 
+
 ### Check that we have a network connection
 _info "Checking for a network connection"
 ping -c 5 google.com || _error "can't ping google"
