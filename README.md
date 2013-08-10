@@ -108,7 +108,7 @@ And to stop the logger script, type `^C` (`Ctrl-C`)
 ## Installing on a Raspberry Pi
 
 
-If you have a raspberry pi, there are two scripts to help get you from a blank sd card to a super human-powered machine.
+If you have a raspberry pi, there are two scripts to help get you from a blank 4G+ SD card to a super human-powered machine.
 
 The first script is `install`, which can download and install an image (OSX only) to a blank SD card. We support raspbian, so after an SD card is plugged into your computer, run:
 
@@ -125,7 +125,7 @@ Once the machine is booted, make sure the latest code is installed, then run the
      > git clone bitbucket.org/pedalpowernyc/venue-server.git && cd venue-server/venue-server
      > ./raspberrypi/bootstrap
 
-This bootstrap script updates linux to the latest version, installs dependencies and libraries for the server, changes the hostname to `pedalpower-server` and ip to `10.0.0.10`. The client software has this ip hard-coded, so if you change it be sure to change the config at the top of the `raspberrypi/bootstrap` script. 
+This bootstrap script updates linux to the latest version, installs dependencies and libraries for the server, changes the hostname to `pedalpower-server` and ip to `10.0.0.10`. It will first test the network connection, then ask for a sudo password (should be the same as the pi password, `raspberry`). This takes a long time, and may look like its hanging, but just look for the 'OK' led on the board, which should be occasionally flashing green. The client software has this ip hard-coded, so if you change it be sure to change the config at the top of the `raspberrypi/bootstrap` script.
 
 -----------
 
