@@ -14,7 +14,11 @@ ip="10.0.0.10"
 # Quit on error
 set -e
 
-# Display colorized warning output
+# Expand to the entire sd card if we don't have at least 2 gigs free
+size=`df -l | grep rootfs | awk '{ print $2 }'`
+[[ $(($size - 1804128)) -lt 1804128 ]] && sudo raspi-config --expand-rootfs && sudo reboot
+
+# Display colorized error output
 function _error() {
     COLOR='\033[00;31m' # red
     RESET='\033[00;00m' # white
