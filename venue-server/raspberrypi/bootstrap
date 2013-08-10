@@ -11,13 +11,6 @@
 name="pedalpower-server"
 ip="10.0.0.10"
 
-# create the log
-logdir="log/"
-logname=`date "+%Y.%m%.%d.%H%M.log"`
-log=${logdir}${logname}
-[[ -e $logdir ]] || mkdir -p $logdir
-date > $log
-
 # Quit on error
 set -e
 
@@ -25,12 +18,21 @@ set -e
 function _error() {
     COLOR='\033[00;31m' # red
     RESET='\033[00;00m' # white
-    echo -e "${COLOR}[Error] ${@}${RESET}"
+    echo -e "${COLOR}[PedalPower ERROR] ${@}${RESET}"
+    echo "Please see the log at $log for more details"
+}
+
+# Display colorized warning output
+function _info() {
+    COLOR='\033[00;30m' # no idea what color this is
+    RESET='\033[00;00m' # white
+    echo -e "${COLOR}[PedalPower INFO] ${@}${RESET}"
     echo "Please see the log at $log for more details"
 }
 
 ### Check that we have a network connection
-ping -o -t 60 google.com >> $log || _error "can't ping google"
+_info "Checking for a network connection"
+ping -c 5 google.com || _error "can't ping google"
 
 ### Permissions
 # We ask for the administrator password upfront, and update a timestamp until
@@ -41,26 +43,24 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ### Install software dependencies
 
-echo -n "Installing software dependencies..."
-echo -n "updating system..."
-sudo aptitude update >> $log
-echo -n "upgrading software..."
-sudo aptitude upgrade >> $log
-echo -n "installing dependencies..."
-sudo aptitude install node >> $log
-echo -n "installing libraries..."
-npm install >> $log
-echo -n "done!"
+
+_info "Installing software dependencies"
+_info "Updating software list"
+sudo aptitude update
+_info "Upgrading system software"
+sudo aptitude upgrade
+_info "Installing package dependencies"
+sudo aptitude install node
+_info "Installing libraries"
+npm install
 
 ### Init scripts
 # Generate the install initscripts using foreman
 
-echo -n "Installing software dependencies..."
-echo -n "installing foreman..."
-gem install foreman >> $log || _error "failed installing foreman"
-echo -n "creating init scripts..."
-sudo foreman export upstart /  >> $log || _error "couldn't export init scripts"
-echo -n "done!"
+_info "Installing forman"
+gem install foreman || _error "failed installing foreman"
+_info "Creating init scripts"
+sudo foreman export upstart / || _error "couldn't export init scripts"
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
@@ -72,10 +72,12 @@ echo -n "done!"
 # can be set fine and the ifconfig and route utilities still complain
 # if the hostname is not in the router's lookup table. No big deal.
 
-echo -n "Setting up networking..."
-echo -n "setting hostname to ${name}..."
-sudo hostname ${name} >> $log
-echo -n "setting ip to ${ip}..."
-ifconfig eth0 ${ip} netmask 255.255.255.0 >> $log
-route add default gw 10.0.0.1 >> $log
-echo "done!"
+_info "Setting up networking"
+_info "Setting hostname to ${name}"
+sudo hostname ${name}
+[[ -e /etc/hostname ]] || sudo touch /etc/hostname
+sudo sed -ie "1s/.*/${name}/" /etc/hostname
+_info "Setting ip to ${ip}"
+ifconfig eth0 ${ip} netmask 255.255.255.0
+route add default gw 10.0.0.1
+_info "done!"
