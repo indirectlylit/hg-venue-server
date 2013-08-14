@@ -11,7 +11,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "node src/app"
+    "start": "supervisor src/app"
   },
   "engines": {
     "node": ">= 0.8.6",
