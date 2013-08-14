@@ -81,10 +81,12 @@ sudo foreman export upstart / || _error "couldn't export init scripts"
 
 _info "Setting up networking"
 _info "Setting hostname to ${name}"
+oldname=`hostname`
 sudo hostname ${name}
 [[ -e /etc/hostname ]] || sudo touch /etc/hostname
 sudo sed -ie "1s/.*/${name}/" /etc/hostname
+sudo sed -ie "s/${oldname}/${name}/" /etc/hosts
 _info "Setting ip to ${ip}"
-ifconfig eth0 ${ip} netmask 255.255.255.0
-route add default gw 10.0.0.1
+sudo ifconfig eth0 ${ip} netmask 255.255.255.0
+sudo route add default gw 10.0.0.1
 _info "done!"
