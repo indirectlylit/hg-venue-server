@@ -55,7 +55,7 @@ _info "Installing software dependencies"
 _info "Updating software list"
 sudo aptitude update
 _info "Upgrading system software"
-sudo aptitude upgrade
+sudo aptitude upgrade -y
 _info "Installing package dependencies"
 sudo aptitude install -y nodejs npm
 _info "Installing libraries"
