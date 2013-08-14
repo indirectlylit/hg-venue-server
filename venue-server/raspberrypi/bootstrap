@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+### PedalPower Bootstrap
+
+# This script will install the necessary dependencies, code and init scripts to run a pedalpower server node.
+# It should only be run on a clean raspbian image, and only need to run if your config changes
+
+### Configuration
+# Set the hostname and static ip here
+# Setup logfile
+name="pedalpower-server"
+ip="10.0.0.10"
+
+# Quit on error
+set -e
+
+# Our banner
+echo
+echo "Ｐｅｄａｌ  Ｐｏｗｅｒ  Ｆｏｏｔｓｔｒａｐ"
+echo
+# Expand to the entire sd card if we don't have at least 2 gigs free
+size=`df -l | grep rootfs | awk '{ print $2 }'`
+[[ $(($size - 1804128)) -lt 1804128 ]] && sudo raspi-config --expand-rootfs && sudo reboot
+
+# Display colorized error output
+function _error() {
+    COLOR='\033[00;31m' # red
+    RESET='\033[00;00m' # white
+    echo -e "${COLOR}[PedalPower ERROR] ${@}${RESET}"
+}
+
+# Display colorized warning output
+function _info() {
+    COLOR='\033[00;32m' # green
+    RESET='\033[00;00m' # white
+    echo -e "${COLOR}[PedalPower INFO] ${@}${RESET}"
+}
+
+
+### Check that we have a network connection
+_info "Checking for a network connection"
+ping -c 5 google.com || _error "can't ping google"
+
+### Permissions
+# We ask for the administrator password upfront, and update a timestamp until
+# the script is finished
+
+sudo -v
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+### Install software dependencies
+
+
+_info "Installing software dependencies"
+_info "Updating software list"
+sudo aptitude update
+_info "Upgrading system software"
+sudo aptitude upgrade -y
+_info "Installing package dependencies"
+sudo aptitude install -y nodejs npm rubygems
+_info "Installing libraries"
+npm install
+
+### Init scripts
+# Generate the install initscripts using foreman
+
+_info "Installing forman"
+sudo gem install foreman || _error "failed installing foreman"
+_info "Creating init scripts"
+sudo foreman export upstart / || _error "couldn't export init scripts"
+
+### Network config
+# Each server node should have the same name and resolve to the same ip
+# This is hardcoded in the software and this config script so that if a Pi
+# fails, you can just pop in a new one and not miss a beat
+
+# We do not error out on networking stuff because they produce errors
+# on failed hostname lookup. That is to say, the ip and routing
+# can be set fine and the ifconfig and route utilities still complain
+# if the hostname is not in the router's lookup table. No big deal.
+
+_info "Setting up networking"
+_info "Setting hostname to ${name}"
+oldname=`hostname`
+sudo hostname ${name}
+[[ -e /etc/hostname ]] || sudo touch /etc/hostname
+sudo sed -ie "1s/.*/${name}/" /etc/hostname
+sudo sed -ie "s/${oldname}/${name}/" /etc/hosts
+_info "Setting ip to ${ip}"
+sudo ifconfig eth0 ${ip} netmask 255.255.255.0
+sudo route add default gw 10.0.0.1
+_info "done!"
