@@ -14,6 +14,10 @@ ip="10.0.0.10"
 # Quit on error
 set -e
 
+# Our banner
+echo
+echo "Ｐｅｄａｌ  Ｐｏｗｅｒ  Ｆｏｏｔｓｔｒａｐ"
+echo
 # Expand to the entire sd card if we don't have at least 2 gigs free
 size=`df -l | grep rootfs | awk '{ print $2 }'`
 [[ $(($size - 1804128)) -lt 1804128 ]] && sudo raspi-config --expand-rootfs && sudo reboot
