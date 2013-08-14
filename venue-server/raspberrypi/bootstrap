@@ -57,7 +57,7 @@ sudo aptitude update
 _info "Upgrading system software"
 sudo aptitude upgrade -y
 _info "Installing package dependencies"
-sudo aptitude install -y nodejs npm
+sudo aptitude install -y nodejs npm rubygems
 _info "Installing libraries"
 npm install
 
