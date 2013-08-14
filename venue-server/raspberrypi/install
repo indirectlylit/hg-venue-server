@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 
 # Derived from Ray Viljoen's Raspberry PI Install Script
 # Much love to Ray
