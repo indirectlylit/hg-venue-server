@@ -18,10 +18,10 @@ var dgram = require("dgram");
 var fs = require("fs");
 
 
+
 /**
  * Set up web socket server.
  */
-
 
 var sockjsServer = sockjs.createServer();
 var httpStreamServer = http.createServer();
@@ -40,6 +40,7 @@ sockjsServer.installHandlers(httpStreamServer, {prefix:'/data'});
 httpStreamServer.listen(8081, function(){
 	console.log("Stream server listening on port 8081");
 });
+
 
 
 /**
@@ -81,7 +82,6 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
 /**
  * UDP Listener
  */
-
 
 var udpServer = dgram.createSocket("udp4");
 var fileStream = fs.createWriteStream("./data.log");
