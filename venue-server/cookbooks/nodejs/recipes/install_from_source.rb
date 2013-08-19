@@ -20,10 +20,10 @@
 
 include_recipe "build-essential"
 
-case node['platform']
-  when 'centos','redhat','fedora','amazon','scientific'
+case node['platform_family']
+  when 'rhel','fedora'
     package "openssl-devel"
-  when 'debian','ubuntu'
+  when 'debian'
     package "libssl-dev"
 end
 
@@ -32,13 +32,14 @@ nodejs_tar_path = nodejs_tar
 if node['nodejs']['version'].split('.')[1].to_i >= 5
   nodejs_tar_path = "v#{node['nodejs']['version']}/#{nodejs_tar_path}"
 end
-nodejs_src_url = "http://nodejs.org/dist/#{nodejs_tar_path}"
+# Let the user override the source url in the attributes
+nodejs_src_url = "#{node['nodejs']['src_url']}/#{nodejs_tar_path}"
 
 remote_file "/usr/local/src/#{nodejs_tar}" do
   source nodejs_src_url
   checksum node['nodejs']['checksum']
   mode 0644
-  action :create_if_missing 
+  action :create_if_missing
 end
 
 # --no-same-owner required overcome "Cannot change ownership" bug
@@ -48,17 +49,20 @@ execute "tar --no-same-owner -zxf #{nodejs_tar}" do
   creates "/usr/local/src/node-v#{node['nodejs']['version']}"
 end
 
-bash "compile node.js" do
+bash "compile node.js (on #{node['nodejs']['make_threads']} cpu)" do
+  # OSX doesn't have the attribute so arbitrarily default 2
   cwd "/usr/local/src/node-v#{node['nodejs']['version']}"
   code <<-EOH
+    PATH="/usr/local/bin:$PATH"
     ./configure --prefix=#{node['nodejs']['dir']} && \
-    make
+    make -j #{node['nodejs']['make_threads']}
   EOH
   creates "/usr/local/src/node-v#{node['nodejs']['version']}/node"
 end
 
 execute "nodejs make install" do
+  environment({"PATH" => "/usr/local/bin:/usr/bin:/bin:$PATH"})
   command "make install"
   cwd "/usr/local/src/node-v#{node['nodejs']['version']}"
-  not_if {File.exists?("#{node['nodejs']['dir']}/bin/node") && `#{node['nodejs']['dir']}/bin/node --version`.chomp == "v#{node['nodejs']['version']}" }
+  not_if {::File.exists?("#{node['nodejs']['dir']}/bin/node") && `#{node['nodejs']['dir']}/bin/node --version`.chomp == "v#{node['nodejs']['version']}" }
 end
