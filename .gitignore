@@ -1,4 +1,6 @@
 
+venue-server/node_modules/*
+
 api_key.json
 
 .DS_Store

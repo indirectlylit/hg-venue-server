@@ -8,7 +8,7 @@ Vagrant::Config.run do |config|
 
 	config.vm.box = "precise32"
 	config.vm.box_url = "http://files.vagrantup.com/precise32.box"
-	config.vm.network :bridged
+	# config.vm.network :bridged
 
 	config.vm.provision :chef_solo do |chef|
 
@@ -19,13 +19,15 @@ Vagrant::Config.run do |config|
 		chef.add_recipe "vim"
 		chef.add_recipe "chef-curl"
 		chef.add_recipe "nodejs"
+
+		chef.json.merge!({
+			:nodejs => {
+				:install_method => "package"
+			}
+		})
 	end
 
-	config.vm.provision :shell do |shell|
-		shell.path = "installNodeModules.sh"
-		shell.args = "/vagrant /usr/local/lib/node_app_modules"
-	end
-
+	config.vm.provision :shell, :inline => "cd /vagrant && npm install --no-bin-link"
 	config.vm.provision :shell, :inline => "npm install supervisor -g"
 
 	config.vm.forward_port 8080, 8080

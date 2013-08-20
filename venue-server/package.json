@@ -5,6 +5,7 @@
     "express": "3.x",
     "sockjs": "0.3.x",
     "hjs": "*",
+    "serialport": "1.1.*",
     "less-middleware": "*"
   },
   "private": true,
