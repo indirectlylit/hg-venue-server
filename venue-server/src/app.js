@@ -16,7 +16,7 @@ var path = require('path');
 var sockjs = require('sockjs');
 var dgram = require("dgram");
 var fs = require("fs");
-
+var serialport = require("serialport");
 
 
 /**
@@ -115,4 +115,48 @@ udpServer.on("listening", function () {
 
 udpServer.bind(7777);
 
+
+
+/**
+ * Serial Port Listener
+ */
+
+var port = "/dev/ttyUSB0";
+var baudrate = 57600;
+var serial_active = false;
+
+function attemptLogging(port, baudrate) {
+  if (!serial_active) {
+    serial_active = true;
+
+    var serialPort = new serialport.SerialPort(port, {
+      baudrate: baudrate,
+      parser: serialport.parsers.readline("\n")
+    });
+
+    console.log("\n----\nOpening SerialPort at "+Date.now()+"\n----\n");
+
+    serialPort.on("data", function (data) {
+     console.log(data.toString());
+    });
+
+    serialPort.on("close", function (data) {
+      serial_active = false;
+      console.log("\n----\nClosing SerialPort at "+Date.now()+"\n----\n");
+    });
+  }
+}
+
+setInterval(function() {
+  if (!serial_active && fs.existsSync(port)) {
+    try {
+      attemptLogging(port, baudrate);
+    } catch (e) {
+      console.log("ERROR");
+      console.log(e);
+      // Error means port is not available for listening.
+      serial_active = false;
+    }
+  }
+}, 1000);
 
