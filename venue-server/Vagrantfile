@@ -19,6 +19,7 @@ Vagrant::Config.run do |config|
 		chef.add_recipe "vim"
 		chef.add_recipe "chef-curl"
 		chef.add_recipe "nodejs"
+		chef.add_recipe "avr-usb"
 
 		chef.json.merge!({
 			:nodejs => {
