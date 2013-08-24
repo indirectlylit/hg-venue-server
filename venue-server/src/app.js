@@ -19,6 +19,36 @@ var fs = require("fs");
 var serialport = require("serialport");
 
 
+var dataLog = fs.createWriteStream("./data.log");
+var errLog = fs.createWriteStream("./errors.log");
+
+function handleIncomingData(message, address) {
+  var isodate = new Date().toISOString();
+  var data = {};
+
+  try {
+    data = JSON.parse(message);
+  } catch(e) {
+    err = isodate + "\t" + address + "\t" + message + '\n';
+    console.log("Not JSON:\t"+err);
+    errLog.write(err);
+    return;
+  }
+
+  data['timestamp'] = isodate;
+  data['address'] = address;
+
+  var line = JSON.stringify(data);
+  dataLog.write(line + '\n');
+
+  console.log('[' + address + ']\t' + line);
+
+  for (var i = 0; i < webSockets.length; i++) {
+    webSockets[i].write(line);
+  }
+}
+
+
 /**
  * Set up web socket server.
  */
@@ -84,28 +114,8 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
  */
 
 var udpServer = dgram.createSocket("udp4");
-var fileStream = fs.createWriteStream("./data.log");
-
 udpServer.on("message", function (msg, rinfo) {
-	var data = {};
-	console.log('[' + rinfo.address + '] ' + msg);
-
-	try {
-		data = JSON.parse(msg);
-	} catch(e) {
-		return;
-	}
-
-	var isodate = new Date().toISOString();
-	data['timestamp'] = isodate;
-	data['address'] = rinfo.address;
-
-	var line = JSON.stringify(data);
-	fileStream.write(line + '\n');
-
-	for (var i = 0; i < webSockets.length; i++) {
-        webSockets[i].write(line);
-    }
+  handleIncomingData(msg, rinfo.address);
 });
 
 udpServer.on("listening", function () {
@@ -121,8 +131,8 @@ udpServer.bind(7777);
  * Serial Port Listener
  */
 
-var port = "/dev/ttyUSB0";
-var baudrate = 57600;
+var serial_port = "/dev/ttyUSB0";
+var serial_baudrate = 57600;
 var serial_active = false;
 
 function attemptLogging(port, baudrate) {
@@ -137,7 +147,8 @@ function attemptLogging(port, baudrate) {
     console.log("\n----\nOpening SerialPort at "+Date.now()+"\n----\n");
 
     serialPort.on("data", function (data) {
-     console.log(data.toString());
+      handleIncomingData(data.toString(), port);
+     console.log();
     });
 
     serialPort.on("close", function (data) {
@@ -148,9 +159,9 @@ function attemptLogging(port, baudrate) {
 }
 
 setInterval(function() {
-  if (!serial_active && fs.existsSync(port)) {
+  if (!serial_active && fs.existsSync(serial_port)) {
     try {
-      attemptLogging(port, baudrate);
+      attemptLogging(serial_port, serial_baudrate);
     } catch (e) {
       console.log("ERROR");
       console.log(e);
