@@ -31,6 +31,8 @@ Vagrant::Config.run do |config|
 	config.vm.provision :shell, :inline => "cd /vagrant && npm install --no-bin-link"
 	config.vm.provision :shell, :inline => "npm install supervisor -g"
 
+	# config.vm.provision :shell, :path => "set_server_ip.sh"
+
 	config.vm.forward_port 8080, 8080
 	config.vm.forward_port 8081, 8081
 	config.vm.forward_port 6379, 6379
