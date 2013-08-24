@@ -27,6 +27,7 @@ function _error() {
     COLOR='\033[00;31m' # red
     RESET='\033[00;00m' # white
     echo -e "${COLOR}[PedalPower ERROR] ${@}${RESET}"
+    exit 1
 }
 
 # Display colorized warning output
