@@ -10,7 +10,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "supervisor src/app"
+    "start": "nodejs src/app"
   },
   "engines": {
     "node": ">= 0.8.6",
