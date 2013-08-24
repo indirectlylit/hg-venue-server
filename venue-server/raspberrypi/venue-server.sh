@@ -2,7 +2,7 @@
 # /etc/init.d/venue-server
 #
 
-pushd ${HOME}/venue-server/venue-server
+cd /home/pi/venue-server/venue-server
 
 # Carry out specific functions when asked to by the system
 case "$1" in
