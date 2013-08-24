@@ -59,11 +59,11 @@ _info "Upgrading system software"
 sudo aptitude upgrade -y
 _info "Installing package dependencies"
 sudo aptitude install -y rubygems
-_info "Installing node.js 0.10.2"
+_info "Installing node.js 0.10.16"
 sudo mkdir /opt/node
-wget http://nodejs.org/dist/v0.10.4/node-v0.10.4-linux-arm-pi.tar.gz
-tar xvzf node-v0.10.4-linux-arm-pi.tar.gz
-sudo cp -r node-v0.10.4-linux-arm-pi/* /opt/node
+wget http://nodejs.org/dist/v0.10.16/node-v0.10.16-linux-arm-pi.tar.gz
+tar xvzf node-v0.10.16-linux-arm-pi.tar.gz
+sudo cp -r node-v0.10.16-linux-arm-pi/* /opt/node
 sudo tee -a /etc/profile << EOF
 
 PATH=$PATH:/opt/node/bin
