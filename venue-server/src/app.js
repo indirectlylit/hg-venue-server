@@ -19,6 +19,12 @@ var fs = require("fs");
 var serialport = require("serialport");
 
 
+
+/**
+ * Data Handling
+ */
+
+var webSockets = [];
 var dataLog = fs.createWriteStream("./data.log");
 var errLog = fs.createWriteStream("./errors.log");
 
@@ -49,13 +55,13 @@ function handleIncomingData(message, address) {
 }
 
 
+
 /**
  * Set up web socket server.
  */
 
 var sockjsServer = sockjs.createServer();
 var httpStreamServer = http.createServer();
-var webSockets = [];
 
 sockjsServer.on('connection', function(conn) {
 	webSockets.push(conn);
@@ -131,8 +137,8 @@ udpServer.bind(7777);
  * Serial Port Listener
  */
 
-var serial_port = "/dev/ttyUSB0";
-var serial_baudrate = 57600;
+var SERIAL_PORT = "/dev/ttyUSB0";
+var SERIAL_RATE = 57600;
 var serial_active = false;
 
 function attemptLogging(port, baudrate) {
@@ -159,9 +165,9 @@ function attemptLogging(port, baudrate) {
 }
 
 setInterval(function() {
-  if (!serial_active && fs.existsSync(serial_port)) {
+  if (!serial_active && fs.existsSync(SERIAL_PORT)) {
     try {
-      attemptLogging(serial_port, serial_baudrate);
+      attemptLogging(SERIAL_PORT, SERIAL_RATE);
     } catch (e) {
       console.log("ERROR");
       console.log(e);
