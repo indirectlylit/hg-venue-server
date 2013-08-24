@@ -4,7 +4,7 @@
   "description": "Collects, stores, visualizes, and distributes sensor data",
   "main": "app.js",
   "scripts": {
-    "start": "supervisor src/app"
+    "start": "node src/app"
   },
   "engines": {
     "node": ">= 0.10.16",

@@ -58,17 +58,32 @@ sudo aptitude update
 _info "Upgrading system software"
 sudo aptitude upgrade -y
 _info "Installing package dependencies"
-sudo aptitude install -y nodejs npm rubygems
+sudo aptitude install -y rubygems
+_info "Installing node.js 0.10.16"
+if npm version 2>/dev/null; then
+	_info "skipping node install"
+else
+	sudo mkdir /opt/node
+	wget http://nodejs.org/dist/v0.10.16/node-v0.10.16-linux-arm-pi.tar.gz
+	tar xvzf node-v0.10.16-linux-arm-pi.tar.gz
+	sudo cp -r node-v0.10.16-linux-arm-pi/* /opt/node
+	sudo tee -a /etc/profile << EOF
+
+PATH=$PATH:/opt/node/bin
+export PATH
+EOF
+fi
 _info "Installing libraries"
 npm install
 
 ### Init scripts
 # Generate the install initscripts using foreman
 
-_info "Installing forman"
+_info "Installing foreman"
 sudo gem install foreman || _error "failed installing foreman"
 _info "Creating init scripts"
-sudo foreman export upstart / || _error "couldn't export init scripts"
+sudo foreman export --user pi inittab inittab || _error "couldn't export init scripts"
+sudo tee -a /etc/inittab < inittab
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
