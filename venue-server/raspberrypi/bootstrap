@@ -58,7 +58,17 @@ sudo aptitude update
 _info "Upgrading system software"
 sudo aptitude upgrade -y
 _info "Installing package dependencies"
-sudo aptitude install -y nodejs npm rubygems
+sudo aptitude install -y rubygems
+_info "Installing node.js 0.10.2"
+sudo mkdir /opt/node
+wget http://nodejs.org/dist/v0.10.4/node-v0.10.4-linux-arm-pi.tar.gz
+tar xvzf node-v0.10.4-linux-arm-pi.tar.gz
+sudo cp -r node-v0.10.4-linux-arm-pi/* /opt/node
+sudo tee -a /etc/profile << EOF
+
+PATH=$PATH:/opt/node/bin
+export PATH
+EOF
 _info "Installing libraries"
 npm install
 

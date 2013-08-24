@@ -10,7 +10,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "nodejs src/app"
+    "start": "node src/app"
   },
   "engines": {
     "node": ">= 0.8.6",
