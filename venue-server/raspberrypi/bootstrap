@@ -68,7 +68,7 @@ npm install
 _info "Installing foreman"
 sudo gem install foreman || _error "failed installing foreman"
 _info "Creating init scripts"
-sudo foreman export upstart / || _error "couldn't export init scripts"
+sudo foreman export --user pi upstart . || _error "couldn't export init scripts"
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
