@@ -83,7 +83,9 @@ _info "Installing foreman"
 sudo gem install foreman || _error "failed installing foreman"
 _info "Creating init scripts"
 sudo foreman export --user pi inittab inittab || _error "couldn't export init scripts"
+sed -ie 's/:4/:2345/g' inittab || _error "couldn't modify inittab to be enabled on all init levels"
 sudo tee -a /etc/inittab < inittab
+
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
