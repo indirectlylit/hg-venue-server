@@ -60,7 +60,8 @@ sudo aptitude upgrade -y
 _info "Installing package dependencies"
 sudo aptitude install -y rubygems
 _info "Installing node.js 0.10.16"
-if npm version 2>/dev/null; then
+if npm version 2>/dev/null
+then
 	_info "skipping node install"
 else
 	sudo mkdir /opt/node
@@ -72,6 +73,7 @@ else
 PATH=$PATH:/opt/node/bin
 export PATH
 EOF
+source /etc/profile
 fi
 _info "Installing libraries"
 npm install
@@ -79,11 +81,13 @@ npm install
 ### Init scripts
 # Generate the install initscripts using foreman
 
-_info "Installing foreman"
-sudo gem install foreman || _error "failed installing foreman"
-_info "Creating init scripts"
-sudo foreman export --user pi inittab inittab || _error "couldn't export init scripts"
-sudo tee -a /etc/inittab < inittab
+_info "Installing initscript"
+sudo cp venue-server.sh /etc/init.d || _error "failed to copy initscript"
+_info "Enabling initscript"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc2.d/ || _error "failed to symlink to runlevel 2"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc3.d/ || _error "failed to symlink to runlevel 3"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc4.d/ || _error "failed to symlink to runlevel 4"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc5.d/ || _error "failed to symlink to runlevel 5"
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
