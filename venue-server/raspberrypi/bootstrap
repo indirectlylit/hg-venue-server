@@ -81,12 +81,13 @@ npm install
 ### Init scripts
 # Generate the install initscripts using foreman
 
-_info "Installing foreman"
-sudo gem install foreman || _error "failed installing foreman"
-_info "Creating init scripts"
-sudo foreman export --user pi inittab inittab || _error "couldn't export init scripts"
-sed -ie 's/:4/:2345/g' inittab || _error "couldn't modify inittab to be enabled on all init levels"
-grep venue-server /etc/inittab || sudo tee -a /etc/inittab < inittab
+_info "Installing initscript"
+sudo cp venue-server.sh /etc/init.d || _error "failed to copy initscript"
+_info "Enabling initscript"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc2.d/ || _error "failed to symlink to runlevel 2"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc3.d/ || _error "failed to symlink to runlevel 3"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc4.d/ || _error "failed to symlink to runlevel 4"
+sudo ln -s /etc/init.d/venue-server.sh /etc/rc5.d/ || _error "failed to symlink to runlevel 5"
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
