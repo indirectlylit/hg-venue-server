@@ -60,7 +60,8 @@ sudo aptitude upgrade -y
 _info "Installing package dependencies"
 sudo aptitude install -y rubygems
 _info "Installing node.js 0.10.16"
-if npm version 2>/dev/null; then
+if npm version 2>/dev/null
+then
 	_info "skipping node install"
 else
 	sudo mkdir /opt/node
@@ -72,6 +73,7 @@ else
 PATH=$PATH:/opt/node/bin
 export PATH
 EOF
+source /etc/profile
 fi
 _info "Installing libraries"
 npm install
