@@ -82,12 +82,12 @@ npm install
 # Generate the install initscripts using foreman
 
 _info "Installing initscript"
-sudo cp venue-server.sh /etc/init.d || _error "failed to copy initscript"
+initscript=`dirname $PWD`/venue-server/raspberrypi/venue-server.sh
+sudo cp $initscript /etc/init.d || _error "failed to copy initscript"
 _info "Enabling initscript"
-sudo ln -s /etc/init.d/venue-server.sh /etc/rc2.d/ || _error "failed to symlink to runlevel 2"
-sudo ln -s /etc/init.d/venue-server.sh /etc/rc3.d/ || _error "failed to symlink to runlevel 3"
-sudo ln -s /etc/init.d/venue-server.sh /etc/rc4.d/ || _error "failed to symlink to runlevel 4"
-sudo ln -s /etc/init.d/venue-server.sh /etc/rc5.d/ || _error "failed to symlink to runlevel 5"
+for level in {2..5}; do
+  echo sudo ln -s /etc/init.d/venue-server.sh /etc/rc${level}.d/S99venueserver || _error "failed to symlink to runlevel ${level}"
+done
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
