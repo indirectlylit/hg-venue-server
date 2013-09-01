@@ -1,0 +1,32 @@
+#! /bin/sh
+# /etc/init.d/venueserver
+
+### BEGIN INIT INFO
+# Provides:          venueserver
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start the venue server
+# Description:       Thanks www.stuffaboutcode.com for the template
+### END INIT INFO
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting venue-server"
+    whoami > /var/log/test.log
+    /opt/node/bin/node /home/pi/venue-server/venue-server/src/app &
+    ;;
+  stop)
+    echo "Stopping noip"
+    # kill application you want to stop
+    killall node
+    ;;
+  *)
+    echo "Usage: /etc/init.d/venue-server {start}"
+    exit 1
+    ;;
+esac
+
+exit 0
