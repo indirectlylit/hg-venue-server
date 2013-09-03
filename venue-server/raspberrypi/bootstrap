@@ -78,7 +78,7 @@ _info "Installing initscript"
 initscript=`dirname $PWD`/venue-server/raspberrypi/venueserver
 sudo cp $initscript /etc/init.d/ || _error "failed to copy initscript"
 _info "Enabling initscript"
-sudo update-rc.d venueserver || _error "failed to enable initscript"
+sudo update-rc.d venueserver defaults || _error "failed to enable initscript"
 
 ### Network config
 # Each server node should have the same name and resolve to the same ip
