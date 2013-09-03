@@ -15,13 +15,7 @@
 case "$1" in
   start)
     echo "Starting venue-server"
-    whoami > /var/log/test.log
-    /opt/node/bin/node /home/pi/venue-server/venue-server/src/app &
-    ;;
-  stop)
-    echo "Stopping noip"
-    # kill application you want to stop
-    killall node
+    start-stop-daemon --start --startas /opt/node/bin/node --name venueserver --background -- /home/pi/venue-server/venue-server/src/app
     ;;
   *)
     echo "Usage: /etc/init.d/venue-server {start}"
