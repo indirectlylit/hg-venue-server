@@ -93,10 +93,10 @@ oldname=`hostname`
 export gateway='10.0.0.1'
 export netmask='255.255.255.0'
 
-sudo hostname ${name}
+[[ `hostname` -ne ${name} ]] || sudo hostname ${name}
 [[ -e /etc/hostname ]] || sudo touch /etc/hostname
-sudo sed -ie "1s/.*/${name}/" /etc/hostname
-sudo sed -ie "s/${oldname}/${name}/" /etc/hosts
+grep -q ${name} /etc/hostname || sudo sed -ie "1s/.*/${name}/" /etc/hostname
+grep -q ${name} /etc/hosts || sudo sed -ie "s/${oldname}/${name}/" /etc/hosts
 _info "Setting ip to ${ip}, gateway to ${gateway}, netmask to ${netmask}"
 sudo ifconfig eth0 ${ip} netmask ${netmask}
 sudo route add default gw ${gateway}
