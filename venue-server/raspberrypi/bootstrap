@@ -58,7 +58,7 @@ sudo aptitude update
 _info "Upgrading system software"
 sudo aptitude upgrade -y
 _info "Installing package dependencies"
-sudo aptitude install -y rubygems
+[[ -f `which gem` ]] || sudo aptitude install -y rubygems
 _info "Installing node.js 0.10.16"
 if npm version 2>/dev/null
 then
