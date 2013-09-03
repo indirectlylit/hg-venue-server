@@ -60,13 +60,10 @@ sudo aptitude upgrade -y
 _info "Installing package dependencies"
 [[ -f `which gem` ]] || sudo aptitude install -y rubygems
 _info "Installing node.js 0.10.16"
-if npm version 2>/dev/null
-then
-	_info "skipping node install"
-else
-	wget http://nodejs.org/dist/v0.10.16/node-v0.10.16-linux-arm-pi.tar.gz
+if [[ ! -f `which npm` ]]; then
     cd /usr/local
-    sudo tar xzvf ~/node-v0.10.16-linux-arm-pi.tar.gz --strip=1
+    sudo wget http://nodejs.org/dist/v0.10.16/node-v0.10.16-linux-arm-pi.tar.gz
+    sudo tar xzf node-v0.10.16-linux-arm-pi.tar.gz --strip=1
 fi
 _info "Installing libraries"
 npm install
