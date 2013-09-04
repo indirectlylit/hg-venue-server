@@ -11,11 +11,13 @@
 # Description:       Thanks www.stuffaboutcode.com for the template
 ### END INIT INFO
 
+mkdir -p /var/log/venueserver
+
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
     echo "Starting venue-server"
-    start-stop-daemon --start --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/venue-server/src/app
+    start-stop-daemon --start --chdir /var/log/venueserver --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/venue-server/src/app >> /var/log/venueserver.log 2>&1&
     ;;
   *)
     echo "Usage: /etc/init.d/venue-server {start}"
