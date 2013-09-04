@@ -15,7 +15,7 @@
 case "$1" in
   start)
     echo "Starting venue-server"
-    start-stop-daemon --start --startas /opt/node/bin/node --name venueserver --background -- /home/pi/venue-server/venue-server/src/app
+    start-stop-daemon --start --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/venue-server/src/app
     ;;
   *)
     echo "Usage: /etc/init.d/venue-server {start}"
