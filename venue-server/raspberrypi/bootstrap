@@ -57,8 +57,8 @@ _info "Updating software list"
 sudo aptitude update
 _info "Upgrading system software"
 sudo aptitude upgrade -y
-_info "Installing package dependencies"
-[[ -f `which gem` ]] || sudo aptitude install -y rubygems
+#_info "Installing package dependencies"
+#[[ -f `which redis` ]] || sudo aptitude install -y redis
 _info "Installing node.js 0.10.16"
 if [[ ! -f `which npm` ]]; then
     cd /usr/local
