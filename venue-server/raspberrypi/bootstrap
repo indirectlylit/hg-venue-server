@@ -59,8 +59,8 @@ _info "Upgrading system software"
 sudo aptitude upgrade -y
 #_info "Installing package dependencies"
 #[[ -f `which redis` ]] || sudo aptitude install -y redis
-_info "Installing node.js 0.10.16"
 if [[ ! -f `which npm` ]]; then
+    _info "Installing node.js 0.10.16"
     pushd /usr/local
     sudo wget http://nodejs.org/dist/v0.10.16/node-v0.10.16-linux-arm-pi.tar.gz
     sudo tar xzf node-v0.10.16-linux-arm-pi.tar.gz --strip=1
