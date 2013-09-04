@@ -112,7 +112,7 @@ If you have a raspberry pi, there are two scripts to help get you from a blank 4
 
 The first script is `install`, which can download and install an image (OSX only) to a blank SD card. We support raspbian, so after an SD card is plugged into your computer, run:
 
-    > sudo ./install http://files.velocix.com/c1410/images/raspbian/2013-05-25-wheezy-raspbian/2013-05-25-wheezy-raspbian.zip
+    > sudo ./raspberrypi/install http://files.velocix.com/c1410/images/raspbian/2013-05-25-wheezy-raspbian/2013-05-25-wheezy-raspbian.zip
 
 Make sure to choose the right disk, because this can and will overwrite whatever is on there!
 
