@@ -12,26 +12,26 @@ Vagrant::Config.run do |config|
 	config.vm.network :bridged
 	config.vm.provision :shell, :path => "set_server_ip.sh"
 
-	# config.vm.provision :chef_solo do |chef|
+	config.vm.provision :chef_solo do |chef|
 
-	# 	chef.cookbooks_path = "cookbooks"
-	# 	chef.add_recipe "apt"
-	# 	chef.add_recipe "build-essential"
-	# 	chef.add_recipe "git"
-	# 	chef.add_recipe "vim"
-	# 	chef.add_recipe "chef-curl"
-	# 	chef.add_recipe "nodejs"
-	# 	chef.add_recipe "avr-usb"
+		chef.cookbooks_path = "cookbooks"
+		chef.add_recipe "apt"
+		chef.add_recipe "build-essential"
+		chef.add_recipe "git"
+		chef.add_recipe "vim"
+		chef.add_recipe "chef-curl"
+		chef.add_recipe "nodejs"
+		chef.add_recipe "avr-usb"
 
-	# 	chef.json.merge!({
-	# 		:nodejs => {
-	# 			:install_method => "package"
-	# 		}
-	# 	})
-	# end
+		chef.json.merge!({
+			:nodejs => {
+				:install_method => "package"
+			}
+		})
+	end
 
-	# config.vm.provision :shell, :inline => "cd /vagrant && npm install --no-bin-link"
-	# config.vm.provision :shell, :inline => "npm install supervisor -g"
+	config.vm.provision :shell, :inline => "cd /vagrant && npm install --no-bin-link"
+	config.vm.provision :shell, :inline => "npm install supervisor -g"
 
 
 	config.vm.forward_port 8080, 8080
