@@ -12,9 +12,8 @@ This is our real-time visualization application. It takes data from our sensor n
 
 The application server should run on any OS: We leverage virtual machines to create a reproducible environment.
 
-1. Install [VirtualBox](https://www.virtualbox.org/). This is the virtualization software that allows us easily set up and run a self-contained application server.
-    * Note: VirtualBox 4.2.14 is [known not to work](https://github.com/mitchellh/vagrant/issues/1863) with Vagrant. You should download and install [version 4.2.12](http://download.virtualbox.org/virtualbox/4.2.12/) instead.
-2. Install [Vagrant](http://www.vagrantup.com/). This wrapper software allows us to provision new virtual machines in a reproducible way.
+1. Install [VirtualBox](https://www.virtualbox.org/). This is the virtualization software that allows us easily set up and run a self-contained application server. It is known to work with [version 4.2.12](http://download.virtualbox.org/virtualbox/4.2.12/).
+2. Install [Vagrant](http://www.vagrantup.com/). This wrapper software allows us to provision new virtual machines in a reproducible way. It is known to work with [version 1.2.2](http://downloads.vagrantup.com/tags/v1.2.2).
 3. Make sure you have git installed.
 4. Clone this repository to your computer.
     * For example: `git clone git@bitbucket.org:pedalpower/venue-server.git`
