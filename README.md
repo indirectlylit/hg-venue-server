@@ -131,7 +131,7 @@ This bootstrap script updates linux to the latest version, installs dependencies
 When developing, just dirty copy over the folder and restart the daemon.
 
     > scp -r ~/mycode/venue-server pi@10.0.0.10:~/venue-server
-    > ssh pi@10.0.0.10 "sudo /etc/init.d/venuserver restart
+    > ssh pi@10.0.0.10 "sudo /etc/init.d/venuserver restart"
 
 -----------
 

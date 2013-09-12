@@ -30,7 +30,7 @@ case "$1" in
     ;;
   stop)
 	log_daemon_msg "Stopping ${NAME}" "${NAME}"
-	start-stop-daemon --stop --quiet --oknodo --pidfile $VENUESERVER_PID_FILE
+	start-stop-daemon --stop --quiet --oknodo --pidfile $PID_FILE
 	log_end_msg $?
 	rm -f $VENUESERVER_PID_FILE
 	;;
