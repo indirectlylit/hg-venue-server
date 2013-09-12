@@ -33,9 +33,11 @@ case "$1" in
 	rm -f $VENUESERVER_PID_FILE
 	;;
   restart)
-	log_daemon_msg "Restarting venuserver" "venuserver"
-	stop
-	start
+	log_daemon_msg "Stopping venuserver" "venuserver"
+	start-stop-daemon --stop --quiet --oknodo --pidfile $VENUESERVER_PID_FILE
+	rm -f $VENUESERVER_PID_FILE
+	log_daemon_msg "Starting venueserver" "venueserver"
+    start-stop-daemon --start --chdir /var/log/venueserver --startas /usr/local/bin/node --name venueserver --pidfile $VENUESERVER_PID_FILE --background -- /home/pi/venue-server/venue-server/src/app >> /var/log/venueserver.log 2>&1&
 	log_end_msg $?
 	;;
   *)
