@@ -126,6 +126,13 @@ Once the machine is booted, make sure the latest code is installed, then run the
 
 This bootstrap script updates linux to the latest version, installs dependencies and libraries for the server, changes the hostname to `pedalpower-server` and ip to `10.0.0.10`. It will first test the network connection, then ask for a sudo password (should be the same as the pi password, `raspberry`). This takes a long time, and may look like its hanging, but just look for the 'OK' led on the board, which should be occasionally flashing green. The client software has this ip hard-coded, so if you change it be sure to change the config at the top of the `raspberrypi/bootstrap` script.
 
+## Developing locally, deploying on a Raspberry Pi
+
+When developing, just dirty copy over the folder and restart the daemon.
+
+    > scp -r ~/mycode/venue-server pi@10.0.0.10:~/venue-server
+    > ssh pi@10.0.0.10 "sudo /etc/init.d/venuserver restart
+
 -----------
 
 

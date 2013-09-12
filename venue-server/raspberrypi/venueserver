@@ -11,16 +11,35 @@
 # Description:       Thanks www.stuffaboutcode.com for the template
 ### END INIT INFO
 
+set -e # exit on error
+
+. /lib/lsb/init-functions
+
+VENUESERVER_PID_FILE=/var/run/venueserver.pid
+
 mkdir -p /var/log/venueserver
 
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
-    echo "Starting venue-server"
-    start-stop-daemon --start --chdir /var/log/venueserver --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/venue-server/src/app >> /var/log/venueserver.log 2>&1&
+    log_daemon_msg "Starting venueserver" "venueserver"
+    start-stop-daemon --start --chdir /var/log/venueserver --startas /usr/local/bin/node --name venueserver --pidfile $VENUESERVER_PID_FILE --background -- /home/pi/venue-server/venue-server/src/app >> /var/log/venueserver.log 2>&1&
+    log_end_msg $?
     ;;
+  stop)
+	log_daemon_msg "Stopping venuserver" "venuserver"
+	start-stop-daemon --stop --quiet --oknodo --pidfile $VENUESERVER_PID_FILE
+	log_end_msg $?
+	rm -f $VENUESERVER_PID_FILE
+	;;
+  restart)
+	log_daemon_msg "Restarting venuserver" "venuserver"
+	stop
+	start
+	log_end_msg $?
+	;;
   *)
-    echo "Usage: /etc/init.d/venue-server {start}"
+    echo "Usage: /etc/init.d/venue-server {start|stop|restart}"
     exit 1
     ;;
 esac
