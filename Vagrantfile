@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
 		chef.json.merge!({
 			:nodejs => {
 				:install_method => "package",
-				:version => "0.10.24"
+				:version => "0.10.22"
 			}
 		})
 	end
