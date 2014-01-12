@@ -1,82 +1,124 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html class="no-js">
     <head>
-        <!--
-            Devon Rueckner
-            The Human Grid
-            All Rights Reserved
-        -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{{ title }}</title>
+        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="/css/normalize.css">
-        <link rel='stylesheet' href='/css/Gudea/stylesheet.css' />
-        <link rel='stylesheet' href='/main.css' />
-        <link rel='stylesheet' href='/charts.css' />
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
 
-        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-
-<!--         <div class="header-container">
-            <header class="wrapper clearfix">
-                <h1 class="title">{{ title }}</h1>
-                <nav>
-                    <ul>
-                        <li><a href="#">nav ul li a</a></li>
-                        <li><a href="#">nav ul li a</a></li>
-                        <li><a href="#">nav ul li a</a></li>
-                    </ul>
-                </nav>
-            </header>
-        </div> -->
-
-        <div class="main-container">
-            <div class="main wrapper clearfix">
-                <div class="block">
-                    <div class="readings">
-                        <h1>Inverter:<span id="inverter_val" class="value">?</span></h1>
-                        <h1>Tiers:<span id="tiers_val" class="value">?</span></h1>
-                        <h1>Shunts:<span id="shunts_val" class="value">?</span></h1>
-                    </div>
-                </div>
-                <br>
-                <div class="block">
-                    <div class="readings">
-                        <h1>Voltage:<span id="value_volts" class="value">?</span> volts</h1>
-                    </div>
-                    <div id="graph-voltage"></div>
-                </div>
-                <br>
-                <div class="block">
-                    <div class="readings">
-                        <h1>Generating:<span id="value_in" class="value in">?</span> watts</h1>
-                        <h1>Consuming:<span id="value_out" class="value out">?</span> watts</h1>
-                    </div>
-                    <div id="graph-power"></div>
-                </div>
-            </div> <!-- #main -->
-        </div> <!-- #main-container -->
-
-        <div class="footer-container">
-            <footer>
-<!--                 <p id="datarate">not connected</p> -->
-            </footer>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
         </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
 
-        <script src="/js/vendor/jquery-1.8.3.js"></script>
-        <script src="/js/vendor/sockjs-0.3.js"></script>
-        <script src="/js/vendor/d3.v3.js"></script>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+       </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2013</p>
+      </footer>
+    </div> <!-- /container -->
+
+    <!-- vendor -->
+        <script src="/js/vendor/jquery-1.10.1.js"></script>
+        <script src="/js/vendor/lodash.min.js"></script>
+        <script src="/js/vendor/bootstrap.js"></script>
+        <script src="/js/vendor/backbone.js"></script>
+        <script src="/js/vendor/backbone.viewmaster.js"></script>
+        <script src="/js/vendor/sockjs-0.3.4.js"></script>
+        <script src="/js/vendor/bootstrap.js"></script>
+        <script src="/js/vendor/bootstrap-lightbox.js"></script>
+
+    <!-- models -->
+        <script src="/js/models/stats.js"></script>
+        <script src="/js/models/settings.js"></script>
+
+    <!-- views -->
+        <script src="/js/views/stats.js"></script>
+        <script src="/js/views/settings.js"></script>
+
+    <!-- application -->
+        <script src="/js/router.js"></script>
+        <script src="/js/ctrl.js"></script>
+        <script src="/js/utils.js"></script>
         <script src="/js/main.js"></script>
-
     </body>
 </html>

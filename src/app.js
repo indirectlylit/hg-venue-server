@@ -10,7 +10,6 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var sockjs = require('sockjs');
@@ -89,7 +88,6 @@ expressApp.configure(function(){
 	expressApp.set('port', process.env.PORT || 8080);
 	expressApp.set('views', __dirname + '/views');
 	expressApp.set('view engine', 'hjs');
-	expressApp.use(express.favicon());
 	expressApp.use(express.logger('dev'));
 	expressApp.use(express.bodyParser());
 	expressApp.use(express.methodOverride());
@@ -106,8 +104,10 @@ expressApp.configure('development', function() {
 	expressApp.use(express.errorHandler());
 });
 
-expressApp.get('/graph', routes.index);
-expressApp.get('/', routes.phone);
+expressApp.get('/', function(req, res){
+    res.render('index', { title: 'Celilo 2' });
+  }
+);
 
 http.createServer(expressApp).listen(expressApp.get('port'), function(){
 	console.log("Web server listening on port " + expressApp.get('port'));
