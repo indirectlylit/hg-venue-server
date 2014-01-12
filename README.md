@@ -3,7 +3,7 @@
 
 # Venue Server
 
-This is our real-time visualization application. It takes data from our sensor network or log files, feeds it through message channel, and renders it via a web server.
+This is network coordinator application. It takes data from our sensor network, combines it, and makes it available.
 
 
 ## Setting up the dev environment ##
@@ -17,21 +17,6 @@ The application server should run on any OS: We leverage virtual machines to cre
 3. Make sure you have git installed.
 4. Clone this repository to your computer.
     * For example: `git clone git@bitbucket.org:pedalpower/venue-server.git`
-
-
-### Python Dependencies ###
-
-We also have a python script which currently runs outside of the VM on the host. To run this, you'll need Python and a few libraries installed. You can either install these directly to your system's Python packages, or use [virtualenv](http://www.virtualenv.org/en/latest/) to keep them isolated.
-
-Check that `python` and [`pip`](http://www.pip-installer.org/en/latest/installing.html) are installed by running from the command line:
-
-    > python --version
-    > pip --version
-
-Next, in the `network_coordinator` directory, install the dependency libraries by running the following. (sudo is not necessary if using virtualenv)
-
-    > sudo pip install -r requirements.txt
-
 
 
 
@@ -52,46 +37,6 @@ Once you are on the virtual machine, you should see the terminal prompt change t
 Start the server with:
 
     > supervisor app.js
-
-
-## Starting up logging script
-
-Open another terminal on the host machine in the `network_coordinator` directory. Run the logger script with `-h` for options:
-
-    > python logger.py -h
-
-prints:
-
-    Usage: logger.py [OPTIONS]
-
-    Options:
-      -h, --help   show this help message and exit
-      -n NUMBER    Number of mutexed serial ports to cycle over. Default: 0 (for a
-                   direct connection)
-      -p PERIOD    Milliseconds to wait between each data request. Default: 100
-      -l           Log data to a file.
-      -v           Verbose: output all data to the console
-      -s SIM_FILE  Replay a logged file
-
-
-To 'simulate' or play back a data file logged earlier, run
-
-    > python logger.py -vs sampleData.txt
-
-For a single sensor node without the MUX:
-
-    > python logger.py -v
-
-
-You should see a combination of **-**, **R**, and **F** characters at the beginning of every data packet (delimited by `{...}`). An **R** means that the data is being fed to the server, and an **F** means that it's being logged to a file.
-
-
-
-## Viewing the data
-
-The logger script takes data either from the sensor network or a log file and streams it to the server. The server in turn accepts websocket connections from clients for display.
-
-Once both the server and logger script are running, you can display the data: In your browser, navigate to [localhost:8080](localhost:8080)
 
 
 ## Shutting Down
@@ -121,7 +66,7 @@ There are a bunch of ways to connect to the pi. If it has a network address, try
 
 Once the machine is booted, make sure the latest code is installed, then run the bootstrap script:
 
-     > git clone bitbucket.org/pedalpowernyc/venue-server.git && cd venue-server/venue-server
+     > git clone bitbucket.org/pedalpowernyc/venue-server.git && cd venue-server
      > ./raspberrypi/bootstrap
 
 This bootstrap script updates linux to the latest version, installs dependencies and libraries for the server, changes the hostname to `pedalpower-server` and ip to `10.0.0.10`. It will first test the network connection, then ask for a sudo password (should be the same as the pi password, `raspberry`). This takes a long time, and may look like its hanging, but just look for the 'OK' led on the board, which should be occasionally flashing green. The client software has this ip hard-coded, so if you change it be sure to change the config at the top of the `raspberrypi/bootstrap` script.
