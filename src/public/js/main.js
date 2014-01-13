@@ -10,32 +10,40 @@ _.templateSettings = {
 };
 
 $('#status_message').hide();
-$.fx.speeds._default = 250;
-
 
 
 var app = app || {};
 
 // router class
 app.router = new app.Router();
-
 // an event dispatcher for global listeners
 app.dispatcher = _.clone(Backbone.Events);
-
-
 app.stats = new app.models.Stats();
+var tableElem = $('#dataTable');
 
-
-app.utils.message("Hello", false, false);
-
-var ohNo = function(){
-  app.utils.message("der...", false, true);
+var _genTableRow = function() {
+    var row = "<tr>";
+    _.each(arguments, function(arg) {
+        row = row + "<td>" + arg + "</td>";
+    });
+    return $(row + "</tr>");
 };
 
-var ohYes = function(){
-  app.utils.message("Hi!", false, true);
-};
 
-$.when(app.stats.fetch()).then(ohYes, ohNo);
+var StreamHandler = (function(){
+  var sock = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
+  sock.onmessage = function(e) {
+    /*
+    Handle each incoming message.
+    Limit the size to max_data.
+    */
+    var d = jQuery.parseJSON(e.data);
+    d.timestamp = Date.parse(d.timestamp);
+    console.log(d);
+
+    tableElem.prepend(_genTableRow(d.address, d.timestamp, JSON.stringify(d.data)));
+  };
+
+})();
 
 

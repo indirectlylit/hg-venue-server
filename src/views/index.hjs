@@ -20,6 +20,8 @@
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
     <body>
+
+<!--
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-collapse collapse">
@@ -27,16 +29,24 @@
             <li class="active"><a href="#">Stats</a></li>
             <li><a href="#settings">Settings</a></li>
           </ul>
-        </div><!--/.navbar-collapse -->
+        </div>
       </div>
     </div>
+-->
 
     <div class="container">
-      <!-- Example row of columns -->
       <div class="row">
         <div class="col-lg-4">
-          <h2>Heading</h2>
-          Data
+          <h2>Data</h2>
+          <table class="table .table-condensed">
+            <thead>
+                <td>Address</td>
+                <td>Timestamp</td>
+                <td>Data</td>
+            </thead>
+            <tbody id="dataTable">
+            </tbody>
+          </table>
         </div>
       </div>
 
