@@ -165,7 +165,7 @@ function attemptLogging(port, baudrate) {
 }
 
 setInterval(function() {
-  if (!serial_active && fs.existsSync(SERIAL_PORT)) {
+  if (!serial_active) {
     try {
       attemptLogging(SERIAL_PORT, SERIAL_RATE);
     } catch (e) {
