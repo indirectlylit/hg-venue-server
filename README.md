@@ -36,7 +36,7 @@ Once you are on the virtual machine, you should see the terminal prompt change t
 
 Start the server with:
 
-    > supervisor app.js
+    > supervisor server.js
 
 
 ## Shutting Down
