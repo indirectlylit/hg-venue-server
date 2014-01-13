@@ -141,39 +141,34 @@ var SERIAL_PORT = "/dev/ttyUSB0";
 var SERIAL_RATE = 57600;
 var serial_active = false;
 
-function attemptLogging(port, baudrate) {
-  if (!serial_active) {
-    serial_active = true;
+var serialPortObject = new serialport.SerialPort(SERIAL_PORT,
+  {baudrate: SERIAL_RATE, parser: serialport.parsers.readline("\n")},
+  false
+);
 
-    var serialPort = new serialport.SerialPort(port, {
-      baudrate: baudrate,
-      parser: serialport.parsers.readline("\n")
-    });
+serialPortObject.on("data", function(data) {
+  handleIncomingData(data.toString(), SERIAL_PORT);
+});
 
-    console.log("\n----\nOpening SerialPort at "+Date.now()+"\n----\n");
+serialPortObject.on("close", function(data) {
+  serial_active = false;
+  console.log("\n----\nClosed SerialPort at "+Date.now()+"\n----\n");
+});
 
-    serialPort.on("data", function (data) {
-      handleIncomingData(data.toString(), port);
-     console.log();
-    });
-
-    serialPort.on("close", function (data) {
+function attemptLogging() {
+  serialPortObject.open(function(error) {
+    if (error) {
       serial_active = false;
-      console.log("\n----\nClosing SerialPort at "+Date.now()+"\n----\n");
-    });
-  }
+      return;
+    }
+    serial_active = true;
+    console.log("\n----\nOpened SerialPort at "+Date.now()+"\n----\n");
+  });
 }
 
 setInterval(function() {
   if (!serial_active) {
-    try {
-      attemptLogging(SERIAL_PORT, SERIAL_RATE);
-    } catch (e) {
-      console.log("ERROR");
-      console.log(e);
-      // Error means port is not available for listening.
-      serial_active = false;
-    }
+    attemptLogging();
   }
 }, 1000);
 
