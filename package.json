@@ -15,7 +15,8 @@
     "sockjs": ">= 0.3.8",
     "serialport": ">= 1.2.5",
     "less-middleware": ">= 0.1.14",
-    "hjs": ">= 0.0.6"
+    "hjs": ">= 0.0.6",
+    "lodash": ">= 2.4.1"
   },
   "repository": {
     "type": "git",

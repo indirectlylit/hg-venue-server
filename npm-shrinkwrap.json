@@ -391,6 +391,11 @@
           "resolved": "https://registry.npmjs.org/hogan.js/-/hogan.js-2.0.0.tgz"
         }
       }
+    },
+    "lodash": {
+      "version": "2.4.1",
+      "from": "lodash@",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-2.4.1.tgz"
     }
   }
 }
