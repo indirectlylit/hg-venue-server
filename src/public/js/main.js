@@ -54,6 +54,7 @@ var StreamHandler = (function(){
       tableRows.push(_genTableRow(
         address,
         stat.message_rate,
+        stat.attempted,
         (stat.data_rate/1000).toPrecision(2),
         cumulativeStats[address].garbled)
       );

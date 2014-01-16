@@ -41,7 +41,8 @@
           <table class="table .table-condensed">
             <thead>
                 <td>Address</td>
-                <td>Messages per Second</td>
+                <td>Actual Rate</td>
+                <td>Attempted Rate</td>
                 <td>kB/s</td>
                 <td>Dropped Messages</td>
             </thead>
