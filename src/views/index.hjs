@@ -37,12 +37,13 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4">
-          <h2>Data</h2>
+          <h2>Network Stats</h2>
           <table class="table .table-condensed">
             <thead>
                 <td>Address</td>
-                <td>Timestamp</td>
-                <td>Data</td>
+                <td>Messages per Second</td>
+                <td>kB/s</td>
+                <td>Dropped Messages</td>
             </thead>
             <tbody id="dataTable">
             </tbody>

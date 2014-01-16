@@ -27,8 +27,11 @@ var _genTableRow = function() {
     _.each(arguments, function(arg) {
         row = row + "<td>" + arg + "</td>";
     });
-    return $(row + "</tr>");
+    return row + "</tr>";
 };
+
+
+var cumulativeStats = {};
 
 
 var StreamHandler = (function(){
@@ -38,11 +41,27 @@ var StreamHandler = (function(){
     Handle each incoming message.
     Limit the size to max_data.
     */
-    var d = jQuery.parseJSON(e.data);
-    d.timestamp = Date.parse(d.timestamp);
-    console.log(d);
+    var stats = jQuery.parseJSON(e.data);
 
-    tableElem.prepend(_genTableRow(d.address, d.timestamp, JSON.stringify(d.data)));
+    var tableRows = [];
+
+    _(stats).keys().sort().each(function (address) {
+      var stat = stats[address];
+      if (!cumulativeStats[address]) {
+        cumulativeStats[address] = {garbled:0};
+      }
+      cumulativeStats[address].garbled += stat.garbled;
+      tableRows.push(_genTableRow(
+        address,
+        stat.message_rate,
+        (stat.data_rate/1000).toPrecision(2),
+        cumulativeStats[address].garbled)
+      );
+    });
+
+    console.log(stats);
+
+    tableElem.html(tableRows.join('\n'));
   };
 
 })();
