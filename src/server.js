@@ -74,13 +74,13 @@ setInterval(function() {
     stats['message_rate'] = 1000*1.0*data.length/settings.client_update_period;
 
     var missingOrShuffled = 0;
-    var attemptedRate = 0;
+    var attemptedInterval = 0;
 
     totalBytes = 0;
     _.forEach(data, function(message, index) {
       totalBytes += message['size'];
       
-      attemptedRate += message['interval'];
+      attemptedInterval += message['interval'];
 
       if (index !== 0 && message['counter']) {
         if (message['counter'] != data[index-1]['counter']-1) {
@@ -89,12 +89,12 @@ setInterval(function() {
       }
     });
 
-    attempted = 1000/(attemptedRate/data.length);
+    attemptedInterval = attemptedInterval/data.length;
 
 
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
     stats['garbled'] = missingOrShuffled;
-    stats['attempted'] = attempted;
+    stats['attempted'] = attemptedInterval;
 
     allStats[key] = stats;
   });
