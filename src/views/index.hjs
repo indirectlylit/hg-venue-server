@@ -1,85 +1,87 @@
 <!DOCTYPE html>
 <html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Venue Server</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Venue Server</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
-        <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
 
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    </head>
-    <body>
+    <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+  </head>
+  <body>
 
-<!--
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Stats</a></li>
-            <li><a href="#settings">Settings</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
--->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-text">Venue Server</div>
+      <div class="navbar-text navbar-right">Connected</div>
+    </nav>
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-4">
-          <h2>Network Stats</h2>
-          <table class="table .table-condensed">
-            <thead>
-                <td>Address</td>
-                <td>Actual Rate (messages/s)</td>
-                <td>Attempted Interval (ms)</td>
-                <td>kB/s</td>
-                <td>Dropped Messages</td>
-            </thead>
-            <tbody id="dataTable">
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <div class="status"><div id="status_message"></div></div>
-      </footer>
+        <div class="col-sm-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Network</h3>
+            </div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <thead>
+                  <td>Address</td>
+                  <td>Actual Rate (messages/s)</td>
+                  <td>Attempted Interval (ms)</td>
+                  <td>kB/s</td>
+                  <td>Dropped Messages</td>
+                </thead>
+                <tbody id="dataTable"></tbody>
+              </table>
+            </div>
+          </div> <!-- /panel -->
+        </div> <!-- /col -->
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Server</h3>
+            </div>
+            <div class="panel-body">
+              <dl class="dl-horizontal">
+                <dt>CPU</dt>
+                <dd>0</dd>
+                <dt>RAM</dt>
+                <dd>0</dd>
+                <dt>Disk</dt>
+                <dd>0</dd>
+              </dl>
+            </div>
+          </div> <!-- /panel -->
+        </div> <!-- /col -->
+      </div> <!-- /row -->
     </div> <!-- /container -->
-
+  
     <!-- vendor -->
-        <script src="/js/vendor/jquery-1.10.1.js"></script>
-        <script src="/js/vendor/lodash.min.js"></script>
-        <script src="/js/vendor/bootstrap.js"></script>
-        <script src="/js/vendor/backbone.js"></script>
-        <script src="/js/vendor/backbone.viewmaster.js"></script>
-        <script src="/js/vendor/sockjs-0.3.4.js"></script>
-        <script src="/js/vendor/bootstrap.js"></script>
-        <script src="/js/vendor/bootstrap-lightbox.js"></script>
+    <script src="/js/vendor/jquery-1.10.1.js"></script>
+    <script src="/js/vendor/lodash.min.js"></script>
+    <script src="/js/vendor/bootstrap.js"></script>
+    <script src="/js/vendor/backbone.js"></script>
+    <script src="/js/vendor/backbone.viewmaster.js"></script>
+    <script src="/js/vendor/sockjs-0.3.4.js"></script>
+    <script src="/js/vendor/bootstrap.js"></script>
+    <script src="/js/vendor/bootstrap-lightbox.js"></script>
 
     <!-- models -->
-        <script src="/js/models/stats.js"></script>
-        <script src="/js/models/settings.js"></script>
+    <script src="/js/models/stats.js"></script>
+    <script src="/js/models/settings.js"></script>
 
     <!-- views -->
-        <script src="/js/views/stats.js"></script>
-        <script src="/js/views/settings.js"></script>
+    <script src="/js/views/stats.js"></script>
+    <script src="/js/views/settings.js"></script>
 
     <!-- application -->
-        <script src="/js/router.js"></script>
-        <script src="/js/ctrl.js"></script>
-        <script src="/js/utils.js"></script>
-        <script src="/js/main.js"></script>
-    </body>
+    <script src="/js/router.js"></script>
+    <script src="/js/ctrl.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
 </html>
