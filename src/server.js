@@ -100,8 +100,7 @@ setInterval(function() {
   });
   // console.log("updating stats");
   webServer.writeToWebSockets(JSON.stringify(allStats));
-  // console.log(JSON.stringify(stats));
-  console.log(allStats);
+  console.log("Current stats:", JSON.stringify(allStats));
   dataBuffer = {};
 
 }, settings.client_update_period);

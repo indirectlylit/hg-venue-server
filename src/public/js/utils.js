@@ -32,3 +32,17 @@ app.utils.message = function(msg, timesOut, isError) {
   }});
 };
 
+
+app.utils.setLabelClass = function(elem, labelClass) {
+  classes = [
+    'label-default',
+    'label-primary',
+    'label-success',
+    'label-info',
+    'label-warning',
+    'label-danger'
+  ];
+  _.forEach(classes, function(className) {
+    $(elem).toggleClass(className, className==labelClass);
+  });
+};

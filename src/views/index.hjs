@@ -16,7 +16,7 @@
 
     <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-text">Venue Server</div>
-      <div class="navbar-text navbar-right">Connected</div>
+      <div class="navbar-text navbar-right"><span class="label js-connection-state"></span></div>
     </nav>
 
     <div class="container">
@@ -35,7 +35,7 @@
                   <td>kB/s</td>
                   <td>Dropped Messages</td>
                 </thead>
-                <tbody id="dataTable"></tbody>
+                <tbody class="js-dataTable"></tbody>
               </table>
             </div>
           </div> <!-- /panel -->
@@ -82,6 +82,7 @@
     <script src="/js/router.js"></script>
     <script src="/js/ctrl.js"></script>
     <script src="/js/utils.js"></script>
+    <script src="/js/websocket.js"></script>
     <script src="/js/main.js"></script>
   </body>
 </html>
