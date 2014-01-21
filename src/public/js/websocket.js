@@ -27,7 +27,7 @@ app.websocket.start = function() {
 };
 
 app.websocket.reconnect = function() {
-  console.log("Reconnecting socket", app.websocket.socket);
+  console.log("Reconnecting socket");
 
   app.websocket.socket = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
 
