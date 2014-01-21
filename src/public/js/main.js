@@ -37,7 +37,9 @@ app.dom = {
   serverArch        : $('.js-server-arch'),
   serverMemory      : $('.js-server-mem'),
   serverLoad        : $('.js-server-load'),
-  serverUptime      : $('.js-server-uptime')
+  serverUptime      : $('.js-server-uptime'),
+  serverAppUptime   : $('.js-server-app-uptime'),
+  serverSkew        : $('.js-server-skew')
 };
 
 app.websocket.on('sensorStats', function(stats) {
@@ -69,7 +71,9 @@ app.websocket.on('serverStats', function(stats) {
   );
 
   app.dom.serverLoad.text((100*stats.loadavg[0]).toFixed(0) + "%");
-  app.dom.serverUptime.text(stats.uptime.toFixed(0) + " s");
+  app.dom.serverUptime.text(stats.uptime + " s");
+  app.dom.serverAppUptime.text(stats.appUptime + " s");
+  app.dom.serverSkew.text(((stats.time - (new Date()).getTime())/1000).toFixed(1) + " s");
 });
 
 app.websocket.on('connecting', function(e) {

@@ -49,8 +49,12 @@
               <dl class="dl-horizontal">
                 <dt>Arch</dt>
                 <dd class="js-server-arch"></dd>
-                <dt>Uptime</dt>
+                <dt>Server Uptime</dt>
                 <dd class="js-server-uptime"></dd>
+                <dt>App Uptime</dt>
+                <dd class="js-server-app-uptime"></dd>
+                <dt>Time Skew</dt>
+                <dd class="js-server-skew"></dd>
                 <dt>RAM</dt>
                 <dd class="js-server-mem"></dd>
                 <dt>Load</dt>

@@ -108,6 +108,9 @@ setInterval(function() {
 
 
 
+var startTime = (new Date()).getTime();
+
+
 // server stats
 setInterval(function() {
   var stats = {
@@ -116,7 +119,9 @@ setInterval(function() {
     loadavg : os.loadavg(),
     platform : os.platform(),
     arch : os.arch(),
-    uptime : os.uptime(),
+    uptime : os.uptime().toFixed(0),
+    appUptime : (((new Date()).getTime()-startTime)/1000).toFixed(0),
+    time : (new Date()).getTime()
   };
   webServer.writeToWebSockets('serverStats', stats);
 }, 1000);
