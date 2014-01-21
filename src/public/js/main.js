@@ -63,13 +63,15 @@ app.websocket.on('sensorStats', function(stats) {
 
 app.websocket.on('serverStats', function(stats) {
   app.dom.serverArch.text(stats.arch);
-
   app.dom.serverMemory.text(
     (stats.freemem/1000000.0).toFixed(1) + " / " +
     (stats.totalmem/1000000.0).toFixed(1) + " MB"
   );
-
-  app.dom.serverLoad.text((100*stats.loadavg[0]).toFixed(0) + "%");
+  app.dom.serverLoad.text(
+    (100*stats.loadavg[0]).toFixed(0) + "%, " +
+    (100*stats.loadavg[1]).toFixed(0) + "%, " +
+    (100*stats.loadavg[2]).toFixed(0) + "%"
+  );
   app.dom.serverUptime.text(stats.uptime + " s");
   app.dom.serverAppUptime.text(stats.appUptime + " s");
   app.dom.serverSkew.text(((stats.time - (new Date()).getTime())/1000).toFixed(1) + " s");
