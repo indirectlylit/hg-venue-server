@@ -26,3 +26,7 @@
   }
 }
 
+.helptext {
+  cursor: help;
+  border-bottom: 1px dotted #7a8288;
+}

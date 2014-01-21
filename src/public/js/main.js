@@ -82,4 +82,6 @@ $(function() {
 
   app.websocket.start();
 
+  $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
+
 });
