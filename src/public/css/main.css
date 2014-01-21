@@ -18,11 +18,11 @@
 
 @media (min-width: 768px) {
   .dl-horizontal dd {
-    margin-left: 100px;
+    margin-left: 160px;
   }
 
   .dl-horizontal dt {
-    width: 80px;
+    width: 140px;
   }
 }
 

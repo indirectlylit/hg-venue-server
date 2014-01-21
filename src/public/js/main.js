@@ -66,8 +66,7 @@ app.websocket.on('serverStats', function(stats) {
 
   app.dom.serverMemory.text(
     (stats.freemem/1000000.0).toFixed(1) + " / " +
-    (stats.totalmem/1000000.0).toFixed(1) + " MB (" +
-    (100*stats.freemem/stats.totalmem).toFixed(0) + "%)"
+    (stats.totalmem/1000000.0).toFixed(1) + " MB"
   );
 
   app.dom.serverLoad.text((100*stats.loadavg[0]).toFixed(0) + "%");

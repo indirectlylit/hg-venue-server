@@ -21,7 +21,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-md-8">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Network</h3>
@@ -40,14 +40,14 @@
             </div>
           </div> <!-- /panel -->
         </div> <!-- /col -->
-        <div class="col-sm-4">
+        <div class="col-md-4">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Server</h3>
             </div>
             <div class="panel-body">
               <dl class="dl-horizontal">
-                <dt>Arch</dt>
+                <dt>Architecture</dt>
                 <dd class="js-server-arch"></dd>
                 <dt>Server Uptime</dt>
                 <dd class="js-server-uptime"></dd>
@@ -57,7 +57,7 @@
                 <dd class="js-server-skew"></dd>
                 <dt>RAM</dt>
                 <dd class="js-server-mem"></dd>
-                <dt>Load</dt>
+                <dt>CPU Load</dt>
                 <dd class="js-server-load"></dd>
               </dl>
             </div>
