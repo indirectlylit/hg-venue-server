@@ -53,8 +53,6 @@
                 <dd class="js-server-uptime"></dd>
                 <dt>App Uptime</dt>
                 <dd class="js-server-app-uptime"></dd>
-                <dt><span data-toggle="tooltip" class="helptext" title="server time - browser time">Time Skew</span></dt>
-                <dd class="js-server-skew"></dd>
                 <dt>RAM</dt>
                 <dd class="js-server-mem"></dd>
                 <dt><span data-toggle="tooltip" class="helptext" title="1, 5, 15 minute load averages">CPU Load</span></dt>
