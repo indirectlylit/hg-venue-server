@@ -47,12 +47,14 @@
             </div>
             <div class="panel-body">
               <dl class="dl-horizontal">
-                <dt>CPU</dt>
-                <dd>0</dd>
+                <dt>Arch</dt>
+                <dd class="js-server-arch"></dd>
+                <dt>Uptime</dt>
+                <dd class="js-server-uptime"></dd>
                 <dt>RAM</dt>
-                <dd>0</dd>
-                <dt>Disk</dt>
-                <dd>0</dd>
+                <dd class="js-server-mem"></dd>
+                <dt>Load</dt>
+                <dd class="js-server-load"></dd>
               </dl>
             </div>
           </div> <!-- /panel -->

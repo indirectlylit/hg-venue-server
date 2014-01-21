@@ -34,7 +34,9 @@ httpStreamServer.listen(8081, function(){
 });
 
 
-exports.writeToWebSockets = function(line) {
+exports.writeToWebSockets = function(msgType, object) {
+  var msg = {type:msgType, msg:object};
+  var line = JSON.stringify(msg);
   for (var i = 0; i < webSockets.length; i++) {
     webSockets[i].write(line);
   }

@@ -42,7 +42,8 @@ app.websocket.reconnect = function() {
     app.websocket.trigger('error', e);
   };
   app.websocket.socket.onmessage = function(e) {
-    app.websocket.trigger('message', e);
+    var msg = jQuery.parseJSON(e.data);
+    app.websocket.trigger(msg.type, msg.msg);
   };
   app.websocket.socket.onopen = function(e) {
     console.log("websocket opened", e);

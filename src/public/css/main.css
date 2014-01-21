@@ -14,3 +14,15 @@
   border-left: none;
   border-right: none;
 }
+
+
+@media (min-width: 768px) {
+  .dl-horizontal dd {
+    margin-left: 100px;
+  }
+
+  .dl-horizontal dt {
+    width: 80px;
+  }
+}
+

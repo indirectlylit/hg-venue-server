@@ -33,14 +33,15 @@ app.cumulativeStats = {};
 
 app.dom = {
   statsTable        : $('.js-dataTable'),
-  connectionState   : $('.js-connection-state')
+  connectionState   : $('.js-connection-state'),
+  serverArch        : $('.js-server-arch'),
+  serverMemory      : $('.js-server-mem'),
+  serverLoad        : $('.js-server-load'),
+  serverUptime      : $('.js-server-uptime')
 };
 
-app.websocket.on('message', function(e) {
-  var stats = jQuery.parseJSON(e.data);
-
+app.websocket.on('sensorStats', function(stats) {
   var tableRows = [];
-
   _(stats).keys().sort().each(function (address) {
     var stat = stats[address];
     if (!app.cumulativeStats[address]) {
@@ -55,8 +56,20 @@ app.websocket.on('message', function(e) {
       app.cumulativeStats[address].garbled)
     );
   });
-
   app.dom.statsTable.html(tableRows.join('\n'));
+});
+
+app.websocket.on('serverStats', function(stats) {
+  app.dom.serverArch.text(stats.arch);
+
+  app.dom.serverMemory.text(
+    (stats.freemem/1000000.0).toFixed(1) + " / " +
+    (stats.totalmem/1000000.0).toFixed(1) + " MB (" +
+    (100*stats.freemem/stats.totalmem).toFixed(0) + "%)"
+  );
+
+  app.dom.serverLoad.text((100*stats.loadavg[0]).toFixed(0) + "%");
+  app.dom.serverUptime.text(stats.uptime.toFixed(0) + " s");
 });
 
 app.websocket.on('connecting', function(e) {

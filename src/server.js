@@ -8,6 +8,7 @@
 
 var _ = require('lodash');
 var fs = require("fs");
+var os = require('os');
 
 var dataLog = fs.createWriteStream("./data.log");
 var errLog = fs.createWriteStream("./errors.log");
@@ -66,7 +67,7 @@ serialServer.on("data", function(data) {
 
 
 
-
+// sensor stats
 setInterval(function() {
   var allStats = {};
   _.forEach(dataBuffer, function(data, key) {
@@ -99,10 +100,24 @@ setInterval(function() {
     allStats[key] = stats;
   });
   // console.log("updating stats");
-  webServer.writeToWebSockets(JSON.stringify(allStats));
+  webServer.writeToWebSockets('sensorStats', allStats);
   console.log("Current stats:", JSON.stringify(allStats));
   dataBuffer = {};
 
 }, settings.client_update_period);
 
+
+
+// server stats
+setInterval(function() {
+  var stats = {
+    freemem : os.freemem(),
+    totalmem : os.totalmem(),
+    loadavg : os.loadavg(),
+    platform : os.platform(),
+    arch : os.arch(),
+    uptime : os.uptime(),
+  };
+  webServer.writeToWebSockets('serverStats', stats);
+}, 1000);
 
