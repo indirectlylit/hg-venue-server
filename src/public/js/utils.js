@@ -46,3 +46,14 @@ app.utils.setLabelClass = function(elem, labelClass) {
     $(elem).toggleClass(className, className==labelClass);
   });
 };
+
+
+// for each argument, add a table data element and wrap the entire thing in a table row
+app.utils.genTableRow = function() {
+  var row = "<tr>";
+  _.each(arguments, function(arg) {
+      row = row + "<td>" + arg + "</td>";
+  });
+  return row + "</tr>";
+};
+
