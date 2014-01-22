@@ -57,3 +57,20 @@ app.utils.genTableRow = function() {
   return row + "</tr>";
 };
 
+
+app.utils.formatKBytes = function(kbytes) {
+  // these values are relative to 1 KByte (2^10 bytes).
+  var MB = Math.pow(2, 10);
+  var GB = Math.pow(2, 20);
+
+  console.log(kbytes);
+
+  if (kbytes >= GB) {
+    return (kbytes / GB).toFixed(2) + " GB";
+  }
+  else if (kbytes >= MB){
+    return (kbytes / MB).toFixed(2) + " MB";
+  }
+  return kbytes + " KB";
+};
+

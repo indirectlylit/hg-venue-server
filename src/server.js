@@ -16,6 +16,7 @@ var errLog = fs.createWriteStream("./errors.log");
 
 var webServer = require("./webServer");
 var settings = require("./settings");
+var serverStats = require("./serverStats");
 
 
 var dataBuffer = {};
@@ -99,9 +100,7 @@ setInterval(function() {
 
     allStats[key] = stats;
   });
-  // console.log("updating stats");
   webServer.writeToWebSockets('sensorStats', allStats);
-  console.log("Current stats:", JSON.stringify(allStats));
   dataBuffer = {};
 
 }, settings.client_update_period);
@@ -113,16 +112,6 @@ var startTime = (new Date()).getTime();
 
 // server stats
 setInterval(function() {
-  var stats = {
-    freemem : os.freemem(),
-    totalmem : os.totalmem(),
-    loadavg : os.loadavg(),
-    platform : os.platform(),
-    arch : os.arch(),
-    uptime : os.uptime().toFixed(0),
-    appUptime : (((new Date()).getTime()-startTime)/1000).toFixed(0),
-    time : (new Date()).getTime()
-  };
-  webServer.writeToWebSockets('serverStats', stats);
-}, 1000);
+  webServer.writeToWebSockets('serverStats', serverStats.getStats());
+}, 500);
 

@@ -24,6 +24,7 @@ $(function() {
     connectionState   : $('.js-connection-state'),
     serverArch        : $('.js-server-arch'),
     serverMemory      : $('.js-server-mem'),
+    serverDisk        : $('.js-server-disk'),
     serverLoad        : $('.js-server-load'),
     serverUptime      : $('.js-server-uptime'),
     serverAppUptime   : $('.js-server-app-uptime')
@@ -51,8 +52,12 @@ $(function() {
   app.websocket.on('serverStats', function(stats) {
     app.dom.serverArch.text(stats.arch);
     app.dom.serverMemory.text(
-      (stats.freemem/1000000.0).toFixed(1) + " / " +
-      (stats.totalmem/1000000.0).toFixed(1) + " MB"
+      app.utils.formatKBytes(stats.freemem) + " / " +
+      app.utils.formatKBytes(stats.totalmem)
+    );
+    app.dom.serverDisk.text(
+      app.utils.formatKBytes(stats.freedisk) + " / " +
+      app.utils.formatKBytes(stats.totaldisk)
     );
     app.dom.serverLoad.text(
       (100*stats.loadavg[0]).toFixed(0) + "%, " +

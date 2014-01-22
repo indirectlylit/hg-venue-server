@@ -53,7 +53,9 @@
                 <dd class="js-server-uptime"></dd>
                 <dt>App Uptime</dt>
                 <dd class="js-server-app-uptime"></dd>
-                <dt>RAM</dt>
+                <dt>Free Disk</dt>
+                <dd class="js-server-disk"></dd>
+                <dt>Free RAM</dt>
                 <dd class="js-server-mem"></dd>
                 <dt><span data-toggle="tooltip" class="helptext" title="1, 5, 15 minute load averages">CPU Load</span></dt>
                 <dd class="js-server-load"></dd>
