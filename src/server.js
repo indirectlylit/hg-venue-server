@@ -113,5 +113,5 @@ var startTime = (new Date()).getTime();
 // server stats
 setInterval(function() {
   webServer.writeToWebSockets('serverStats', serverStats.getStats());
-}, 500);
+}, 1000);
 
