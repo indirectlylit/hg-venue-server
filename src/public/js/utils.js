@@ -34,7 +34,7 @@ app.utils.message = function(msg, timesOut, isError) {
 
 
 app.utils.setLabelClass = function(elem, labelClass) {
-  classes = [
+  var classes = [
     'label-default',
     'label-primary',
     'label-success',
