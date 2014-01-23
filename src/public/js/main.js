@@ -16,20 +16,9 @@ app.stats = new app.models.Stats();
 
 $(function() {
 
-
-  app.cumulativeStats = {};
-
-  app.dom = {
-    statsTable        : $('.js-dataTable'),
-    connectionState   : $('.js-connection-state'),
-    serverArch        : $('.js-server-arch'),
-    serverMemory      : $('.js-server-mem'),
-    serverDisk        : $('.js-server-disk'),
-    serverLoad        : $('.js-server-load'),
-    serverUptime      : $('.js-server-uptime'),
-    serverAppUptime   : $('.js-server-app-uptime')
-  };
-
+  /*********************/
+  /* Sensor Statistics */
+  /*********************/
   app.websocket.on('sensorStats', function(stats) {
     var tableRows = [];
     _(stats).keys().sort().each(function (address) {
@@ -49,6 +38,10 @@ $(function() {
     app.dom.statsTable.html(tableRows.join('\n'));
   });
 
+
+  /*********************/
+  /* Server Statistics */
+  /*********************/
   app.websocket.on('serverStats', function(stats) {
     app.dom.serverArch.text(stats.arch);
     app.dom.serverMemory.text(
@@ -83,8 +76,25 @@ $(function() {
     app.utils.setLabelClass(app.dom.connectionState, 'label-default');
   });
 
-  app.websocket.start();
+
+  /*********/
+  /* Setup */
+  /*********/
+
+  app.dom = {
+    statsTable        : $('.js-dataTable'),
+    connectionState   : $('.js-connection-state'),
+    serverArch        : $('.js-server-arch'),
+    serverMemory      : $('.js-server-mem'),
+    serverDisk        : $('.js-server-disk'),
+    serverLoad        : $('.js-server-load'),
+    serverUptime      : $('.js-server-uptime'),
+    serverAppUptime   : $('.js-server-app-uptime')
+  };
 
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
+
+  app.cumulativeStats = {};
+  app.websocket.start();
 
 });
