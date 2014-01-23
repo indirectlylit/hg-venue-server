@@ -23,6 +23,7 @@ var dataBuffer = {};
 
 
 function handleIncomingData(message, address) {
+  console.log("DATA", address, message);
   var isodate = new Date().toISOString();
   var data = {};
 
@@ -121,6 +122,8 @@ setInterval(function() {
   });
   webServer.writeToWebSockets('sensorStats', allStats);
   dataBuffer = {};
+
+  console.log("STATS", allStats);
 
 }, settings.client_update_period);
 
