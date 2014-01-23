@@ -89,7 +89,7 @@ app.utils.genSensorTableRow = function(address, newStats) {
     address,
     newStats.message_rate.toFixed(1),
     newStats.target_rate > 10000 ? "max" : newStats.target_rate.toFixed(1),
-    newStats.target_interval,
+    newStats.target_interval.toFixed(1),
     newStats.drop_rate.toFixed(1),
     newStats.avg_size.toFixed(1),
     (newStats.data_rate/1024).toFixed(2),
