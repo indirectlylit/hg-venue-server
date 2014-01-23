@@ -23,7 +23,6 @@ var dataBuffer = {};
 
 
 function handleIncomingData(message, address) {
-  console.log("DATA", address, message);
   var isodate = new Date().toISOString();
   var data = {};
 
@@ -101,6 +100,7 @@ setInterval(function() {
     });
 
     attemptedInterval /= data.length;
+    stats['target_interval'] = attemptedInterval;
     stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval);
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
     stats['avg_size'] = totalBytes/data.length;
@@ -122,8 +122,6 @@ setInterval(function() {
   });
   webServer.writeToWebSockets('sensorStats', allStats);
   dataBuffer = {};
-
-  console.log("STATS", allStats);
 
 }, settings.client_update_period);
 
