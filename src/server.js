@@ -35,7 +35,7 @@ function handleIncomingData(message, address) {
     return;
   }
 
-  console.log(message);
+  // console.log(message);
 
   if (!data['timestamp']) {
     data['timestamp'] = isodate;
@@ -83,37 +83,39 @@ serialServer.on("data", function(data) {
 setInterval(function() {
   var allStats = {};
   _.forEach(dataBuffer, function(data, key) {
+    
+    
+    // find message rate
     var stats = {};
     stats['message_rate'] = 1000*1.0*data.length/settings.client_update_period;
 
-    var missingOrShuffled = 0;
-    var attemptedInterval = 0;
 
+    // find average message size, attempted interval, and data rate
+    var attemptedInterval = 0;
+    
     totalBytes = 0;
     _.forEach(data, function(message, index) {
       totalBytes += message['size'];
-      
-      attemptedInterval += 0;
-      // attemptedInterval += message['interval'];
-
-      if (index !== 0 && message['counter']) {
-        if (message['counter'] != data[index-1]['counter']-1) {
-          missingOrShuffled++;
-        }
-      }
+      attemptedInterval += message['data']['interval'];
     });
 
-
-    
+    attemptedInterval /= data.length;
+    stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval).toFixed(1);
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
-    stats['garbled'] = missingOrShuffled;
-
-    // average size
     stats['avg_size'] = totalBytes/data.length;
 
-    // average reported interval
-    attemptedInterval = attemptedInterval/data.length;
-    stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval).toFixed(1);
+
+    // find dropped messages
+    var dropped = 0;
+    var counterList = _.pluck(_.pluck(data, 'data'), 'counter');
+
+    counterList.sort();
+    for (i = 1; i < counterList.length; i++) {
+        if (counterList[i]-1 != counterList[i-1]) {
+          dropped += counterList[i] - counterList[i-1];
+        }
+    }
+    stats['drop_rate'] = 1000*(dropped/settings.client_update_period).toFixed(2);
 
     allStats[key] = stats;
   });

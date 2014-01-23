@@ -52,7 +52,7 @@ app.utils.setLabelClass = function(elem, labelClass) {
 app.utils.genTableRow = function() {
   var row = "<tr>";
   _.each(arguments, function(arg) {
-      row = row + "<td>" + arg + "</td>";
+      row = row + "<td class='text-right'>" + arg + "</td>";
   });
   return row + "</tr>";
 };
@@ -77,9 +77,9 @@ app.utils.genSensorTableRow = function(address, newStats) {
       0,
       "",
       "",
+      "",
       (0).toFixed(2),
-      app.cumulativeStats[address].garbled,
-      app.cumulativeStats[address].garbled,
+      // app.cumulativeStats[address].shuffled,
       ""
     );
   }
@@ -88,10 +88,10 @@ app.utils.genSensorTableRow = function(address, newStats) {
     address,
     newStats.message_rate,
     newStats.target_rate > 10000 ? "max" : newStats.target_rate,
+    newStats.drop_rate,
     newStats.avg_size,
     (newStats.data_rate/1024).toFixed(2),
-    app.cumulativeStats[address].garbled,
-    app.cumulativeStats[address].garbled,
+    // app.cumulativeStats[address].shuffled,
     '<span class="glyphicon glyphicon-flash"></span>'
   );
 };

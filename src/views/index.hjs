@@ -29,18 +29,18 @@
             <div class="panel-body">
               <table class="table table-condensed">
                 <thead>
-                  <td>Address</td>
-                  <td><span data-toggle="tooltip" class="helptext" title="messages per second received">Actual Rate</span> *</td>
-                  <td><span data-toggle="tooltip" class="helptext" title="messages per second attempted by node">Target Rate</span> *</td>
-                  <td><span data-toggle="tooltip" class="helptext" title="over-the-wire size (bytes)">Msg Size</span> *</td>
-                  <td><span data-toggle="tooltip" class="helptext" title="Msg Rate * Msg Size / 1024">KB/s</span> *</td>
-                  <td><span data-toggle="tooltip" class="helptext glyphicon glyphicon-remove" title="total missing messages"></span></td>
-                  <td><span data-toggle="tooltip" class="helptext glyphicon glyphicon-random" title="total out-of-order messages"></span></td>
-                  <td><span data-toggle="tooltip" class="helptext glyphicon glyphicon-flash" title="currently receiving data"></td>
+                  <td class="text-right">Address</td>
+                  <td class="text-right"><span data-toggle="tooltip" class="helptext" title="messages per second received">Actual Rate</span></td>
+                  <td class="text-right"><span data-toggle="tooltip" class="helptext" title="messages per second attempted by node">Target Rate</span></td>
+                  <td class="text-right"><span data-toggle="tooltip" class="helptext" title="messages dropped per second by ID">Drop Rate</span></td>
+                  <td class="text-right"><span data-toggle="tooltip" class="helptext" title="over-the-wire size (bytes)">Msg Size</span></td>
+                  <td class="text-right"><span data-toggle="tooltip" class="helptext" title="Msg Rate * Msg Size / 1024">KB/s</span></td>
+<!--                   <td class="text-right"><span data-toggle="tooltip" class="helptext glyphicon glyphicon-random" title="total out-of-order messages"></span></td> -->
+                  <td class="text-right"><span data-toggle="tooltip" class="helptext glyphicon glyphicon-flash" title="currently receiving data"></td>
                 </thead>
                 <tbody class="js-dataTable"></tbody>
               </table>
-              <div class="small">* Average over the last second</div>
+              <div class="small pull-right">Values averaged over the last second</div>
             </div>
           </div> <!-- /panel -->
         </div> <!-- /col -->

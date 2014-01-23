@@ -24,10 +24,11 @@ $(function() {
     // update cumulative stats to include any new addresses and information
     _(newStats).forIn(function (nodeStats, address) {
       if (!app.cumulativeStats[address]) {
-        app.cumulativeStats[address] = {garbled:0};
+        app.cumulativeStats[address] = {dropped:0, shuffled:0};
       }
-      console.log(nodeStats);
-      app.cumulativeStats[address].garbled += nodeStats.garbled;
+      // console.log(nodeStats);
+      // app.cumulativeStats[address].dropped += nodeStats.dropped;
+      // app.cumulativeStats[address].shuffled += nodeStats.shuffled;
     });
 
     // update HTML
