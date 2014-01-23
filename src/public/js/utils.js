@@ -63,8 +63,6 @@ app.utils.formatKBytes = function(kbytes) {
   var MB = Math.pow(2, 10);
   var GB = Math.pow(2, 20);
 
-  console.log(kbytes);
-
   if (kbytes >= GB) {
     return (kbytes / GB).toFixed(2) + " GB";
   }
