@@ -58,6 +58,45 @@ app.utils.genTableRow = function() {
 };
 
 
+app.utils.genSensorTableRow = function(address, newStats) {
+
+  // table columns:
+  //  * address
+  //  * actual rate
+  //  * target rate
+  //  * message size
+  //  * KB/s
+  //  * Dropped
+  //  * Shuffled
+  //  * Connected
+
+
+  if (!newStats) {
+    return app.utils.genTableRow(
+      address,
+      0,
+      "",
+      "",
+      (0).toFixed(2),
+      app.cumulativeStats[address].garbled,
+      app.cumulativeStats[address].garbled,
+      ""
+    );
+  }
+
+  return app.utils.genTableRow(
+    address,
+    newStats.message_rate,
+    newStats.target_rate > 10000 ? "max" : newStats.target_rate,
+    newStats.avg_size,
+    (newStats.data_rate/1024).toFixed(2),
+    app.cumulativeStats[address].garbled,
+    app.cumulativeStats[address].garbled,
+    '<span class="glyphicon glyphicon-flash"></span>'
+  );
+};
+
+
 app.utils.formatKBytes = function(kbytes) {
   // these values are relative to 1 KByte (2^10 bytes).
   var MB = Math.pow(2, 10);

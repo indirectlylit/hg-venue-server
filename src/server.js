@@ -93,7 +93,8 @@ setInterval(function() {
     _.forEach(data, function(message, index) {
       totalBytes += message['size'];
       
-      attemptedInterval += message['interval'];
+      attemptedInterval += 0;
+      // attemptedInterval += message['interval'];
 
       if (index !== 0 && message['counter']) {
         if (message['counter'] != data[index-1]['counter']-1) {
@@ -102,12 +103,17 @@ setInterval(function() {
       }
     });
 
-    attemptedInterval = attemptedInterval/data.length;
 
-
+    
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
     stats['garbled'] = missingOrShuffled;
-    stats['attempted'] = attemptedInterval;
+
+    // average size
+    stats['avg_size'] = totalBytes/data.length;
+
+    // average reported interval
+    attemptedInterval = attemptedInterval/data.length;
+    stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval).toFixed(1);
 
     allStats[key] = stats;
   });

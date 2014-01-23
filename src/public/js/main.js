@@ -19,23 +19,23 @@ $(function() {
   /*********************/
   /* Sensor Statistics */
   /*********************/
-  app.websocket.on('sensorStats', function(stats) {
-    var tableRows = [];
-    _(stats).keys().sort().each(function (address) {
-      var stat = stats[address];
+  app.websocket.on('sensorStats', function(newStats) {
+    
+    // update cumulative stats to include any new addresses and information
+    _(newStats).forIn(function (nodeStats, address) {
       if (!app.cumulativeStats[address]) {
         app.cumulativeStats[address] = {garbled:0};
       }
-      app.cumulativeStats[address].garbled += stat.garbled;
-      tableRows.push(app.utils.genTableRow(
-        address,
-        stat.message_rate,
-        stat.attempted,
-        (stat.data_rate/1000).toPrecision(2),
-        app.cumulativeStats[address].garbled)
-      );
+      console.log(nodeStats);
+      app.cumulativeStats[address].garbled += nodeStats.garbled;
     });
-    app.dom.statsTable.html(tableRows.join('\n'));
+
+    // update HTML
+    var htmlTableRows = [];
+    _(app.cumulativeStats).keys().sort().each(function (address) {
+      htmlTableRows.push(app.utils.genSensorTableRow(address, newStats[address]));
+    });
+    app.dom.statsTable.html(htmlTableRows.join('\n'));
   });
 
 
