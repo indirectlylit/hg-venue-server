@@ -35,9 +35,20 @@ function handleIncomingData(message, address) {
     return;
   }
 
-  data['timestamp'] = isodate;
-  data['address'] = address;
-  data['size'] = message.length;
+  console.log(message);
+
+  if (!data['timestamp']) {
+    data['timestamp'] = isodate;
+  }
+  if (!data['address']) {
+    data['address'] = address;
+  }
+  else {
+    address = data['address'];
+  }
+  if (!data['size']) {
+    data['size'] = message.length;
+  }
 
   if (!dataBuffer[address]) {
     dataBuffer[address] = [];
@@ -56,7 +67,7 @@ function handleIncomingData(message, address) {
 var udpServer = require("./udpServer").udpServer;
 
 udpServer.on("message", function (msg, rinfo) {
-  handleIncomingData(msg, rinfo.address);
+  handleIncomingData(msg.toString(), rinfo.address);
 });
 
 
@@ -105,9 +116,6 @@ setInterval(function() {
 
 }, settings.client_update_period);
 
-
-
-var startTime = (new Date()).getTime();
 
 
 // server stats
