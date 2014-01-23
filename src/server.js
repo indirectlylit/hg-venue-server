@@ -101,7 +101,7 @@ setInterval(function() {
     });
 
     attemptedInterval /= data.length;
-    stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval).toFixed(1);
+    stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval);
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
     stats['avg_size'] = totalBytes/data.length;
 
@@ -116,7 +116,7 @@ setInterval(function() {
           dropped += counterList[i] - counterList[i-1];
         }
     }
-    stats['drop_rate'] = 1000*(dropped/settings.client_update_period).toFixed(2);
+    stats['drop_rate'] = 1000*(dropped/settings.client_update_period);
 
     allStats[key] = stats;
   });
