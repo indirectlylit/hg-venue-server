@@ -20,7 +20,7 @@ $(function() {
   /* Sensor Statistics */
   /*********************/
   app.websocket.on('sensorStats', function(newStats) {
-    
+
     // update cumulative stats to include any new addresses and information
     _(newStats).forIn(function (nodeStats, address) {
       if (!app.cumulativeStats[address]) {

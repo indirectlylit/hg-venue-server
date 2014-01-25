@@ -83,8 +83,8 @@ serialServer.on("data", function(data) {
 setInterval(function() {
   var allStats = {};
   _.forEach(dataBuffer, function(data, key) {
-    
-    
+
+
     // find message rate
     var stats = {};
     stats['message_rate'] = 1000*1.0*data.length/settings.client_update_period;
@@ -92,7 +92,7 @@ setInterval(function() {
 
     // find average message size, attempted interval, and data rate
     var attemptedInterval = 0;
-    
+
     totalBytes = 0;
     _.forEach(data, function(message, index) {
       totalBytes += message['size'];

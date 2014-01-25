@@ -1,7 +1,7 @@
 
 /**
  * Serial Port Listener
- * 
+ *
  * Devon Rueckner
  * The Human Grid
  * All rights reserved

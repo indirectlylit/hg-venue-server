@@ -1,7 +1,7 @@
 
 /**
  * Set up web socket server.
- * 
+ *
  * Devon Rueckner
  * The Human Grid
  * All rights reserved
