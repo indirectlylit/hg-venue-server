@@ -49,7 +49,7 @@ var refreshDirs = function () {
   });
 };
 
-fs.watch(DATA_DIR, refreshDirs);
+// fs.watch(DATA_DIR, refreshDirs);
 
 
 
