@@ -103,7 +103,7 @@
                     <input type="text" class="form-control input-sm" id="data-file-name" placeholder="Log Name">
                   </div>
                   <div class="col-xs-3">
-                    <button type="submit" class="btn btn-default btn-sm pull-right">
+                    <button type="button" class="btn btn-default btn-sm pull-right">
                       <span class="glyphicon glyphicon-check"></span>
                       Save
                     </button>
