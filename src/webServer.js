@@ -77,6 +77,23 @@ expressApp.get('/', function(req, res){
   }
 );
 
+expressApp.get('/start', function(req, res){
+  if (exports.startLogging) {
+    exports.startLogging();
+  }
+  res.send('starting');
+});
+
+expressApp.get('/stop', function(req, res){
+  if (exports.stopLogging) {
+    exports.stopLogging();
+  }
+  res.send('stopping');
+});
+
+exports.startLogging = null;
+exports.stopLogging = null;
+
 http.createServer(expressApp).listen(expressApp.get('port'), function(){
   console.log("Web server listening on port " + expressApp.get('port'));
 });

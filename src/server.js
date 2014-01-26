@@ -9,15 +9,43 @@
 var _ = require('lodash');
 var fs = require("fs");
 var os = require('os');
-
-var dataLog = fs.createWriteStream("./data.log");
-var errLog = fs.createWriteStream("./errors.log");
+var path = require('path');
 
 
 var settings = require("./settings");
 var serverStats = require("./serverStats");
 var logger = require("./logger");
 var webServer = require("./webServer");
+
+
+
+var dataLog = null;
+var statsLog = null;
+
+var DATA_DIR = path.join(os.tmpdir(), "venue_server_data");
+
+var startLogging = function() {
+  console.log("START LOGGING");
+  var isodate = new Date().toISOString();
+  dataLog = fs.createWriteStream(path.join(os.tmpdir(), "venue_server_data", isodate+"-data.log"));
+  statsLog = fs.createWriteStream(path.join(os.tmpdir(), "venue_server_data", isodate+"-stats.log"));
+};
+
+var stopLogging = function() {
+  console.log("STOP LOGGING");
+  dataLog.end();
+  dataLog = null;
+  statsLog.end();
+  statsLog = null;
+};
+
+// startLogging();
+
+webServer.startLogging = startLogging;
+webServer.stopLogging = stopLogging;
+
+
+var errLog = fs.createWriteStream("./errors.log");
 
 
 var dataBuffer = {};
@@ -58,7 +86,7 @@ function handleIncomingData(message, address) {
   dataBuffer[address].push(data);
 
   var line = JSON.stringify(data);
-  if (settings.logToFile) {
+  if (dataLog) {
     dataLog.write(line + '\n');
   }
 }
@@ -123,6 +151,9 @@ setInterval(function() {
     windowOfStats[key] = stats;
   });
   webServer.writeToWebSockets('sensorStats', windowOfStats);
+  if (statsLog) {
+    statsLog.write(JSON.stringify(windowOfStats) + '\n');
+  }
   dataBuffer = {};
 
 }, settings.client_update_period);
@@ -131,7 +162,11 @@ setInterval(function() {
 
 // server stats
 setInterval(function() {
-  webServer.writeToWebSockets('serverStats', serverStats.getStats());
+  var stats = serverStats.getStats();
+  webServer.writeToWebSockets('serverStats', stats);
+  if (statsLog) {
+    statsLog.write(JSON.stringify(stats) + '\n');
+  }
 }, 1000);
 
 
