@@ -96,12 +96,11 @@ setInterval(function() {
     totalBytes = 0;
     _.forEach(data, function(message, index) {
       totalBytes += message['size'];
-      attemptedInterval += message['data']['interval'];
+      attemptedInterval += message['data']['interval'] / 1e6; // us to s
     });
 
-    attemptedInterval /= data.length;
-    stats['target_interval'] = attemptedInterval;
-    stats['target_rate'] = attemptedInterval === 0 ? 100000000 : (1000.0/attemptedInterval);
+    attemptedInterval /= data.length; // average
+    stats['target_rate'] = 1 / attemptedInterval; // interval to frequency
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
     stats['avg_size'] = totalBytes/data.length;
 
