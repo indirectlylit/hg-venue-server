@@ -22,10 +22,10 @@ var httpStreamServer = http.createServer();
 sockjsServer.on('connection', function(conn) {
   webSockets.push(conn);
   console.log("sockjsServer connection: "+webSockets.length);
-    conn.on('close', function(conn) {
+  conn.on('close', function(conn) {
     webSockets.pop(conn);
     console.log("sockjsServer connection close: "+webSockets.length);
-    });
+  });
 });
 
 sockjsServer.installHandlers(httpStreamServer, {prefix:'/data'});
