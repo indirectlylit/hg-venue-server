@@ -67,9 +67,7 @@ app.utils.genSensorTableRow = function(address, newStats) {
   //  * message size
   //  * KB/s
   //  * Dropped
-  //  * Shuffled
   //  * Connected
-
 
   if (!newStats) {
     return app.utils.genTableRow(
@@ -79,7 +77,6 @@ app.utils.genSensorTableRow = function(address, newStats) {
       "",
       "",
       (0).toFixed(2),
-      // app.cumulativeStats[address].shuffled,
       ""
     );
   }
@@ -91,7 +88,6 @@ app.utils.genSensorTableRow = function(address, newStats) {
     newStats.drop_rate.toFixed(1),
     newStats.avg_size.toFixed(1),
     (newStats.data_rate/1024).toFixed(2),
-    // app.cumulativeStats[address].shuffled,
     '<span class="glyphicon glyphicon-flash"></span>'
   );
 };

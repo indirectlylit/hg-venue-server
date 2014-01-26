@@ -28,7 +28,6 @@ $(function() {
       }
       // console.log(nodeStats);
       // app.cumulativeStats[address].dropped += nodeStats.dropped;
-      // app.cumulativeStats[address].shuffled += nodeStats.shuffled;
     });
 
     // update HTML
