@@ -81,7 +81,7 @@ serialServer.on("data", function(data) {
 
 // sensor stats
 setInterval(function() {
-  var allStats = {};
+  var windowOfStats = {};
   _.forEach(dataBuffer, function(data, key) {
 
 
@@ -117,9 +117,9 @@ setInterval(function() {
     }
     stats['drop_rate'] = 1000*(dropped/settings.client_update_period);
 
-    allStats[key] = stats;
+    windowOfStats[key] = stats;
   });
-  webServer.writeToWebSockets('sensorStats', allStats);
+  webServer.writeToWebSockets('sensorStats', windowOfStats);
   dataBuffer = {};
 
 }, settings.client_update_period);
