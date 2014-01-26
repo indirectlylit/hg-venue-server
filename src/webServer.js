@@ -12,6 +12,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var sockjs = require('sockjs');
+var logger = require('./logger');
 
 
 var webSockets = [];
@@ -22,6 +23,7 @@ var httpStreamServer = http.createServer();
 sockjsServer.on('connection', function(conn) {
   webSockets.push(conn);
   console.log("sockjsServer connection: "+webSockets.length);
+  logger.triggerRefresh();
   conn.on('close', function(conn) {
     webSockets.pop(conn);
     console.log("sockjsServer connection close: "+webSockets.length);

@@ -14,9 +14,10 @@ var dataLog = fs.createWriteStream("./data.log");
 var errLog = fs.createWriteStream("./errors.log");
 
 
-var webServer = require("./webServer");
 var settings = require("./settings");
 var serverStats = require("./serverStats");
+var logger = require("./logger");
+var webServer = require("./webServer");
 
 
 var dataBuffer = {};
@@ -132,4 +133,11 @@ setInterval(function() {
 setInterval(function() {
   webServer.writeToWebSockets('serverStats', serverStats.getStats());
 }, 1000);
+
+
+// logger & directory watcher
+logger.dirwatch.on('change', function(fileData){
+  webServer.writeToWebSockets('fileData', fileData);
+});
+
 

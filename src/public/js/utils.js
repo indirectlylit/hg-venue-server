@@ -49,10 +49,18 @@ app.utils.setLabelClass = function(elem, labelClass) {
 
 
 // for each argument, add a table data element and wrap the entire thing in a table row
-app.utils.genTableRow = function() {
+app.utils.genTableRowRight = function() {
   var row = "<tr>";
   _.each(arguments, function(arg) {
       row = row + "<td class='text-right'>" + arg + "</td>";
+  });
+  return row + "</tr>";
+};
+
+app.utils.genTableRow = function() {
+  var row = "<tr>";
+  _.each(arguments, function(arg) {
+      row = row + "<td>" + arg + "</td>";
   });
   return row + "</tr>";
 };
@@ -70,7 +78,7 @@ app.utils.genSensorTableRow = function(address, newStats) {
   //  * Connected
 
   if (!newStats) {
-    return app.utils.genTableRow(
+    return app.utils.genTableRowRight(
       address,
       "",
       0,
@@ -81,7 +89,7 @@ app.utils.genSensorTableRow = function(address, newStats) {
     );
   }
 
-  return app.utils.genTableRow(
+  return app.utils.genTableRowRight(
     address,
     newStats.max_rate > 1e4 ? "max" : newStats.max_rate.toFixed(1),
     newStats.message_rate.toFixed(1),
@@ -104,6 +112,6 @@ app.utils.formatKBytes = function(kbytes) {
   else if (kbytes >= MB){
     return (kbytes / MB).toFixed(2) + " MB";
   }
-  return kbytes + " KB";
+  return kbytes.toFixed(3) + " KB";
 };
 

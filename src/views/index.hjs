@@ -121,12 +121,9 @@
             <div class="panel-body">
               <table class="table table-condensed">
                 <thead>
-                  <td class="text-right">Time</td>
-                  <td class="text-right">Name</td>
-                  <td class="text-right">Length</td>
-                  <td class="text-right">Size</td>
-                  <td class="text-right">Download</td>
-                  <td class="text-right">Delete</td>
+                  <td>Time</td>
+                  <td>File Name</td>
+                  <td>Size</td>
                 </thead>
                 <tbody class="js-fileTable"></tbody>
               </table>

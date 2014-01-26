@@ -77,12 +77,33 @@ $(function() {
   });
 
 
+
+  /*************/
+  /* File List */
+  /*************/
+  app.websocket.on('fileData', function(fileData) {
+
+    // update HTML
+    var htmlTableRows = [];
+    _(fileData).forIn(function (fileStats) {
+      htmlTableRows.push(app.utils.genTableRow(
+        (new Date(fileStats.ctime)).toLocaleString(),
+        fileStats.name,
+        app.utils.formatKBytes(fileStats.size/1024.0)
+      ));
+    });
+    app.dom.fileTable.html(htmlTableRows.join('\n'));
+  });
+
+
+
   /*********/
   /* Setup */
   /*********/
 
   app.dom = {
     statsTable        : $('.js-dataTable'),
+    fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connection-state'),
     serverArch        : $('.js-server-arch'),
     serverMemory      : $('.js-server-mem'),
