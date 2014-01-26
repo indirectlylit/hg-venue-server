@@ -90,17 +90,19 @@ setInterval(function() {
     stats['message_rate'] = 1000*1.0*data.length/settings.client_update_period;
 
 
-    // find average message size, attempted interval, and data rate
-    var attemptedInterval = 0;
+    // find average message size and max data rate
+    var minInterval = 0;
 
     totalBytes = 0;
     _.forEach(data, function(message, index) {
       totalBytes += message['size'];
-      attemptedInterval += message['data']['interval'] / 1e6; // us to s
+      minInterval += message['data']['interval'];
     });
 
-    attemptedInterval /= data.length; // average
-    stats['target_rate'] = 1 / attemptedInterval; // interval to frequency
+    minInterval /= data.length; // average
+    // prevent divide-by-zero issue
+    minInterval = minInterval === 0 ? 1e-9 : minInterval;
+    stats['max_rate'] = 1e6 / minInterval; // interval in microseconds to Hz
     stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
     stats['avg_size'] = totalBytes/data.length;
 

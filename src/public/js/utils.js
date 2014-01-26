@@ -62,8 +62,8 @@ app.utils.genSensorTableRow = function(address, newStats) {
 
   // table columns:
   //  * address
+  //  * max rate
   //  * actual rate
-  //  * target rate
   //  * message size
   //  * KB/s
   //  * Dropped
@@ -72,8 +72,8 @@ app.utils.genSensorTableRow = function(address, newStats) {
   if (!newStats) {
     return app.utils.genTableRow(
       address,
-      0,
       "",
+      0,
       "",
       "",
       (0).toFixed(2),
@@ -83,8 +83,8 @@ app.utils.genSensorTableRow = function(address, newStats) {
 
   return app.utils.genTableRow(
     address,
+    newStats.max_rate > 1e4 ? "max" : newStats.max_rate.toFixed(1),
     newStats.message_rate.toFixed(1),
-    newStats.target_rate > 10000 ? "max" : newStats.target_rate.toFixed(1),
     newStats.drop_rate.toFixed(1),
     newStats.avg_size.toFixed(1),
     (newStats.data_rate/1024).toFixed(2),
