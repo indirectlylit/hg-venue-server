@@ -35,8 +35,13 @@ Vagrant.configure("2") do |config|
 		})
 	end
 
+	# install node dependencies
 	config.vm.provision :shell, :inline => "cd /vagrant && npm install --no-bin-link"
 	config.vm.provision :shell, :inline => "npm install supervisor -g"
+
+	# install fish and make it the default shell
+	config.vm.provision :shell, :inline => "apt-get install fish"
+	config.vm.provision :shell, :inline => "usermod -s /usr/bin/fish vagrant"
 
 
 	config.vm.network :forwarded_port, :host => 8080, :guest => 8080
