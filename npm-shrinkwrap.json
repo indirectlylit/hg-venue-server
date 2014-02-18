@@ -2,6 +2,20 @@
   "name": "venue_server",
   "version": "0.0.3",
   "dependencies": {
+    "bunyan": {
+      "version": "0.22.1",
+      "from": "bunyan@",
+      "dependencies": {
+        "mv": {
+          "version": "0.0.5",
+          "from": "mv@0.0.5"
+        },
+        "dtrace-provider": {
+          "version": "0.2.8",
+          "from": "dtrace-provider@0.2.8"
+        }
+      }
+    },
     "express": {
       "version": "3.4.7",
       "from": "express@",
