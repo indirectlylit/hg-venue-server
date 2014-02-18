@@ -6,13 +6,6 @@
 
 var app = app || {};
 
-// router class
-app.router = new app.Router();
-// an event dispatcher for global listeners
-app.dispatcher = _.clone(Backbone.Events);
-app.stats = new app.models.Stats();
-
-
 
 $(function() {
 

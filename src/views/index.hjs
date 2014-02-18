@@ -109,15 +109,12 @@
     <script src="/js/vendor/bootstrap-lightbox.js"></script>
 
     <!-- models -->
-    <script src="/js/models/stats.js"></script>
     <script src="/js/models/settings.js"></script>
 
     <!-- views -->
-    <script src="/js/views/stats.js"></script>
     <script src="/js/views/settings.js"></script>
 
     <!-- application -->
-    <script src="/js/router.js"></script>
     <script src="/js/ctrl.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
