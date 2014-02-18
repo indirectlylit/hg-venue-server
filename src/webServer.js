@@ -13,6 +13,10 @@ var http = require('http');
 var path = require('path');
 var sockjs = require('sockjs');
 var logger = require('./logger');
+var _ = require('lodash');
+var dir = require('node-dir');
+var async = require('async');
+var fs = require('fs');
 
 
 var webSockets = [];
@@ -73,9 +77,44 @@ expressApp.configure('development', function() {
 });
 
 expressApp.get('/', function(req, res){
-    res.render('index', { title: 'Celilo 2' });
-  }
-);
+  // loads up all the client-side templates and embeds them in the main page
+  var cwd = process.cwd();
+  var templatesDir = path.join(cwd, 'templates');
+  async.waterfall(
+    [
+      // find all possible templates
+      function(callback) {
+        dir.files('templates', callback);
+      },
+      // load contents of all templates and assign them IDs
+      function(names, callback) {
+        names = _.filter(names, function(name) {return path.extname(name) === '.html';});
+        var allMetaData = _.map(names, function(name) {
+          return {
+            'file': path.join(cwd, name),
+            'id':   name.slice(0, -5).replace(/\//g, '-')
+          };
+        });
+        // maps the list of meta-data to a list of meta-data with contents
+        async.map(
+          allMetaData,
+          function (metaData, callback) {
+            fs.readFile(metaData['file'], 'utf8', function(err, contents) {
+              metaData['contents'] = contents;
+              callback(err, metaData);
+            });
+          },
+          function(err, results) { callback(err, results); }
+        );
+      }
+    ],
+    // render the index with all templates embedded
+    function(err, templateData) {
+      console.log(templateData);
+      res.render('index', { templateData: templateData});
+    }
+  );
+});
 
 expressApp.get('/start', function(req, res){
   if (exports.startLogging) {

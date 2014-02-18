@@ -133,6 +133,13 @@
       </div> <!-- /row -->
     </div> <!-- /container -->
 
+<!-- templates -->
+{{#templateData}}
+<script type="text/template" id="{{id}}">
+{{contents}}
+</script>
+{{/templateData}}
+
     <!-- vendor -->
     <script src="/js/vendor/jquery-1.10.1.js"></script>
     <script src="/js/vendor/lodash.min.js"></script>
