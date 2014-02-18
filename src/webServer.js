@@ -115,7 +115,6 @@ expressApp.get('/', function(req, res){
     ],
     // render the index with all templates embedded
     function(err, templateData) {
-      console.log(templateData);
       res.render('index', { templateData: templateData});
     }
   );
