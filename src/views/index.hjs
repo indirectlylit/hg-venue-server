@@ -25,68 +25,8 @@
         <div class="col-md-8 js-sensorStats"></div>
       </div> <!-- /row -->
       <div class="row">
-        <div class="col-md-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Current Data Set</h3>
-            </div>
-            <div class="panel-body">
-              <form role="form">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm">
-                         <span class="glyphicon glyphicon-record"></span>
-                        Record
-                      </button>
-                      <button type="button" class="btn btn-sm">
-                         <span class="glyphicon glyphicon-stop"></span>
-                        Stop
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-xs-3 lead">
-                    0:00
-                  </div>
-                  <div class="col-xs-3">
-                    <button type="button" class="btn btn-sm pull-right">
-                      <span class="glyphicon glyphicon-backward"></span>
-                      Reset
-                    </button>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-9">
-                    <input type="text" class="form-control input-sm" id="data-file-name" placeholder="Log Name">
-                  </div>
-                  <div class="col-xs-3">
-                    <button type="button" class="btn btn-default btn-sm pull-right">
-                      <span class="glyphicon glyphicon-check"></span>
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div> <!-- /panel -->
-        </div> <!-- /col -->
-        <div class="col-md-8">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Saved Data</h3>
-            </div>
-            <div class="panel-body">
-              <table class="table table-condensed">
-                <thead>
-                  <td>Time</td>
-                  <td>File Name</td>
-                  <td>Size</td>
-                </thead>
-                <tbody class="js-fileTable"></tbody>
-              </table>
-            </div>
-          </div> <!-- /panel -->
-        </div> <!-- /col -->
+        <div class="col-md-4 js-currentDataSet"></div>
+        <div class="col-md-8 js-logList"></div>
       </div> <!-- /row -->
     </div> <!-- /container -->
 

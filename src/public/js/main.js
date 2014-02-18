@@ -16,11 +16,17 @@ $(function() {
   app.dom = {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState'),
+    currentDataSet    : $('.js-currentDataSet'),
+    logList           : $('.js-logList'),
     serverStats       : $('.js-serverStats'),
     sensorStats       : $('.js-sensorStats')
   };
 
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
+
+  // pre-render
+  app.dom.logList.html(app.utils.render('logList', []));
+  app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
 
 
   /*********************/
