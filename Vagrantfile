@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
 
 	# install node dependencies
 	config.vm.provision :shell, :inline => "cd /vagrant && npm install --no-bin-link"
-	config.vm.provision :shell, :inline => "npm install supervisor -g"
+	config.vm.provision :shell, :inline => "npm install -g supervisor bunyan"
 
 	# install fish and make it the default shell
 	config.vm.provision :shell, :inline => "apt-get install fish"
