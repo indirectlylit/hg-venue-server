@@ -23,8 +23,8 @@ $(function() {
   app.dom = {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connection-state'),
-    serverstats       : $('.js-serverStats'),
-    sensorstats       : $('.js-sensorStats')
+    serverStats       : $('.js-serverStats'),
+    sensorStats       : $('.js-sensorStats')
   };
 
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
@@ -70,11 +70,11 @@ $(function() {
       }
       return row;
     });
-    app.dom.sensorstats.html(app.utils.render('sensorstats', {tableRows: tableRows}));
+    app.dom.sensorStats.html(app.utils.render('sensorStats', {tableRows: tableRows}));
   });
 
   // pre-render
-  app.dom.sensorstats.html(app.utils.render('sensorstats', []));
+  app.dom.sensorStats.html(app.utils.render('sensorStats', []));
 
 
 
@@ -94,11 +94,11 @@ $(function() {
       uptime:     stats.uptime + " s",
       appUptime:  stats.appUptime + " s"
     };
-    app.dom.serverstats.html(app.utils.render('serverstats', context));
+    app.dom.serverStats.html(app.utils.render('serverStats', context));
   });
 
   // pre-render
-  app.dom.serverstats.html(app.utils.render('serverstats', {}));
+  app.dom.serverStats.html(app.utils.render('serverStats', {}));
 
   app.websocket.on('connecting', function(e) {
     app.dom.connectionState.text('Not Connected');
