@@ -16,6 +16,20 @@ app.stats = new app.models.Stats();
 
 $(function() {
 
+  /*************/
+  /* DOM Setup */
+  /*************/
+
+  app.dom = {
+    statsTable        : $('.js-dataTable'),
+    fileTable         : $('.js-fileTable'),
+    connectionState   : $('.js-connection-state'),
+    serverstats       : $('.js-serverstats')
+  };
+
+  $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
+
+
   /*********************/
   /* Sensor Statistics */
   /*********************/
@@ -43,23 +57,23 @@ $(function() {
   /* Server Statistics */
   /*********************/
   app.websocket.on('serverStats', function(stats) {
-    app.dom.serverArch.text(stats.arch);
-    app.dom.serverMemory.text(
-      app.utils.formatKBytes(stats.freemem) + " / " +
-      app.utils.formatKBytes(stats.totalmem)
-    );
-    app.dom.serverDisk.text(
-      app.utils.formatKBytes(stats.freedisk) + " / " +
-      app.utils.formatKBytes(stats.totaldisk)
-    );
-    app.dom.serverLoad.text(
-      (100*stats.loadavg[0]).toFixed(0) + "%, " +
-      (100*stats.loadavg[1]).toFixed(0) + "%, " +
-      (100*stats.loadavg[2]).toFixed(0) + "%"
-    );
-    app.dom.serverUptime.text(stats.uptime + " s");
-    app.dom.serverAppUptime.text(stats.appUptime + " s");
+    var context = {
+      arch:       stats.arch,
+      memory:     app.utils.formatKBytes(stats.freemem) + " / " +
+                  app.utils.formatKBytes(stats.totalmem),
+      disk:       app.utils.formatKBytes(stats.freedisk) + " / " +
+                  app.utils.formatKBytes(stats.totaldisk),
+      load:       (100*stats.loadavg[0]).toFixed(0) + "%, " +
+                  (100*stats.loadavg[1]).toFixed(0) + "%, " +
+                  (100*stats.loadavg[2]).toFixed(0) + "%",
+      uptime:     stats.uptime + " s",
+      appUptime:  stats.appUptime + " s"
+    };
+    app.dom.serverstats.html(app.utils.render('serverstats', context));
   });
+
+  // pre-render
+  app.dom.serverstats.html(app.utils.render('serverstats', {}));
 
   app.websocket.on('connecting', function(e) {
     app.dom.connectionState.text('Not Connected');
@@ -96,24 +110,6 @@ $(function() {
   });
 
 
-
-  /*********/
-  /* Setup */
-  /*********/
-
-  app.dom = {
-    statsTable        : $('.js-dataTable'),
-    fileTable         : $('.js-fileTable'),
-    connectionState   : $('.js-connection-state'),
-    serverArch        : $('.js-server-arch'),
-    serverMemory      : $('.js-server-mem'),
-    serverDisk        : $('.js-server-disk'),
-    serverLoad        : $('.js-server-load'),
-    serverUptime      : $('.js-server-uptime'),
-    serverAppUptime   : $('.js-server-app-uptime')
-  };
-
-  $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
 
   app.cumulativeStats = {};
   app.websocket.start();
