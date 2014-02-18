@@ -28,6 +28,9 @@
         <div class="col-md-4 js-currentDataSet"></div>
         <div class="col-md-8 js-logList"></div>
       </div> <!-- /row -->
+      <div class="row">
+        <div class="col-md-4 js-settings"></div>
+      </div> <!-- /row -->
     </div> <!-- /container -->
 
 <!-- templates -->

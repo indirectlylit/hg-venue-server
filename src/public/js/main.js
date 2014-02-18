@@ -17,6 +17,7 @@ $(function() {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState'),
     currentDataSet    : $('.js-currentDataSet'),
+    settings          : $('.js-settings'),
     logList           : $('.js-logList'),
     serverStats       : $('.js-serverStats'),
     sensorStats       : $('.js-sensorStats')
@@ -27,6 +28,7 @@ $(function() {
   // pre-render
   app.dom.logList.html(app.utils.render('logList', []));
   app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
+  app.dom.settings.html(app.utils.render('settings', []));
 
 
   /*********************/
