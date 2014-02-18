@@ -16,7 +16,7 @@
 
     <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-text">Venue Server</div>
-      <div class="navbar-text navbar-right"><span class="label js-connection-state"></span></div>
+      <div class="navbar-text navbar-right"><span class="label js-connectionState"></span></div>
     </nav>
 
     <div class="container">

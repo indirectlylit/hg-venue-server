@@ -22,7 +22,7 @@ $(function() {
 
   app.dom = {
     fileTable         : $('.js-fileTable'),
-    connectionState   : $('.js-connection-state'),
+    connectionState   : $('.js-connectionState'),
     serverStats       : $('.js-serverStats'),
     sensorStats       : $('.js-sensorStats')
   };
