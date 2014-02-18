@@ -116,7 +116,7 @@
 <!-- templates -->
 {{#templateData}}
 <script type="text/template" id="{{id}}">
-{{contents}}
+{{{contents}}}
 </script>
 {{/templateData}}
 

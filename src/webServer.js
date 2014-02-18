@@ -95,16 +95,21 @@ expressApp.get('/', function(req, res){
             'id':   name.slice(0, -5).replace(/\//g, '-')
           };
         });
-        // maps the list of meta-data to a list of meta-data with contents
+        // maps the list of meta-data to a list of data
+        // important: IDs and pre-compiled client-side templates
         async.map(
           allMetaData,
-          function (metaData, callback) {
+          function (metaData, inner_callback) {
             fs.readFile(metaData['file'], 'utf8', function(err, contents) {
-              metaData['contents'] = contents;
-              callback(err, metaData);
+              // a list of these objects gets passed to index.hjs
+              var data = {
+                id: metaData['id'],
+                contents: contents
+              };
+              inner_callback(err, data);
             });
           },
-          function(err, results) { callback(err, results); }
+          callback
         );
       }
     ],

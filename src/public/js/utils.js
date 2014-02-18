@@ -115,3 +115,20 @@ app.utils.formatKBytes = function(kbytes) {
   return kbytes.toFixed(3) + " KB";
 };
 
+
+app.utils._templates = {};
+
+app.utils.render = function(name, context) {
+  if (!app.utils._templates[name]) {
+    var template = $("#templates-"+name);
+    if (!template.length) {
+      console.log("Template not found:", name);
+      return "missing template";
+    }
+    app.utils._templates[name] = Hogan.compile(template.html());
+  }
+  return app.utils._templates[name].render(context);
+};
+
+
+
