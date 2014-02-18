@@ -22,27 +22,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Server</h3>
-            </div>
-            <div class="panel-body">
-              <dl class="dl-horizontal">
-                <dt>Architecture</dt>
-                <dd class="js-server-arch"></dd>
-                <dt>Server Uptime</dt>
-                <dd class="js-server-uptime"></dd>
-                <dt>App Uptime</dt>
-                <dd class="js-server-app-uptime"></dd>
-                <dt>Free Disk</dt>
-                <dd class="js-server-disk"></dd>
-                <dt>Free RAM</dt>
-                <dd class="js-server-mem"></dd>
-                <dt><span data-toggle="tooltip" class="helptext" title="1, 5, 15 minute load averages">CPU Load</span></dt>
-                <dd class="js-server-load"></dd>
-              </dl>
-            </div>
-          </div> <!-- /panel -->
+
         </div> <!-- /col -->
         <div class="col-md-8">
           <div class="panel panel-default">
@@ -143,6 +123,7 @@
     <!-- vendor -->
     <script src="/js/vendor/jquery-1.10.1.js"></script>
     <script src="/js/vendor/lodash.min.js"></script>
+    <script src="/js/vendor/hogan.min.js"></script>
     <script src="/js/vendor/bootstrap.js"></script>
     <script src="/js/vendor/backbone.js"></script>
     <script src="/js/vendor/backbone.viewmaster.js"></script>
