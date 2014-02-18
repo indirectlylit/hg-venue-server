@@ -21,10 +21,10 @@ $(function() {
   /*************/
 
   app.dom = {
-    statsTable        : $('.js-dataTable'),
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connection-state'),
-    serverstats       : $('.js-serverstats')
+    serverstats       : $('.js-serverStats'),
+    sensorstats       : $('.js-sensorStats')
   };
 
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
@@ -35,22 +35,47 @@ $(function() {
   /*********************/
   app.websocket.on('sensorStats', function(newStats) {
 
-    // update cumulative stats to include any new addresses and information
-    _(newStats).forIn(function (nodeStats, address) {
-      if (!app.cumulativeStats[address]) {
-        app.cumulativeStats[address] = {dropped:0, shuffled:0};
-      }
-      // console.log(nodeStats);
-      // app.cumulativeStats[address].dropped += nodeStats.dropped;
-    });
+    app.clientAddresses = _.union(app.clientAddresses, _.keys(newStats)).sort();
+    console.log(app.clientAddresses);
 
-    // update HTML
-    var htmlTableRows = [];
-    _(app.cumulativeStats).keys().sort().each(function (address) {
-      htmlTableRows.push(app.utils.genSensorTableRow(address, newStats[address]));
+    var tableRows = _.map(app.clientAddresses, function (address) {
+      var stats = newStats[address];
+      row = {address: address};
+
+      if (stats) { // we have new data
+        if (_.has(stats, 'max_rate')) {
+          row.max_rate = stats.max_rate > 1e4 ? "max" : stats.max_rate.toFixed(1);
+        }
+        else {
+          row.max_rate = '?';
+        }
+        row.message_rate =  _.has(stats, 'message_rate') ?
+                                  stats.message_rate.toFixed(1) : '?';
+        row.drop_rate =     _.has(stats, 'drop_rate') ?
+                                  stats.drop_rate.toFixed(1) : '?';
+        row.avg_size =      _.has(stats, 'avg_size') ?
+                                  stats.avg_size.toFixed(1) : '?';
+        row.data_rate =     _.has(stats, 'data_rate') ?
+                                  (stats.data_rate/1024).toFixed(2) : '?';
+        row.connected =     true;
+      }
+      else { // no data received from this address
+        row.address =      address;
+        row.max_rate =     "";
+        row.message_rate = 0;
+        row.drop_rate =    "";
+        row.avg_size =     "";
+        row.data_rate =    (0).toFixed(2);
+        row.connected =    false;
+      }
+      return row;
     });
-    app.dom.statsTable.html(htmlTableRows.join('\n'));
+    app.dom.sensorstats.html(app.utils.render('sensorstats', {tableRows: tableRows}));
   });
+
+  // pre-render
+  app.dom.sensorstats.html(app.utils.render('sensorstats', []));
+
 
 
   /*********************/
@@ -110,8 +135,7 @@ $(function() {
   });
 
 
-
-  app.cumulativeStats = {};
+  app.clientAddresses = [];
   app.websocket.start();
 
 });
