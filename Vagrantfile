@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
 	config.vm.provision :shell, :inline => "npm install -g supervisor bunyan"
 
 	# install fish and make it the default shell
-	config.vm.provision :shell, :inline => "apt-get install fish"
+	config.vm.provision :shell, :inline => "apt-get -y install fish"
 	config.vm.provision :shell, :inline => "usermod -s /usr/bin/fish vagrant"
 
 
