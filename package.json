@@ -11,6 +11,7 @@
     "npm": ">= 1.3.21"
   },
   "dependencies": {
+    "node-dir": "0.1.x",
     "async": "0.2.x",
     "bunyan": "0.22.x",
     "express": "3.4.x",

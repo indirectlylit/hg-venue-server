@@ -2,6 +2,11 @@
   "name": "venue_server",
   "version": "0.0.3",
   "dependencies": {
+    "node-dir": {
+      "version": "0.1.5",
+      "from": "node-dir@",
+      "resolved": "https://registry.npmjs.org/node-dir/-/node-dir-0.1.5.tgz"
+    },
     "async": {
       "version": "0.2.10",
       "from": "async@"
