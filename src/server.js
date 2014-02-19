@@ -116,7 +116,7 @@ setInterval(function() {
 
     // find message rate
     var stats = {};
-    stats['message_rate'] = 1000*1.0*data.length/settings.client_update_period;
+    stats['message_rate'] = 1000*1.0*data.length/settings.get('client_update_period');
 
 
     // find average message size and max data rate
@@ -132,7 +132,7 @@ setInterval(function() {
     // prevent divide-by-zero issue
     minInterval = minInterval === 0 ? 1e-9 : minInterval;
     stats['max_rate'] = 1e6 / minInterval; // interval in microseconds to Hz
-    stats['data_rate'] = 1000*1.0*totalBytes/settings.client_update_period;
+    stats['data_rate'] = 1000*1.0*totalBytes/settings.get('client_update_period');
     stats['avg_size'] = totalBytes/data.length;
 
 
@@ -146,7 +146,7 @@ setInterval(function() {
           dropped += counterList[i] - counterList[i-1];
         }
     }
-    stats['drop_rate'] = 1000*(dropped/settings.client_update_period);
+    stats['drop_rate'] = 1000*(dropped/settings.get('client_update_period'));
 
     windowOfStats[key] = stats;
   });
@@ -156,7 +156,7 @@ setInterval(function() {
   }
   dataBuffer = {};
 
-}, settings.client_update_period);
+}, settings.get('client_update_period'));
 
 
 
