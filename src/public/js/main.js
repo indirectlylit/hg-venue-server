@@ -37,7 +37,6 @@ $(function() {
   app.websocket.on('sensorStats', function(newStats) {
 
     app.clientAddresses = _.union(app.clientAddresses, _.keys(newStats)).sort();
-    console.log(app.clientAddresses);
 
     var tableRows = _.map(app.clientAddresses, function (address) {
       var stats = newStats[address];
