@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="css/vendor/jquery.pnotify.default.css">
+    <link rel="stylesheet" href="css/vendor/jquery.pnotify.default.icons.css">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
@@ -50,6 +52,7 @@
     <script src="/js/vendor/sockjs-0.3.4.js"></script>
     <script src="/js/vendor/bootstrap.js"></script>
     <script src="/js/vendor/bootstrap-lightbox.js"></script>
+    <script src="/js/vendor/jquery.pnotify.js"></script>
 
     <!-- models -->
     <script src="/js/models/settings.js"></script>
