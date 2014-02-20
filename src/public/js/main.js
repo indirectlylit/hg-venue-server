@@ -23,7 +23,12 @@ $(function() {
     sensorStats       : $('.js-sensorStats')
   };
 
+  // configure bootstrap tooltips
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
+
+  // configure notifications
+  $.pnotify.defaults.styling = "bootstrap3";
+  $.pnotify.defaults.history = false;
 
   // pre-render
   app.dom.logList.html(app.utils.render('logList', []));
