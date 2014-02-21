@@ -19,37 +19,33 @@ var webServer = require("./webServer");
 
 
 
-var dataLog = null;
-var statsLog = null;
 
-var DATA_DIR = path.join(os.tmpdir(), "venue_server_data");
+webServer.route('get', '/settings/:key', function(req, res) {
+  res.send(JSON.stringify(settings.get(req.params.key)));
+});
 
-var startLogging = function() {
-  console.log("START LOGGING");
-  var isodate = new Date().toISOString();
-  dataLog = fs.createWriteStream(path.join(os.tmpdir(), "venue_server_data", isodate+"-data.log"));
-  statsLog = fs.createWriteStream(path.join(os.tmpdir(), "venue_server_data", isodate+"-stats.log"));
-};
+webServer.route('get', '/settings', function(req, res) {
+  res.send(JSON.stringify(settings.get()));
+});
 
-var stopLogging = function() {
-  console.log("STOP LOGGING");
-  dataLog.end();
-  dataLog = null;
-  statsLog.end();
-  statsLog = null;
-};
+webServer.route('get', '/settings-reset', function(req, res) {
+  settings.reset(function(err) {
+    if (err) throw("Could not reset: " + err);
+    res.send(JSON.stringify(settings.get()));
+  });
+});
 
-// startLogging();
+webServer.route('put', '/settings/:key', function(req, res) {
+  console.log(req.params.key, req.body.value);
+  settings.set(req.params.key, req.body.value, function(err) {
+    if (err) throw("Could not set: " + err);
+    res.send(JSON.stringify(settings.get()));
+  });
+});
 
-webServer.startLogging = startLogging;
-webServer.stopLogging = stopLogging;
-
-
-var errLog = fs.createWriteStream("./errors.log");
 
 
 var dataBuffer = {};
-
 
 function handleIncomingData(message, address) {
   var isodate = new Date().toISOString();
@@ -60,7 +56,6 @@ function handleIncomingData(message, address) {
   } catch(e) {
     err = isodate + "\t" + address + "\t" + message + '\n';
     console.log("Not JSON:\t"+err);
-    errLog.write(err);
     return;
   }
 
@@ -86,9 +81,9 @@ function handleIncomingData(message, address) {
   dataBuffer[address].push(data);
 
   var line = JSON.stringify(data);
-  if (dataLog) {
-    dataLog.write(line + '\n');
-  }
+  // if (dataLog) {
+  //   dataLog.write(line + '\n');
+  // }
 }
 
 
@@ -151,9 +146,9 @@ setInterval(function() {
     windowOfStats[key] = stats;
   });
   webServer.writeToWebSockets('sensorStats', windowOfStats);
-  if (statsLog) {
-    statsLog.write(JSON.stringify(windowOfStats) + '\n');
-  }
+  // if (statsLog) {
+  //   statsLog.write(JSON.stringify(windowOfStats) + '\n');
+  // }
   dataBuffer = {};
 
 }, settings.get('client_update_period'));
@@ -164,9 +159,9 @@ setInterval(function() {
 setInterval(function() {
   var stats = serverStats.getStats();
   webServer.writeToWebSockets('serverStats', stats);
-  if (statsLog) {
-    statsLog.write(JSON.stringify(stats) + '\n');
-  }
+  // if (statsLog) {
+  //   statsLog.write(JSON.stringify(stats) + '\n');
+  // }
 }, 1000);
 
 

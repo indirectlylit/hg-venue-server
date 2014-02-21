@@ -60,21 +60,13 @@ expressApp.configure(function(){
   expressApp.set('port', process.env.PORT || 8080);
   expressApp.set('views', __dirname + '/views');
   expressApp.set('view engine', 'hjs');
-  expressApp.use(express.logger('dev'));
-  expressApp.use(express.bodyParser());
+  expressApp.use(express.logger());
+  expressApp.use(express.json());
   expressApp.use(express.methodOverride());
   expressApp.use(expressApp.router);
-  expressApp.use(require('less-middleware')({
-      src: path.join(__dirname, 'public', 'css'),
-      dest: path.join(process.env['HOME'], 'generated_files')
-    }));
   expressApp.use(express.static(path.join(__dirname, 'public')));
-  expressApp.use(express.static(path.join(process.env['HOME'], 'generated_files')));
 });
 
-expressApp.configure('development', function() {
-  expressApp.use(express.errorHandler());
-});
 
 expressApp.get('/', function(req, res){
   // loads up all the client-side templates and embeds them in the main page
@@ -120,22 +112,10 @@ expressApp.get('/', function(req, res){
   );
 });
 
-expressApp.get('/start', function(req, res){
-  if (exports.startLogging) {
-    exports.startLogging();
-  }
-  res.send('starting');
-});
-
-expressApp.get('/stop', function(req, res){
-  if (exports.stopLogging) {
-    exports.stopLogging();
-  }
-  res.send('stopping');
-});
-
-exports.startLogging = null;
-exports.stopLogging = null;
+exports.route = function(verb, url, handler) {
+  // handler takes request and response objects
+  expressApp[verb](url, handler);
+};
 
 http.createServer(expressApp).listen(expressApp.get('port'), function(){
   console.log("Web server listening on port " + expressApp.get('port'));

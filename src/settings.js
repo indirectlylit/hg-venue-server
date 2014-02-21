@@ -9,7 +9,7 @@ var path = require('path');
 var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
 
 defaults = {
-  custom_log_directory : null,
+  log_file_name : '',
   client_update_period : 1000, // ms
 };
 
@@ -26,10 +26,19 @@ catch (e) {
 
 
 exports.get = function(key) {
+  if (key === undefined) {
+    return settings;
+  }
+  if (!_.has(settings, key)) {
+    throw("'" + key + "' is not a setting.");
+  }
   return settings[key];
 };
 
 exports.set = function(key, value, callback) {
+  if (!_.has(settings, key)) {
+    throw("'" + key + "' is not a setting.");
+  }
   settings[key] = value;
   fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
 };
