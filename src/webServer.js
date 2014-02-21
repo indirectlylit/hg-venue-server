@@ -68,8 +68,8 @@ expressApp.configure(function(){
 });
 
 
-expressApp.get('/', function(req, res){
-  // loads up all the client-side templates and embeds them in the main page
+// loads up all the client-side templates
+var _loadClientTemplates = function(callback) {
   var cwd = process.cwd();
   var templatesDir = path.join(cwd, 'templates');
   async.waterfall(
@@ -91,26 +91,32 @@ expressApp.get('/', function(req, res){
         // important: IDs and pre-compiled client-side templates
         async.map(
           allMetaData,
-          function (metaData, inner_callback) {
+          function (metaData, callback) {
             fs.readFile(metaData['file'], 'utf8', function(err, contents) {
               // a list of these objects gets passed to index.hjs
               var data = {
                 id: metaData['id'],
                 contents: contents
               };
-              inner_callback(err, data);
+              callback(err, data);
             });
           },
           callback
         );
       }
     ],
-    // render the index with all templates embedded
-    function(err, templateData) {
-      res.render('index', { templateData: templateData});
-    }
+    callback
   );
+};
+
+
+expressApp.get('/', function(req, res){
+  // render the index with all templates embedded
+  _loadClientTemplates(function(err, templateData) {
+    res.render('index', { templateData: templateData});
+  });
 });
+
 
 exports.route = function(verb, url, handler) {
   // handler takes request and response objects
