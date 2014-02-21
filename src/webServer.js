@@ -72,39 +72,40 @@ expressApp.configure(function(){
 var _loadClientTemplates = function(callback) {
   var cwd = process.cwd();
   var templatesDir = path.join(cwd, 'templates');
-  async.waterfall(
-    [
-      // find all possible templates
-      function(callback) {
-        dir.files('templates', callback);
-      },
-      // load contents of all templates and assign them IDs
-      function(names, callback) {
-        names = _.filter(names, function(name) {return path.extname(name) === '.html';});
-        var allMetaData = _.map(names, function(name) {
-          return {
-            'file': path.join(cwd, name),
-            'id':   name.slice(0, -5).replace(/\//g, '-')
-          };
-        });
-        // maps the list of meta-data to a list of data
-        // important: IDs and pre-compiled client-side templates
-        async.map(
-          allMetaData,
-          function (metaData, callback) {
-            fs.readFile(metaData['file'], 'utf8', function(err, contents) {
-              // a list of these objects gets passed to index.hjs
-              var data = {
-                id: metaData['id'],
-                contents: contents
-              };
-              callback(err, data);
-            });
-          },
-          callback
-        );
-      }
-    ],
+  async.waterfall([
+
+    // find all possible templates
+    function(callback) {
+      dir.files('templates', callback);
+    },
+
+    // load contents of all templates and assign them IDs
+    function(names, callback) {
+      names = _.filter(names, function(name) {return path.extname(name) === '.html';});
+      var allMetaData = _.map(names, function(name) {
+        return {
+          'file': path.join(cwd, name),
+          'id':   name.slice(0, -5).replace(/\//g, '-')
+        };
+      });
+      // maps the list of meta-data to a list of data
+      // important: IDs and pre-compiled client-side templates
+      async.map(
+        allMetaData,
+        function (metaData, callback) {
+          fs.readFile(metaData['file'], 'utf8', function(err, contents) {
+            // a list of these objects gets passed to index.hjs
+            var data = {
+              id: metaData['id'],
+              contents: contents
+            };
+            callback(err, data);
+          });
+        },
+        callback
+      );
+    }],
+
     callback
   );
 };
