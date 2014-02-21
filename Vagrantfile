@@ -43,7 +43,11 @@ Vagrant.configure("2") do |config|
 	config.vm.provision :shell, :inline => "apt-get -y install fish"
 	config.vm.provision :shell, :inline => "usermod -s /usr/bin/fish vagrant"
 
+	# make gpio an executable command
+	config.vm.provision :shell, :inline => "chmod +x /vagrant/gpio_emulator.py"
+	config.vm.provision :shell, :inline => "ln -sf /vagrant/gpio_emulator.py /usr/local/bin/gpio"
 
+	# forwarded ports
 	config.vm.network :forwarded_port, :host => 8080, :guest => 8080
 	config.vm.network :forwarded_port, :host => 8081, :guest => 8081
 	config.vm.network :forwarded_port, :host => 6379, :guest => 6379
