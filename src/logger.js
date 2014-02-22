@@ -22,8 +22,8 @@ var EXTERNAL = "/media/usbhdd";
 var rootDir = fs.existsSync(EXTERNAL) ? EXTERNAL : os.tmpdir();
 var dataDir = path.join(rootDir, "data");
 
-if (!fs.existsSync(rootDir)) {
-  fs.mkdirSync(rootDir);
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir);
 }
 
 
