@@ -27,7 +27,7 @@ if (!fs.existsSync(dataDir)) {
 }
 
 
-var tempFileName = path.join(rootDir, "tempdata.log");
+var tempFileName = path.join(rootDir, "tempdata.txt");
 var fileStream = null;
 var startTime = null;
 var stopTime = null;
@@ -80,7 +80,7 @@ exports.startLogging = function(callback) {
   if (fileStream) {
     return callback("Already logging.");
   }
-  fs.exists(tempFileName, function(err, exists) {
+  fs.exists(tempFileName, function(exists) {
     if (exists) {
       return callback("Already exists");
     }
@@ -106,9 +106,9 @@ exports.reset = function(callback) {
   if (fileStream) {
     return callback("Currently logging.");
   }
-  fs.exists(tempFileName, function(err, exists) {
+  fs.exists(tempFileName, function(exists) {
     if (!exists) {
-      return callback("Nothing to reset");
+      return callback("Nothing to reset "+tempFileName);
     }
     startTime = null;
     stopTime = null;
@@ -120,7 +120,7 @@ exports.saveAs = function(name, callback) {
   if (fileStream) {
     return callback("currently logging");
   }
-  fs.exists(tempFileName, function(err, exists) {
+  fs.exists(tempFileName, function(exists) {
     if (!exists) {
       return callback("No data written");
     }
@@ -131,10 +131,8 @@ exports.saveAs = function(name, callback) {
 };
 
 exports.state = function(callback) {
-  fs.exists(tempFileName, function(err, exists) {
-    if (err) {
-      return callback(err);
-    }
+  // Note for future explorers: 'fs.exists' may cause race conditions. see Node docs.
+  fs.exists(tempFileName, function(exists) {
     // reset state
     if (!exists) {
       return callback(null, {
@@ -167,12 +165,12 @@ exports.state = function(callback) {
   });
 };
 
-exports.log = function(data, callback) {
+exports.write = function(data) {
   if (fileStream) {
-    fileStream.write(JSON.stringify(data), callback);
-  }
-  else {
-    callback("not currently logging");
+    var ok = fileStream.write(JSON.stringify(data)+'\n');
+    if (!ok) {
+      console.log("slow down please!");
+    }
   }
 };
 
