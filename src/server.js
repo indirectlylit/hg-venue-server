@@ -12,11 +12,13 @@ var os = require('os');
 var path = require('path');
 
 
-var app_settings = require("./settings");
-var app_serverStats = require("./serverStats");
-var app_logger = require("./logger");
-var app_web = require("./web");
-var app_gpio = require("./gpio");
+var app_settings = require("./app.settings");
+var app_serverStats = require("./app.serverStats");
+var app_logger = require("./app.logger");
+var app_web = require("./app.web");
+var app_gpio = require("./app.gpio");
+var app_udpServer = require("./app.udpServer").udpServer;
+var app_serialServer = require("./app.serialServer").serialServer;
 
 
 var dataBuffer = {};
@@ -59,16 +61,12 @@ function handleIncomingData(message, address) {
 
 
 
-var udpServer = require("./udpServer").udpServer;
-
-udpServer.on("message", function (msg, rinfo) {
+app_udpServer.on("message", function (msg, rinfo) {
   handleIncomingData(msg.toString(), rinfo.address);
 });
 
 
-var serialServer = require("./serialServer").serialServer;
-
-serialServer.on("data", function(data) {
+app_serialServer.on("data", function(data) {
   handleIncomingData(data.toString(), "serial port");
 });
 

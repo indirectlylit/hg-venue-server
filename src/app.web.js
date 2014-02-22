@@ -18,9 +18,6 @@ var async = require('async');
 var fs = require('fs');
 
 
-var logger = require('./logger');
-
-
 var webSockets = [];
 
 var sockjsServer = sockjs.createServer();
@@ -125,4 +122,4 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
 
 
 // set up routes
-require("./web.routes.js");
+require("./app.web.routes.js");
