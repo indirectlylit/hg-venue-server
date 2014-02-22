@@ -38,7 +38,7 @@ httpStreamServer.listen(8081, function(){
 });
 
 
-exports.writeToWebSockets = function(msgType, object) {
+module.exports.writeToWebSockets = function(msgType, object) {
   var msg = {type:msgType, msg:object};
   var line = JSON.stringify(msg);
   for (var i = 0; i < webSockets.length; i++) {
@@ -67,7 +67,7 @@ expressApp.configure(function(){
 
 
 // loads up all the client-side templates
-exports.loadClientTemplates = function(callback) {
+module.exports.loadClientTemplates = function(callback) {
   var cwd = process.cwd();
   var templatesDir = path.join(cwd, 'templates');
   async.waterfall([
@@ -109,7 +109,7 @@ exports.loadClientTemplates = function(callback) {
 };
 
 
-exports.route = function(verb, url, handler) {
+module.exports.route = function(verb, url, handler) {
   // handler takes request and response objects
   expressApp[verb](url, handler);
 };

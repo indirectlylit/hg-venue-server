@@ -26,7 +26,7 @@ catch (e) {
 }
 
 
-exports.get = function(key) {
+module.exports.get = function(key) {
   if (key === undefined) {
     return settings;
   }
@@ -36,7 +36,7 @@ exports.get = function(key) {
   return settings[key];
 };
 
-exports.set = function(key, value, callback) {
+module.exports.set = function(key, value, callback) {
   if (!_.has(settings, key)) {
     throw("'" + key + "' is not a setting.");
   }
@@ -44,7 +44,7 @@ exports.set = function(key, value, callback) {
   fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
 };
 
-exports.reset = function(callback) {
+module.exports.reset = function(callback) {
   settings = _.clone(defaults);
   fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
 };

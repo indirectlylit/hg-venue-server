@@ -44,7 +44,7 @@ var recordingTime = function() {
   return startTime - stopTime;
 };
 
-exports.getFileInfo = function(callback) {
+module.exports.getFileInfo = function(callback) {
   fs.readdir(dataDir, function(err, fileNames) {
     if (err) {
       console.log("Could not list files:", err);
@@ -74,9 +74,9 @@ exports.getFileInfo = function(callback) {
 };
 
 
-exports.rootDir = rootDir;
+module.exports.rootDir = rootDir;
 
-exports.startLogging = function(callback) {
+module.exports.startLogging = function(callback) {
   if (fileStream) {
     return callback("Already logging.");
   }
@@ -91,7 +91,7 @@ exports.startLogging = function(callback) {
   });
 };
 
-exports.stopLogging = function(callback) {
+module.exports.stopLogging = function(callback) {
   if (!fileStream) {
     return callback("Not logging.");
   }
@@ -102,7 +102,7 @@ exports.stopLogging = function(callback) {
   });
 };
 
-exports.reset = function(callback) {
+module.exports.reset = function(callback) {
   if (fileStream) {
     return callback("Currently logging.");
   }
@@ -116,7 +116,7 @@ exports.reset = function(callback) {
   });
 };
 
-exports.saveAs = function(name, callback) {
+module.exports.saveAs = function(name, callback) {
   if (fileStream) {
     return callback("currently logging");
   }
@@ -130,7 +130,7 @@ exports.saveAs = function(name, callback) {
   });
 };
 
-exports.state = function(callback) {
+module.exports.state = function(callback) {
   // Note for future explorers: 'fs.exists' may cause race conditions. see Node docs.
   fs.exists(tempFileName, function(exists) {
     // reset state
@@ -165,7 +165,7 @@ exports.state = function(callback) {
   });
 };
 
-exports.write = function(data) {
+module.exports.write = function(data) {
   if (fileStream) {
     var ok = fileStream.write(JSON.stringify(data)+'\n');
     if (!ok) {

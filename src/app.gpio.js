@@ -45,8 +45,8 @@ setInterval(function() {
 }, 2000);
 
 
-exports.outputSquareWave = function(state) {
+module.exports.outputSquareWave = function(state) {
   generateWave = state;
 };
 
-exports.wave = eventEmitter;
+module.exports.wave = eventEmitter;

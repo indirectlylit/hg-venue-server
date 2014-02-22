@@ -46,7 +46,7 @@ setInterval(function() {
 
 
 // server stats
-exports.getStats = function() {
+module.exports.getStats = function() {
   var now = new Date();
   return _.merge(stats, {
     freemem : (os.freemem()/Math.pow(2, 10)).toFixed(0),      // KB
