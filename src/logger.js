@@ -29,7 +29,20 @@ if (!fs.existsSync(rootDir)) {
 
 var tempFileName = path.join(rootDir, "tempdata.log");
 var fileStream = null;
+var startTime = null;
+var stopTime = null;
 
+
+var recordingTime = function() {
+  if (!startTime) {
+    return 0;
+  }
+  if (startTime && !stopTime) {
+    var now = new Date();
+    return startTime - now;
+  }
+  return startTime - stopTime;
+};
 
 exports.getFileInfo = function(callback) {
   fs.readdir(dataDir, function(err, fileNames) {
@@ -72,7 +85,9 @@ exports.startLogging = function(callback) {
       return callback("Already exists");
     }
     fileStream = fs.createWriteStream(tempFileName);
-    callback(null, fileStream);
+    startTime = new Date();
+    stopTime = null;
+    callback(null);
   });
 };
 
@@ -82,6 +97,7 @@ exports.stopLogging = function(callback) {
   }
   fileStream.end(function(err){
     fileStream = null;
+    stopTime = new Date();
     callback();
   });
 };
@@ -94,6 +110,8 @@ exports.reset = function(callback) {
     if (!exists) {
       return callback("Nothing to reset");
     }
+    startTime = null;
+    stopTime = null;
     fs.unlink(tempFileName, callback);
   });
 };
@@ -106,7 +124,46 @@ exports.saveAs = function(name, callback) {
     if (!exists) {
       return callback("No data written");
     }
-    fs.rename(tempFileName, path.join(dataDir, name), callback);
+    startTime = null;
+    stopTime = null;
+    fs.rename(tempFileName, path.join(dataDir, encodeURI(name)), callback);
+  });
+};
+
+exports.state = function(callback) {
+  fs.exists(tempFileName, function(err, exists) {
+    if (err) {
+      return callback(err);
+    }
+    // reset state
+    if (!exists) {
+      return callback(null, {
+        'exists' : false,
+        'recording' : false,
+        'time' : 0,
+        'bytes': 0
+      });
+    }
+    // currently recording
+    else if (fileStream) {
+      return callback(null, {
+        'exists' : true,
+        'recording' : true,
+        'time' : recordingTime(),
+        'bytes': fileStream.bytesWritten
+      });
+    }
+    // temp file written
+    else {
+      fs.stat(tempFileName, function(err, stats) {
+        callback(null, {
+          'exists' : true,
+          'recording' : false,
+          'time' : recordingTime(),
+          'bytes': stats.size
+        });
+      });
+    }
   });
 };
 
