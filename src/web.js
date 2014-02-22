@@ -12,11 +12,13 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var sockjs = require('sockjs');
-var logger = require('./logger');
 var _ = require('lodash');
 var dir = require('node-dir');
 var async = require('async');
 var fs = require('fs');
+
+
+var logger = require('./logger');
 
 
 var webSockets = [];
