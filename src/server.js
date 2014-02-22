@@ -13,7 +13,7 @@ var path = require('path');
 
 
 var app_settings = require("./settings");
-var serverStats = require("./serverStats");
+var app_serverStats = require("./serverStats");
 var app_logger = require("./logger");
 var app_web = require("./web");
 var gpio = require("./gpio");
@@ -124,7 +124,7 @@ setInterval(function() {
 
 // server stats
 setInterval(function() {
-  var stats = serverStats.getStats();
+  var stats = app_serverStats.getStats();
   app_web.writeToWebSockets('serverStats', stats);
   app_logger.write(stats);
 }, 1000);
