@@ -12,7 +12,7 @@ var os = require('os');
 var path = require('path');
 
 
-var settings = require("./settings");
+var app_settings = require("./settings");
 var serverStats = require("./serverStats");
 var logger = require("./logger");
 var app_web = require("./web");
@@ -82,7 +82,7 @@ setInterval(function() {
 
     // find message rate
     var stats = {};
-    stats['message_rate'] = 1000*1.0*data.length/settings.get('client_update_period');
+    stats['message_rate'] = 1000*1.0*data.length/app_settings.get('client_update_period');
 
 
     // find average message size and max data rate
@@ -98,7 +98,7 @@ setInterval(function() {
     // prevent divide-by-zero issue
     minInterval = minInterval === 0 ? 1e-9 : minInterval;
     stats['max_rate'] = 1e6 / minInterval; // interval in microseconds to Hz
-    stats['data_rate'] = 1000*1.0*totalBytes/settings.get('client_update_period');
+    stats['data_rate'] = 1000*1.0*totalBytes/app_settings.get('client_update_period');
     stats['avg_size'] = totalBytes/data.length;
 
 
@@ -112,13 +112,13 @@ setInterval(function() {
           dropped += counterList[i] - counterList[i-1];
         }
     }
-    stats['drop_rate'] = 1000*(dropped/settings.get('client_update_period'));
+    stats['drop_rate'] = 1000*(dropped/app_settings.get('client_update_period'));
 
     windowOfStats[key] = stats;
   });
   app_web.writeToWebSockets('sensorStats', windowOfStats);
   dataBuffer = {};
-}, settings.get('client_update_period'));
+}, app_settings.get('client_update_period'));
 
 
 
@@ -135,4 +135,4 @@ gpio.wave.on('edge', function(state) {
   console.log("EDGE", state);
 });
 
-gpio.outputSquareWave(settings.get('outputSquareWave'));
+gpio.outputSquareWave(app_settings.get('outputSquareWave'));

@@ -7,7 +7,7 @@
 
 var _ = require('lodash');
 
-var settings = require("./settings");
+var app_settings = require("./settings");
 var logger = require("./logger");
 var app_web = require("./web");
 
@@ -38,11 +38,11 @@ app_web.route('get', '/', function(req, res) {
 });
 
 app_web.route('get', '/settings/:key', function(req, res) {
-  res.json(settings.get(req.params.key));
+  res.json(app_settings.get(req.params.key));
 });
 
 app_web.route('get', '/settings', function(req, res) {
-  res.json(settings.get());
+  res.json(app_settings.get());
 });
 
 app_web.route('get', '/settings-reset', function(req, res) {
@@ -50,7 +50,7 @@ app_web.route('get', '/settings-reset', function(req, res) {
     if (err) {
       return res.json(500, err);
     }
-    res.json(settings.get());
+    res.json(app_settings.get());
   });
 });
 
@@ -58,7 +58,7 @@ app_web.route('put', '/settings/:key', function(req, res) {
   console.log(req.params.key, req.body.value);
   settings.set(req.params.key, req.body.value, function(err) {
     if (err) throw("Could not set: " + err);
-    res.json(settings.get());
+    res.json(app_settings.get());
   });
 });
 
