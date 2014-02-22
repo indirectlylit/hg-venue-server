@@ -7,51 +7,59 @@
  * All rights reserved
  */
 
+process.env.TZ = 'America/New_York';
 
 var _ = require('lodash');
 var os = require('os');
 var fs = require('fs');
 var path = require('path');
+var async = require('async');
 var events = require('events');
 
 
-exports.dirwatch = new events.EventEmitter();
+var EXTERNAL = "/media/usbhdd";
 
+var rootDir = fs.existsSync(EXTERNAL) ? EXTERNAL : os.tmpdir();
+var dataDir = path.join(rootDir, "data");
 
-var TEMP_FILE = path.join(os.tmpdir(), "venue_server_data-tmp.txt");
-var DATA_DIR = path.join(os.tmpdir(), "venue_server_data");
-
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR);
+if (!fs.existsSync(rootDir)) {
+  fs.mkdirSync(rootDir);
 }
 
 
-var tempLog = fs.createWriteStream(TEMP_FILE);
+var tempFileName = path.join(rootDir, "tempdata.log");
 
-var hasData = false;
 
-var refreshDirs = function () {
-  fs.readdir(DATA_DIR, function(err, files) {
+
+exports.getFileInfo = function(callback) {
+  fs.readdir(dataDir, function(err, fileNames) {
     if (err) {
       console.log("Could not list files:", err);
-      return;
+      callback(err);
     }
-    fileData = [];
-    _.each(files, function(fileName) {
-      stats = fs.statSync(path.join(DATA_DIR, fileName));
-      fileData.push({
-        name: fileName,
-        size: stats.size,
-        ctime: stats.ctime.getTime()
-      });
-    });
-    exports.dirwatch.emit('change', _.sortBy(fileData, 'mtime'));
+
+    // maps the list of filenames to a list of data
+    // important: IDs and pre-compiled client-side templates
+    async.map(
+      fileNames,
+      function (fName, callback) {
+        fs.stat(path.join(dataDir, fName), function(err, stats){
+          callback(err, {
+            name: fName,
+            size: stats.size,
+            time: new Date(stats.ctime.getTime())
+          });
+        });
+      },
+
+      function(err, fileStats) {
+        callback(err, fileStats);
+      }
+    );
+
   });
 };
 
-// fs.watch(DATA_DIR, refreshDirs);
 
-
-
-exports.triggerRefresh = refreshDirs;
+exports.rootDir = rootDir;
 

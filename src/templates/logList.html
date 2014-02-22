@@ -1,15 +1,23 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Saved Data</h3>
+    <h3 class="panel-title">Saved Data <small>(saved in {{location}})</small></h3>
   </div>
   <div class="panel-body">
     <table class="table table-condensed">
       <thead>
-        <td>Time</td>
-        <td>File Name</td>
-        <td>Size</td>
+        <td style="width:30%">Time</td>
+        <td style="width:60%">File Name</td>
+        <td class='text-right' style="width:10%">Size</td>
       </thead>
-      <tbody class="js-fileTable"></tbody>
+      <tbody class="js-fileTable">
+{{#fileInfo}}
+        <tr>
+          <td>{{ time }}</td>
+          <td>{{ name }}</td>
+          <td class='text-right'>{{ size }}</td>
+        </tr>
+{{/fileInfo}}
+      </tbody>
     </table>
   </div>
 </div> <!-- /panel -->

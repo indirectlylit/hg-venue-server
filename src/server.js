@@ -18,7 +18,25 @@ var logger = require("./logger");
 var webServer = require("./webServer");
 
 
+webServer.route('get', '/', function(req, res) {
+  // render the index with all templates embedded
+  webServer.loadClientTemplates(function(err, templateData) {
+    if (err) {
+      throw err;
+    }
 
+    logger.getFileInfo(function(err, info) {
+      if (err) {
+        throw err;
+      }
+      var initData = {
+        log_location: logger.rootDir,
+        log_info: info
+      };
+      res.render('index', { templateData: templateData, initData: JSON.stringify(initData)});
+    });
+  });
+});
 
 webServer.route('get', '/settings/:key', function(req, res) {
   res.send(JSON.stringify(settings.get(req.params.key)));
@@ -165,9 +183,10 @@ setInterval(function() {
 }, 1000);
 
 
-// logger & directory watcher
-logger.dirwatch.on('change', function(fileData){
-  webServer.writeToWebSockets('fileData', fileData);
-});
+// // logger & directory watcher
+// logger.dirwatch.on('change', function(fileData){
+//   webServer.writeToWebSockets('fileData', fileData);
+// });
+
 
 

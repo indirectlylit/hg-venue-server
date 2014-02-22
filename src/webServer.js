@@ -27,7 +27,6 @@ var httpStreamServer = http.createServer();
 sockjsServer.on('connection', function(conn) {
   webSockets.push(conn);
   console.log("sockjsServer connection: "+webSockets.length);
-  logger.triggerRefresh();
   conn.on('close', function(conn) {
     webSockets.pop(conn);
     console.log("sockjsServer connection close: "+webSockets.length);
@@ -69,7 +68,7 @@ expressApp.configure(function(){
 
 
 // loads up all the client-side templates
-var _loadClientTemplates = function(callback) {
+exports.loadClientTemplates = function(callback) {
   var cwd = process.cwd();
   var templatesDir = path.join(cwd, 'templates');
   async.waterfall([
@@ -109,14 +108,6 @@ var _loadClientTemplates = function(callback) {
     callback
   );
 };
-
-
-expressApp.get('/', function(req, res){
-  // render the index with all templates embedded
-  _loadClientTemplates(function(err, templateData) {
-    res.render('index', { templateData: templateData});
-  });
-});
 
 
 exports.route = function(verb, url, handler) {
