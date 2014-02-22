@@ -28,7 +28,7 @@ if (!fs.existsSync(rootDir)) {
 
 
 var tempFileName = path.join(rootDir, "tempdata.log");
-
+var fileStream = null;
 
 
 exports.getFileInfo = function(callback) {
@@ -62,4 +62,61 @@ exports.getFileInfo = function(callback) {
 
 
 exports.rootDir = rootDir;
+
+exports.startLogging = function(callback) {
+  if (fileStream) {
+    return callback("Already logging.");
+  }
+  fs.exists(tempFileName, function(err, exists) {
+    if (exists) {
+      return callback("Already exists");
+    }
+    fileStream = fs.createWriteStream(tempFileName);
+    callback(null, fileStream);
+  });
+};
+
+exports.stopLogging = function(callback) {
+  if (!fileStream) {
+    return callback("Not logging.");
+  }
+  fileStream.end(function(err){
+    fileStream = null;
+    callback();
+  });
+};
+
+exports.reset = function(callback) {
+  if (fileStream) {
+    return callback("Currently logging.");
+  }
+  fs.exists(tempFileName, function(err, exists) {
+    if (!exists) {
+      return callback("Nothing to reset");
+    }
+    fs.unlink(tempFileName, callback);
+  });
+};
+
+exports.saveAs = function(name, callback) {
+  if (fileStream) {
+    return callback("currently logging");
+  }
+  fs.exists(tempFileName, function(err, exists) {
+    if (!exists) {
+      return callback("No data written");
+    }
+    fs.rename(tempFileName, path.join(dataDir, name), callback);
+  });
+};
+
+exports.log = function(data, callback) {
+  if (fileStream) {
+    fileStream.write(JSON.stringify(data), callback);
+  }
+  else {
+    callback("not currently logging");
+  }
+};
+
 
