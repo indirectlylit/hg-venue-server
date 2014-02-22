@@ -18,6 +18,7 @@ var events = require('events');
 
 
 var EXTERNAL = "/media/usbhdd";
+// var EXTERNAL = "/vagrant";
 
 var rootDir = fs.existsSync(EXTERNAL) ? EXTERNAL : os.tmpdir();
 var dataDir = path.join(rootDir, "data");
