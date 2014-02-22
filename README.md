@@ -71,6 +71,17 @@ Once the machine is booted, make sure the latest code is installed, then run the
 
 This bootstrap script updates linux to the latest version, installs dependencies and libraries for the server, changes the hostname to `pedalpower-server` and ip to `10.0.0.10`. It will first test the network connection, then ask for a sudo password (should be the same as the pi password, `raspberry`). This takes a long time, and may look like its hanging, but just look for the 'OK' led on the board, which should be occasionally flashing green. The client software has this ip hard-coded, so if you change it be sure to change the config at the top of the `raspberrypi/bootstrap` script.
 
+### GPIO Support
+
+The Venue Server can output a square wave which is detected by the sensors. The round-trip time for the information to return helps us measure latency.
+
+GPIO support is not yet baked into the boostrap script above and must be installed manually. After SSHing into the Pi, run:
+
+    > git clone git://git.drogon.net/wiringPi && cd wiringPi
+    > ./build
+
+This will make the [gpio utility](http://wiringpi.com/the-gpio-utility/) available to the Venue Server.
+
 ## Developing locally, deploying on a Raspberry Pi
 
 When developing, just dirty copy over the folder and restart the daemon.
