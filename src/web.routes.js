@@ -8,7 +8,7 @@
 var _ = require('lodash');
 
 var app_settings = require("./settings");
-var logger = require("./logger");
+var app_logger = require("./logger");
 var app_web = require("./web");
 
 
@@ -18,16 +18,16 @@ app_web.route('get', '/', function(req, res) {
     if (err) {
       throw err;
     }
-    logger.getFileInfo(function(err, saved_file_info) {
+    app_logger.getFileInfo(function(err, saved_file_info) {
       if (err) {
         throw err;
       }
-      logger.state(function(err, recording_state) {
+      app_logger.state(function(err, recording_state) {
         if (err) {
           throw err;
         }
         var initData = {
-          log_location:     logger.rootDir,
+          log_location:     app_logger.rootDir,
           log_info:         saved_file_info,
           recording_state:  recording_state
         };
@@ -63,7 +63,7 @@ app_web.route('put', '/settings/:key', function(req, res) {
 });
 
 app_web.route('get', '/logger/start', function(req, res) {
-  logger.startLogging(function(err){
+  app_logger.startLogging(function(err){
     if (err) {
       return res.json(500, err);
     }
@@ -72,7 +72,7 @@ app_web.route('get', '/logger/start', function(req, res) {
 });
 
 app_web.route('get', '/logger/stop', function(req, res) {
-  logger.stopLogging(function(err){
+  app_logger.stopLogging(function(err){
     if (err) {
       return res.json(500, err);
     }
@@ -81,7 +81,7 @@ app_web.route('get', '/logger/stop', function(req, res) {
 });
 
 app_web.route('get', '/logger/reset', function(req, res) {
-  logger.reset(function(err){
+  app_logger.reset(function(err){
     if (err) {
       return res.json(500, err);
     }
@@ -90,11 +90,11 @@ app_web.route('get', '/logger/reset', function(req, res) {
 });
 
 app_web.route('get', '/logger/save_as/:name', function(req, res) {
-  logger.saveAs(req.params.name, function(err){
+  app_logger.saveAs(req.params.name, function(err){
     if (err) {
       return res.json(500, err);
     }
-    logger.getFileInfo(function(err, file_info) {
+    app_logger.getFileInfo(function(err, file_info) {
       res.json(file_info);
     });
   });

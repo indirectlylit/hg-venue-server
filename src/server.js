@@ -14,7 +14,7 @@ var path = require('path');
 
 var app_settings = require("./settings");
 var serverStats = require("./serverStats");
-var logger = require("./logger");
+var app_logger = require("./logger");
 var app_web = require("./web");
 var gpio = require("./gpio");
 
@@ -54,7 +54,7 @@ function handleIncomingData(message, address) {
 
   dataBuffer[address].push(data);
 
-  logger.write(data);
+  app_logger.write(data);
 }
 
 
@@ -126,7 +126,7 @@ setInterval(function() {
 setInterval(function() {
   var stats = serverStats.getStats();
   app_web.writeToWebSockets('serverStats', stats);
-  logger.write(stats);
+  app_logger.write(stats);
 }, 1000);
 
 
