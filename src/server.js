@@ -17,8 +17,8 @@ var app_serverStats = require("./app.serverStats");
 var app_logger = require("./app.logger");
 var app_web = require("./app.web");
 var app_gpio = require("./app.gpio");
-var app_udpServer = require("./app.udpServer").udpServer;
-var app_serialServer = require("./app.serialServer").serialServer;
+var app_udpServer = require("./app.udpServer");
+var app_serialServer = require("./app.serialServer");
 
 
 var dataBuffer = {};

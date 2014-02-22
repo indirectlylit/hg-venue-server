@@ -42,4 +42,4 @@ setInterval(function() {
 }, 1000);
 
 
-exports.serialServer = serialPortObject;
+module.exports = serialPortObject;

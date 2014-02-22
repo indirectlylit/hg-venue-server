@@ -2,7 +2,7 @@
 
 /**
  * UDP Listener
- * 
+ *
  * Devon Rueckner
  * The Human Grid
  * All rights reserved
@@ -22,5 +22,5 @@ udpServer.on("listening", function () {
 
 udpServer.bind(7777);
 
-exports.udpServer = udpServer;
+module.exports = udpServer;
 
