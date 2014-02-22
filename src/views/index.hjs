@@ -23,15 +23,17 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-4 js-serverStats"></div>
-        <div class="col-md-8 js-sensorStats"></div>
+        <div class="col-md-4">
+          <div class="panel panel-default js-serverStats"></div>
+          <div class="panel panel-default js-settings"></div>
+        </div>
+        <div class="col-md-8">
+          <div class="panel panel-default js-sensorStats"></div>
+        </div>
       </div> <!-- /row -->
       <div class="row">
         <div class="col-md-4 js-currentDataSet"></div>
         <div class="col-md-8 js-logList"></div>
-      </div> <!-- /row -->
-      <div class="row">
-        <div class="col-md-4 js-settings"></div>
       </div> <!-- /row -->
     </div> <!-- /container -->
 
