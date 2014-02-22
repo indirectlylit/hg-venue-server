@@ -16,7 +16,7 @@ var app_settings = require("./settings");
 var app_serverStats = require("./serverStats");
 var app_logger = require("./logger");
 var app_web = require("./web");
-var gpio = require("./gpio");
+var app_gpio = require("./gpio");
 
 
 var dataBuffer = {};
@@ -131,8 +131,8 @@ setInterval(function() {
 
 
 // square wave
-gpio.wave.on('edge', function(state) {
+app_gpio.wave.on('edge', function(state) {
   console.log("EDGE", state);
 });
 
-gpio.outputSquareWave(app_settings.get('outputSquareWave'));
+app_gpio.outputSquareWave(app_settings.get('outputSquareWave'));
