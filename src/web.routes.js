@@ -1,0 +1,102 @@
+
+
+// Devon Rueckner
+// The Human Grid
+// All Rights Reserved
+
+
+var _ = require('lodash');
+
+var settings = require("./settings");
+var logger = require("./logger");
+var app_web = require("./web");
+
+
+app_web.route('get', '/', function(req, res) {
+  // render the index with all templates embedded
+  app_web.loadClientTemplates(function(err, templateData) {
+    if (err) {
+      throw err;
+    }
+    logger.getFileInfo(function(err, saved_file_info) {
+      if (err) {
+        throw err;
+      }
+      logger.state(function(err, recording_state) {
+        if (err) {
+          throw err;
+        }
+        var initData = {
+          log_location:     logger.rootDir,
+          log_info:         saved_file_info,
+          recording_state:  recording_state
+        };
+        res.render('index', { templateData: templateData, initData: JSON.stringify(initData) });
+      });
+    });
+  });
+});
+
+app_web.route('get', '/settings/:key', function(req, res) {
+  res.json(settings.get(req.params.key));
+});
+
+app_web.route('get', '/settings', function(req, res) {
+  res.json(settings.get());
+});
+
+app_web.route('get', '/settings-reset', function(req, res) {
+  settings.reset(function(err) {
+    if (err) {
+      return res.json(500, err);
+    }
+    res.json(settings.get());
+  });
+});
+
+app_web.route('put', '/settings/:key', function(req, res) {
+  console.log(req.params.key, req.body.value);
+  settings.set(req.params.key, req.body.value, function(err) {
+    if (err) throw("Could not set: " + err);
+    res.json(settings.get());
+  });
+});
+
+app_web.route('get', '/logger/start', function(req, res) {
+  logger.startLogging(function(err){
+    if (err) {
+      return res.json(500, err);
+    }
+    res.json("OK");
+  });
+});
+
+app_web.route('get', '/logger/stop', function(req, res) {
+  logger.stopLogging(function(err){
+    if (err) {
+      return res.json(500, err);
+    }
+    res.json("OK");
+  });
+});
+
+app_web.route('get', '/logger/reset', function(req, res) {
+  logger.reset(function(err){
+    if (err) {
+      return res.json(500, err);
+    }
+    res.json("OK");
+  });
+});
+
+app_web.route('get', '/logger/save_as/:name', function(req, res) {
+  logger.saveAs(req.params.name, function(err){
+    if (err) {
+      return res.json(500, err);
+    }
+    logger.getFileInfo(function(err, file_info) {
+      res.json(file_info);
+    });
+  });
+});
+

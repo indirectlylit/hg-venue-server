@@ -119,3 +119,8 @@ http.createServer(expressApp).listen(expressApp.get('port'), function(){
   console.log("Web server listening on port " + expressApp.get('port'));
 });
 
+
+
+
+// set up routes
+require("./web.routes.js");
