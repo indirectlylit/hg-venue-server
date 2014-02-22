@@ -16,6 +16,7 @@ var settings = require("./settings");
 var serverStats = require("./serverStats");
 var logger = require("./logger");
 var webServer = require("./webServer");
+var gpio = require("./gpio");
 
 
 webServer.route('get', '/', function(req, res) {
@@ -218,5 +219,9 @@ setInterval(function() {
 }, 1000);
 
 
+// square wave
+gpio.wave.on('edge', function(state) {
+  console.log("EDGE", state);
+});
 
-
+gpio.outputSquareWave(settings.get('outputSquareWave'));

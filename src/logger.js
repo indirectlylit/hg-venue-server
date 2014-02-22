@@ -14,7 +14,6 @@ var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var async = require('async');
-var events = require('events');
 
 
 var EXTERNAL = "/media/usbhdd";

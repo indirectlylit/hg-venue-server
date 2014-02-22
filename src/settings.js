@@ -10,6 +10,7 @@ var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
 
 defaults = {
   log_file_name : '',
+  outputSquareWave : true,
   client_update_period : 1000, // ms
 };
 
