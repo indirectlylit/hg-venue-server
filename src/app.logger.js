@@ -5,9 +5,14 @@
  * Devon Rueckner
  * The Human Grid
  * All rights reserved
+ *
+ * !!!!!!!!!!!!!!!
+ * TODO: remove usage of 'fs.exists' which  may cause race conditions. see Node docs.
+ * !!!!!!!!!!!!!!!
  */
 
-process.env.TZ = 'America/New_York';
+
+//// EXTERNAL MODULES
 
 var _ = require('lodash');
 var async = require('async');
@@ -16,22 +21,44 @@ var os = require('os');
 var path = require('path');
 
 
-var EXTERNAL = "/media/usbhdd";
-// var EXTERNAL = "/vagrant";
+//// INTERNAL MODULES
 
-var rootDir = fs.existsSync(EXTERNAL) ? EXTERNAL : os.tmpdir();
-var dataDir = path.join(rootDir, "data");
-
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir);
-}
+var app_settings = require('./app.settings');
 
 
-var tempFileName = path.join(rootDir, "tempdata.txt");
-var fileStream = null;
-var startTime = null;
-var stopTime = null;
+//// LOCAL VARIABLES
 
+var isExternal;
+var rootDir;
+var fileStream;
+var startTime;
+var stopTime;
+
+
+//// LOCAL FUNCTIONS
+
+var dataDir = function() {
+  return path.join(rootDir, "data");
+};
+
+var tempFileName = function() {
+  return path.join(rootDir, "tempdata.txt");
+};
+
+var setExternalSync = function(external) {
+  var externalDir = _.find(["/media/usbhdd", "/vagrant"], fs.existsSync);
+  isExternal = external && externalDir;
+  if (isExternal) {
+    rootDir = externalDir;
+  }
+  else {
+    rootDir = os.tmpdir();
+  }
+  if (!fs.existsSync(dataDir())) {
+    fs.mkdirSync(dataDir());
+  }
+  return getLocationInfo();
+};
 
 var recordingTime = function() {
   if (!startTime) {
@@ -44,8 +71,8 @@ var recordingTime = function() {
   return startTime - stopTime;
 };
 
-module.exports.getFileInfo = function(callback) {
-  fs.readdir(dataDir, function(err, fileNames) {
+var getFileInfo = function(callback) {
+  fs.readdir(dataDir(), function(err, fileNames) {
     if (err) {
       console.log("Could not list files:", err);
       callback(err);
@@ -56,7 +83,7 @@ module.exports.getFileInfo = function(callback) {
     async.map(
       fileNames,
       function (fName, callback) {
-        fs.stat(path.join(dataDir, fName), function(err, stats){
+        fs.stat(path.join(dataDir(), fName), function(err, stats){
           callback(err, {
             name: fName,
             size: stats.size,
@@ -73,66 +100,74 @@ module.exports.getFileInfo = function(callback) {
   });
 };
 
+var getLocationInfo = function() {
+  return {
+    external: isExternal,
+    directory: rootDir
+  };
+};
 
-module.exports.rootDir = rootDir;
-
-module.exports.startLogging = function(callback) {
+var startLogging = function(callback) {
   if (fileStream) {
     return callback("Already logging.");
   }
-  fs.exists(tempFileName, function(exists) {
+  fs.exists(tempFileName(), function(exists) {
     if (exists) {
       return callback("Already exists");
     }
-    fileStream = fs.createWriteStream(tempFileName);
+    fileStream = fs.createWriteStream(tempFileName());
     startTime = new Date();
     stopTime = null;
-    callback(null);
+    getState(callback);
   });
 };
 
-module.exports.stopLogging = function(callback) {
+var stopLogging = function(callback) {
   if (!fileStream) {
     return callback("Not logging.");
   }
   fileStream.end(function(err){
     fileStream = null;
     stopTime = new Date();
-    callback();
+    getState(callback);
   });
 };
 
-module.exports.reset = function(callback) {
+var reset = function(callback) {
   if (fileStream) {
     return callback("Currently logging.");
   }
-  fs.exists(tempFileName, function(exists) {
+  fs.exists(tempFileName(), function(exists) {
     if (!exists) {
-      return callback("Nothing to reset "+tempFileName);
+      return callback("Nothing to reset "+tempFileName());
     }
     startTime = null;
     stopTime = null;
-    fs.unlink(tempFileName, callback);
+    fs.unlink(tempFileName(), function(err) {
+      if (err) {
+        callback(err);
+      }
+      getState(callback);
+    });
   });
 };
 
-module.exports.saveAs = function(name, callback) {
+var saveAs = function(name, callback) {
   if (fileStream) {
     return callback("currently logging");
   }
-  fs.exists(tempFileName, function(exists) {
+  fs.exists(tempFileName(), function(exists) {
     if (!exists) {
       return callback("No data written");
     }
     startTime = null;
     stopTime = null;
-    fs.rename(tempFileName, path.join(dataDir, encodeURI(name)), callback);
+    fs.rename(tempFileName(), path.join(dataDir(), encodeURI(name)), callback);
   });
 };
 
-module.exports.state = function(callback) {
-  // Note for future explorers: 'fs.exists' may cause race conditions. see Node docs.
-  fs.exists(tempFileName, function(exists) {
+var getState = function(callback) {
+  fs.exists(tempFileName(), function(exists) {
     // reset state
     if (!exists) {
       return callback(null, {
@@ -153,7 +188,7 @@ module.exports.state = function(callback) {
     }
     // temp file written
     else {
-      fs.stat(tempFileName, function(err, stats) {
+      fs.stat(tempFileName(), function(err, stats) {
         callback(null, {
           'exists' : true,
           'recording' : false,
@@ -165,7 +200,7 @@ module.exports.state = function(callback) {
   });
 };
 
-module.exports.write = function(data) {
+var write = function(data) {
   if (fileStream) {
     var ok = fileStream.write(JSON.stringify(data)+'\n');
     if (!ok) {
@@ -174,4 +209,36 @@ module.exports.write = function(data) {
   }
 };
 
+var setExternalWithChecks = function(state, callback) {
+  getState(function(err, state) {
+    if (state.recording) {
+      callback("Cannot change directory while recording.");
+      return;
+    }
+    result = setExternalSync(state);
+    app_settings.set('log_external', result.external, function(err) {
+      callback(err, result);
+    });
+  });
+};
 
+
+
+//// MODULE LOGIC
+
+process.env.TZ = 'America/New_York';
+setExternalSync(app_settings.get('log_external'));
+
+
+//// EXPORTS
+
+module.exports.getFileInfo        = getFileInfo;
+module.exports.getLocationInfo    = getLocationInfo;
+module.exports.getState           = getState;
+module.exports.setExternal        = setExternalWithChecks;
+
+module.exports.write              = write;
+module.exports.stopLogging        = stopLogging;
+module.exports.startLogging       = startLogging;
+module.exports.reset              = reset;
+module.exports.saveAs             = saveAs;

@@ -32,7 +32,7 @@ $(function() {
 
   // pre-render
   app.dom.logList.html(app.utils.render('logList', {
-    'location': app.initData.log_location,
+    'location': app.initData.log_location.directory,
     'fileInfo': app.initData.log_info
   }));
   app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));

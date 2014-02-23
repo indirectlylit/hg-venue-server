@@ -133,4 +133,8 @@ app_gpio.on('edge', function(state, timeToChange) {
   console.log("EDGE", state, timeToChange);
 });
 
-app_gpio.outputSquareWave(app_settings.get('outputSquareWave'));
+app_gpio.outputSquareWave(app_settings.get('output_square_wave'), function(err) {
+  if (err) {
+    console.log("Could not start square wave output.");
+  }
+});

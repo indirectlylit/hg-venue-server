@@ -13,7 +13,8 @@ var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
 
 defaults = {
   log_file_name : '',
-  outputSquareWave : true,
+  log_external : true,
+  output_square_wave : true,
   client_update_period : 1000, // ms
 };
 
@@ -41,10 +42,13 @@ module.exports.get = function(key) {
 
 module.exports.set = function(key, value, callback) {
   if (!_.has(settings, key)) {
-    throw("'" + key + "' is not a setting.");
+    callback("'" + key + "' is not a setting.");
+  }
+  if (settings[key] === value) {
+    callback();
   }
   settings[key] = value;
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function(){callback();});
 };
 
 module.exports.reset = function(callback) {

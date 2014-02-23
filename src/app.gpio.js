@@ -22,7 +22,7 @@ var os = require('os');
 var app_settings = require("./app.settings");
 
 
-//// INTERNAL VARIABLES
+//// LOCAL VARIABLES
 
 // physical pin 24
 var OUTPUT_PIN = 10;
@@ -36,9 +36,9 @@ var waveState = 0;
 
 module.exports = eventEmitter;
 
-module.exports.outputSquareWave = function(state) {
+module.exports.outputSquareWave = function(state, callback) {
   generateWave = state;
-  app_settings.set('outputSquareWave', state);
+  app_settings.set('output_square_wave', state, callback);
 };
 
 
