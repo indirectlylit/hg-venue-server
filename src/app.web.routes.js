@@ -10,6 +10,7 @@ var _ = require('lodash');
 
 
 var app_settings = require("./app.settings");
+var app_gpio = require("./app.gpio");
 var app_logger = require("./app.logger");
 var app_web = require("./app.web");
 
@@ -31,7 +32,8 @@ app_web.route('get', '/', function(req, res) {
         var initData = {
           log_location:     app_logger.rootDir,
           log_info:         saved_file_info,
-          recording_state:  recording_state
+          recording_state:  recording_state,
+          settings:         app_settings.get()
         };
         res.render('index', { templateData: templateData, initData: JSON.stringify(initData) });
       });
@@ -62,6 +64,15 @@ app_web.route('put', '/settings/:key', function(req, res) {
     if (err) throw("Could not set: " + err);
     res.json(app_settings.get());
   });
+});
+
+app_web.route('put', '/api/squarewave/', function(req, res) {
+  var state = req.body.state;
+  if (!_.contains([true, false], state)) {
+    throw("'state' must be true or false\n");
+  }
+  app_gpio.outputSquareWave(state);
+  res.json({'state':state});
 });
 
 app_web.route('get', '/logger/start', function(req, res) {
