@@ -45,7 +45,8 @@
 {{/templateData}}
 
 <script>
-var initData = {{{initData}}};
+var app = app || {};
+app.initData = {{{initData}}};
 </script>
 
     <!-- vendor -->

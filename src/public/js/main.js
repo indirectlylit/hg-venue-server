@@ -31,7 +31,10 @@ $(function() {
   $.pnotify.defaults.history = false;
 
   // pre-render
-  app.dom.logList.html(app.utils.render('logList', {'location':initData.log_location, 'fileInfo':initData.log_info}));
+  app.dom.logList.html(app.utils.render('logList', {
+    'location': app.initData.log_location,
+    'fileInfo': app.initData.log_info
+  }));
   app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
   app.dom.settings.html(app.utils.render('settings', []));
 
