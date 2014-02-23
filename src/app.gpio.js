@@ -10,9 +10,9 @@
  */
 
 
-var os = require('os');
 var childProcess = require('child_process');
 var events = require('events');
+var os = require('os');
 
 var eventEmitter = new events.EventEmitter();
 

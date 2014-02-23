@@ -7,8 +7,10 @@
 
 
 var _ = require('lodash');
-var os = require('os');
 var cp = require('child_process');
+var os = require('os');
+
+
 
 var startTime = (new Date()).getTime();
 

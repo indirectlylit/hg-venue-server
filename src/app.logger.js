@@ -10,10 +10,10 @@
 process.env.TZ = 'America/New_York';
 
 var _ = require('lodash');
-var os = require('os');
-var fs = require('fs');
-var path = require('path');
 var async = require('async');
+var fs = require('fs');
+var os = require('os');
+var path = require('path');
 
 
 var EXTERNAL = "/media/usbhdd";
