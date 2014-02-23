@@ -10,43 +10,54 @@
  */
 
 
+//// EXTERNAL MODULES
+
 var childProcess = require('child_process');
 var events = require('events');
 var os = require('os');
 
-var eventEmitter = new events.EventEmitter();
 
+//// INTERNAL VARIABLES
 
 // physical pin 24
-OUTPUT_PIN = 10;
+var OUTPUT_PIN = 10;
 
-var ready = false;
-childProcess.exec('gpio mode '+OUTPUT_PIN+' out', function(err, std_out, std_err) {
-  if (!err) {
-    ready = true;
-  }
-});
-
-
+var eventEmitter = new events.EventEmitter();
 var generateWave = false;
-var state = 0;
+var waveState = 0;
 
 
+//// EXPORTS
 
-setInterval(function() {
-  if (generateWave && ready) {
-    state = state === 0 ? 1 : 0;
-    childProcess.exec('gpio write '+OUTPUT_PIN+' '+state, function(err, std_out, std_err) {
-      if (!err) {
-        eventEmitter.emit('edge', state);
-      }
-    });
-  }
-}, 2000);
-
+module.exports = eventEmitter;
 
 module.exports.outputSquareWave = function(state) {
   generateWave = state;
 };
 
-module.exports.wave = eventEmitter;
+
+
+//// MODULE LOGIC
+
+// set the pin to be an output
+childProcess.exec('gpio mode '+OUTPUT_PIN+' out', function(err, std_out, std_err) {
+  if (err) {
+    console.log("Could not set GPIO pin to Output");
+    return;
+  }
+  // once the pin mode is set, set up a square wave
+  setInterval(function() {
+    if (!generateWave) {
+      return;
+    }
+    waveState = waveState === 0 ? 1 : 0;
+    childProcess.exec('gpio write '+OUTPUT_PIN+' '+waveState, function(err, std_out, std_err) {
+      if (!err) {
+        eventEmitter.emit('edge', waveState);
+      }
+    });
+  }, 2000);
+});
+
+
+

@@ -129,7 +129,7 @@ setInterval(function() {
 
 
 // square wave
-app_gpio.wave.on('edge', function(state) {
+app_gpio.on('edge', function(state) {
   console.log("EDGE", state);
 });
 
