@@ -129,8 +129,8 @@ setInterval(function() {
 
 
 // square wave
-app_gpio.on('edge', function(state) {
-  console.log("EDGE", state);
+app_gpio.on('edge', function(state, timeToChange) {
+  console.log("EDGE", state, timeToChange);
 });
 
 app_gpio.outputSquareWave(app_settings.get('outputSquareWave'));

@@ -50,10 +50,12 @@ childProcess.exec('gpio mode '+OUTPUT_PIN+' out', function(err, std_out, std_err
     if (!generateWave) {
       return;
     }
+    var t_0 = process.hrtime();
     waveState = waveState === 0 ? 1 : 0;
     childProcess.exec('gpio write '+OUTPUT_PIN+' '+waveState, function(err, std_out, std_err) {
       if (!err) {
-        eventEmitter.emit('edge', waveState);
+        // return current state and the time it took to change the state in microseconds
+        eventEmitter.emit('edge', waveState, process.hrtime(t_0)[1]/1e3);
       }
     });
   }, 2000);
