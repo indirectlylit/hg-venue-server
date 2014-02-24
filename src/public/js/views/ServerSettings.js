@@ -15,7 +15,7 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     return app.utils.render('serverSettings', context);
   },
   context: function() {
-    return app.initData;
+    return app.data;
   },
   initialize: function() {
   },

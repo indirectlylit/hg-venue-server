@@ -35,8 +35,8 @@ $(function() {
 
   // pre-render
   app.dom.logList.html(app.utils.render('logList', {
-    'location': app.initData.log_location.directory,
-    'fileInfo': app.initData.log_info
+    'location': app.data.log_location.directory,
+    'fileInfo': app.data.log_info
   }));
   app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
 
