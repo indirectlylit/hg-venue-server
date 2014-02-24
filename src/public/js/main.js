@@ -33,7 +33,13 @@ $(function() {
   $.pnotify.defaults.history = false;
 
   // pre-render
-  app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
+  app.dom.currentDataSet.html(app.utils.render('currentDataSet'));
+  app.dom.sensorStats.html(app.utils.render('sensorStats'));
+  app.dom.serverStats.html(app.utils.render('serverStats'));
+
+  // application data (pre-populated in index.hjs)
+  app.data = app.data || {};
+  app.data.clientAddresses = [];
 
 
   /*********************/
@@ -41,9 +47,9 @@ $(function() {
   /*********************/
   app.websocket.on('sensorStats', function(newStats) {
 
-    app.clientAddresses = _.union(app.clientAddresses, _.keys(newStats)).sort();
+    app.data.clientAddresses = _.union(app.data.clientAddresses, _.keys(newStats)).sort();
 
-    var tableRows = _.map(app.clientAddresses, function(address) {
+    var tableRows = _.map(app.data.clientAddresses, function(address) {
       var stats = newStats[address];
       row = {address: address};
 
@@ -78,10 +84,6 @@ $(function() {
     app.dom.sensorStats.html(app.utils.render('sensorStats', {tableRows: tableRows}));
   });
 
-  // pre-render
-  app.dom.sensorStats.html(app.utils.render('sensorStats', []));
-
-
 
   /*********************/
   /* Server Statistics */
@@ -102,9 +104,6 @@ $(function() {
     app.dom.serverStats.html(app.utils.render('serverStats', context));
   });
 
-  // pre-render
-  app.dom.serverStats.html(app.utils.render('serverStats', {}));
-
   app.websocket.on('connecting', function(e) {
     app.dom.connectionState.text('Not Connected');
     app.utils.setLabelClass(app.dom.connectionState, 'label-danger');
@@ -121,26 +120,7 @@ $(function() {
   });
 
 
-
-  /*************/
-  /* File List */
-  /*************/
-  app.websocket.on('fileData', function(fileData) {
-
-    // update HTML
-    var htmlTableRows = [];
-    _(fileData).forIn(function (fileStats) {
-      htmlTableRows.push(app.utils.genTableRow(
-        (new Date(fileStats.ctime)).toLocaleString(),
-        fileStats.name,
-        app.utils.formatKBytes(fileStats.size/1024.0)
-      ));
-    });
-    app.dom.fileTable.html(htmlTableRows.join('\n'));
-  });
-
-
-  app.clientAddresses = [];
+  // start up the socket once all the handlers are in place
   app.websocket.start();
 
 });

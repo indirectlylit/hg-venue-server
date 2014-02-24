@@ -49,14 +49,14 @@ app.utils.formatKBytes = function(kbytes) {
 };
 
 
-app.utils._templates = {};
-
 app.utils.render = function(name, context) {
+  // check the cache for pre-compiled templates
+  app.utils._templates = app.utils._templates || {};
   if (!app.utils._templates[name]) {
+    // retrieve it from index.hjs
     var template = $("#templates-"+name);
     if (!template.length) {
-      console.log("Template not found:", name);
-      return "missing template";
+      throw("Missing template: "+name);
     }
     app.utils._templates[name] = Hogan.compile(template.html());
   }
