@@ -1,0 +1,25 @@
+<div class="panel-heading">
+  <h3 class="panel-title">Server Settings</h3>
+</div>
+<div class="panel-body">
+  <form role="form">
+    <div class="form-group js-custom-location-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" checked="{{#wave_info.on}}checked{{/wave_info.on}}" class="js-wave">
+          <div>Output a square wave</div>
+          <div class="small">{{wave_info.period}} ms period, pin {{wave_info.pin}}</div>
+        </label>
+      </div>
+    </div>
+    <div class="form-group js-custom-location-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" checked="{{#log_location.external}}checked{{/log_location.external}}" class="js-external">
+          <div>Write to external drive</div>
+          <div class="small">{{ log_location.directory }}</div>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>

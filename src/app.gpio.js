@@ -24,29 +24,64 @@ var app_settings = require("./app.settings");
 
 //// LOCAL VARIABLES
 
-// physical pin 24
-var OUTPUT_PIN = 10;
+// pins: https://projects.drogon.net/raspberry-pi/wiringpi/pins/
+var HEADER_PIN_MAP = {
+  1   :     null,   // 3.3v
+  2   :     null,   // 5v
+  3   :     8,      // SDA0
+  4   :     null,   // 5v
+  5   :     9,      // SCL0
+  6   :     null,   // 0v
+  7   :     7,      // GPIO7
+  8   :     15,     // TxD
+  9   :     null,   // 0v
+  10  :     16,     // RxD
+  11  :     0,      // GPIO0
+  12  :     1,      // GPIO1
+  13  :     2,      // GPIO2
+  14  :     null,   // 0v
+  15  :     3,      // GPIO3
+  16  :     4,      // GPIO4
+  17  :     null,   // 3.3v
+  18  :     5,      // GPIO5
+  19  :     12,     // MOSI
+  20  :     null,   // 0v
+  21  :     13,     // MISO
+  22  :     6,      // GPIO6
+  23  :     14,     // SCLK
+  24  :     10,     // CE0
+  25  :     null,   // 0v
+  26  :     11,     // CE1
+};
+
+var pin = 24;
 
 var eventEmitter = new events.EventEmitter();
 var generateWave = false;
 var waveState = 0;
+var wavePeriod = 4000;
 
 
-//// EXPORTS
+//// LOCAL FUNCTIONS
 
-module.exports = eventEmitter;
-
-module.exports.outputSquareWave = function(state, callback) {
+var outputSquareWave = function(state, callback) {
   generateWave = state;
   app_settings.set('output_square_wave', state, callback);
 };
 
+var getWaveInfo = function() {
+  return {
+    period: wavePeriod,
+    pin: pin,
+    on: generateWave
+  };
+};
 
 
 //// MODULE LOGIC
 
 // set the pin to be an output
-childProcess.exec('gpio mode '+OUTPUT_PIN+' out', function(err, std_out, std_err) {
+childProcess.exec('gpio mode '+HEADER_PIN_MAP[pin]+' out', function(err, std_out, std_err) {
   if (err) {
     console.log("Could not set GPIO pin to Output");
     return;
@@ -58,14 +93,20 @@ childProcess.exec('gpio mode '+OUTPUT_PIN+' out', function(err, std_out, std_err
     }
     var t_0 = process.hrtime();
     waveState = waveState === 0 ? 1 : 0;
-    childProcess.exec('gpio write '+OUTPUT_PIN+' '+waveState, function(err, std_out, std_err) {
+    childProcess.exec('gpio write '+HEADER_PIN_MAP[pin]+' '+waveState, function(err, std_out, std_err) {
       if (!err) {
         // return current state and the time it took to change the state in microseconds
         eventEmitter.emit('edge', waveState, process.hrtime(t_0)[1]/1e3);
       }
     });
-  }, 2000);
+  }, wavePeriod/2);
 });
 
+
+//// EXPORTS
+
+module.exports = eventEmitter;
+module.exports.outputSquareWave = outputSquareWave;
+module.exports.getWaveInfo = getWaveInfo;
 
 

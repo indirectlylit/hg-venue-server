@@ -47,7 +47,7 @@ var tempFileName = function() {
 
 var setExternalSync = function(external) {
   var externalDir = _.find(["/media/usbhdd", "/vagrant"], fs.existsSync);
-  isExternal = external && externalDir;
+  isExternal = Boolean(external && externalDir);
   if (isExternal) {
     rootDir = externalDir;
   }

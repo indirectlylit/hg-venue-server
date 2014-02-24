@@ -29,6 +29,7 @@ app_web.route('get', '/', function(req, res) {
         }
         var initData = {
           log_location:     app_logger.getLocationInfo(),
+          wave_info:        app_gpio.getWaveInfo(),
           log_info:         saved_file_info,
           recording_state:  recording_state
         };

@@ -9,18 +9,15 @@ app.views = app.views || {};
 /*
   Settings editor
 */
-app.views.Settings = Backbone.ViewMaster.extend({
-  el: $('#settings'),
+app.views.ServerSettings = Backbone.Viewmaster.extend({
+  el: $('.js-settings'),
   template: function(context){
-    return app.utils.namedTemplate('settings', context);
+    return app.utils.render('serverSettings', context);
   },
   context: function() {
-    return {
-    };
+    return app.initData;
   },
   initialize: function() {
-  },
-  constructor: function() {
   },
   events: {
   }

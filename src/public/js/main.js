@@ -17,11 +17,14 @@ $(function() {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState'),
     currentDataSet    : $('.js-currentDataSet'),
-    settings          : $('.js-settings'),
     logList           : $('.js-logList'),
     serverStats       : $('.js-serverStats'),
     sensorStats       : $('.js-sensorStats')
   };
+
+  app.views = app.views || {};
+  app.views.serverSettings = new app.views.ServerSettings();
+  app.views.serverSettings.render();
 
   // configure bootstrap tooltips
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
@@ -36,7 +39,6 @@ $(function() {
     'fileInfo': app.initData.log_info
   }));
   app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
-  app.dom.settings.html(app.utils.render('settings', []));
 
 
   /*********************/

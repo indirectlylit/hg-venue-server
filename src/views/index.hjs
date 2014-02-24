@@ -66,7 +66,7 @@
     <script src="/js/models/settings.js"></script>
 
     <!-- views -->
-    <script src="/js/views/settings.js"></script>
+    <script src="/js/views/serverSettings.js"></script>
 
     <!-- application -->
     <script src="/js/ctrl.js"></script>
