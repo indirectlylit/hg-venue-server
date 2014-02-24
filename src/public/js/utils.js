@@ -64,4 +64,11 @@ app.utils.render = function(name, context) {
 };
 
 
-
+app.utils.notify = function(msg) {
+  $.pnotify({
+    text: msg,
+    type: 'error',
+    icon: false,
+  });
+  console.log('error:', msg);
+};
