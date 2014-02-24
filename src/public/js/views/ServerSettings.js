@@ -1,14 +1,13 @@
 
+// Devon Rueckner
 // The Human Grid
 // All Rights Reserved
+
 
 var app = app || {};
 app.views = app.views || {};
 
 
-/*
-  Settings editor
-*/
 app.views.ServerSettings = Backbone.Viewmaster.extend({
   el: $('.js-settings'),
   template: function(context) {

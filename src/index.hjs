@@ -67,6 +67,7 @@
 
     <!-- views -->
     <script src="/js/views/serverSettings.js"></script>
+    <script src="/js/views/logList.js"></script>
 
     <!-- application -->
     <script src="/js/ctrl.js"></script>

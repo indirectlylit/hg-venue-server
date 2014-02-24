@@ -40,6 +40,7 @@ app.ctrl.setLogExternal = function(newState) {
   })
   .always(function() {
     app.views.serverSettings.render();
+    app.views.logList.render();
   });
 };
 

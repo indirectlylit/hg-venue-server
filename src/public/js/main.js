@@ -17,14 +17,13 @@ $(function() {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState'),
     currentDataSet    : $('.js-currentDataSet'),
-    logList           : $('.js-logList'),
     serverStats       : $('.js-serverStats'),
     sensorStats       : $('.js-sensorStats')
   };
 
   app.views = app.views || {};
-  app.views.serverSettings = new app.views.ServerSettings();
-  app.views.serverSettings.render();
+  app.views.serverSettings  = new app.views.ServerSettings().render();
+  app.views.logList         = new app.views.LogList().render();
 
   // configure bootstrap tooltips
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
@@ -34,10 +33,6 @@ $(function() {
   $.pnotify.defaults.history = false;
 
   // pre-render
-  app.dom.logList.html(app.utils.render('logList', {
-    'location': app.data.logger_info.location.directory,
-    'fileInfo': app.data.logger_info.saved_files
-  }));
   app.dom.currentDataSet.html(app.utils.render('currentDataSet', []));
 
 
