@@ -23,7 +23,7 @@ var ajax = function(verb, url, data) {
 
 
 app.ctrl.setWave = function(newState) {
-  ajax('put', '/api/squarewave/', newState)
+  ajax('put', '/api/squarewave', newState)
   .done(function(on, textStatus, jqXHR) {
     app.data.wave_info.on = on;
   })
@@ -34,7 +34,7 @@ app.ctrl.setWave = function(newState) {
 
 
 app.ctrl.setLogExternal = function(newState) {
-  ajax('put', '/api/logger/external/', newState)
+  ajax('put', '/api/logger/external', newState)
   .done(function(data, textStatus, jqXHR) {
     app.data.logger_info = data;
   })
