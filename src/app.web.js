@@ -56,7 +56,7 @@ var expressApp = express();
 
 expressApp.configure(function(){
   expressApp.set('port', process.env.PORT || 8080);
-  expressApp.set('views', __dirname + '/views');
+  expressApp.set('views', './');
   expressApp.set('view engine', 'hjs');
   expressApp.use(express.logger());
   expressApp.use(express.json());
@@ -69,7 +69,6 @@ expressApp.configure(function(){
 // loads up all the client-side templates
 module.exports.loadClientTemplates = function(callback) {
   var cwd = process.cwd();
-  var templatesDir = path.join(cwd, 'templates');
   async.waterfall([
 
     // find all possible templates
@@ -79,11 +78,11 @@ module.exports.loadClientTemplates = function(callback) {
 
     // load contents of all templates and assign them IDs
     function(names, callback) {
-      names = _.filter(names, function(name) {return path.extname(name) === '.html';});
+      names = _.filter(names, function(name) {return path.extname(name) === '.hjs';});
       var allMetaData = _.map(names, function(name) {
         return {
           'file': path.join(cwd, name),
-          'id':   name.slice(0, -5).replace(/\//g, '-')
+          'id':   name.slice(0, -4).replace(/\//g, '-')
         };
       });
       // maps the list of meta-data to a list of data
