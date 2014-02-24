@@ -37,17 +37,18 @@
       </div> <!-- /row -->
     </div> <!-- /container -->
 
-<!-- templates -->
+    <!-- templates -->
 {{#templateData}}
-<script type="text/template" id="{{id}}">
+    <script type="text/template" id="{{id}}">
 {{{contents}}}
-</script>
+    </script>
 {{/templateData}}
 
-<script>
-var app = app || {};
-app.initData = {{{initData}}};
-</script>
+    <!-- app data -->
+    <script>
+      var app = app || {};
+      app.initData = {{{initData}}};
+    </script>
 
     <!-- vendor -->
     <script src="/js/vendor/jquery-1.10.1.js"></script>
