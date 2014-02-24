@@ -40,12 +40,15 @@ app_web.route('get', '/', function(req, res) {
 });
 
 app_web.route('put', '/api/squarewave/', function(req, res) {
-  var state = req.body.state;
+  var state = req.body.on;
   if (!_.contains([true, false], state)) {
-    throw("'state' must be true or false\n");
+    throw("'on' must be true or false\n");
   }
   app_gpio.outputSquareWave(state, function(err) {
-    res.json({'state':state});
+    if (err) {
+      return res.json(500, err);
+    }
+    res.json({'on':state});
   });
 });
 
