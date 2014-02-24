@@ -48,7 +48,7 @@ $(function() {
 
     app.clientAddresses = _.union(app.clientAddresses, _.keys(newStats)).sort();
 
-    var tableRows = _.map(app.clientAddresses, function (address) {
+    var tableRows = _.map(app.clientAddresses, function(address) {
       var stats = newStats[address];
       row = {address: address};
 
