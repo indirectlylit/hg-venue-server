@@ -71,7 +71,7 @@ var outputSquareWave = function(state, callback) {
 
 var getWaveInfo = function() {
   return {
-    period: wavePeriod,
+    period: wavePeriod / 1000.0,
     pin: pin,
     on: generateWave
   };
