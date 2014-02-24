@@ -17,7 +17,7 @@
     <div class="form-group js-custom-location-group">
       <div class="checkbox">
         <label>
-          <input type="checkbox" checked="{{#log_location.external}}checked{{/log_location.external}}" class="js-external">
+          <input type="checkbox" {{#log_location.external}}checked{{/log_location.external}} class="js-external">
           <div>Write to external drive</div>
           <div class="small {{^log_location.external}}hidden{{/log_location.external}}">
             {{ log_location.directory }}

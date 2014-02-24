@@ -19,28 +19,21 @@ app_web.route('get', '/', function(req, res) {
     if (err) {
       throw err;
     }
-    app_logger.getFileInfo(function(err, saved_file_info) {
+    app_logger.getInfo(function(err, logger_info) {
       if (err) {
         throw err;
       }
-      app_logger.getState(function(err, recording_state) {
-        if (err) {
-          throw err;
-        }
-        var initData = {
-          log_location:     app_logger.getLocationInfo(),
-          wave_info:        app_gpio.getWaveInfo(),
-          log_info:         saved_file_info,
-          recording_state:  recording_state
-        };
-        res.render('index', { templateData: templateData, initData: JSON.stringify(initData) });
-      });
+      var initData = {
+        logger_info:    logger_info,
+        wave_info:      app_gpio.getWaveInfo(),
+      };
+      res.render('index', { templateData: templateData, initData: JSON.stringify(initData) });
     });
   });
 });
 
 app_web.route('put', '/api/squarewave/', function(req, res) {
-  var state = req.body.on;
+  var state = req.body;
   if (!_.contains([true, false], state)) {
     throw("'on' must be true or false\n");
   }
@@ -48,7 +41,7 @@ app_web.route('put', '/api/squarewave/', function(req, res) {
     if (err) {
       return res.json(500, err);
     }
-    res.json({'on':state});
+    res.json(state);
   });
 });
 
@@ -84,18 +77,20 @@ app_web.route('post', '/api/logger/save_as/:name', function(req, res) {
     if (err) {
       return res.json(500, err);
     }
-    app_logger.getFileInfo(function(err, file_info) {
+    app_logger.getInfo(function(err, file_info) {
       res.json(file_info);
     });
   });
 });
 
 app_web.route('put', '/api/logger/external', function(req, res) {
-  app_logger.setExternal(req.body.state, function(err, state){
+  app_logger.setExternal(req.body, function(err, state){
     if (err) {
       return res.json(500, err);
     }
-    res.json(state);
+    app_logger.getInfo(function(err, file_info) {
+      res.json(file_info);
+    });
   });
 });
 

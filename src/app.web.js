@@ -59,7 +59,7 @@ expressApp.configure(function(){
   expressApp.set('views', './');
   expressApp.set('view engine', 'hjs');
   expressApp.use(express.logger());
-  expressApp.use(express.json());
+  expressApp.use(express.json({strict:false}));
   expressApp.use(express.methodOverride());
   expressApp.use(expressApp.router);
   expressApp.use(express.static(path.join(__dirname, 'public')));

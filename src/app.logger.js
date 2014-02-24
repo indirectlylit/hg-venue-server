@@ -71,7 +71,7 @@ var recordingTime = function() {
   return startTime - stopTime;
 };
 
-var getFileInfo = function(callback) {
+var getFileList = function(callback) {
   fs.readdir(dataDir(), function(err, fileNames) {
     if (err) {
       console.log("Could not list files:", err);
@@ -118,7 +118,7 @@ var startLogging = function(callback) {
     fileStream = fs.createWriteStream(tempFileName());
     startTime = new Date();
     stopTime = null;
-    getState(callback);
+    getRecordingState(callback);
   });
 };
 
@@ -129,7 +129,7 @@ var stopLogging = function(callback) {
   fileStream.end(function(err){
     fileStream = null;
     stopTime = new Date();
-    getState(callback);
+    getRecordingState(callback);
   });
 };
 
@@ -147,7 +147,7 @@ var reset = function(callback) {
       if (err) {
         callback(err);
       }
-      getState(callback);
+      getRecordingState(callback);
     });
   });
 };
@@ -166,7 +166,7 @@ var saveAs = function(name, callback) {
   });
 };
 
-var getState = function(callback) {
+var getRecordingState = function(callback) {
   fs.exists(tempFileName(), function(exists) {
     // reset state
     if (!exists) {
@@ -209,15 +209,37 @@ var write = function(data) {
   }
 };
 
-var setExternalWithChecks = function(state, callback) {
-  getState(function(err, state) {
+var setExternalWithChecks = function(external, callback) {
+  getRecordingState(function(err, state) {
     if (state.recording) {
       callback("Cannot change directory while recording.");
       return;
     }
-    result = setExternalSync(state);
+    result = setExternalSync(external);
     app_settings.set('log_external', result.external, function(err) {
       callback(err, result);
+    });
+  });
+};
+
+
+var getInfo = function(callback) {
+  var info = {
+    'location' : getLocationInfo()
+  };
+  getFileList(function(err, saved_file_info) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    info.saved_files = saved_file_info;
+    getRecordingState(function(err, recording_state) {
+      if (err) {
+        callback(err);
+        return;
+      }
+      info.recording_state = recording_state;
+      callback(null, info);
     });
   });
 };
@@ -232,9 +254,7 @@ setExternalSync(app_settings.get('log_external'));
 
 //// EXPORTS
 
-module.exports.getFileInfo        = getFileInfo;
-module.exports.getLocationInfo    = getLocationInfo;
-module.exports.getState           = getState;
+module.exports.getInfo            = getInfo;
 module.exports.setExternal        = setExternalWithChecks;
 
 module.exports.write              = write;

@@ -15,7 +15,10 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     return app.utils.render('serverSettings', context);
   },
   context: function() {
-    return app.data;
+    return {
+      wave_info:    app.data.wave_info,
+      log_location: app.data.logger_info.location
+    };
   },
   initialize: function() {
   },
@@ -30,24 +33,40 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     $.ajax({
       url:          '/api/squarewave/',
       type:         'put',
-      data:         JSON.stringify({'on':checkbox.prop('checked')}),
+      data:         JSON.stringify(checkbox.prop('checked')),
       contentType:  'application/json',
       context:      this
     })
-    .done(function(data, textStatus, jqXHR) {
-      app.data.wave_info.on = data.on;
+    .done(function(on, textStatus, jqXHR) {
+      app.data.wave_info.on = on;
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
       app.utils.notify(jqXHR.responseText);
     })
     .always(function() {
-      checkbox.prop('disabled', false);
       this.render();
     });
     checkbox.prop('disabled', true);
   },
   _toggleExternal: function(event) {
-    console.log($(event.currentTarget).is(':checked'));
+    var checkbox = $(event.currentTarget);
+    $.ajax({
+      url:          '/api/logger/external/',
+      type:         'put',
+      data:         JSON.stringify(checkbox.prop('checked')),
+      contentType:  'application/json',
+      context:      this
+    })
+    .done(function(data, textStatus, jqXHR) {
+      app.data.logger_info = data;
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      app.utils.notify(jqXHR.responseText);
+    })
+    .always(function() {
+      this.render();
+    });
+    checkbox.prop('disabled', true);
   }
 });
 
