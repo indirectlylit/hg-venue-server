@@ -32,7 +32,7 @@
         </div>
       </div> <!-- /row -->
       <div class="row">
-        <div class="col-md-4 js-currentDataSet"></div>
+        <div class="col-md-4 js-recorder"></div>
         <div class="col-md-8 js-logList"></div>
       </div> <!-- /row -->
     </div> <!-- /container -->
@@ -68,6 +68,7 @@
     <!-- views -->
     <script src="/js/views/serverSettings.js"></script>
     <script src="/js/views/logList.js"></script>
+    <script src="/js/views/recorder.js"></script>
 
     <!-- application -->
     <script src="/js/ctrl.js"></script>
