@@ -44,3 +44,44 @@ app.ctrl.setLogExternal = function(newState) {
   });
 };
 
+
+var _updateRecordingState = function(state) {
+  ajax('put', '/api/logger/'+state)
+  .done(function(recording_state, textStatus, jqXHR) {
+    app.data.logger_info.recording_state = recording_state;
+  })
+  .always(function() {
+    app.views.recorder.render();
+  });
+};
+
+app.ctrl.startRecording = function() {
+  _updateRecordingState('start');
+};
+
+app.ctrl.stopRecording = function() {
+  _updateRecordingState('stop');
+};
+
+app.ctrl.resetRecording = function() {
+  _updateRecordingState('reset');
+};
+
+app.ctrl.recordingSaveAs = function(name) {
+  ajax('put', '/api/logger/save_as/'+name)
+  .done(function(logger_info, textStatus, jqXHR) {
+    app.data.logger_info = logger_info;
+  })
+  .always(function() {
+    app.views.recorder.render();
+  });
+};
+
+
+// TODO:
+// persist log name
+// make sure log name is timestamped when saved
+// hook up view events to cntrl
+
+
+

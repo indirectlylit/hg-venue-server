@@ -14,7 +14,16 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     return app.utils.render('recorder', context);
   },
   context: function() {
-    return {};
+    var state = app.data.logger_info.recording_state;
+    var time = new Date(state.time);
+    return {
+      enable_stop :   state.recording,
+      enable_save :   !state.recording && state.exists,
+      enable_reset :  !state.recording && state.exists,
+      enable_record : !state.recording && !state.exists,
+      minutes :       time.getMinutes(),
+      seconds :       (time.getSeconds() < 10 ? '0' : '') + time.getSeconds(),
+    };
   },
   initialize: function() {
   },

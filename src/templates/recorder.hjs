@@ -7,21 +7,21 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="btn-group">
-            <button type="button" class="btn btn-sm js-record">
+            <button type="button" class="btn btn-sm js-record" {{^enable_record}}disabled{{/enable_record}}>
                <span class="glyphicon glyphicon-record"></span>
               Record
             </button>
-            <button type="button" class="btn btn-sm js-stop">
+            <button type="button" class="btn btn-sm js-stop" {{^enable_stop}}disabled{{/enable_stop}}>
                <span class="glyphicon glyphicon-stop"></span>
               Stop
             </button>
           </div>
         </div>
         <div class="col-xs-3 lead">
-          0:00
+          {{minutes}}:{{seconds}}
         </div>
         <div class="col-xs-3">
-          <button type="button" class="btn btn-sm pull-right js-reset">
+          <button type="button" class="btn btn-sm pull-right js-reset" {{^enable_reset}}disabled{{/enable_reset}}>
             <span class="glyphicon glyphicon-backward"></span>
             Reset
           </button>
@@ -32,7 +32,7 @@
           <input type="text" class="form-control input-sm" id="data-file-name" placeholder="Log Name">
         </div>
         <div class="col-xs-3">
-          <button type="button" class="btn btn-default btn-sm pull-right js-save">
+          <button type="button" class="btn btn-default btn-sm pull-right js-save" {{^enable_save}}disabled{{/enable_save}}>
             <span class="glyphicon glyphicon-check"></span>
             Save
           </button>
