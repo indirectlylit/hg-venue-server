@@ -36,9 +36,10 @@ $(function() {
   app.dom.sensorStats.html(app.utils.render('sensorStats'));
   app.dom.serverStats.html(app.utils.render('serverStats'));
 
-  // application data (pre-populated in index.hjs)
+  // application data (some pre-populated in index.hjs)
   app.data = app.data || {};
   app.data.clientAddresses = [];
+  app.data.fileName = "";
 
 
   /*********************/

@@ -29,7 +29,7 @@
       </div>
       <div class="row">
         <div class="col-xs-9">
-          <input type="text" class="form-control input-sm" id="data-file-name" placeholder="Log Name">
+          <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="Log Name" value="{{file_name}}">
         </div>
         <div class="col-xs-3">
           <button type="button" class="btn btn-default btn-sm pull-right js-save" {{^enable_save}}disabled{{/enable_save}}>

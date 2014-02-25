@@ -17,6 +17,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     var state = app.data.logger_info.recording_state;
     var time = new Date(state.time);
     return {
+      file_name :     app.data.fileName,
       enable_stop :   state.recording,
       enable_save :   !state.recording && state.exists,
       enable_reset :  !state.recording && state.exists,
@@ -33,6 +34,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
       "click  .js-stop" :     "_stop",
       "click  .js-reset" :    "_reset",
       "click  .js-save" :     "_save",
+      "keyup  .js-filename" : "_updateFileName",
     };
   },
   _record: function(event) {
@@ -46,6 +48,9 @@ app.views.Recorder = Backbone.Viewmaster.extend({
   },
   _save: function(event) {
     console.log("save");
+  },
+  _updateFileName: function(event) {
+    app.data.fileName = event.target.value;
   }
 });
 

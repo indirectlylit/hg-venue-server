@@ -79,7 +79,6 @@ app.ctrl.recordingSaveAs = function(name) {
 
 
 // TODO:
-// persist log name
 // make sure log name is timestamped when saved
 // hook up view events to cntrl
 
