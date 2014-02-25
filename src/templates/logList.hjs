@@ -6,7 +6,7 @@
     <table class="table table-condensed">
       <thead>
         <td style="width:30%">Time</td>
-        <td style="width:60%">File Name</td>
+        <td style="width:60%">Label</td>
         <td class='text-right' style="width:10%">Size</td>
       </thead>
       <tbody class="js-fileTable">

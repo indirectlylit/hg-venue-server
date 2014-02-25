@@ -45,7 +45,7 @@ app.utils.formatKBytes = function(kbytes) {
   else if (kbytes >= MB){
     return (kbytes / MB).toFixed(2) + " MB";
   }
-  return kbytes.toFixed(3) + " KB";
+  return kbytes.toFixed(2) + " KB";
 };
 
 

@@ -86,7 +86,7 @@ var getFileList = function(callback) {
         fs.stat(path.join(dataDir(), fName), function(err, stats){
           callback(err, {
             name: fName,
-            size: stats.size,
+            kbytes: stats.size/1024.0,
             time: new Date(stats.ctime.getTime())
           });
         });
@@ -174,7 +174,7 @@ var getRecordingState = function(callback) {
         'exists' : false,
         'recording' : false,
         'time' : 0,
-        'bytes': 0
+        'kbytes': 0
       });
     }
     // currently recording
@@ -183,7 +183,7 @@ var getRecordingState = function(callback) {
         'exists' : true,
         'recording' : true,
         'time' : recordingTime(),
-        'bytes': fileStream.bytesWritten
+        'kbytes': fileStream.bytesWritten/1024.0
       });
     }
     // temp file written
@@ -193,7 +193,7 @@ var getRecordingState = function(callback) {
           'exists' : true,
           'recording' : false,
           'time' : recordingTime(),
-          'bytes': stats.size
+          'kbytes': stats.size/1024.0
         });
       });
     }

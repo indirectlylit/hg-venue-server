@@ -3,7 +3,7 @@
     <h3 class="panel-title">Current Data Set</h3>
   </div>
   <div class="panel-body">
-    <form role="form">
+    <form role="form" action="#">
       <div class="row">
         <div class="col-xs-6">
           <div class="btn-group">
@@ -17,8 +17,8 @@
             </button>
           </div>
         </div>
-        <div class="col-xs-3 lead">
-          {{minutes}}:{{seconds}}
+        <div class="col-xs-3 recorder-bytesize">
+          {{size}}
         </div>
         <div class="col-xs-3">
           <button type="button" class="btn btn-sm pull-right js-reset" {{^enable_reset}}disabled{{/enable_reset}}>
@@ -29,13 +29,18 @@
       </div>
       <div class="row">
         <div class="col-xs-9">
-          <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="Log Name" value="{{file_name}}">
+          <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="Label" value="{{file_name}}">
         </div>
         <div class="col-xs-3">
           <button type="button" class="btn btn-default btn-sm pull-right js-save" {{^enable_save}}disabled{{/enable_save}}>
             <span class="glyphicon glyphicon-check"></span>
             Save
           </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 recorder-timestamp-help">
+          <small>(timestamps are automatically added)</small>
         </div>
       </div>
     </form>

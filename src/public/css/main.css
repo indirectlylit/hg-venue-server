@@ -30,3 +30,13 @@
   cursor: help;
   border-bottom: 1px dotted #7a8288;
 }
+
+.recorder-timestamp-help {
+  margin-left: 3px;
+  margin-top: 6px;
+}
+
+.recorder-bytesize {
+  margin-top: 6px;
+  margin-bottom: 14px;
+}
