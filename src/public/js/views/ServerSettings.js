@@ -28,12 +28,12 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     };
   },
   _toggleWave: function(event) {
-    var checkbox = $(event.currentTarget);
+    var checkbox = $(event.target);
     app.ctrl.setWave(checkbox.prop('checked'));
     checkbox.prop('disabled', true);
   },
   _toggleExternal: function(event) {
-    var checkbox = $(event.currentTarget);
+    var checkbox = $(event.target);
     app.ctrl.setLogExternal(checkbox.prop('checked'));
     checkbox.prop('disabled', true);
   }
