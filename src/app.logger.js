@@ -66,9 +66,9 @@ var recordingTime = function() {
   }
   if (startTime && !stopTime) {
     var now = new Date();
-    return startTime - now;
+    return now - startTime;
   }
-  return startTime - stopTime;
+  return stopTime - startTime;
 };
 
 var getFileList = function(callback) {
