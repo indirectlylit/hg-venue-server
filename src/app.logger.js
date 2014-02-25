@@ -103,7 +103,7 @@ var getFileList = function(callback) {
 var getLocationInfo = function() {
   return {
     external: isExternal,
-    directory: rootDir
+    directory: dataDir()
   };
 };
 

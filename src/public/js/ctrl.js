@@ -67,20 +67,20 @@ app.ctrl.resetRecording = function() {
   _updateRecordingState('reset');
 };
 
-app.ctrl.recordingSaveAs = function(name) {
-  ajax('put', '/api/logger/save_as/'+name)
+app.ctrl.saveRecording = function(name) {
+  ajax('post', '/api/logger/save_as/'+name)
   .done(function(logger_info, textStatus, jqXHR) {
     app.data.logger_info = logger_info;
   })
   .always(function() {
     app.views.recorder.render();
+    app.views.logList.render();
   });
 };
 
 
 // TODO:
 // make sure log name is timestamped when saved
-// hook up view events to cntrl
 
 
 

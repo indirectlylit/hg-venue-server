@@ -21,7 +21,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
       enable_save :   !state.recording && state.exists,
       enable_reset :  !state.recording && state.exists,
       enable_record : !state.recording && !state.exists,
-      size :          app.utils.formatKBytes(state.kbytes),
+      size :          state.kbytes ? app.utils.formatKBytes(state.kbytes) : '',
     };
   },
   initialize: function() {
@@ -32,6 +32,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
       "click  .js-stop" :     "_stop",
       "click  .js-reset" :    "_reset",
       "click  .js-save" :     "_save",
+      "submit form" :         "_save",
       "keyup  .js-filename" : "_updateFileName",
     };
   },
@@ -45,7 +46,10 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     app.ctrl.resetRecording();
   },
   _save: function(event) {
-    console.log("save");
+    if (this.context().enable_save) {
+      app.ctrl.saveRecording(app.data.fileName);
+    }
+    return false;
   },
   _updateFileName: function(event) {
     app.data.fileName = event.target.value;

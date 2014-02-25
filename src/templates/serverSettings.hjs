@@ -9,7 +9,7 @@
           <input type="checkbox" {{#wave_info.on}}checked{{/wave_info.on}} class="js-wave">
           <div>Output a square wave</div>
           <div class="small {{^wave_info.on}}hidden{{/wave_info.on}}">
-            {{wave_info.period}}s period, pin {{wave_info.pin}}
+            <em>{{wave_info.period}}s period, pin {{wave_info.pin}}</em>
           </div>
         </label>
       </div>
@@ -20,7 +20,7 @@
           <input type="checkbox" {{#log_location.external}}checked{{/log_location.external}} class="js-external">
           <div>Write to external drive</div>
           <div class="small {{^log_location.external}}hidden{{/log_location.external}}">
-            {{ log_location.directory }}
+            <em>{{ log_location.directory }}</em>
           </div>
         </label>
       </div>
