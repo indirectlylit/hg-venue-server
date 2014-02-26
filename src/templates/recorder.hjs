@@ -5,26 +5,24 @@
   <div class="panel-body">
     <form role="form" action="#">
       <div class="row">
-        <div class="col-xs-6">
-          <div class="btn-group">
+        <div class="col-xs-9">
+          <div class="btn-group" data-toggle="tooltip" title="ctrl+r">
             <button type="button" class="btn btn-sm js-record" {{^enable_record}}disabled{{/enable_record}}>
                <span class="glyphicon glyphicon-record"></span>
-              Record
+              {{!-- Record --}}
             </button>
             <button type="button" class="btn btn-sm js-stop" {{^enable_stop}}disabled{{/enable_stop}}>
                <span class="glyphicon glyphicon-stop"></span>
-              Stop
+              {{!-- Stop --}}
             </button>
           </div>
+          <button type="button" class="btn btn-sm js-reset" data-toggle="tooltip" title="ctrl+t" {{^enable_reset}}disabled{{/enable_reset}}>
+            <span class="glyphicon glyphicon-backward"></span>
+            {{!-- Reset --}}
+          </button>
         </div>
         <div class="col-xs-3 recorder-bytesize">
           {{size}}
-        </div>
-        <div class="col-xs-3">
-          <button type="button" class="btn btn-sm pull-right js-reset" {{^enable_reset}}disabled{{/enable_reset}}>
-            <span class="glyphicon glyphicon-backward"></span>
-            Reset
-          </button>
         </div>
       </div>
       <div class="row">
@@ -32,7 +30,7 @@
           <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="Label" value="">
         </div>
         <div class="col-xs-3">
-          <button type="button" class="btn btn-default btn-sm pull-right js-save" {{^enable_save}}disabled{{/enable_save}}>
+          <button type="button" class="btn btn-default btn-sm pull-right js-save" data-toggle="tooltip" data-placement="bottom" title="ctrl+s"{{^enable_save}}disabled{{/enable_save}}>
             <span class="glyphicon glyphicon-check"></span>
             Save
           </button>

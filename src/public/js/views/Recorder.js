@@ -26,6 +26,14 @@ app.views.Recorder = Backbone.Viewmaster.extend({
   },
   initialize: function() {
   },
+  constructor: function(){
+    _.bindAll(this, '_start', '_stop', '_reset', '_save');
+    $(document).bind('keyup', 'ctrl+r', this._start);
+    $(document).bind('keyup', 'ctrl+r', this._stop);
+    $(document).bind('keyup', 'ctrl+t', this._reset);
+    $(document).bind('keyup', 'ctrl+s', this._save);
+    return Backbone.Viewmaster.prototype.constructor.apply(this, arguments);
+  },
   events: function() {
     return {
       "click  .js-record" :   "_start",
@@ -37,13 +45,19 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     };
   },
   _start: function(event) {
-    app.ctrl.startRecording();
+    if (this.context().enable_record) {
+      app.ctrl.startRecording();
+    }
   },
   _stop: function(event) {
-    app.ctrl.stopRecording();
+    if (this.context().enable_stop) {
+      app.ctrl.stopRecording();
+    }
   },
   _reset: function(event) {
-    app.ctrl.resetRecording();
+    if (this.context().enable_reset) {
+      app.ctrl.resetRecording();
+    }
   },
   _save: function(event) {
     if (this.context().enable_save) {
