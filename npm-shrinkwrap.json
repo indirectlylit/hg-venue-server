@@ -422,6 +422,23 @@
         }
       }
     },
+    "minimatch": {
+      "version": "0.2.14",
+      "from": "minimatch@",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-0.2.14.tgz",
+      "dependencies": {
+        "lru-cache": {
+          "version": "2.5.0",
+          "from": "lru-cache@2",
+          "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.5.0.tgz"
+        },
+        "sigmund": {
+          "version": "1.0.0",
+          "from": "sigmund@~1.0.0",
+          "resolved": "https://registry.npmjs.org/sigmund/-/sigmund-1.0.0.tgz"
+        }
+      }
+    },
     "lodash": {
       "version": "2.4.1",
       "from": "https://registry.npmjs.org/lodash/-/lodash-2.4.1.tgz",
