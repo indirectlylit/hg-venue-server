@@ -254,6 +254,7 @@ setExternalSync(app_settings.get('log_external'));
 
 //// EXPORTS
 
+module.exports.dataDir            = dataDir;
 module.exports.getInfo            = getInfo;
 module.exports.setExternal        = setExternalWithChecks;
 

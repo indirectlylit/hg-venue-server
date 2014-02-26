@@ -11,6 +11,8 @@ var cp = require('child_process');
 var os = require('os');
 
 
+var app_logger = require('./app.logger')
+
 
 var startTime = (new Date()).getTime();
 
@@ -23,7 +25,7 @@ var stats = {
 
 
 var retrieveDiskSpace = function() {
-  cp.exec("df -k  " + os.tmpdir(), function(error, stdout, stderr) {
+  cp.exec("df -k  " + app_logger.dataDir(), function(error, stdout, stderr) {
     if (error) {
       stats.totaldisk = null;
       stats.freedisk = null;
