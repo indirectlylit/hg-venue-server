@@ -57,7 +57,7 @@ var HEADER_PIN_MAP = {
 var pin = 24;
 
 var eventEmitter = new events.EventEmitter();
-var generateWave = false;
+var generateWave = app_settings.get('output_square_wave');
 var waveState = 0;
 var wavePeriod = 4000;
 
