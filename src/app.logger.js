@@ -34,6 +34,7 @@ var fileStream;
 var startTime;
 var stopTime;
 var fileNamePattern = /(.*?) - (.*)/;
+var tooFast = false;
 
 
 //// LOCAL FUNCTIONS
@@ -243,10 +244,7 @@ var getRecordingState = function(callback) {
 
 var write = function(data) {
   if (fileStream) {
-    var ok = fileStream.write(JSON.stringify(data)+'\n');
-    if (!ok) {
-      console.log("slow down please!");
-    }
+    tooFast = fileStream.write(data+'\n');
   }
 };
 
@@ -285,6 +283,9 @@ var getInfo = function(callback) {
   });
 };
 
+var overloaded = function() {
+  return tooFast;
+};
 
 
 //// MODULE LOGIC
@@ -297,7 +298,9 @@ setExternalSync(app_settings.get('log_external'));
 
 module.exports.dataDir            = dataDir;
 module.exports.getInfo            = getInfo;
+module.exports.getRecordingState  = getRecordingState;
 module.exports.setExternal        = setExternalWithChecks;
+module.exports.overloaded         = overloaded;
 
 module.exports.write              = write;
 module.exports.stopLogging        = stopLogging;
