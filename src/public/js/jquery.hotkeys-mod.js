@@ -49,15 +49,11 @@
 		}
 
 		var origHandler = handleObj.handler,
-			keys = handleObj.data.keys.toLowerCase().split(" "),
-			textAcceptingInputTypes = ["text", "password", "number", "email", "url", "range", "date", "month", "week", "time", "datetime", "datetime-local", "search", "color", "tel"];
+			keys = handleObj.data.keys.toLowerCase().split(" ");
 
 		handleObj.handler = function( event ) {
-			// Don't fire in text-accepting inputs that we didn't directly bind to
-			if ( this !== event.target && (/textarea|select/i.test( event.target.nodeName ) ||
-				jQuery.inArray(event.target.type, textAcceptingInputTypes) > -1 ) ) {
-				return;
-			}
+			// Original didn't fire in text-accepting inputs that we didn't directly bind to.
+			// This version fires regardless, and it's up to the programmer not to use important keys.
 
 			var special = jQuery.hotkeys.specialKeys[ event.keyCode ],
 				character = String.fromCharCode( event.which ).toLowerCase(),
