@@ -64,7 +64,7 @@ app.utils.render = function(name, context) {
 };
 
 
-app.utils.notify = function(msg) {
+app.utils.error = function(msg) {
   $.pnotify({
     text: msg,
     type: 'error',
@@ -72,3 +72,13 @@ app.utils.notify = function(msg) {
   });
   console.log('error:', msg);
 };
+
+app.utils.warn = function(msg) {
+  $.pnotify({
+    text: msg,
+    type: 'warn',
+    icon: false,
+  });
+  console.log('warn:', msg);
+};
+

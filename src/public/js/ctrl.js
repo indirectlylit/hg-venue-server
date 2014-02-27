@@ -17,7 +17,7 @@ var ajax = function(verb, url, data) {
     contentType:  'application/json'
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
-    app.utils.notify(jqXHR.responseText);
+    app.utils.error(jqXHR.responseText);
   });
 };
 
