@@ -21,7 +21,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
       enable_save :   !state.recording && state.exists,
       enable_reset :  !state.recording && state.exists,
       enable_record : !state.recording && !state.exists,
-      size :          state.recording ? app.utils.formatKBytes(state.kbytes) : '',
+      size :          app.utils.formatKBytes(state.kbytes),
     };
   },
   render: function() {
