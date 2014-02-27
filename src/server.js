@@ -40,13 +40,13 @@ var publish = function(channel, data) {
 
 // server stats
 setInterval(function() {
-  publish('serverStats', app_serverStats.getStats());
+  publish('server.stats', app_serverStats.getStats());
   app_logger.getRecordingState(function(err, recording_state) {
     if (err) {
       throw (err);
     }
     if (recording_state.recording) {
-      publish('recordingState', recording_state);
+      publish('logger.recording_state', recording_state);
     }
   });
 }, 1000);
@@ -64,15 +64,15 @@ app_sensors.on('stats', function(stats) {
   publish('sensors.stats', stats);
 });
 
-// sensors
 app_sensors.on('data', function(data) {
   publish('sensors.data:'+data.address, data);
 });
 
 
 app_pubsub.subscribe([
-  'serverStats',
-  'recordingState',
+  'sensors.stats',
+  'server.stats',
+  'logger.recording_state',
 ], app_web.writeToSockets);
 
 app_pubsub.subscribe('*', app_logger.write);

@@ -45,8 +45,7 @@ $(function() {
   /*********************/
   /* Sensor Statistics */
   /*********************/
-  app.websocket.on('sensorStats', function(newStats) {
-
+  app.websocket.on('sensors.stats', function(newStats) {
     app.data.clientAddresses = _.union(app.data.clientAddresses, _.keys(newStats)).sort();
 
     var tableRows = _.map(app.data.clientAddresses, function(address) {
@@ -88,7 +87,7 @@ $(function() {
   /*********************/
   /* Server Statistics */
   /*********************/
-  app.websocket.on('serverStats', function(stats) {
+  app.websocket.on('server.stats', function(stats) {
     var context = {
       arch:       stats.arch,
       memory:     app.utils.formatKBytes(stats.freemem) + " / " +
@@ -103,13 +102,12 @@ $(function() {
       overload:   stats.logs_overloaded ? "Yes" : "No",
     };
     app.dom.serverStats.html(app.utils.render('serverStats', context));
-    app.dom.serverStats.find("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
   });
 
   /*******************/
   /* Recording State */
   /*******************/
-  app.websocket.on('recordingState', function(recording_state) {
+  app.websocket.on('logger.recording_state', function(recording_state) {
     app.data.logger_info.recording_state = recording_state;
     app.views.recorder.render();
   });

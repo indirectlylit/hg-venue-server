@@ -30,68 +30,55 @@ var windowPeriod = app_settings.get('client_update_period');
 //// LOCAL FUNCTIONS
 
 var handleIncomingData = function(message, address) {
-  var isodate = new Date().toISOString();
   var data = {};
-
   try {
-    data = JSON.parse(message);
-  } catch(e) {
-    err = isodate + "\t" + address + "\t" + message + '\n';
-    console.log("Not JSON:\t"+err);
-    return;
-  }
+    data.msg = JSON.parse(message);
 
-  // console.log(message);
-
-  if (!data['timestamp']) {
-    data['timestamp'] = isodate;
+    // for replaying old data
+    if (data.msg.address) {
+      address = data.msg.address;
+      delete data.msg.address;
+    }
   }
-  if (!data['address']) {
-    data['address'] = address;
+  catch(e) {
+    data.error = e;
+    data.text = message;
   }
-  else {
-    address = data['address'];
+  data.address = address;
+  data.size = message.length;
+  dataBuffers[address] = dataBuffers[address] || [];
+  if (!data.error) {
+    dataBuffers[address].push(data);
   }
-  if (!data['size']) {
-    data['size'] = message.length;
-  }
-
-  if (!dataBuffers[address]) {
-    dataBuffers[address] = [];
-  }
-
-  dataBuffers[address].push(data);
-
   eventEmitter.emit('data', data);
 };
 
 
-var genStats = function(data) {
+var genStats = function(dataList) {
   // find message rate
   var stats = {};
-  stats['message_rate'] = 1000*1.0*data.length/windowPeriod;
-
+  stats['message_rate'] = 1000*1.0*dataList.length/windowPeriod;
 
   // find average message size and max data rate
   var minInterval = 0;
 
   totalBytes = 0;
-  _.forEach(data, function(message, index) {
-    totalBytes += message['size'];
-    minInterval += message['data']['interval'];
+  _.forEach(dataList, function(annotatedData, index) {
+    totalBytes += annotatedData.size;
+    minInterval += annotatedData.msg.data.interval;
   });
 
-  minInterval /= data.length; // average
+  minInterval /= dataList.length; // average
   // prevent divide-by-zero issue
   minInterval = minInterval === 0 ? 1e-9 : minInterval;
   stats['max_rate'] = 1e6 / minInterval; // interval in microseconds to Hz
   stats['data_rate'] = 1000*1.0*totalBytes/windowPeriod;
-  stats['avg_size'] = totalBytes/data.length;
+  stats['avg_size'] = totalBytes/dataList.length;
 
 
   // find dropped messages
   var dropped = 0;
-  var counterList = _.pluck(_.pluck(data, 'data'), 'counter');
+  var counterList = _.pluck(_.pluck(_.pluck(dataList, 'msg'), 'data'), 'counter');
 
   counterList.sort();
   for (i = 1; i < counterList.length; i++) {
@@ -116,7 +103,9 @@ app_sensors_serial.on("data", function(data) {
 });
 
 setInterval(function() {
-  recentStats = _.map(dataBuffers, genStats);
+  var recentStats = _.transform(dataBuffers, function(result, buffer, key) {
+    result[key] = genStats(buffer);
+  });
   eventEmitter.emit('stats', recentStats);
   dataBuffers = {};
 }, windowPeriod);
