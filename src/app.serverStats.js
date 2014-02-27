@@ -6,13 +6,19 @@
 
 
 
+//// EXTERNAL MODULES
+
 var _ = require('lodash');
 var cp = require('child_process');
 var os = require('os');
 
 
-var app_logger = require('./app.logger')
+//// INTERNAL MODULES
 
+var app_logger = require('./app.logger');
+
+
+//// LOCAL VARIABLES
 
 var startTime = (new Date()).getTime();
 
@@ -23,6 +29,8 @@ var stats = {
   freedisk : null                                        // KB
 };
 
+
+//// LOCAL FUNCTIONS
 
 var retrieveDiskSpace = function() {
   cp.exec("df -k  " + app_logger.dataDir(), function(error, stdout, stderr) {
@@ -42,15 +50,7 @@ var retrieveDiskSpace = function() {
   });
 };
 
-retrieveDiskSpace();
-
-setInterval(function() {
-  retrieveDiskSpace();
-}, 2500);
-
-
-// server stats
-module.exports.getStats = function() {
+getStats = function() {
   var now = new Date();
   return _.merge(stats, {
     freemem : (os.freemem()/Math.pow(2, 10)).toFixed(0),      // KB
@@ -61,3 +61,16 @@ module.exports.getStats = function() {
   });
 };
 
+
+//// MODULE LOGIC
+
+retrieveDiskSpace();
+
+setInterval(function() {
+  retrieveDiskSpace();
+}, 2500);
+
+
+//// EXPORTS
+
+module.exports.getStats = getStats;

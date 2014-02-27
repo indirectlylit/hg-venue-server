@@ -1,9 +1,8 @@
 
-/**
- * Devon Rueckner
- * The Human Grid
- * All rights reserved
- */
+// Devon Rueckner
+// The Human Grid
+// All Rights Reserved
+
 
 
 //// EXTERNAL MODULES
@@ -105,6 +104,8 @@ var genStats = function(data) {
 };
 
 
+//// MODULE LOGIC
+
 app_sensors_udp.on("message", function (msg, rinfo) {
   handleIncomingData(msg.toString(), rinfo.address);
 });
@@ -114,9 +115,6 @@ app_sensors_serial.on("data", function(data) {
   handleIncomingData(data.toString(), "serial port");
 });
 
-
-
-// sensor stats
 setInterval(function() {
   recentStats = _.map(dataBuffers, genStats);
   eventEmitter.emit('stats', recentStats);
