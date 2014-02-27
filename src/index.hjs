@@ -61,6 +61,7 @@
     <script src="/js/vendor/bootstrap.js"></script>
     <script src="/js/vendor/bootstrap-lightbox.js"></script>
     <script src="/js/vendor/jquery.pnotify.js"></script>
+    <script src="/js/vendor/moment.min.js"></script>
 
     <!-- models -->
     <script src="/js/models/settings.js"></script>
