@@ -244,7 +244,8 @@ var getRecordingState = function(callback) {
 
 var write = function(data) {
   if (fileStream) {
-    tooFast = fileStream.write(data+'\n');
+    ok = fileStream.write(data+'\n');
+    tooFast = tooFast || !ok;
   }
 };
 
@@ -284,6 +285,8 @@ var getInfo = function(callback) {
 };
 
 var overloaded = function() {
+  var temp = tooFast;
+  tooFast = false;
   return tooFast;
 };
 
