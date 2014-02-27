@@ -33,7 +33,7 @@ var rootDir;
 var fileStream;
 var startTime;
 var stopTime;
-var fileNamePattern = /(.*?) - (.*)/;
+var fileNamePattern = /(.*?) - (.*)\.txt/;
 var tooFast = false;
 
 
@@ -49,7 +49,7 @@ var tempFileName = function() {
 
 var genFileName = function(time, label) {
   label = label || 'untitled';
-  return time.toISOString().replace(/:/g, '|') + ' - ' + encodeURI(label).replace(/%20/g, ' ');
+  return time.toISOString().replace(/:/g, '|')+' - '+encodeURI(label).replace(/%20/g, ' ')+'.txt';
 };
 
 var parseFileName = function(fileName) {
