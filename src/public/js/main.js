@@ -26,7 +26,7 @@ $(function() {
   app.views.recorder        = new app.views.Recorder().render();
 
   // configure bootstrap tooltips
-  // $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
+  $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
 
   // configure notifications
   $.pnotify.defaults.styling = "bootstrap3";
