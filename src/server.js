@@ -59,8 +59,21 @@ app_gpio.on('edge', function(state, timeToChange) {
   });
 });
 
+// sensors
+app_sensors.on('stats', function(stats) {
+  publish('sensors.stats', stats);
+});
 
-app_pubsub.subscribe('*', app_web.writeToSockets);
-app_pubsub.subscribe('wave', app_logger.write);
+// sensors
+app_sensors.on('data', function(data) {
+  publish('sensors.data:'+data.address, data);
+});
 
+
+app_pubsub.subscribe([
+  'serverStats',
+  'recordingState',
+], app_web.writeToSockets);
+
+app_pubsub.subscribe('*', app_logger.write);
 
