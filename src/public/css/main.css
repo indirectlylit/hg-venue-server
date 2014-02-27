@@ -47,3 +47,11 @@
 thead td {
   font-weight: bold;
 }
+
+.time-col {
+  width: 30%;
+}
+
+.label-col {
+  width: 50%;
+}

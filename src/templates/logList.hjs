@@ -5,9 +5,9 @@
   <div class="panel-body">
     <table class="table table-condensed">
       <thead>
-        <td style="width:30%">Time</td>
-        <td style="width:60%">Label</td>
-        <td class='text-right' style="width:10%">Size</td>
+        <td class='time-col'>Time</td>
+        <td class='label-col'>Label</td>
+        <td class='text-right'>Size</td>
       </thead>
       <tbody class="js-fileTable">
 {{#fileInfo}}
