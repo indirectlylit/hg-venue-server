@@ -33,6 +33,7 @@ var rootDir;
 var fileStream;
 var startTime;
 var stopTime;
+var fileNamePattern = /(.*?) - (.*)/;
 
 
 //// LOCAL FUNCTIONS
@@ -43,6 +44,22 @@ var dataDir = function() {
 
 var tempFileName = function() {
   return path.join(rootDir, "tempdata.txt");
+};
+
+var genFileName = function(time, label) {
+  label = label || 'untitled';
+  return time.toISOString().replace(/:/g, '|') + ' - ' + encodeURI(label).replace(/%20/g, ' ');
+};
+
+var parseFileName = function(fileName) {
+  var match = fileName.match(fileNamePattern);
+  if (match[1] && match[2]) {
+    return {
+      time: new Date(match[1].replace(/\|/g, ':')),
+      name: decodeURI(match[2].replace(/ /g, '%20')),
+    };
+  }
+  throw("Can't parse file name:", fileName);
 };
 
 var setExternalSync = function(external) {
@@ -83,11 +100,26 @@ var getFileList = function(callback) {
     async.map(
       fileNames,
       function (fName, callback) {
-        fs.stat(path.join(dataDir(), fName), function(err, stats){
-          callback(err, {
-            name: fName,
+        fs.stat(path.join(dataDir(), fName), function(err, stats) {
+          if (err) {
+            callback(err);
+            return;
+          }
+          var parsedName;
+          try {
+            parsedName = parseFileName(fName);
+          }
+          catch(e) {
+            console.log("Error:", e);
+            parsedName = {
+              name: fName,
+              time: new Date(stats.ctime.getTime()),
+            };
+          }
+          callback(null, {
+            name: parsedName.name,
+            time: parsedName.time,
             kbytes: stats.size/1024.0,
-            time: new Date(stats.ctime.getTime())
           });
         });
       },
@@ -152,7 +184,7 @@ var reset = function(callback) {
   });
 };
 
-var saveAs = function(name, callback) {
+var saveAs = function(label, callback) {
   if (fileStream) {
     return callback("currently logging");
   }
@@ -160,9 +192,18 @@ var saveAs = function(name, callback) {
     if (!exists) {
       return callback("No data written");
     }
-    startTime = null;
-    stopTime = null;
-    fs.rename(tempFileName(), path.join(dataDir(), encodeURI(name)), callback);
+    if (!startTime) {
+      // Temp file already existed, but server had been restarted in the meantime.
+      // Could have pulled this info from the filesystem, but it's an edge case.
+      startTime = new Date();
+    }
+    fs.rename(tempFileName(), path.join(dataDir(), genFileName(startTime, label)), function(err) {
+      if (!err) {
+        startTime = null;
+        stopTime = null;
+      }
+      callback(err);
+    });
   });
 };
 

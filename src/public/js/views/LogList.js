@@ -13,13 +13,17 @@ app.views.LogList = Backbone.Viewmaster.extend({
     return app.utils.render('logList', context);
   },
   context: function() {
-    var fileInfo = _.map(app.data.logger_info.saved_files, function(metaData) {
-      return {
-        size: app.utils.formatKBytes(metaData.kbytes),
-        name: metaData.name,
-        time: metaData.time,
-      };
-    });
+    var fileInfo = _.map(
+      _.sortBy(app.data.logger_info.saved_files, 'time').reverse(),
+      function(metaData) {
+        var timestamp = moment(metaData.time);
+        return {
+          size: app.utils.formatKBytes(metaData.kbytes),
+          name: metaData.name,
+          time: timestamp.format("ddd MMM Do, h:mm a"),
+        };
+      }
+    );
     return {
       'location': app.data.logger_info.location.directory,
       'fileInfo': fileInfo
