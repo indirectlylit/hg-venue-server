@@ -52,7 +52,6 @@
 
     <!-- vendor -->
     <script src="/js/vendor/jquery-1.10.1.js"></script>
-    <script src="/js/vendor/jquery.hotkeys.js"></script>
     <script src="/js/vendor/lodash.min.js"></script>
     <script src="/js/vendor/hogan.min.js"></script>
     <script src="/js/vendor/bootstrap.js"></script>
@@ -72,6 +71,7 @@
     <script src="/js/views/recorder.js"></script>
 
     <!-- application -->
+    <script src="/js/jquery.hotkeys-mod.js"></script>
     <script src="/js/ctrl.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
