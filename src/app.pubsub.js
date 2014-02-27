@@ -21,11 +21,16 @@ var handlers = [];
 
 //// LOCAL FUNCTIONS
 
-var subscribe = function(channelGlob, handler) {
-  handlers.push({
-    pattern:  new minimatch.Minimatch(channelGlob),
-    glob:     channelGlob,
-    func:     handler,
+var subscribe = function(channelGlobs, handler) {
+  if (typeof channelGlobs === 'string') {
+    channelGlobs = [channelGlobs];
+  }
+  _.each(channelGlobs, function(channelGlob) {
+    handlers.push({
+      pattern:  new minimatch.Minimatch(channelGlob),
+      glob:     channelGlob,
+      func:     handler,
+    });
   });
 };
 
