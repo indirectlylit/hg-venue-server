@@ -14,9 +14,9 @@ var events = require('events');
 
 //// INTERNAL MODULES
 
-var app_serialServer = require("./app.serialServer");
+var app_sensors_serial = require("./app.sensors.serial");
+var app_sensors_udp = require("./app.sensors.udp");
 var app_settings = require("./app.settings");
-var app_udpServer = require("./app.udpServer");
 var app_web = require("./app.web");
 
 
@@ -105,12 +105,12 @@ var genStats = function(data) {
 };
 
 
-app_udpServer.on("message", function (msg, rinfo) {
+app_sensors_udp.on("message", function (msg, rinfo) {
   handleIncomingData(msg.toString(), rinfo.address);
 });
 
 
-app_serialServer.on("data", function(data) {
+app_sensors_serial.on("data", function(data) {
   handleIncomingData(data.toString(), "serial port");
 });
 
