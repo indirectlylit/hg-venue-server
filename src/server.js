@@ -40,9 +40,7 @@ var publish = function(channel, data) {
 
 // server stats
 setInterval(function() {
-  var serverStats = app_serverStats.getStats();
-  serverStats.logs_overloaded = app_logger.overloaded();
-  publish('serverStats', serverStats);
+  publish('serverStats', app_serverStats.getStats());
   app_logger.getRecordingState(function(err, recording_state) {
     if (err) {
       throw (err);

@@ -53,6 +53,7 @@ var retrieveDiskSpace = function() {
 getStats = function() {
   var now = new Date();
   return _.merge(stats, {
+    logs_overloaded : app_logger.overloaded(),
     freemem : (os.freemem()/Math.pow(2, 10)).toFixed(0),      // KB
     loadavg : os.loadavg(),                                   // 3-tuple of percentages
     uptime : os.uptime().toFixed(0),                          // seconds
