@@ -99,11 +99,25 @@ $(function() {
                   (100*stats.loadavg[1]).toFixed(0) + "%, " +
                   (100*stats.loadavg[2]).toFixed(0) + "%",
       uptime:     stats.uptime + " s",
-      appUptime:  stats.appUptime + " s"
+      appUptime:  stats.appUptime + " s",
+      overload:   stats.logs_overloaded ? "Yes" : "No",
     };
     app.dom.serverStats.html(app.utils.render('serverStats', context));
+    app.dom.serverStats.find("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
   });
 
+  /*******************/
+  /* Recording State */
+  /*******************/
+  app.websocket.on('recordingState', function(recording_state) {
+    app.data.logger_info.recording_state = recording_state;
+    app.views.recorder.render();
+  });
+
+
+  /****************************/
+  /* General Websocket events */
+  /****************************/
   app.websocket.on('connecting', function(e) {
     app.dom.connectionState.text('Not Connected');
     app.utils.setLabelClass(app.dom.connectionState, 'label-danger');

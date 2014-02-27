@@ -43,7 +43,7 @@ app.websocket.reconnect = function() {
   };
   app.websocket.socket.onmessage = function(e) {
     var msg = jQuery.parseJSON(e.data);
-    app.websocket.trigger(msg.type, msg.msg);
+    app.websocket.trigger(msg.chan, msg.data, new Date(msg.time));
   };
   app.websocket.socket.onopen = function(e) {
     console.log("websocket opened", e);

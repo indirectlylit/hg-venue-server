@@ -77,10 +77,3 @@ app.ctrl.saveRecording = function(name) {
     app.views.logList.render();
   });
 };
-
-
-// TODO:
-// make sure log name is timestamped when saved
-
-
-
