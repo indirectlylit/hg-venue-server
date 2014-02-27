@@ -21,7 +21,7 @@ var handlers = [];
 
 //// LOCAL FUNCTIONS
 
-var subscribe = function(handler, channelGlob) {
+var subscribe = function(channelGlob, handler) {
   handlers.push({
     pattern:  new minimatch.Minimatch(channelGlob),
     glob:     channelGlob,
@@ -29,7 +29,7 @@ var subscribe = function(handler, channelGlob) {
   });
 };
 
-var unsubscribe = function(handler, channelGlob) {
+var unsubscribe = function(channelGlob, handler) {
   var where = {func: handler};
   if (channelGlob) {
     where.glob = channelGlob;
@@ -37,7 +37,7 @@ var unsubscribe = function(handler, channelGlob) {
   _.remove(handlers, where);
 };
 
-var publish = function(message, channel) {
+var publish = function(channel, message) {
   var sentTo = 0;
   _.each(handlers, function(handler) {
     if (handler.pattern.match(channel)) {
@@ -54,5 +54,3 @@ var publish = function(message, channel) {
 module.exports.subscribe = subscribe;
 module.exports.unsubscribe = unsubscribe;
 module.exports.publish = publish;
-module.exports.handlers = handlers;
-
