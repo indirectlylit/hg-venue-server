@@ -127,4 +127,5 @@ setInterval(function() {
 
 //// EXPORTS
 
+// emits 'data' and 'stats' events
 module.exports = eventEmitter;

@@ -105,7 +105,9 @@ childProcess.exec('gpio mode '+HEADER_PIN_MAP[pin]+' out', function(err, std_out
 
 //// EXPORTS
 
+// emits 'edge' events
 module.exports = eventEmitter;
+
 module.exports.outputSquareWave = outputSquareWave;
 module.exports.getWaveInfo = getWaveInfo;
 
