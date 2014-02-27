@@ -47,7 +47,6 @@ setInterval(function() {
     if (err) {
       throw (err);
     }
-    console.log(recording_state);
     if (recording_state.recording) {
       publish('recordingState', recording_state);
     }
@@ -67,6 +66,3 @@ app_pubsub.subscribe('*', app_web.writeToSockets);
 app_pubsub.subscribe('wave', app_logger.write);
 
 
-// subscribers:
-  // app_web.writeToWebSockets('serverStats', stats);
-  // app_logger.write(stats);
