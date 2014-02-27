@@ -7,7 +7,7 @@
       <div class="checkbox">
         <label>
           <input type="checkbox" {{#wave_info.on}}checked{{/wave_info.on}} class="js-wave">
-          <div>Output a square wave</div>
+          <div>Output a reference signal</div>
           <div class="small {{^wave_info.on}}hidden{{/wave_info.on}}">
             <em>{{wave_info.period}}s period, pin {{wave_info.pin}}</em>
           </div>
