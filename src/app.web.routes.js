@@ -72,7 +72,7 @@ app_web.route('put', '/api/logger/reset', function(req, res) {
   });
 });
 
-app_web.route('post', '/api/logger/save_as/:name', function(req, res) {
+app_web.route('post', '/api/logger/save_as/:name?', function(req, res) {
   app_logger.saveAs(req.params.name, function(err){
     if (err) {
       return res.json(500, err);
