@@ -53,7 +53,7 @@ setInterval(function() {
 
 // square wave
 app_gpio.on('edge', function(state, timeToChange) {
-  publish('wave', {
+  publish('server.pulse', {
     state: state,
     cmd_time: timeToChange,
   });
@@ -65,15 +65,16 @@ app_sensors.on('stats', function(stats) {
 });
 
 app_sensors.on('data', function(data) {
-  publish('sensors.data:'+data.address, data);
+  publish('sensors.data', data);
 });
 
-
+// web socket output
 app_pubsub.subscribe([
   'sensors.stats',
   'server.stats',
   'logger.recording_state',
 ], app_web.writeToSockets);
 
+// log file output
 app_pubsub.subscribe('*', app_logger.write);
 
