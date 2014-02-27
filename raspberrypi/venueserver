@@ -25,7 +25,7 @@ mkdir -p /var/log/${NAME}
 case "$1" in
   start)
     log_daemon_msg "Starting ${NAME}" "${NAME}"
-    start-stop-daemon --start --make-pidfile --pidfile $PID_FILE --chdir /var/log/${NAME} --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/src/server >> /var/log/venueserver.log 2>&1&
+    start-stop-daemon --start --make-pidfile --pidfile $PID_FILE --chdir /var/log/${NAME} --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/src/app >> /var/log/venueserver.log 2>&1&
     log_end_msg $?
     ;;
   stop)

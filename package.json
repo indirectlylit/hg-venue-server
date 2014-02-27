@@ -2,9 +2,9 @@
   "name": "venue_server",
   "version": "0.0.3",
   "description": "Collects, stores, visualizes, and distributes sensor data",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node src/server"
+    "start": "node src/app"
   },
   "engines": {
     "node": ">= 0.10.22",
