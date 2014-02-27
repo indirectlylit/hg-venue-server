@@ -24,7 +24,11 @@ app.views.Recorder = Backbone.Viewmaster.extend({
       size :          state.kbytes ? app.utils.formatKBytes(state.kbytes) : '',
     };
   },
-  initialize: function() {
+  render: function() {
+    var retVal = Backbone.Viewmaster.prototype.render.apply(this, arguments);
+    this.$('.js-filename').focus();
+    this.$("[data-toggle='tooltip']").tooltip();
+    return retVal;
   },
   constructor: function(){
     _.bindAll(this, '_start', '_stop', '_reset', '_save');

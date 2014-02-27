@@ -6,7 +6,7 @@
     <form role="form" action="#">
       <div class="row">
         <div class="col-xs-9">
-          <div class="btn-group" data-toggle="tooltip" title="ctrl+r">
+          <div class="btn-group" data-toggle="tooltip" title="Record/Stop: ctrl+r">
             <button type="button" class="btn btn-sm js-record" {{^enable_record}}disabled{{/enable_record}}>
                <span class="glyphicon glyphicon-record"></span>
             </button>
@@ -14,7 +14,7 @@
                <span class="glyphicon glyphicon-stop"></span>
             </button>
           </div>
-          <button type="button" class="btn btn-sm js-reset" data-toggle="tooltip" title="ctrl+t" {{^enable_reset}}disabled{{/enable_reset}}>
+          <button type="button" class="btn btn-sm js-reset" data-toggle="tooltip" title="Reset: ctrl+t" {{^enable_reset}}disabled{{/enable_reset}}>
             <span class="glyphicon glyphicon-backward"></span>
           </button>
         </div>
@@ -27,7 +27,7 @@
           <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="Label" value="{{file_name}}">
         </div>
         <div class="col-xs-3">
-          <button type="button" class="btn btn-default btn-sm pull-right js-save" data-toggle="tooltip" data-placement="bottom" title="ctrl+s"{{^enable_save}}disabled{{/enable_save}}>
+          <button type="button" class="btn btn-default btn-sm pull-right js-save" data-toggle="tooltip" data-placement="bottom" title="Save: ctrl+s"{{^enable_save}}disabled{{/enable_save}}>
             <span class="glyphicon glyphicon-check"></span>
             Save
           </button>
