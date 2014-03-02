@@ -18,9 +18,9 @@
         <td class='text-right'>{{ address }}</td>
         <td class='text-right'>{{ max_rate }}</td>
         <td class='text-right'>{{ message_rate }}</td>
+        <td class='text-right'>{{ drop_rate }}</td>
         <td class='text-right'>{{ avg_size }}</td>
         <td class='text-right'>{{ data_rate }}</td>
-        <td class='text-right'>{{ drop_rate }}</td>
         <td class='text-right'>{{#connected}}<span class="glyphicon glyphicon-flash"></span>{{/connected}}</td>
       </tr>
 {{/tableRows}}
