@@ -32,7 +32,7 @@ case "$1" in
 	log_daemon_msg "Stopping ${NAME}" "${NAME}"
 	start-stop-daemon --stop --quiet --oknodo --pidfile $PID_FILE
 	log_end_msg $?
-	rm -f $VENUESERVER_PID_FILE
+	rm -f $PID_FILE
 	;;
   restart)
 	log_daemon_msg "Restarting ${NAME}" "${NAME}"
