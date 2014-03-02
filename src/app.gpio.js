@@ -54,7 +54,7 @@ var HEADER_PIN_MAP = {
   26  :     11,     // CE1
 };
 
-var pin = 24;
+var pin = 22;
 
 var eventEmitter = new events.EventEmitter();
 var generateWave = app_settings.get('output_square_wave');
