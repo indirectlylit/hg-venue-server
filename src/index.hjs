@@ -67,9 +67,9 @@
     <script src="/js/models/settings.js"></script>
 
     <!-- views -->
-    <script src="/js/views/serverSettings.js"></script>
-    <script src="/js/views/logList.js"></script>
-    <script src="/js/views/recorder.js"></script>
+    <script src="/js/views/ServerSettings.js"></script>
+    <script src="/js/views/LogList.js"></script>
+    <script src="/js/views/Recorder.js"></script>
 
     <!-- application -->
     <script src="/js/jquery.hotkeys-mod.js"></script>
