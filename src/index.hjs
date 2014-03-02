@@ -39,7 +39,7 @@
 
     <!-- templates -->
 {{#templateData}}
-    <script type="text/template" id="{{id}}">
+    <script type="text/template" id="templates-{{id}}">
 {{{contents}}}
     </script>
 {{/templateData}}
