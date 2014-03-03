@@ -80,8 +80,8 @@ app_web.route('put', '/api/logger/reset', function(req, res) {
   });
 });
 
-app_web.route('post', '/api/logger/save_as/:name?', function(req, res) {
-  app_logger.saveAs(req.params.name, function(err){
+app_web.route('post', '/api/logger/save_as', function(req, res) {
+  app_logger.saveAs(req.body, function(err){
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);

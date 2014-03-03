@@ -68,7 +68,7 @@ app.ctrl.resetRecording = function() {
 };
 
 app.ctrl.saveRecording = function(name) {
-  ajax('post', '/api/logger/save_as/'+name)
+  ajax('post', '/api/logger/save_as/', name)
   .done(function(logger_info, textStatus, jqXHR) {
     app.data.logger_info = logger_info;
   })
