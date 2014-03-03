@@ -17,7 +17,11 @@ var ajax = function(verb, url, data) {
     contentType:  'application/json'
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
-    app.utils.error(jqXHR.responseText);
+    var err = ([textStatus, errorThrown, jqXHR.responseText]).join('\n');
+    if (jqXHR.readyState === 0 || jqXHR.status === 0) {
+      err = "No response received from server.";
+    }
+    app.utils.error(err);
   });
 };
 
