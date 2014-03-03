@@ -109,3 +109,7 @@ app_web.route('put', '/api/logger/external', function(req, res) {
   });
 });
 
+app_web.route('get', '/api/socket_ready', function(req, res) {
+  res.json(app_web.socketReady());
+});
+

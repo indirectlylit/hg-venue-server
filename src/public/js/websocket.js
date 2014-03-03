@@ -21,24 +21,30 @@ app.websocket.CLOSED     = 3;  // The connection is closed or couldn't be opened
 app.websocket.start = function() {
   setInterval(function() {
     if (!app.websocket.socket || app.websocket.socket.readyState == app.websocket.CLOSED) {
-      app.websocket.reconnect();
+      $.ajax({
+        url:          "/api/socket_ready/",
+        type:         "get",
+        contentType:  'application/json'
+      })
+      .done(function(ready, textStatus, jqXHR) {
+        if (ready) {
+          app.websocket.reconnect();
+        }
+      });
     }
-  }, 500);
+  }, 1000);
 };
 
+
 app.websocket.reconnect = function() {
-  console.log("Reconnecting socket");
-
   app.websocket.socket = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
-
   app.websocket.trigger('connecting');
-
   app.websocket.socket.onclose = function(e) {
-    console.log("websocket closed", e);
+    console.log("socket closed");
     app.websocket.trigger('close', e);
   };
   app.websocket.socket.onerror = function(e) {
-    console.log("websocket error", e);
+    console.log("socket error", e);
     app.websocket.trigger('error', e);
   };
   app.websocket.socket.onmessage = function(e) {
@@ -46,7 +52,7 @@ app.websocket.reconnect = function() {
     app.websocket.trigger(msg.chan, msg.data, new Date(msg.time));
   };
   app.websocket.socket.onopen = function(e) {
-    console.log("websocket opened", e);
+    console.log("socket opened");
     app.websocket.trigger('open', e);
   };
 };

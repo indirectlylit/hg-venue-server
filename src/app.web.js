@@ -44,6 +44,9 @@ module.exports.writeToSockets = function(str) {
   }
 };
 
+module.exports.socketReady = function() {
+  return true;
+};
 
 
 /**
