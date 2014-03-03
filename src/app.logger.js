@@ -160,6 +160,10 @@ var stopLogging = function(callback) {
     return callback("Not logging.");
   }
   fileStream.end(function(err){
+    if (err) {
+      callback(err);
+      return;
+    }
     fileStream = null;
     stopTime = new Date();
     getRecordingState(callback);
