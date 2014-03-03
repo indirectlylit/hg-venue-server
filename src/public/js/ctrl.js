@@ -72,6 +72,7 @@ app.ctrl.resetRecording = function() {
   _updateRecordingState('reset');
 };
 
+
 app.ctrl.saveRecording = function(name) {
   ajax('post', '/api/logger/save_as/', name)
   .done(function(logger_info, textStatus, jqXHR) {
