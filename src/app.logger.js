@@ -202,12 +202,14 @@ var saveAs = function(label, callback) {
       // Could have pulled this info from the filesystem, but it's an edge case.
       startTime = new Date();
     }
-    fs.rename(tempFileName(), path.join(dataDir(), genFileName(startTime, label)), function(err) {
+    var target = path.join(dataDir(), genFileName(startTime, label));
+    console.log("Rename '"+tempFileName()+"' to '"+target+"'");
+    fs.rename(tempFileName(), target, function(err) {
       if (!err) {
         startTime = null;
         stopTime = null;
       }
-      callback(err);
+      callback("Couldn't rename '"+tempFileName()+"' to '"+target+"': "+err);
     });
   });
 };
