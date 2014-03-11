@@ -208,6 +208,7 @@ var saveAs = function(label, callback) {
       if (!err) {
         startTime = null;
         stopTime = null;
+        return callback();
       }
       callback("Couldn't rename '"+tempFileName()+"' to '"+target+"': "+err);
     });
