@@ -250,9 +250,12 @@ var getRecordingState = function(callback) {
 };
 
 var write = function(data) {
+  console.log(">>>", fileStream.closed);
   if (fileStream && !fileStream.closed) {
+    console.log("A");
     ok = fileStream.write(data+'\n');
     tooFast = tooFast || !ok;
+    console.log("B");
   }
 };
 

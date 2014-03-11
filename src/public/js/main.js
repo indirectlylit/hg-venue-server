@@ -30,7 +30,7 @@ $(function() {
 
   // configure notifications
   $.pnotify.defaults.styling = "bootstrap3";
-  $.pnotify.defaults.history = false;
+  // $.pnotify.defaults.history = false;
 
   // pre-render
   app.dom.sensorStats.html(app.utils.render('sensorStats'));
