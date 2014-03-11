@@ -50,14 +50,14 @@ var tempFileName = function() {
 
 var genFileName = function(time, label) {
   label = label || 'untitled';
-  return time.toISOString().replace(/:/g, '|')+' - '+encodeURI(label).replace(/%20/g, ' ')+'.txt';
+  return time.toISOString().replace(/:/g, '#')+' - '+encodeURI(label).replace(/%20/g, ' ')+'.txt';
 };
 
 var parseFileName = function(fileName) {
   var match = fileName.match(fileNamePattern);
   if (match[1] && match[2]) {
     return {
-      time: new Date(match[1].replace(/\|/g, ':')),
+      time: new Date(match[1].replace(/\#/g, ':')),
       name: decodeURI(match[2].replace(/ /g, '%20')),
     };
   }
