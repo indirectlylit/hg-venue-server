@@ -35,6 +35,7 @@ var startTime;
 var stopTime;
 var fileNamePattern = /(.*?) - (.*)\.txt/;
 var tooFast = false;
+var writable = false;
 
 
 //// LOCAL FUNCTIONS
@@ -151,6 +152,7 @@ var startLogging = function(callback) {
     fileStream = fs.createWriteStream(tempFileName());
     startTime = new Date();
     stopTime = null;
+    writable = true;
     getRecordingState(callback);
   });
 };
@@ -159,6 +161,7 @@ var stopLogging = function(callback) {
   if (!fileStream) {
     return callback("Not logging.");
   }
+  writable = false;
   fileStream.end(function(err){
     if (err) {
       callback(err);
@@ -250,12 +253,9 @@ var getRecordingState = function(callback) {
 };
 
 var write = function(data) {
-  console.log(">>>", fileStream.closed);
-  if (fileStream && !fileStream.closed) {
-    console.log("A");
+  if (fileStream && !fileStream.closed && writable) {
     ok = fileStream.write(data+'\n');
     tooFast = tooFast || !ok;
-    console.log("B");
   }
 };
 
