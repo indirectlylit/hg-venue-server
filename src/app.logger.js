@@ -19,7 +19,7 @@ var async = require('async');
 var fs = require('fs');
 var os = require('os');
 var path = require('path');
-
+var childProcess = require('child_process');
 
 //// INTERNAL MODULES
 
@@ -207,7 +207,7 @@ var saveAs = function(label, callback) {
     }
     var target = path.join(dataDir(), genFileName(startTime, label));
     console.log("Rename '"+tempFileName()+"' to '"+target+"'");
-    fs.rename(tempFileName(), target, function(err) {
+    childProcess.exec('mv '+ tempFileName() + ' "' + target + '"', function(err, std_out, std_err) {
       if (!err) {
         startTime = null;
         stopTime = null;
