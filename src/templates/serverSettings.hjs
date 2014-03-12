@@ -27,7 +27,7 @@
     </div>
     <div class="form-group">
       <label for="socketAddress">Socket Address</label>
-      <input type="input" class="form-control input-sm js-socket" id="socketAddress" placeholder="tcp://host:port">
+      <input type="input" class="form-control input-sm js-socket" id="socketAddress" placeholder="tcp://host:port" value="{{ socket }}">
     </div>
   </form>
 </div>
