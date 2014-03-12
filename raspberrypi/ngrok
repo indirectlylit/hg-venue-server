@@ -1,0 +1,10 @@
+tunnels:
+  web:
+    proto:
+      http: 8080
+  websocket:
+    proto:
+      tcp: 8081
+  ssh:
+    proto:
+      tcp: 22

@@ -25,6 +25,8 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     return {
       "click  .js-wave"     :   "_toggleWave",
       "click  .js-external" :   "_toggleExternal",
+      "keyup  .js-socket"   :   "_updateSocket",
+      "submit .form"        :   "_submit",
     };
   },
   _toggleWave: function(event) {
@@ -36,7 +38,13 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     var checkbox = $(event.target);
     app.ctrl.setLogExternal(checkbox.prop('checked'));
     checkbox.prop('disabled', true);
-  }
+  },
+  _updateSocket: _.debounce(function(event) {
+    app.websocket.setAddress(event.target.value);
+  }, 100),
+  _submit: function(event) {
+    return false;
+  },
 });
 
 

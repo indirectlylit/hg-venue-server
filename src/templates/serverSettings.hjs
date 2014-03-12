@@ -2,7 +2,7 @@
   <h3 class="panel-title">Settings</h3>
 </div>
 <div class="panel-body">
-  <form role="form">
+  <form role="form" class="form">
     <div class="form-group js-custom-location-group">
       <div class="checkbox">
         <label>
@@ -24,6 +24,10 @@
           </div>
         </label>
       </div>
+    </div>
+    <div class="form-group">
+      <label for="socketAddress">Socket Address</label>
+      <input type="input" class="form-control input-sm js-socket" id="socketAddress" placeholder="tcp://host:port">
     </div>
   </form>
 </div>

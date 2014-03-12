@@ -17,6 +17,21 @@ app.websocket.OPEN       = 1;  // The connection is open and ready to communicat
 app.websocket.CLOSING    = 2;  // The connection is in the process of closing.
 app.websocket.CLOSED     = 3;  // The connection is closed or couldn't be opened.
 
+app.websocket._address   = undefined;
+
+
+app.websocket._makeAddress = function(address) {
+  if (address) {
+    // tcp://host:port
+    var match = address.match(/^(tcp:\/\/)?(.*?:\d+)$/);
+    if (match) {
+      return window.location.protocol+'//'+match[2]+'/data';
+    }
+    return app.websocket._makeAddress();
+  }
+  return window.location.protocol+'//'+window.location.hostname+':8081/data';
+};
+
 
 app.websocket.start = function() {
   setInterval(function() {
@@ -37,7 +52,7 @@ app.websocket.start = function() {
 
 
 app.websocket.reconnect = function() {
-  app.websocket.socket = new SockJS(window.location.protocol+'//'+window.location.hostname+':8081/data');
+  app.websocket.socket = new SockJS(app.websocket._address);
   app.websocket.trigger('connecting');
   app.websocket.socket.onclose = function(e) {
     console.log("socket closed");
@@ -57,6 +72,26 @@ app.websocket.reconnect = function() {
   };
 };
 
+
 app.websocket.isOpen = function() {
   return (app.websocket.socket && app.websocket.socket.readyState == app.websocket.OPEN);
 };
+
+
+app.websocket.setAddress = function(address) {
+  // Address:
+  //  * empty for default
+  //  * otherwise, tcp://host:port or just host:port
+  var prev = app.websocket._address;
+  app.websocket._address = app.websocket._makeAddress(address);
+  if (prev !== app.websocket._address) {
+    if (app.websocket.socket) {
+      app.websocket.socket.close();
+    }
+    app.websocket.reconnect();
+  }
+  console.log(app.websocket._address);
+};
+
+
+app.websocket.setAddress();
