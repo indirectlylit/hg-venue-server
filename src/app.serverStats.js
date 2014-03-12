@@ -24,7 +24,7 @@ var startTime = (new Date()).getTime();
 
 var stats = {
   arch : os.arch(),
-  totalmem : (os.totalmem()/Math.pow(2, 10)).toFixed(0), // KB
+  totalmem : Math.round(os.totalmem()/Math.pow(2, 10)),  // KB
   totaldisk : null,                                      // KB
   freedisk : null                                        // KB
 };
@@ -44,8 +44,8 @@ var retrieveDiskSpace = function() {
       //   Filesystem                 1K-blocks    Used Available Use% Mounted on
       //   /dev/mapper/precise32-root  82711212 2410284  76158644   4% /
       var metrics = stdout.toString().split("\n")[1].split(/\s+/);
-      stats.totaldisk = metrics[1];
-      stats.freedisk = metrics[3];
+      stats.totaldisk = parseInt(metrics[1], 10);
+      stats.freedisk = parseInt(metrics[3], 10);
     }
   });
 };
@@ -54,10 +54,10 @@ getStats = function() {
   var now = new Date();
   return _.merge(stats, {
     logs_overloaded : app_logger.overloaded(),
-    freemem : (os.freemem()/Math.pow(2, 10)).toFixed(0),      // KB
+    freemem : Math.round(os.freemem()/Math.pow(2, 10)),       // KB
     loadavg : os.loadavg(),                                   // 3-tuple of percentages
-    uptime : os.uptime().toFixed(0),                          // seconds
-    appUptime : ((now.getTime()-startTime)/1000).toFixed(0),  // seconds
+    uptime : Math.round(os.uptime()),                         // seconds
+    appUptime : Math.round((now.getTime()-startTime)/1000),   // seconds
     time : now.getTime()                                      // ms since 1970
   });
 };
