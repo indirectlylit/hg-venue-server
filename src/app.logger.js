@@ -36,8 +36,20 @@ var stopTime;
 var fileNamePattern = /(.*?) - (.*)\.txt/;
 var tooFast = false;
 
-
 //// LOCAL FUNCTIONS
+
+var quoteFileName = function(input) {
+  // generates a URI-encoded string that is safe to use in a file name
+  var SAFE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789^&'@{}[],$=!#()+_- ";
+  return _.map(input, function(character) {
+    if (_.contains(SAFE_CHARS, character)) { return character; }
+    return '%'+(character.charCodeAt(0).toString(16));
+  }).join('');
+};
+
+var unquoteFileName = function(input) {
+  return decodeURIComponent(input);
+};
 
 var dataDir = function() {
   return path.join(rootDir, "data");
@@ -49,15 +61,15 @@ var tempFileName = function() {
 
 var genFileName = function(time, label) {
   label = label || 'untitled';
-  return time.toISOString().replace(/:/g, '#')+' - '+encodeURI(label).replace(/%20/g, ' ')+'.txt';
+  return time.toISOString().replace(/:/g, "'") + " - " + quoteFileName(label) + ".txt";
 };
 
 var parseFileName = function(fileName) {
   var match = fileName.match(fileNamePattern);
   if (match[1] && match[2]) {
     return {
-      time: new Date(match[1].replace(/\#/g, ':')),
-      name: decodeURI(match[2].replace(/ /g, '%20')),
+      time: new Date(match[1].replace(/'/g, ":")),
+      name: unquoteFileName(match[2]),
     };
   }
   throw("Can't parse file name:", fileName);
