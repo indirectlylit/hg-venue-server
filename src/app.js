@@ -43,9 +43,9 @@ setInterval(function() {
   publish('server.stats', app_serverStats.getStats());
   app_logger.getRecordingState(function(err, recording_state) {
     if (err) {
-      throw (err);
+      console.log("Error getting recording state:", err);
     }
-    if (recording_state.recording) {
+    else if (recording_state.recording) {
       publish('logger.recording_state', recording_state);
     }
   });
