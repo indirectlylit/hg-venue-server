@@ -97,8 +97,8 @@ $(function() {
       load:       (100*stats.loadavg[0]).toFixed(0) + "%, " +
                   (100*stats.loadavg[1]).toFixed(0) + "%, " +
                   (100*stats.loadavg[2]).toFixed(0) + "%",
-      uptime:     stats.uptime + " s",
-      appUptime:  stats.appUptime + " s",
+      uptime:     moment.duration(stats.uptime, 'seconds').humanize(),
+      appUptime:  moment.duration(stats.appUptime, 'seconds').humanize(),
       overload:   stats.logs_overloaded ? "Yes" : "No",
     };
     app.dom.serverStats.html(app.utils.render('serverStats', context));
