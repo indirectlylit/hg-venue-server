@@ -253,6 +253,9 @@ var getRecordingState = function(callback) {
     // temp file written
     else {
       fs.stat(tempFileName(), function(err, stats) {
+        if (err) {
+          return callback(err);
+        }
         callback(null, {
           'exists' : true,
           'recording' : false,
