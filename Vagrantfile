@@ -50,7 +50,6 @@ Vagrant.configure("2") do |config|
 	# forwarded ports
 	config.vm.network :forwarded_port, :host => 8080, :guest => 8080
 	config.vm.network :forwarded_port, :host => 8081, :guest => 8081
-	config.vm.network :forwarded_port, :host => 6379, :guest => 6379
 	config.vm.network :forwarded_port, :host => 7777, :guest => 7777
 
 end
