@@ -162,7 +162,7 @@ var startLogging = function(callback) {
     }
     fileStream = fs.createWriteStream(tempFileName());
     fileStream.on('error', function(err) {
-      console.log("File stream error:", err);
+//      console.log("File stream error:", err);
     });
     startTime = new Date();
     stopTime = null;
@@ -171,11 +171,15 @@ var startLogging = function(callback) {
 };
 
 var stopLogging = function(callback) {
+console.log("A");
   if (!fileStream) {
     return callback("Not logging.");
   }
+fileStream.dontwrite = true;
   fileStream.end(function(err){
+console.log("B");
     if (err) {
+console.log("ERR", err);
       callback(err);
       return;
     }
@@ -268,7 +272,7 @@ var getRecordingState = function(callback) {
 };
 
 var write = function(data) {
-  if (fileStream && fileStream.fd && !fileStream.closed) {
+  if (fileStream && fileStream.fd && !fileStream.closed && !fileStream.dontwrite) {
     var ok = fileStream.write(data+'\n');
     tooFast = tooFast || !ok;
   }
