@@ -56,7 +56,7 @@ module.exports.socketReady = function() {
 var expressApp = express();
 
 expressApp.configure(function(){
-  expressApp.set('port', process.env.PORT || 8080);
+  expressApp.set('port', process.argv[2] || 8080);
   expressApp.set('views', __dirname);
   expressApp.set('view engine', 'hjs');
   expressApp.use(express.logger());
