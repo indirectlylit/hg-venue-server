@@ -15,27 +15,27 @@ set -e # exit on error
 
 . /lib/lsb/init-functions
 
-NAME="venuserver"
-
-PID_FILE=/var/run/${NAME}.pid
-
-mkdir -p /var/log/${NAME}
+NAME=venue-server
+PIDFILE=/var/run/${NAME}.pid
+NODE=/usr/local/bin/node
+APP=/home/pi/venue-server/src/app.js
+LOG=/var/log/venue-server.log
 
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
-    log_daemon_msg "Starting ${NAME}" "${NAME}"
-    start-stop-daemon --start --make-pidfile --pidfile $PID_FILE --chdir /var/log/${NAME} --startas /usr/local/bin/node --name venueserver --background -- /home/pi/venue-server/src/app >> /var/log/venueserver.log 2>&1&
+    log_daemon_msg "Starting ${NAME}"
+    start-stop-daemon --start --make-pidfile --pidfile ${PIDFILE} --name ${NAME} --background --startas /bin/bash -- -c "exec $NODE $APP 80 > $LOG 2>&1"
     log_end_msg $?
     ;;
   stop)
-	log_daemon_msg "Stopping ${NAME}" "${NAME}"
-	start-stop-daemon --stop --quiet --oknodo --pidfile $PID_FILE
+	log_daemon_msg "Stopping ${NAME}"
+	start-stop-daemon --stop --quiet --oknodo --pidfile ${PIDFILE}
 	log_end_msg $?
-	rm -f $PID_FILE
+	rm -f ${PIDFILE}
 	;;
   restart)
-	log_daemon_msg "Restarting ${NAME}" "${NAME}"
+	log_daemon_msg "Restarting ${NAME}"
 	$0 stop
 	$0 start
 	log_end_msg $?

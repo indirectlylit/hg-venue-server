@@ -126,6 +126,11 @@ $(function() {
     app.utils.setLabelClass(app.dom.connectionState, 'label-warning');
   });
 
+  app.websocket.on('close', function(e) {
+    app.dom.connectionState.text('Connection Closed');
+    app.utils.setLabelClass(app.dom.connectionState, 'label-danger');
+  });
+
   app.websocket.on('open', function(e) {
     app.dom.connectionState.text('Connected');
     app.utils.setLabelClass(app.dom.connectionState, 'label-default');

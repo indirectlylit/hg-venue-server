@@ -73,7 +73,7 @@ This bootstrap script updates linux to the latest version, installs dependencies
 
 ### GPIO Support
 
-The Venue Server can output a square wave which is detected by the sensors. The round-trip time for the information to return helps us measure latency.
+The server needs GPIO access for communication with the charge controller and so it can output a reference square wave signal.
 
 GPIO support is not yet baked into the boostrap script above and must be installed manually. After SSHing into the Pi, run:
 
@@ -81,6 +81,24 @@ GPIO support is not yet baked into the boostrap script above and must be install
     > ./build
 
 This will make the [gpio utility](http://wiringpi.com/the-gpio-utility/) available to the Venue Server.
+
+### Serial Communication Support
+
+The server needs access to the raw serial port in order to capture data from the charge controller. By default, Raspbian uses the serial port for terminal access. We need to disable this [as described here](http://www.hobbytronics.co.uk/raspberry-pi-serial-port):
+
+In `/etc/inittab`, comment out the line which looks something like
+
+    T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
+
+We do not need to disable bootup info which is sent by the Pi on boot.
+
+
+### Hard Drive mounting
+
+The server uses an external USB hard drive to write data to. This should be set up to be automatically mounted and writable by both the root and pi users at `/media/usbhdd`.
+
+At the time of this writing, we [aren't yet able to reliably auto-mount the hard drive](https://bitbucket.org/pedalpower/venue-server/issue/6/).
+
 
 ## Developing locally, deploying on a Raspberry Pi
 

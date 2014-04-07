@@ -24,7 +24,8 @@ def write(args):
     sys.exit()
 
 def read(args):
-    print random.randint(0, 1)
+    print 1
+    # print random.randint(0, 1)
     sys.exit()
 
 

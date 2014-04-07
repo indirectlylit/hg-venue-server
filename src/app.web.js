@@ -59,7 +59,7 @@ expressApp.configure(function(){
   expressApp.set('port', process.argv[2] || 8080);
   expressApp.set('views', __dirname);
   expressApp.set('view engine', 'hjs');
-  expressApp.use(express.logger());
+  expressApp.use(express.logger('tiny'));
   expressApp.use(express.json({strict:false}));
   expressApp.use(express.methodOverride());
   expressApp.use(expressApp.router);
