@@ -65,7 +65,7 @@ var genStats = function(dataList) {
   totalBytes = 0;
   _.forEach(dataList, function(annotatedData, index) {
     totalBytes += annotatedData.size;
-    minInterval += annotatedData.msg.data.interval;
+    minInterval += annotatedData.msg.interval;
   });
 
   minInterval /= dataList.length; // average
