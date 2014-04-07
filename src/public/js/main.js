@@ -53,30 +53,30 @@ $(function() {
       row = {address: address};
 
       if (stats) { // we have new data
-        if (_.has(stats, 'max_rate')) {
-          row.max_rate = stats.max_rate > 1e4 ? "max" : stats.max_rate.toFixed(1);
-        }
-        else {
-          row.max_rate = '?';
-        }
         row.message_rate =  _.has(stats, 'message_rate') ?
                                   stats.message_rate.toFixed(1) : '?';
         row.drop_rate =     _.has(stats, 'drop_rate') ?
                                   stats.drop_rate.toFixed(1) : '?';
-        row.avg_size =      _.has(stats, 'avg_size') ?
-                                  stats.avg_size.toFixed(1) : '?';
         row.data_rate =     _.has(stats, 'data_rate') ?
                                   (stats.data_rate/1024).toFixed(2) : '?';
         row.connected =     true;
+        // if (_.has(stats, 'max_rate')) {
+        //   row.max_rate = stats.max_rate > 1e4 ? "max" : stats.max_rate.toFixed(1);
+        // }
+        // else {
+        //   row.max_rate = '?';
+        // }
+        // row.avg_size =      _.has(stats, 'avg_size') ?
+        //                           stats.avg_size.toFixed(1) : '?';
       }
       else { // no data received from this address
-        row.address =      address;
-        row.max_rate =     "";
+        row.address =      address === "serial port" ? "Controller" : address;
         row.message_rate = 0;
         row.drop_rate =    "";
-        row.avg_size =     "";
         row.data_rate =    (0).toFixed(2);
         row.connected =    false;
+        // row.avg_size =     "";
+        // row.max_rate =     "";
       }
       return row;
     });
