@@ -65,7 +65,7 @@ var genStats = function(dataList) {
   totalBytes = 0;
   _.forEach(dataList, function(annotatedData, index) {
     totalBytes += annotatedData.size;
-    minInterval += annotatedData.msg.interval;
+    minInterval += annotatedData.msg.lp; // logging period
   });
 
   minInterval /= dataList.length; // average
@@ -78,7 +78,7 @@ var genStats = function(dataList) {
 
   // find dropped messages
   var dropped = 0;
-  var counterList = _.pluck(_.pluck(_.pluck(dataList, 'msg'), 'data'), 'counter');
+  var counterList = _.pluck(_.pluck(dataList, 'msg'), 'i'); //incrementing counter
 
   counterList.sort();
   for (i = 1; i < counterList.length; i++) {
