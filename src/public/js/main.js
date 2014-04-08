@@ -21,7 +21,7 @@ $(function() {
   };
 
   app.views = app.views || {};
-  app.views.serverSettings  = new app.views.ServerSettings().render();
+  // app.views.serverSettings  = new app.views.ServerSettings().render();
   app.views.logList         = new app.views.LogList().render();
   app.views.recorder        = new app.views.Recorder().render();
 
