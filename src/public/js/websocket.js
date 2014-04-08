@@ -17,6 +17,8 @@ app.websocket.OPEN       = 1;  // The connection is open and ready to communicat
 app.websocket.CLOSING    = 2;  // The connection is in the process of closing.
 app.websocket.CLOSED     = 3;  // The connection is closed or couldn't be opened.
 
+app.websocket.checkingReady = false;
+
 
 app.websocket._makeAddress = function(address) {
   if (address) {
@@ -33,7 +35,9 @@ app.websocket._makeAddress = function(address) {
 
 app.websocket.start = function() {
   setInterval(function() {
+    if (app.websocket.checkingReady) return;
     if (!app.websocket.socket || app.websocket.socket.readyState == app.websocket.CLOSED) {
+      app.websocket.checkingReady = true;
       $.ajax({
         url:          "/api/socket_ready/",
         type:         "get",
@@ -43,6 +47,9 @@ app.websocket.start = function() {
         if (ready) {
           app.websocket.reconnect();
         }
+      })
+      .always(function(){
+        app.websocket.checkingReady = false;
       });
     }
   }, 3000);
