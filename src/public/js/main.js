@@ -61,23 +61,22 @@ $(function() {
                                   stats.drop_rate.toFixed(1) : '?';
         row.data_rate =     _.has(stats, 'data_rate') ?
                                   (stats.data_rate/1024).toFixed(2) : '?';
+        row.voltage =       _.has(stats, 'avg_v') ?
+                                  (stats.avg_v).toFixed(2) : '?';
+        row.power_in =      _.has(stats, 'avg_c1') ?
+                                  (stats.avg_v * stats.avg_c1).toFixed(2) : '?';
+        row.power_out =     _.has(stats, 'avg_c2') ?
+                                  (stats.avg_v * stats.avg_c2).toFixed(2) : '?';
         row.connected =     true;
-        // if (_.has(stats, 'max_rate')) {
-        //   row.max_rate = stats.max_rate > 1e4 ? "max" : stats.max_rate.toFixed(1);
-        // }
-        // else {
-        //   row.max_rate = '?';
-        // }
-        // row.avg_size =      _.has(stats, 'avg_size') ?
-        //                           stats.avg_size.toFixed(1) : '?';
       }
       else { // no data received from this address
         row.message_rate = 0;
         row.drop_rate =    "";
         row.data_rate =    (0).toFixed(2);
         row.connected =    false;
-        // row.avg_size =     "";
-        // row.max_rate =     "";
+        row.voltage =      "";
+        row.power_in =     "";
+        row.power_out =    "";
       }
       return row;
     });

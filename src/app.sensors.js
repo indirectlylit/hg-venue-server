@@ -66,9 +66,9 @@ var genStatsFromTracker = function(tracker) {
   stats['message_rate'] = 1000.0*(tracker.totalMessages/windowPeriod);
   stats['data_rate'] =    1000.0*(tracker.totalBytes/windowPeriod);
   stats['drop_rate'] =    1000.0*(tracker.dropped/windowPeriod);
-  stats['avg_v'] =        1000.0*(tracker.accumulated_v/tracker.totalMessages);
-  stats['avg_c1'] =       1000.0*(tracker.accumulated_c1/tracker.totalMessages);
-  stats['avg_c2'] =       1000.0*(tracker.accumulated_c1/tracker.totalMessages);
+  stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
+  stats['avg_c1'] =       tracker.accumulated_c1/tracker.totalMessages;
+  stats['avg_c2'] =       tracker.accumulated_c1/tracker.totalMessages;
   return stats;
 };
 
