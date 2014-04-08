@@ -45,7 +45,7 @@ app.websocket.start = function() {
         }
       });
     }
-  }, 1000);
+  }, 3000);
 };
 
 
