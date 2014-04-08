@@ -92,8 +92,8 @@ $(function() {
       arch:       stats.arch,
       memory:     app.utils.formatKBytes(stats.freemem) + " / " +
                   app.utils.formatKBytes(stats.totalmem),
-      disk:       app.utils.formatKBytes(stats.freedisk) + " / " +
-                  app.utils.formatKBytes(stats.totaldisk),
+      disk:       app.utils.formatKBytes(stats.freedisk || 0) + " / " +
+                  app.utils.formatKBytes(stats.totaldisk || 0),
       load:       (100*stats.loadavg[0]).toFixed(0) + "%, " +
                   (100*stats.loadavg[1]).toFixed(0) + "%, " +
                   (100*stats.loadavg[2]).toFixed(0) + "%",
