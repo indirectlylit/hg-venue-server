@@ -22,12 +22,56 @@ var app_web = require("./app.web");
 //// LOCAL VARIABLES
 
 var eventEmitter = new events.EventEmitter();
-var dataBuffers = {};
+var statTrackers = {};
 var recentStats = {};
 var windowPeriod = app_settings.get('client_update_period');
 
 
 //// LOCAL FUNCTIONS
+
+var updateStats = function(data, address) {
+  statTrackers[address] = statTrackers[address] || {
+    totalMessages : 0,
+    totalBytes: 0,
+    lastPacketID: 0,
+    dropped : 0,
+    accumulated_v: 0,
+    accumulated_c1: 0,
+    accumulated_c2: 0,
+  };
+  statTrackers[address].totalMessages++;
+  statTrackers[address].totalBytes += data.size;
+  if (data.msg.i !== statTrackers[address]+1) {
+    statTrackers[address].dropped++;
+  }
+  statTrackers[address].lastPacketID = data.msg.i;
+  statTrackers[address].accumulated_v += data.msg.v;
+  statTrackers[address].accumulated_c1 += data.msg.c1;
+  statTrackers[address].accumulated_c2 += data.msg.c2;
+};
+
+var resetStatTracker = function(tracker) {
+  tracker.totalMessages = 0;
+  tracker.totalBytes = 0;
+  tracker.dropped = 0;
+  tracker.accumulated_v = 0;
+  tracker.accumulated_c1 = 0;
+  tracker.accumulated_c2 = 0;
+  return tracker;
+};
+
+var genStatsFromTracker = function(tracker) {
+  // find message rate
+  var stats = {};
+  stats['message_rate'] = 1000.0*(tracker.totalMessages/windowPeriod);
+  stats['data_rate'] =    1000.0*(tracker.totalBytes/windowPeriod);
+  stats['drop_rate'] =    1000.0*(tracker.dropped/windowPeriod);
+  stats['avg_v'] =        1000.0*(tracker.accumulated_v/tracker.totalMessages);
+  stats['avg_c1'] =       1000.0*(tracker.accumulated_c1/tracker.totalMessages);
+  stats['avg_c2'] =       1000.0*(tracker.accumulated_c1/tracker.totalMessages);
+  return stats;
+};
+
 
 var handleIncomingData = function(message, address) {
   var data = {};
@@ -46,48 +90,10 @@ var handleIncomingData = function(message, address) {
   }
   data.address = address;
   data.size = message.length;
-  dataBuffers[address] = dataBuffers[address] || [];
   if (!data.error) {
-    dataBuffers[address].push(data);
+    updateStats(data, address);
   }
   eventEmitter.emit('data', data);
-};
-
-
-var genStats = function(dataList) {
-  // find message rate
-  var stats = {};
-  stats['message_rate'] = 1000*1.0*dataList.length/windowPeriod;
-
-  // find average message size and max data rate
-  var minInterval = 0;
-
-  totalBytes = 0;
-  _.forEach(dataList, function(annotatedData, index) {
-    totalBytes += annotatedData.size;
-    minInterval += annotatedData.msg.lp; // logging period
-  });
-
-  minInterval /= dataList.length; // average
-  // prevent divide-by-zero issue
-  minInterval = minInterval === 0 ? 1e-9 : minInterval;
-  stats['max_rate'] = 1e6 / minInterval; // interval in microseconds to Hz
-  stats['data_rate'] = 1000*1.0*totalBytes/windowPeriod;
-  stats['avg_size'] = totalBytes/dataList.length;
-
-
-  // find dropped messages
-  var dropped = 0;
-  var counterList = _.pluck(_.pluck(dataList, 'msg'), 'i'); //incrementing counter
-
-  counterList.sort();
-  for (i = 1; i < counterList.length; i++) {
-      if (counterList[i]-1 != counterList[i-1]) {
-        dropped += counterList[i] - counterList[i-1];
-      }
-  }
-  stats['drop_rate'] = 1000*(dropped/windowPeriod);
-  return stats;
 };
 
 
@@ -103,11 +109,13 @@ app_sensors_serial.on("data", function(data) {
 });
 
 setInterval(function() {
-  var recentStats = _.transform(dataBuffers, function(result, buffer, key) {
-    result[key] = genStats(buffer);
+  var recentStats = _.transform(statTrackers, function(result, tracker, key) {
+    result[key] = genStatsFromTracker(tracker);
+  });
+  statTrackers = _.transform(statTrackers, function(result, tracker, key) {
+    result[key] = resetStatTracker(tracker);
   });
   eventEmitter.emit('stats', recentStats);
-  dataBuffers = {};
 }, windowPeriod);
 
 
