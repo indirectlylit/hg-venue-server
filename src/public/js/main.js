@@ -50,7 +50,9 @@ $(function() {
 
     var tableRows = _.map(app.data.clientAddresses, function(address) {
       var stats = newStats[address];
-      row = {address: address};
+
+      row = {};
+      row.address = address === "serial port" ? "Controller" : address;
 
       if (stats) { // we have new data
         row.message_rate =  _.has(stats, 'message_rate') ?
@@ -70,7 +72,6 @@ $(function() {
         //                           stats.avg_size.toFixed(1) : '?';
       }
       else { // no data received from this address
-        row.address =      address === "serial port" ? "Controller" : address;
         row.message_rate = 0;
         row.drop_rate =    "";
         row.data_rate =    (0).toFixed(2);
