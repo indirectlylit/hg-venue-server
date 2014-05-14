@@ -51,5 +51,6 @@ Vagrant.configure("2") do |config|
 	config.vm.network :forwarded_port, :host => 8080, :guest => 8080 # web
 	config.vm.network :forwarded_port, :host => 8081, :guest => 8081 # websockets
 	config.vm.network :forwarded_port, :host => 7777, :guest => 7777 # UDP
+	config.vm.network :forwarded_port, :host => 5959, :guest => 5959 # 'look' node profiling
 
 end

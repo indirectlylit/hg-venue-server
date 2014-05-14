@@ -6,6 +6,16 @@
 
 
 
+//// PROFILING
+/*
+  To profile, uncomment the line below.
+  Then:
+   * npm install look
+   * node app.js
+  and navigate to http://localhost:5959
+*/
+// require('look').start();
+
 //// EXTERNAL MODULES
 
 var _ = require('lodash');
