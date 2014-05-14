@@ -168,8 +168,8 @@ setPinMode(NOT_SHUTDOWN_REQUEST, 'in', function(err) {
     setPinMode(SERVER_STATUS, 'out', function(err) {
       if (err) return;
 
-      // begin polling for the shutdown signal every quarter second
-      setInterval(function() {
+      // begin polling for the shutdown signal every two seconds
+      setInterval(function checkForShutdown() {
         readPin(NOT_SHUTDOWN_REQUEST, function(err, notShutdown) {
           if (err) return;
 
@@ -178,7 +178,7 @@ setPinMode(NOT_SHUTDOWN_REQUEST, 'in', function(err) {
             eventEmitter.emit('shutdown');
           }
         });
-      }, 250);
+      }, 2000);
 
       // indicate to the power controller that we're ready to receive shutdown signals
       writePin(SERVER_STATUS, true, function(){});
