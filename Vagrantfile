@@ -48,8 +48,8 @@ Vagrant.configure("2") do |config|
 	config.vm.provision :shell, :inline => "ln -sf /vagrant/gpio_emulator.py /usr/local/bin/gpio"
 
 	# forwarded ports
-	config.vm.network :forwarded_port, :host => 8080, :guest => 8080
-	config.vm.network :forwarded_port, :host => 8081, :guest => 8081
-	config.vm.network :forwarded_port, :host => 7777, :guest => 7777
+	config.vm.network :forwarded_port, :host => 8080, :guest => 8080 # web
+	config.vm.network :forwarded_port, :host => 8081, :guest => 8081 # websockets
+	config.vm.network :forwarded_port, :host => 7777, :guest => 7777 # UDP
 
 end
