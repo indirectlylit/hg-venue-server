@@ -14,7 +14,7 @@ var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
 defaults = {
   log_file_name : '',
   log_external : true,
-  output_square_wave : true,
+  output_square_wave : false,
   client_update_period : 1000, // ms
 };
 
