@@ -43,7 +43,7 @@ app.ctrl.setLogExternal = function(newState) {
     app.data.logger_info = data;
   })
   .always(function() {
-    // app.views.serverSettings.render();
+    app.views.serverSettings.render();
     app.views.logList.render();
     app.views.recorder.render();
   });
