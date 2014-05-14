@@ -104,21 +104,21 @@ app_sensors_udp.on("message", function (msg, rinfo) {
 });
 
 
-app_sensors_serial.on("data", function(data) {
+app_sensors_serial.on("data", function (data) {
   handleIncomingData(data.toString(), "serial port");
 });
 
-setInterval(function() {
+setInterval(function genStats() {
   var recentStats = _.transform(
     _.filter(statTrackers, function filter(tracker) {
       return tracker.totalMessages > 0;
     }),
-    function(result, tracker, key) {
-      result[key] = genStatsFromTracker(tracker);
+    function mapTrackerToStats(stats, tracker, key) {
+      stats[key] = genStatsFromTracker(tracker);
     }
   );
-  statTrackers = _.transform(statTrackers, function(result, tracker, key) {
-    result[key] = resetStatTracker(tracker);
+  statTrackers = _.transform(statTrackers, function resetTracker(trackers, tracker, key) {
+    trackers[key] = resetStatTracker(tracker);
   });
   eventEmitter.emit('stats', recentStats);
 }, windowPeriod);
