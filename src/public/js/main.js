@@ -36,6 +36,9 @@ $(function() {
   app.dom.sensorStats.html(app.utils.render('sensorStats'));
   app.dom.serverStats.html(app.utils.render('serverStats'));
 
+  // hide settings when not in advanced mode
+  app.dom.serverStats.toggleClass('hidden', !location.hash.match(/^#?advanced$/));
+
   // application data (some pre-populated in index.hjs)
   app.data = app.data || {};
   app.data.clientAddresses = [];
