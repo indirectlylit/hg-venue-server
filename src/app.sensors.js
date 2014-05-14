@@ -109,9 +109,14 @@ app_sensors_serial.on("data", function(data) {
 });
 
 setInterval(function() {
-  var recentStats = _.transform(statTrackers, function(result, tracker, key) {
-    result[key] = genStatsFromTracker(tracker);
-  });
+  var recentStats = _.transform(
+    _.filter(statTrackers, function filter(tracker) {
+      return tracker.totalMessages > 0;
+    }),
+    function(result, tracker, key) {
+      result[key] = genStatsFromTracker(tracker);
+    }
+  );
   statTrackers = _.transform(statTrackers, function(result, tracker, key) {
     result[key] = resetStatTracker(tracker);
   });
