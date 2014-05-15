@@ -5,6 +5,8 @@
 // All Rights Reserved
 
 
+console.log("\n\nSTART VENUE SERVER: "+Date());
+
 
 //// PROFILING
 /*
@@ -15,6 +17,7 @@
   and navigate to http://localhost:5959
 */
 // require('look').start();
+
 
 //// EXTERNAL MODULES
 
