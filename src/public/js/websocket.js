@@ -5,7 +5,6 @@
 
 
 
-var app = app || {};
 app.websocket = app.websocket || {};
 
 _.extend(app.websocket, Backbone.Events);

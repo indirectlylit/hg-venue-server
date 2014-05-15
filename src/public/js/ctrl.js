@@ -4,7 +4,6 @@
 // All Rights Reserved
 
 
-var app = app || {};
 app.ctrl = app.ctrl || {};
 
 

@@ -5,7 +5,6 @@
 // All Rights Reserved
 
 
-var app = app || {};
 app.utils = app.utils || {};
 
 

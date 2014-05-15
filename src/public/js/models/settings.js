@@ -3,7 +3,6 @@
 // All Rights Reserved
 
 
-var app = app || {};
 app.models = app.models || {};
 
 

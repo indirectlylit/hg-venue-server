@@ -4,9 +4,6 @@
 // All Rights Reserved
 
 
-var app = app || {};
-
-
 $(function() {
 
   /*************/
@@ -35,7 +32,6 @@ $(function() {
   // hide settings when not in advanced mode
   $('.js-settings').toggleClass('hidden', !location.hash.match(/^#?advanced$/));
 
-  app.data = app.data || {};
 
   /*********************/
   /* Application State */
