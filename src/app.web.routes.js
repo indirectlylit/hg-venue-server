@@ -26,12 +26,13 @@ app_web.route('get', '/', function(req, res) {
         console.log("Error:", err);
         return res.json(500, err);
       }
-      var initData = {
+      // gets put in app.state on the client
+      var initState = {
         logger_info:    logger_info,
         wave_info:      app_gpio.getWaveInfo(),
         serverStats:    app_serverStats.getStats()
       };
-      res.render('index', { templateData: templateData, initData: JSON.stringify(initData) });
+      res.render('index', { templateData: templateData, initState: JSON.stringify(initState) });
     });
   });
 });
