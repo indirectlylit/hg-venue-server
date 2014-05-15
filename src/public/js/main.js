@@ -16,12 +16,12 @@ $(function() {
   app.dom = {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState'),
-    serverStats       : $('.js-serverStats'),
     settings          : $('.js-settings'),
   };
 
   app.views = app.views || {};
   app.views.network         = new app.views.Network().render();
+  app.views.serverStats     = new app.views.ServerStats().render();
   app.views.serverSettings  = new app.views.ServerSettings().render();
   app.views.logList         = new app.views.LogList().render();
   app.views.recorder        = new app.views.Recorder().render();
@@ -33,14 +33,14 @@ $(function() {
   $.pnotify.defaults.styling = "bootstrap3";
   // $.pnotify.defaults.history = false;
 
-  // pre-render
-  app.dom.serverStats.html(app.utils.render('serverStats'));
-
   // hide settings when not in advanced mode
   app.dom.settings.toggleClass('hidden', !location.hash.match(/^#?advanced$/));
 
-  // application data (some pre-populated in index.hjs)
   app.data = app.data || {};
+  // Note: the following should be pre-populated by the server:
+  // * app.data.logger_info
+  // * app.data.wave_info
+  // * app.data.serverStats
   app.data.clientAddresses = [];
   app.data.fileName = "";
   app.data.networkStats = {};
@@ -60,20 +60,8 @@ $(function() {
   /* Server Statistics */
   /*********************/
   app.websocket.on('server.stats', function(stats) {
-    var context = {
-      arch:       stats.arch,
-      memory:     app.utils.formatKBytes(stats.freemem) + " / " +
-                  app.utils.formatKBytes(stats.totalmem),
-      disk:       app.utils.formatKBytes(stats.freedisk || 0) + " / " +
-                  app.utils.formatKBytes(stats.totaldisk || 0),
-      load:       (100*stats.loadavg[0]).toFixed(0) + "%, " +
-                  (100*stats.loadavg[1]).toFixed(0) + "%, " +
-                  (100*stats.loadavg[2]).toFixed(0) + "%",
-      uptime:     moment.duration(stats.uptime, 'seconds').humanize(),
-      appUptime:  moment.duration(stats.appUptime, 'seconds').humanize(),
-      overload:   stats.logs_overloaded ? "Yes" : "No",
-    };
-    app.dom.serverStats.html(app.utils.render('serverStats', context));
+    app.data.serverStats = stats;
+    app.views.serverStats.render();
   });
 
   /*******************/

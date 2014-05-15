@@ -69,6 +69,7 @@
 
     <!-- views -->
     <script src="/js/views/Network.js"></script>
+    <script src="/js/views/ServerStats.js"></script>
     <script src="/js/views/ServerSettings.js"></script>
     <script src="/js/views/LogList.js"></script>
     <script src="/js/views/Recorder.js"></script>
