@@ -28,7 +28,7 @@
           <div class="panel panel-default js-settings"></div>
         </div>
         <div class="col-md-8">
-          <div class="panel panel-default js-sensorStats"></div>
+          <div class="panel panel-default js-network"></div>
         </div>
       </div> <!-- /row -->
       <div class="row">
@@ -68,6 +68,7 @@
     <script src="/js/models/settings.js"></script>
 
     <!-- views -->
+    <script src="/js/views/Network.js"></script>
     <script src="/js/views/ServerSettings.js"></script>
     <script src="/js/views/LogList.js"></script>
     <script src="/js/views/Recorder.js"></script>
