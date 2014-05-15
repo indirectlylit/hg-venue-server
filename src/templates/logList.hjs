@@ -9,7 +9,7 @@
         <td class='label-col'>Label</td>
         <td class='text-right'>Size</td>
       </thead>
-      <tbody class="js-fileTable">
+      <tbody>
 {{#fileInfo}}
         <tr>
           <td>{{ time }}</td>

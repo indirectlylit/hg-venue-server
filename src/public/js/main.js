@@ -11,7 +11,6 @@ $(function() {
   /*************/
 
   app.dom = {
-    fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState')
   };
 
