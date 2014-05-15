@@ -64,9 +64,6 @@
     <script src="/js/vendor/jquery.cookie.min.js"></script>
     <script src="/js/vendor/moment.min.js"></script>
 
-    <!-- models -->
-    <script src="/js/models/settings.js"></script>
-
     <!-- views -->
     <script src="/js/views/Network.js"></script>
     <script src="/js/views/ServerStats.js"></script>
