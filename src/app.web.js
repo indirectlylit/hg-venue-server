@@ -68,22 +68,22 @@ expressApp.configure(function(){
 
 
 // loads up all the client-side templates
-module.exports.loadClientTemplates = function(callback) {
+module.exports.loadFiles = function(directory, extension, callback) {
   var cwd = __dirname;
   async.waterfall([
 
     // find all possible templates
     function(callback) {
-      dir.files(path.join(cwd, 'templates'), callback);
+      dir.files(path.join(cwd, directory), callback);
     },
 
     // load contents of all templates and assign them IDs
     function(filePaths, callback) {
-      filePaths = _.filter(filePaths, function(filePath) {return path.extname(filePath) === '.hjs';});
+      filePaths = _.filter(filePaths, function(filePath) {return path.extname(filePath) === extension;});
       var allMetaData = _.map(filePaths, function(filePath) {
         return {
           'file': filePath,
-          'id':   path.basename(filePath).slice(0, -('.hjs'.length))
+          'id':   path.basename(filePath).slice(0, -(extension.length))
         };
       });
       // maps the list of meta-data to a list of data

@@ -6,6 +6,7 @@
 
 
 var _ = require('lodash');
+var path = require('path');
 
 
 var app_gpio = require("./app.gpio");
@@ -15,24 +16,35 @@ var app_web = require("./app.web");
 
 
 app_web.route('get', '/', function(req, res) {
-  // render the index with all templates embedded
-  app_web.loadClientTemplates(function(err, templateData) {
+  // render the index with all templates embedded; also auto-load view files
+  app_web.loadFiles('templates', '.hjs', function(err, templateData) {
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_logger.getInfo(function(err, logger_info) {
+    app_web.loadFiles(path.join('public', 'js', 'views'), '.js', function(err, viewData) {
       if (err) {
         console.log("Error:", err);
         return res.json(500, err);
       }
-      // gets put in app.state on the client
-      var initState = {
-        logger_info:    logger_info,
-        wave_info:      app_gpio.getWaveInfo(),
-        serverStats:    app_serverStats.getStats()
-      };
-      res.render('index', { templateData: templateData, initState: JSON.stringify(initState) });
+      app_logger.getInfo(function(err, logger_info) {
+        if (err) {
+          console.log("Error:", err);
+          return res.json(500, err);
+        }
+        // gets put in app.state on the client
+        var initState = {
+          logger_info:    logger_info,
+          wave_info:      app_gpio.getWaveInfo(),
+          serverStats:    app_serverStats.getStats()
+        };
+        console.log(viewData);
+        res.render('index', {
+          templateData: templateData,
+          viewData: viewData,
+          initState: JSON.stringify(initState)
+        });
+      });
     });
   });
 });

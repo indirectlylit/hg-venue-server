@@ -65,11 +65,9 @@
     <script src="/js/vendor/moment.min.js"></script>
 
     <!-- views -->
-    <script src="/js/views/Network.js"></script>
-    <script src="/js/views/ServerStats.js"></script>
-    <script src="/js/views/ServerSettings.js"></script>
-    <script src="/js/views/LogList.js"></script>
-    <script src="/js/views/Recorder.js"></script>
+{{#viewData}}
+    <script src="/js/views/{{id}}.js"></script>
+{{/viewData}}
 
     <!-- application -->
     <script src="/js/jquery.hotkeys-mod.js"></script>
