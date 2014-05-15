@@ -75,16 +75,16 @@ app_gpio.on('edge', function(state, timeToChange) {
 
 // sensors
 app_sensors.on('stats', function(stats) {
-  publish('sensors.stats', stats);
+  publish('network.stats', stats);
 });
 
 app_sensors.on('data', function(data) {
-  publish('sensors.data', data);
+  publish('network.data', data);
 });
 
 // web socket output
 app_pubsub.subscribe([
-  'sensors.stats',
+  'network.stats',
   'server.stats',
   'logger.recording_state',
 ], app_web.writeToSockets);

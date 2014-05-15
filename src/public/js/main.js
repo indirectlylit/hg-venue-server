@@ -45,10 +45,11 @@ $(function() {
   app.data.networkStats = {};
 
 
-  /*********************/
-  /* Sensor Statistics */
-  /*********************/
-  app.websocket.on('sensors.stats', function(newStats) {
+  /**********************/
+  /* Network Statistics */
+  /**********************/
+
+  app.websocket.on('network.stats', function(newStats) {
     app.data.clientAddresses = _.union(app.data.clientAddresses, _.keys(newStats)).sort();
     app.data.networkStats = newStats;
     app.views.network.render();
