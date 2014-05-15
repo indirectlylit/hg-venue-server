@@ -15,8 +15,7 @@ $(function() {
 
   app.dom = {
     fileTable         : $('.js-fileTable'),
-    connectionState   : $('.js-connectionState'),
-    settings          : $('.js-settings'),
+    connectionState   : $('.js-connectionState')
   };
 
   app.views = app.views || {};
@@ -34,7 +33,7 @@ $(function() {
   // $.pnotify.defaults.history = false;
 
   // hide settings when not in advanced mode
-  app.dom.settings.toggleClass('hidden', !location.hash.match(/^#?advanced$/));
+  $('.js-settings').toggleClass('hidden', !location.hash.match(/^#?advanced$/));
 
   app.data = app.data || {};
   // Note: the following should be pre-populated by the server:
