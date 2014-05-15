@@ -17,6 +17,7 @@ $(function() {
     fileTable         : $('.js-fileTable'),
     connectionState   : $('.js-connectionState'),
     serverStats       : $('.js-serverStats'),
+    settings          : $('.js-settings'),
     sensorStats       : $('.js-sensorStats')
   };
 
@@ -37,7 +38,7 @@ $(function() {
   app.dom.serverStats.html(app.utils.render('serverStats'));
 
   // hide settings when not in advanced mode
-  app.dom.serverStats.toggleClass('hidden', !location.hash.match(/^#?advanced$/));
+  app.dom.settings.toggleClass('hidden', !location.hash.match(/^#?advanced$/));
 
   // application data (some pre-populated in index.hjs)
   app.data = app.data || {};
