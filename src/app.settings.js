@@ -1,4 +1,5 @@
 
+//// EXTERNAL MODULES
 
 var _ = require('lodash');
 var fs = require('fs');
@@ -6,12 +7,11 @@ var os = require('os');
 var path = require('path');
 
 
-
-
+//// LOCAL VARIABLES
 
 var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
 
-defaults = {
+var defaults = {
   log_file_name : '',
   log_external : true,
   output_square_wave : false,
@@ -20,11 +20,43 @@ defaults = {
 
 var settings = {};
 
+
+//// LOCAL FUNCTIONS
+
+function get(key) {
+  if (key === undefined) {
+    return settings;
+  }
+  if (!_.has(settings, key)) {
+    throw("'" + key + "' is not a setting.");
+  }
+  return settings[key];
+}
+
+function set(key, value, callback) {
+  if (!_.has(settings, key)) {
+    callback("'" + key + "' is not a setting.");
+  }
+  if (settings[key] === value) {
+    callback();
+  }
+  settings[key] = value;
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function(){callback();});
+}
+
+function reset(callback) {
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
+  settings = _.clone(defaults);
+}
+
 function resetSync() {
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(settings));
   settings = _.clone(defaults);
   console.log("Reset to default settings: "+CONFIG_FILE);
 }
+
+
+//// MODULE LOGIC
 
 // Load the previous settings if they are less than a week old
 try {
@@ -43,28 +75,8 @@ catch (e) {
 }
 
 
-module.exports.get = function(key) {
-  if (key === undefined) {
-    return settings;
-  }
-  if (!_.has(settings, key)) {
-    throw("'" + key + "' is not a setting.");
-  }
-  return settings[key];
-};
+//// EXPORTS
 
-module.exports.set = function(key, value, callback) {
-  if (!_.has(settings, key)) {
-    callback("'" + key + "' is not a setting.");
-  }
-  if (settings[key] === value) {
-    callback();
-  }
-  settings[key] = value;
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function(){callback();});
-};
-
-module.exports.reset = function(callback) {
-  settings = _.clone(defaults);
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
-};
+module.exports.get = get;
+module.exports.set = set;
+module.exports.reset = reset;
