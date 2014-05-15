@@ -41,8 +41,8 @@ $(function() {
   // * app.data.wave_info
   // * app.data.serverStats
   app.data.clientAddresses = [];
-  app.data.fileName = "";
   app.data.networkStats = {};
+  app.data.fileName = "";
 
 
   /**********************/
