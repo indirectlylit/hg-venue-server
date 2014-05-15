@@ -36,8 +36,8 @@ var updateStats = function(data, address) {
     lastPacketID: 0,
     dropped : 0,
     accumulated_v: 0,
-    accumulated_c1: 0,
-    accumulated_c2: 0,
+    accumulated_c_in: 0,
+    accumulated_c_out: 0,
   };
   statTrackers[address].totalMessages++;
   statTrackers[address].totalBytes += data.size;
@@ -46,8 +46,8 @@ var updateStats = function(data, address) {
   }
   statTrackers[address].lastPacketID = data.msg.i;
   statTrackers[address].accumulated_v += data.msg.v;
-  statTrackers[address].accumulated_c1 += data.msg.c1;
-  statTrackers[address].accumulated_c2 += data.msg.c2;
+  statTrackers[address].accumulated_c_in += data.msg.c_in;
+  statTrackers[address].accumulated_c_out += data.msg.c_out;
 };
 
 var resetStatTracker = function(tracker) {
@@ -55,8 +55,8 @@ var resetStatTracker = function(tracker) {
   tracker.totalBytes = 0;
   tracker.dropped = 0;
   tracker.accumulated_v = 0;
-  tracker.accumulated_c1 = 0;
-  tracker.accumulated_c2 = 0;
+  tracker.accumulated_c_in = 0;
+  tracker.accumulated_c_out = 0;
   return tracker;
 };
 
@@ -67,8 +67,8 @@ var genStatsFromTracker = function(tracker) {
   stats['data_rate'] =    1000.0*(tracker.totalBytes/windowPeriod);
   stats['drop_rate'] =    1000.0*(tracker.dropped/windowPeriod);
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
-  stats['avg_c1'] =       tracker.accumulated_c1/tracker.totalMessages;
-  stats['avg_c2'] =       tracker.accumulated_c1/tracker.totalMessages;
+  stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
+  stats['avg_c_out'] =    tracker.accumulated_c_out/tracker.totalMessages;
   return stats;
 };
 

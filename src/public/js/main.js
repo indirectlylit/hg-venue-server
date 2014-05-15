@@ -67,10 +67,10 @@ $(function() {
                                   (stats.data_rate/1024).toFixed(2) : '?';
         row.voltage =       _.has(stats, 'avg_v') ?
                                   (stats.avg_v).toFixed(2) : '?';
-        row.power_in =      _.has(stats, 'avg_c1') ?
-                                  (stats.avg_v * stats.avg_c1).toFixed(2) : '?';
-        row.power_out =     _.has(stats, 'avg_c2') ?
-                                  (stats.avg_v * stats.avg_c2).toFixed(2) : '?';
+        row.power_in =      _.has(stats, 'avg_c_in') ?
+                                  (stats.avg_v * stats.avg_c_in).toFixed(2) : '?';
+        row.power_out =     _.has(stats, 'avg_c_out') ?
+                                  (stats.avg_v * stats.avg_c_out).toFixed(2) : '?';
         row.connected =     true;
       }
       else { // no data received from this address
