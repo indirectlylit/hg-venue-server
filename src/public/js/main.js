@@ -36,6 +36,11 @@ $(function() {
   $('.js-settings').toggleClass('hidden', !location.hash.match(/^#?advanced$/));
 
   app.data = app.data || {};
+
+  /*********************/
+  /* Application State */
+  /*********************/
+
   // Note: the following should be pre-populated by the server:
   // * app.data.logger_info
   // * app.data.wave_info
@@ -59,14 +64,17 @@ $(function() {
   /*********************/
   /* Server Statistics */
   /*********************/
+
   app.websocket.on('server.stats', function(stats) {
     app.data.serverStats = stats;
     app.views.serverStats.render();
   });
 
+
   /*******************/
   /* Recording State */
   /*******************/
+
   app.websocket.on('logger.recording_state', function(recording_state) {
     app.data.logger_info.recording_state = recording_state;
     app.views.recorder.render();
@@ -76,6 +84,7 @@ $(function() {
   /****************************/
   /* General Websocket events */
   /****************************/
+
   app.websocket.on('connecting', function(e) {
     app.dom.connectionState.text('Not Connected');
     app.utils.setLabelClass(app.dom.connectionState, 'label-danger');
