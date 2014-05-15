@@ -20,13 +20,26 @@ defaults = {
 
 var settings = {};
 
+function resetSync() {
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify(settings));
+  settings = _.clone(defaults);
+  console.log("Reset to default settings: "+CONFIG_FILE);
+}
+
+// Load the previous settings if they are less than a week old
 try {
-  settings = JSON.parse(fs.readFileSync(CONFIG_FILE));
-  _.defaults(settings, defaults);
+  var a_week = 1000*60*60*24*7; // in ms
+  if (Date.now() - fs.statSync(CONFIG_FILE).mtime.getTime() < a_week) {
+    settings = JSON.parse(fs.readFileSync(CONFIG_FILE));
+    _.defaults(settings, defaults);
+    console.log("Loaded existing settings from "+CONFIG_FILE);
+  }
+  else {
+    resetSync();
+  }
 }
 catch (e) {
-  fs.writeFileSync(CONFIG_FILE, JSON.stringify(defaults));
-  settings = _.clone(defaults);
+  resetSync();
 }
 
 
