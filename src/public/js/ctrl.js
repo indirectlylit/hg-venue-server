@@ -28,7 +28,7 @@ var ajax = function(verb, url, data) {
 app.ctrl.setWave = function(newState) {
   ajax('put', '/api/squarewave/', newState)
   .done(function(on, textStatus, jqXHR) {
-    app.data.wave_info.on = on;
+    app.state.wave_info.on = on;
   })
   .always(function() {
     app.views.serverSettings.render();
@@ -39,7 +39,7 @@ app.ctrl.setWave = function(newState) {
 app.ctrl.setLogExternal = function(newState) {
   ajax('put', '/api/logger/external/', newState)
   .done(function(data, textStatus, jqXHR) {
-    app.data.logger_info = data;
+    app.state.logger_info = data;
   })
   .always(function() {
     app.views.serverSettings.render();
@@ -52,7 +52,7 @@ app.ctrl.setLogExternal = function(newState) {
 var _updateRecordingState = function(state) {
   ajax('put', '/api/logger/'+state)
   .done(function(recording_state, textStatus, jqXHR) {
-    app.data.logger_info.recording_state = recording_state;
+    app.state.logger_info.recording_state = recording_state;
   })
   .always(function() {
     app.views.recorder.render();
@@ -75,7 +75,7 @@ app.ctrl.resetRecording = function() {
 app.ctrl.saveRecording = function(name) {
   ajax('post', '/api/logger/save_as/', name)
   .done(function(logger_info, textStatus, jqXHR) {
-    app.data.logger_info = logger_info;
+    app.state.logger_info = logger_info;
   })
   .always(function() {
     app.views.recorder.render();

@@ -13,7 +13,7 @@ app.views.LogList = Backbone.Viewmaster.extend({
   },
   context: function() {
     var fileInfo = _.map(
-      _.sortBy(app.data.logger_info.saved_files, 'time').reverse(),
+      _.sortBy(app.state.logger_info.saved_files, 'time').reverse(),
       function(metaData) {
         var timestamp = moment(metaData.time);
         return {
@@ -24,7 +24,7 @@ app.views.LogList = Backbone.Viewmaster.extend({
       }
     );
     return {
-      'location': app.data.logger_info.location.directory,
+      'location': app.state.logger_info.location.directory,
       'fileInfo': fileInfo
     };
   },

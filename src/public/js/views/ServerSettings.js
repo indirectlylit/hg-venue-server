@@ -14,8 +14,8 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
   },
   context: function() {
     return {
-      wave_info:    app.data.wave_info,
-      log_location: app.data.logger_info.location,
+      wave_info:    app.state.wave_info,
+      log_location: app.state.logger_info.location,
       socket:       app.websocket.getDisplayAddress()
     };
   },

@@ -37,12 +37,12 @@ $(function() {
   /*********************/
 
   // Note: the following should be pre-populated by the server:
-  // * app.data.logger_info
-  // * app.data.wave_info
-  // * app.data.serverStats
-  app.data.clientAddresses = [];
-  app.data.networkStats = {};
-  app.data.fileName = "";
+  // * app.state.logger_info
+  // * app.state.wave_info
+  // * app.state.serverStats
+  app.state.clientAddresses = [];
+  app.state.networkStats = {};
+  app.state.fileName = "";
 
 
   /**********************/
@@ -50,8 +50,8 @@ $(function() {
   /**********************/
 
   app.websocket.on('network.stats', function(newStats) {
-    app.data.clientAddresses = _.union(app.data.clientAddresses, _.keys(newStats)).sort();
-    app.data.networkStats = newStats;
+    app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
+    app.state.networkStats = newStats;
     app.views.network.render();
   });
 
@@ -61,7 +61,7 @@ $(function() {
   /*********************/
 
   app.websocket.on('server.stats', function(stats) {
-    app.data.serverStats = stats;
+    app.state.serverStats = stats;
     app.views.serverStats.render();
   });
 
@@ -71,7 +71,7 @@ $(function() {
   /*******************/
 
   app.websocket.on('logger.recording_state', function(recording_state) {
-    app.data.logger_info.recording_state = recording_state;
+    app.state.logger_info.recording_state = recording_state;
     app.views.recorder.render();
   });
 

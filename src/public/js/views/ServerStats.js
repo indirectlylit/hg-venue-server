@@ -13,17 +13,17 @@ app.views.ServerStats = Backbone.Viewmaster.extend({
   },
   context: function() {
     return {
-      arch:       app.data.serverStats.arch,
-      memory:     app.utils.formatKBytes(app.data.serverStats.freemem) + " / " +
-                  app.utils.formatKBytes(app.data.serverStats.totalmem),
-      disk:       app.utils.formatKBytes(app.data.serverStats.freedisk || 0) + " / " +
-                  app.utils.formatKBytes(app.data.serverStats.totaldisk || 0),
-      load:       (100*app.data.serverStats.loadavg[0]).toFixed(0) + "%, " +
-                  (100*app.data.serverStats.loadavg[1]).toFixed(0) + "%, " +
-                  (100*app.data.serverStats.loadavg[2]).toFixed(0) + "%",
-      uptime:     moment.duration(app.data.serverStats.uptime, 'seconds').humanize(),
-      appUptime:  moment.duration(app.data.serverStats.appUptime, 'seconds').humanize(),
-      overload:   app.data.serverStats.logs_overloaded ? "Yes" : "No",
+      arch:       app.state.serverStats.arch,
+      memory:     app.utils.formatKBytes(app.state.serverStats.freemem) + " / " +
+                  app.utils.formatKBytes(app.state.serverStats.totalmem),
+      disk:       app.utils.formatKBytes(app.state.serverStats.freedisk || 0) + " / " +
+                  app.utils.formatKBytes(app.state.serverStats.totaldisk || 0),
+      load:       (100*app.state.serverStats.loadavg[0]).toFixed(0) + "%, " +
+                  (100*app.state.serverStats.loadavg[1]).toFixed(0) + "%, " +
+                  (100*app.state.serverStats.loadavg[2]).toFixed(0) + "%",
+      uptime:     moment.duration(app.state.serverStats.uptime, 'seconds').humanize(),
+      appUptime:  moment.duration(app.state.serverStats.appUptime, 'seconds').humanize(),
+      overload:   app.state.serverStats.logs_overloaded ? "Yes" : "No",
     };
   },
   initialize: function() {

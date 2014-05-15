@@ -12,8 +12,8 @@ app.views.Network = Backbone.Viewmaster.extend({
     return app.utils.render('sensorStats', context);
   },
   context: function() {
-    var tableRows = _.map(app.data.clientAddresses, function genStatsTableRow(address) {
-      var stats = app.data.networkStats[address];
+    var tableRows = _.map(app.state.clientAddresses, function genStatsTableRow(address) {
+      var stats = app.state.networkStats[address];
 
       row = {};
       row.address = address === "serial port" ? "Controller" : address;

@@ -13,9 +13,9 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     return app.utils.render('recorder', context);
   },
   context: function() {
-    var state = app.data.logger_info.recording_state;
+    var state = app.state.logger_info.recording_state;
     return {
-      file_name :     app.data.fileName,
+      file_name :     app.state.fileName,
       enable_stop :   state.recording,
       enable_save :   !state.recording && state.exists,
       enable_reset :  !state.recording && state.exists,
@@ -64,12 +64,12 @@ app.views.Recorder = Backbone.Viewmaster.extend({
   },
   _save: function(event) {
     if (this.context().enable_save) {
-      app.ctrl.saveRecording(app.data.fileName);
+      app.ctrl.saveRecording(app.state.fileName);
     }
     return false;
   },
   _updateFileName: function(event) {
-    app.data.fileName = event.target.value;
+    app.state.fileName = event.target.value;
   }
 });
 

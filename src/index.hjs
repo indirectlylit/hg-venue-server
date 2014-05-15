@@ -47,7 +47,7 @@
     <!-- app data -->
     <script>
       var app = app || {};
-      app.data = {{{initData}}};
+      app.state = {{{initData}}};
     </script>
 
     <!-- vendor -->
