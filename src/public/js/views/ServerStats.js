@@ -13,7 +13,6 @@ app.views.ServerStats = Backbone.Viewmaster.extend({
   },
   context: function() {
     return {
-      arch:       app.state.serverStats.arch,
       memory:     app.utils.formatKBytes(app.state.serverStats.freemem) + " / " +
                   app.utils.formatKBytes(app.state.serverStats.totalmem),
       disk:       app.utils.formatKBytes(app.state.serverStats.freedisk || 0) + " / " +

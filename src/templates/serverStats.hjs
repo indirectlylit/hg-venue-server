@@ -3,8 +3,6 @@
 </div>
 <div class="panel-body">
   <dl class="dl-horizontal">
-    <dt>Architecture</dt>
-    <dd>{{ arch }}</dd>
     <dt>Server Uptime</dt>
     <dd>{{ uptime }}</dd>
     <dt>App Uptime</dt>
