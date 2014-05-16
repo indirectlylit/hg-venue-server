@@ -82,3 +82,20 @@ app.ctrl.saveRecording = function(name) {
     app.views.logList.render();
   });
 };
+
+app.ctrl.deleteFile = function(fileID) {
+  ajax('delete', '/api/logger/files/'+fileID)
+  .done(function(logger_info, textStatus, jqXHR) {
+    app.state.logger_info = logger_info;
+  })
+  .always(function() {
+    app.views.logList.render();
+  });
+};
+
+app.ctrl.downloadFile = function(fileID) {
+  ajax('get', '/api/logger/files/'+fileID)
+  .always(function() {
+    app.views.logList.render();
+  });
+};

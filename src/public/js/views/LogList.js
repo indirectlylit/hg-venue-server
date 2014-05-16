@@ -19,6 +19,7 @@ app.views.LogList = Backbone.Viewmaster.extend({
         return {
           size: app.utils.formatKBytes(metaData.kbytes),
           name: metaData.name,
+          id:   metaData.id,
           time: timestamp.format("ddd MMM Do, h:mm a"),
         };
       }
@@ -31,7 +32,20 @@ app.views.LogList = Backbone.Viewmaster.extend({
   initialize: function() {
   },
   events: function() {
-    return {};
+    return {
+      "click  .js-download"   :   "_downloadFile",
+      "click  .js-delete"     :   "_deleteFile"
+    };
+  },
+  _downloadFile: function(event) {
+    var button = $(event.target).closest('button');
+    app.ctrl.downloadFile(button.data('id'));
+    button.prop('disabled', true);
+  },
+  _deleteFile: function(event) {
+    var button = $(event.target).closest('button');
+    app.ctrl.deleteFile(button.data('id'));
+    button.prop('disabled', true);
   }
 });
 
