@@ -107,6 +107,18 @@ app_web.route('post', '/api/logger/save_as', function(req, res) {
   });
 });
 
+app_web.route('delete', '/api/logger/files/:id', function(req, res) {
+  app_logger.deleteFile(req.params.id, function(err){
+    if (err) {
+      console.log("Error:", err);
+      return res.json(500, err);
+    }
+    app_logger.getInfo(function(err, file_info) {
+      res.json(file_info);
+    });
+  });
+});
+
 app_web.route('put', '/api/logger/external', function(req, res) {
   if (!_.contains([true, false], req.body)) {
     var err = "'on' must be true or false";

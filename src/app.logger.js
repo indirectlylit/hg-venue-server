@@ -137,6 +137,7 @@ var getFileList = function(callback) {
 
           callback(null, {
             id: shasum.digest('hex'),
+            fName: fName,
             name: parsedName.name,
             time: parsedName.time,
             kbytes: stats.size/1024.0,
@@ -237,6 +238,20 @@ var saveAs = function(label, callback) {
         return callback();
       }
       callback("Couldn't rename '"+tempFileName()+"' to '"+target+"': "+err);
+    });
+  });
+};
+
+var deleteFile = function(id, callback) {
+  getFileList(function(err, allFileInfo) {
+    if (err) return callback(err);
+    fileInfoToDelete = _.find(allFileInfo, {'id':id});
+    if (!fileInfoToDelete) {
+      return callback("File id not found: "+id);
+    }
+    fs.unlink(path.join(dataDir(), fileInfoToDelete.fName), function (err) {
+      if (err) return callback(err);
+      callback();
     });
   });
 };
@@ -346,3 +361,4 @@ module.exports.stopLogging        = stopLogging;
 module.exports.startLogging       = startLogging;
 module.exports.reset              = reset;
 module.exports.saveAs             = saveAs;
+module.exports.deleteFile         = deleteFile;
