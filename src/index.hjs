@@ -33,7 +33,7 @@
           <div class="panel panel-default js-settings"></div>
         </div>
         <div class="col-md-8">
-          <div class="panel panel-default js-network"></div>
+          <div class="panel panel-default js-bikes"></div>
         </div>
       </div> <!-- /row -->
       <div class="row">

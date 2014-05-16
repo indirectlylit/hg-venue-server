@@ -6,10 +6,10 @@
 app.views = app.views || {};
 
 
-app.views.Network = Backbone.Viewmaster.extend({
-  el: $('.js-network'),
+app.views.Bikes = Backbone.Viewmaster.extend({
+  el: $('.js-bikes'),
   template: function(context) {
-    return app.utils.render('sensorStats', context);
+    return app.utils.render('bikes', context);
   },
   context: function() {
     var tableRows = _.map(app.state.clientAddresses, function genStatsTableRow(address) {

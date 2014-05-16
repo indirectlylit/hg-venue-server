@@ -60,7 +60,7 @@ app.ctrl.setLogExternal = function(newState) {
 app.websocket.on('network.stats', function (newStats) {
   app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
   app.state.networkStats = newStats;
-  app.views.network.render();
+  app.views.bikes.render();
 });
 
 
