@@ -7,18 +7,28 @@
       <td class="text-center">Inverter</td>
       <td class="text-center">Tiers</td>
       <td class="text-center">Shunts</td>
-      <td class="text-center">Power In</td>
-      <td class="text-center">Power Out</td>
       <td class="text-center">Voltage</td>
+      <td class="text-center">Generating</td>
+      <td class="text-center">Consuming</td>
     </thead>
     <tbody>
       <tr>
-        <td class='text-center'>{{ inv }}</td>
-        <td class='text-center'>{{ tiers }}</td>
-        <td class='text-center'>{{ shunts }}</td>
-        <td class='text-center'>{{ power_in }}</td>
-        <td class='text-center'>{{ power_out }}</td>
-        <td class='text-center'>{{ voltage }}</td>
+        <td class="text-center">{{ inv }}</td>
+        <td class="text-center">{{ tiers }}</td>
+        <td class="text-center">{{ shunts }}</td>
+        <td class="text-center">{{ voltage }}</td>
+        <td class="text-center">
+          <ul class="ctrl-metrics">
+            <li> <span class="value">{{ current_in }}  </span><span class="unit">amps</span>  </li>
+            <li> <span class="value">{{ power_in }}    </span><span class="unit">watts</span> </li>
+          </ul>
+        </td>
+        <td class="text-center">
+          <ul class="ctrl-metrics">
+            <li> <span class="value">{{ current_out }} </span><span class="unit">amps</span>  </li>
+            <li> <span class="value">{{ power_out }}   </span><span class="unit">watts</span> </li>
+          </ul>
+        </td>
       </tr>
     </tbody>
   </table>

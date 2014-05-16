@@ -1,4 +1,27 @@
 
+.ctrl-metrics {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.ctrl-metrics li {
+  display: block;
+}
+
+.ctrl-metrics .value {
+  display: inline-block;
+  min-width: 55px;
+  text-align: right;
+}
+
+.ctrl-metrics .unit {
+  display: inline-block;
+  min-width: 55px;
+  text-align: left;
+  margin-left: 0.3em;
+}
+
 .js-not-connected-layer .modal-content {
   background-color: #365B8A;
   text-align: center;

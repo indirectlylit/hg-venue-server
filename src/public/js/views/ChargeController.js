@@ -21,8 +21,10 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
         'tiers' : chargeControllerStats.last_msg.tiers,
         'shunts' : chargeControllerStats.last_msg.shunts,
         'voltage' : chargeControllerStats.avg_v.toFixed(1) + ' volts',
-        'power_in' : (chargeControllerStats.avg_c_in * chargeControllerStats.avg_v).toFixed(1) + ' watts',
-        'power_out' : (chargeControllerStats.avg_c_out * chargeControllerStats.avg_v).toFixed(1) + ' watts',
+        'current_in' : chargeControllerStats.avg_c_in.toFixed(1),
+        'current_out' : chargeControllerStats.avg_c_out.toFixed(1),
+        'power_in' : (chargeControllerStats.avg_c_in * chargeControllerStats.avg_v).toFixed(1),
+        'power_out' : (chargeControllerStats.avg_c_out * chargeControllerStats.avg_v).toFixed(1),
       };
     }
     return {
@@ -30,6 +32,8 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
       'tiers' : '?',
       'shunts' : '?',
       'voltage' : '?',
+      'current_in' : '?',
+      'current_out' : '?',
       'power_in' : '?',
       'power_out' : '?'
     };
