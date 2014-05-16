@@ -28,7 +28,7 @@ app_web.route('get', '/', function(req, res) {
         console.log("Error:", err);
         return res.json(500, err);
       }
-      app_logger.getAllFileInfo(function(err, logger_info) {
+      app_logger.getState(function(err, logger_info) {
         if (err) {
           console.log("Error:", err);
           return res.json(500, err);
