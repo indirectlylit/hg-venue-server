@@ -38,7 +38,6 @@ app_web.route('get', '/', function(req, res) {
           wave_info:      app_gpio.getWaveInfo(),
           serverStats:    app_serverStats.getStats()
         };
-        console.log(viewData);
         res.render('index', {
           templateData: templateData,
           viewData: viewData,
