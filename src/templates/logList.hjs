@@ -14,7 +14,15 @@
         <tr>
           <td>{{ time }}</td>
           <td>{{ name }}</td>
-          <td class='text-right'>{{ size }}</td>
+          <td class='text-right nowrap'>{{ size }}</td>
+          <td class='nowrap'>
+            <button type="button" class="btn btn-default btn-xs">
+              <span class="glyphicon glyphicon-arrow-down"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </td>
         </tr>
 {{/fileInfo}}
       </tbody>

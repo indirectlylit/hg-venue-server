@@ -61,3 +61,7 @@ thead td {
 .label-col {
   width: 50%;
 }
+
+.nowrap {
+  white-space: nowrap;
+}
