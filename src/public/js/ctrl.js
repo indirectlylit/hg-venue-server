@@ -61,6 +61,7 @@ app.websocket.on('network.stats', function (newStats) {
   app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
   app.state.networkStats = newStats;
   app.views.bikes.render();
+  app.views.chargeController.render();
 });
 
 

@@ -12,41 +12,24 @@ app.views.Bikes = Backbone.Viewmaster.extend({
     return app.utils.render('bikes', context);
   },
   context: function() {
-    var tableRows = _.map(app.state.clientAddresses, function genStatsTableRow(address) {
-      var stats = app.state.networkStats[address];
-
-      row = {};
-      row.address = address === "serial port" ? "Controller" : address;
-
-      if (stats) { // we have new data
-        row.message_rate =  _.has(stats, 'message_rate') ?
-                                  stats.message_rate.toFixed(1) : '?';
-        row.drop_rate =     _.has(stats, 'drop_rate') ?
-                                  stats.drop_rate.toFixed(1) : '?';
-        row.data_rate =     _.has(stats, 'data_rate') ?
-                                  (stats.data_rate/1024).toFixed(2) : '?';
-        row.voltage =       _.has(stats, 'avg_v') ?
-                                  (stats.avg_v).toFixed(2) : '?';
-        row.power_in =      _.has(stats, 'avg_c_in') ?
-                                  (stats.avg_v * stats.avg_c_in).toFixed(2) : '?';
-        row.power_out =     _.has(stats, 'avg_c_out') ?
-                                  (stats.avg_v * stats.avg_c_out).toFixed(2) : '?';
-        row.connected =     true;
+    var bikeStats = _.sortBy(
+      _.where(app.state.networkStats, function findController(statsObj) {
+        return statsObj.last_msg.kind === 'bike';
+      }),
+      function (statObj){
+        return statObj.last_msg.uid;
       }
-      else { // no data received from this address
-        row.message_rate = 0;
-        row.drop_rate =    "";
-        row.data_rate =    (0).toFixed(2);
-        row.connected =    false;
-        row.voltage =      "";
-        row.power_in =     "";
-        row.power_out =    "";
-      }
-      return row;
-    });
+    );
     return {
-      'tableRows': tableRows
-    };
+      'tableRows': _.map(bikeStats, function genStatsTableRow(stats) {
+        row = {};
+        row.uid = stats.last_msg.uid;
+        row.voltage = stats.avg_v.toFixed(1);
+        row.current = stats.avg_c_out.toFixed(1);
+        row.power_out = (stats.avg_v * stats.avg_c_out).toFixed(1);
+        return row;
+      }
+    )};
   },
   initialize: function() {
   },

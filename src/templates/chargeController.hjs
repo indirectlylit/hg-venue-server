@@ -1,0 +1,25 @@
+<div class="panel-heading">
+  <h3 class="panel-title">Charge Controller</h3>
+</div>
+<div class="panel-body">
+  <table class="table table-condensed">
+    <thead>
+      <td class="text-center">Inverter</td>
+      <td class="text-center">Tiers</td>
+      <td class="text-center">Shunts</td>
+      <td class="text-center">Power In</td>
+      <td class="text-center">Power Out</td>
+      <td class="text-center">Voltage</td>
+    </thead>
+    <tbody>
+      <tr>
+        <td class='text-center'>{{ inv }}</td>
+        <td class='text-center'>{{ tiers }}</td>
+        <td class='text-center'>{{ shunts }}</td>
+        <td class='text-center'>{{ power_in }}</td>
+        <td class='text-center'>{{ power_out }}</td>
+        <td class='text-center'>{{ voltage }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

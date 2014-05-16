@@ -16,6 +16,7 @@ $(function() {
 
   app.views = app.views || {};
   app.views.bikes           = new app.views.Bikes().render();
+  app.views.chargeController = new app.views.ChargeController().render();
   app.views.serverStats     = new app.views.ServerStats().render();
   app.views.serverSettings  = new app.views.ServerSettings().render();
   app.views.logList         = new app.views.LogList().render();
