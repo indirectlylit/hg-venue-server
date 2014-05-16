@@ -16,9 +16,9 @@
           <td>{{ name }}</td>
           <td class='text-right nowrap'>{{ size }}</td>
           <td class='nowrap'>
-            <button type="button" class="btn btn-default btn-xs js-download" data-id="{{id}}">
+            <a class="btn btn-default btn-xs js-download" data-id="{{id}}" href="/api/logger/files/{{id}}">
               <span class="glyphicon glyphicon-arrow-down"></span>
-            </button>
+            </a>
             <button type="button" class="btn btn-default btn-xs js-delete" data-id="{{id}}">
               <span class="glyphicon glyphicon-remove"></span>
             </button>

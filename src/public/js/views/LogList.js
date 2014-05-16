@@ -33,14 +33,8 @@ app.views.LogList = Backbone.Viewmaster.extend({
   },
   events: function() {
     return {
-      "click  .js-download"   :   "_downloadFile",
       "click  .js-delete"     :   "_deleteFile"
     };
-  },
-  _downloadFile: function(event) {
-    var button = $(event.target).closest('button');
-    app.ctrl.downloadFile(button.data('id'));
-    button.prop('disabled', true);
   },
   _deleteFile: function(event) {
     var button = $(event.target).closest('button');

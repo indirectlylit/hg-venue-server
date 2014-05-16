@@ -92,10 +92,3 @@ app.ctrl.deleteFile = function(fileID) {
     app.views.logList.render();
   });
 };
-
-app.ctrl.downloadFile = function(fileID) {
-  ajax('get', '/api/logger/files/'+fileID)
-  .always(function() {
-    app.views.logList.render();
-  });
-};
