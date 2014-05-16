@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Current Data Set</h3>
+    <h3 class="panel-title">Current Data Set <span class="label label-danger pull-right {{^recording}}hide{{/recording}}">recording</span></h3>
   </div>
   <div class="panel-body">
     <form role="form" action="#">
@@ -10,7 +10,7 @@
             <button type="button" class="btn btn-sm js-record" {{^enable_record}}disabled{{/enable_record}}>
                <span class="glyphicon glyphicon-record"></span>
             </button>
-            <button type="button" class="btn btn-sm js-stop" {{^enable_stop}}disabled{{/enable_stop}}>
+            <button type="button" class="btn btn-sm js-stop" {{^recording}}disabled{{/recording}}>
                <span class="glyphicon glyphicon-stop"></span>
             </button>
           </div>

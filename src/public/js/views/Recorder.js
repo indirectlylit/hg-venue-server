@@ -16,7 +16,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     var state = app.state.logger_info.recording_state;
     return {
       file_name :     app.state.fileName,
-      enable_stop :   state.recording,
+      recording :     state.recording,
       enable_save :   !state.recording && state.exists,
       enable_reset :  !state.recording && state.exists,
       enable_record : !state.recording && !state.exists,
@@ -53,7 +53,7 @@ app.views.Recorder = Backbone.Viewmaster.extend({
     }
   },
   _stop: function(event) {
-    if (this.context().enable_stop) {
+    if (this.context().recording) {
       app.ctrl.stopRecording();
     }
   },
