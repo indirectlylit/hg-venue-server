@@ -42,7 +42,13 @@ var unsubscribe = function(channelGlob, handler) {
   _.remove(handlers, where);
 };
 
-var publish = function(channel, message) {
+
+var publish = function(channel, data) {
+  var message = JSON.stringify({
+    chan: channel,
+    data: data,
+    time: (new Date()).toISOString(),
+  });
   var sentTo = 0;
   _.each(handlers, function(handler) {
     if (handler.pattern.match(channel)) {
@@ -50,7 +56,6 @@ var publish = function(channel, message) {
       sentTo++;
     }
   });
-  return sentTo;
 };
 
 

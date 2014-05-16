@@ -38,36 +38,24 @@ var app_serverStats = require("./app.serverStats");
 var app_web = require("./app.web");
 
 
-//// LOCAL FUNCTIONS
-
-var publish = function(channel, data) {
-  msg = {
-    chan: channel,
-    data: data,
-    time: (new Date()).toISOString(),
-  };
-  app_pubsub.publish(channel, JSON.stringify(msg));
-};
-
-
 //// MODULE LOGIC
 
 // server stats
 setInterval(function() {
-  publish('server.stats', app_serverStats.getStats());
+  app_pubsub.publish('server.stats', app_serverStats.getStats());
   app_logger.getRecordingState(function(err, recording_state) {
     if (err) {
       console.log("Error getting recording state:", err);
     }
     else if (recording_state.recording) {
-      publish('logger.recording_state', recording_state);
+      app_pubsub.publish('logger.recording_state', recording_state);
     }
   });
 }, 1000);
 
 // square wave
 app_gpio.on('edge', function(state, timeToChange) {
-  publish('server.pulse', {
+  app_pubsub.publish('server.pulse', {
     state: state,
     cmd_time: timeToChange,
   });
@@ -75,11 +63,11 @@ app_gpio.on('edge', function(state, timeToChange) {
 
 // sensors
 app_sensors.on('stats', function(stats) {
-  publish('network.stats', stats);
+  app_pubsub.publish('network.stats', stats);
 });
 
 app_sensors.on('data', function(data) {
-  publish('network.data', data);
+  app_pubsub.publish('network.data', data);
 });
 
 // web socket output
