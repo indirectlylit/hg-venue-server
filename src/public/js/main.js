@@ -10,16 +10,13 @@ $(function() {
   /* DOM Setup */
   /*************/
 
-  app.dom = {
-    connectionState   : $('.js-connectionState')
-  };
-
   app.views = app.views || {};
   app.views.network         = new app.views.Network().render();
   app.views.serverStats     = new app.views.ServerStats().render();
   app.views.serverSettings  = new app.views.ServerSettings().render();
   app.views.logList         = new app.views.LogList().render();
   app.views.recorder        = new app.views.Recorder().render();
+  app.views.connection      = new app.views.ConnectionIndicator().render();
 
   // configure bootstrap tooltips
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
@@ -81,23 +78,19 @@ $(function() {
   /****************************/
 
   app.websocket.on('connecting', function(e) {
-    app.dom.connectionState.text('Not Connected');
-    app.utils.setLabelClass(app.dom.connectionState, 'label-danger');
+    app.views.connection.render();
   });
 
   app.websocket.on('error', function(e) {
-    app.dom.connectionState.text('Connection Error');
-    app.utils.setLabelClass(app.dom.connectionState, 'label-warning');
+    app.views.connection.render();
   });
 
   app.websocket.on('close', function(e) {
-    app.dom.connectionState.text('Connection Closed');
-    app.utils.setLabelClass(app.dom.connectionState, 'label-danger');
+    app.views.connection.render();
   });
 
   app.websocket.on('open', function(e) {
-    app.dom.connectionState.text('Connected');
-    app.utils.setLabelClass(app.dom.connectionState, 'label-default');
+    app.views.connection.render();
   });
 
 
