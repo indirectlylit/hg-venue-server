@@ -8,7 +8,7 @@ app.ctrl = app.ctrl || {};
 
 
 
-var ajax = function(verb, url, data) {
+var _ajax = function(verb, url, data) {
   return $.ajax({
     url:          url,
     type:         verb,
@@ -25,8 +25,13 @@ var ajax = function(verb, url, data) {
 };
 
 
+/*******************/
+/* Server Settings */
+/*******************/
+
+
 app.ctrl.setWave = function(newState) {
-  ajax('put', '/api/squarewave/', newState)
+  _ajax('put', '/api/squarewave/', newState)
   .done(function(on, textStatus, jqXHR) {
     app.state.wave_info.on = on;
   })
@@ -35,9 +40,8 @@ app.ctrl.setWave = function(newState) {
   });
 };
 
-
 app.ctrl.setLogExternal = function(newState) {
-  ajax('put', '/api/logger/external/', newState)
+  _ajax('put', '/api/logger/external/', newState)
   .done(function(data, textStatus, jqXHR) {
     app.state.logger_info = data;
   })
@@ -49,8 +53,44 @@ app.ctrl.setLogExternal = function(newState) {
 };
 
 
+/**********************/
+/* Network Statistics */
+/**********************/
+
+app.websocket.on('network.stats', function (newStats) {
+  app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
+  app.state.networkStats = newStats;
+  app.views.network.render();
+});
+
+
+/*********************/
+/* Server Statistics */
+/*********************/
+
+app.websocket.on('server.stats', function (stats) {
+  app.state.serverStats = stats;
+  app.views.serverStats.render();
+});
+
+
+/******************************/
+/* Logger and Recording State */
+/******************************/
+
+app.websocket.on('logger.state.recording_state', function (recording_state) {
+  app.state.logger_info.recording_state = recording_state;
+  app.views.recorder.render();
+});
+
+app.websocket.on('logger.state', function (logger_info) {
+  app.state.logger_info = logger_info;
+  app.views.logList.render();
+  app.views.recorder.render();
+});
+
 var _updateRecordingState = function(state) {
-  ajax('put', '/api/logger/'+state)
+  _ajax('put', '/api/logger/'+state)
   .done(function(recording_state, textStatus, jqXHR) {
     app.state.logger_info.recording_state = recording_state;
   })
@@ -73,7 +113,7 @@ app.ctrl.resetRecording = function() {
 
 
 app.ctrl.saveRecording = function(name) {
-  ajax('post', '/api/logger/save_as/', name)
+  _ajax('post', '/api/logger/save_as/', name)
   .done(function(logger_info, textStatus, jqXHR) {
     app.state.logger_info = logger_info;
   })
@@ -84,7 +124,7 @@ app.ctrl.saveRecording = function(name) {
 };
 
 app.ctrl.deleteFile = function(fileID) {
-  ajax('delete', '/api/logger/files/'+fileID)
+  _ajax('delete', '/api/logger/files/'+fileID)
   .done(function(logger_info, textStatus, jqXHR) {
     app.state.logger_info = logger_info;
   })
@@ -92,3 +132,28 @@ app.ctrl.deleteFile = function(fileID) {
     app.views.logList.render();
   });
 };
+
+
+
+
+
+/****************************/
+/* General Websocket events */
+/****************************/
+
+app.websocket.on('connecting', function (e) {
+  app.views.connection.render();
+});
+
+app.websocket.on('error', function (e) {
+  app.views.connection.render();
+});
+
+app.websocket.on('close', function (e) {
+  app.views.connection.render();
+});
+
+app.websocket.on('open', function (e) {
+  app.views.connection.render();
+});
+

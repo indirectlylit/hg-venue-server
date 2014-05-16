@@ -76,9 +76,9 @@
 
     <!-- application -->
     <script src="/js/jquery.hotkeys-mod.js"></script>
-    <script src="/js/ctrl.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
+    <script src="/js/ctrl.js"></script>
     <script src="/js/main.js"></script>
   </body>
 </html>
