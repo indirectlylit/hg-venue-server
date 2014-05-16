@@ -242,14 +242,21 @@ var saveAs = function(label, callback) {
   });
 };
 
-var deleteFile = function(id, callback) {
+var getFileInfo = function(id, callback) {
   getFileList(function(err, allFileInfo) {
     if (err) return callback(err);
-    fileInfoToDelete = _.find(allFileInfo, {'id':id});
-    if (!fileInfoToDelete) {
+    var fileInfo = _.find(allFileInfo, {'id':id});
+    if (!fileInfo) {
       return callback("File id not found: "+id);
     }
-    fs.unlink(path.join(dataDir(), fileInfoToDelete.fName), function (err) {
+    callback(null, fileInfo);
+  });
+};
+
+var deleteFile = function(id, callback) {
+  getFileInfo(function(err, fileInfo) {
+    if (err) return callback(err);
+    fs.unlink(path.join(dataDir(), fileInfo.fName), function (err) {
       if (err) return callback(err);
       callback();
     });
@@ -351,6 +358,7 @@ setExternalSync(app_settings.get('log_external'));
 //// EXPORTS
 
 module.exports.dataDir            = dataDir;
+module.exports.getFileInfo        = getFileInfo;
 module.exports.getAllFileInfo     = getAllFileInfo;
 module.exports.getRecordingState  = getRecordingState;
 module.exports.setExternal        = setExternalWithChecks;
