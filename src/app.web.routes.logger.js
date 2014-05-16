@@ -50,8 +50,8 @@ app_web.route('post', '/api/logger/save_as', function(req, res) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_logger.getAllFileInfo(function(err, file_info) {
-      res.json(file_info);
+    app_logger.getAllFileInfo(function(err, allFileInfo) {
+      res.json(allFileInfo);
     });
   });
 });
@@ -62,8 +62,8 @@ app_web.route('delete', '/api/logger/files/:id', function(req, res) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_logger.getAllFileInfo(function(err, file_info) {
-      res.json(file_info);
+    app_logger.getAllFileInfo(function(err, allFileInfo) {
+      res.json(allFileInfo);
     });
   });
 });
@@ -89,8 +89,8 @@ app_web.route('put', '/api/logger/external', function(req, res) {
       console.log("Error:", err);
       return res.json(400, err);
     }
-    app_logger.getAllFileInfo(function(err, file_info) {
-      res.json(file_info);
+    app_logger.getAllFileInfo(function(err, allFileInfo) {
+      res.json(allFileInfo);
     });
   });
 });
