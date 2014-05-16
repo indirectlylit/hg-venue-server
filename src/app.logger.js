@@ -254,7 +254,7 @@ var getFileInfo = function(id, callback) {
 };
 
 var deleteFile = function(id, callback) {
-  getFileInfo(function(err, fileInfo) {
+  getFileInfo(id, function(err, fileInfo) {
     if (err) return callback(err);
     fs.unlink(path.join(dataDir(), fileInfo.fName), function (err) {
       if (err) return callback(err);
