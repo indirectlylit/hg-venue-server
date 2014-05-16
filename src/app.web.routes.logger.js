@@ -10,6 +10,7 @@ var path = require('path');
 
 
 var app_logger = require("./app.logger");
+var app_pubsub = require("./app.pubsub");
 var app_web = require("./app.web");
 
 
@@ -20,6 +21,8 @@ app_web.route('put', '/api/logger/start', function(req, res) {
       console.log("Error:", err);
       return res.json(500, err);
     }
+    // redundant response so all clients get the message
+    app_pubsub.publish('logger.recording_state', state);
     res.json(state);
   });
 });
@@ -30,6 +33,8 @@ app_web.route('put', '/api/logger/stop', function(req, res) {
       console.log("Error:", err);
       return res.json(500, err);
     }
+    // redundant response so all clients get the message
+    app_pubsub.publish('logger.recording_state', state);
     res.json(state);
   });
 });
@@ -40,6 +45,8 @@ app_web.route('put', '/api/logger/reset', function(req, res) {
       console.log("Error:", err);
       return res.json(500, err);
     }
+    // redundant response so all clients get the message
+    app_pubsub.publish('logger.recording_state', state);
     res.json(state);
   });
 });
