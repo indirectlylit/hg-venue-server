@@ -31,7 +31,7 @@ var windowPeriod = app_settings.get('client_update_period');
 
 var updateStats = function(data, address) {
   statTrackers[address] = statTrackers[address] || {
-    uid : 0,
+    last_msg : {},
     totalMessages : 0,
     totalBytes: 0,
     lastPacketID: 0,
@@ -40,8 +40,7 @@ var updateStats = function(data, address) {
     accumulated_c_in: 0,
     accumulated_c_out: 0,
   };
-  statTrackers[address].uid = data.msg.uid;
-  statTrackers[address].kind = data.msg.kind;
+  statTrackers[address].last_msg = data.msg;
   statTrackers[address].totalMessages++;
   statTrackers[address].totalBytes += data.size;
   if (data.msg.i !== statTrackers[address]+1) {
@@ -72,8 +71,7 @@ var genStatsFromTracker = function(tracker) {
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
   stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
   stats['avg_c_out'] =    tracker.accumulated_c_out/tracker.totalMessages;
-  stats['uid'] =          tracker.uid;
-  stats['kind'] =         tracker.kind;
+  stats['last_msg'] =     tracker.last_msg;
   return stats;
 };
 
