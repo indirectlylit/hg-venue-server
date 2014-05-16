@@ -24,7 +24,7 @@
       </div>
       <div class="row">
         <div class="col-xs-9">
-          <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="Label" value="{{file_name}}">
+          <input type="text" class="form-control input-sm js-filename" id="data-file-name" placeholder="untitled" value="{{file_name}}">
         </div>
         <div class="col-xs-3">
           <button type="button" class="btn btn-default btn-sm pull-right js-save" data-toggle="tooltip" data-placement="bottom" title="Save: ctrl+s"{{^enable_save}}disabled{{/enable_save}}>
