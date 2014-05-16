@@ -314,7 +314,7 @@ var setExternalWithChecks = function(external, callback) {
 };
 
 
-var getInfo = function(callback) {
+var getAllFileInfo = function(callback) {
   var info = {
     'location' : getLocationInfo()
   };
@@ -351,7 +351,7 @@ setExternalSync(app_settings.get('log_external'));
 //// EXPORTS
 
 module.exports.dataDir            = dataDir;
-module.exports.getInfo            = getInfo;
+module.exports.getAllFileInfo     = getAllFileInfo;
 module.exports.getRecordingState  = getRecordingState;
 module.exports.setExternal        = setExternalWithChecks;
 module.exports.overloaded         = overloaded;
