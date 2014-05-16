@@ -74,6 +74,7 @@ app_sensors.on('data', function (data) {
 app_pubsub.subscribe([
   'network.stats',
   'server.stats',
+  'logger.state',
   'logger.state.recording_state',
 ], app_web.writeToSockets);
 

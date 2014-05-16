@@ -62,6 +62,8 @@ app_web.route('post', '/api/logger/save_as', function (req, res) {
         console.log("Error:", err);
         return res.json(500, err);
       }
+      // redundant response so all clients get the message
+      app_pubsub.publish('logger.state', loggerState);
       res.json(loggerState);
     });
   });
@@ -83,6 +85,8 @@ app_web.route('put', '/api/logger/external', function (req, res) {
         console.log("Error:", err);
         return res.json(500, err);
       }
+      // redundant response so all clients get the message
+      app_pubsub.publish('logger.state', loggerState);
       res.json(loggerState);
     });
   });
@@ -99,6 +103,8 @@ app_web.route('delete', '/api/logger/files/:id', function (req, res) {
         console.log("Error:", err);
         return res.json(500, err);
       }
+      // redundant response so all clients get the message
+      app_pubsub.publish('logger.state', loggerState);
       res.json(loggerState);
     });
   });

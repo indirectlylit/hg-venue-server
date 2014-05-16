@@ -72,6 +72,12 @@ $(function() {
     app.views.recorder.render();
   });
 
+  app.websocket.on('logger.state', function (logger_info) {
+    app.state.logger_info = logger_info;
+    app.views.logList.render();
+    app.views.recorder.render();
+  });
+
 
   /****************************/
   /* General Websocket events */
