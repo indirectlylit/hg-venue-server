@@ -16,6 +16,7 @@
 
 var _ = require('lodash');
 var async = require('async');
+var crypto = require('crypto');
 var fs = require('fs');
 var os = require('os');
 var path = require('path');
@@ -129,7 +130,13 @@ var getFileList = function(callback) {
               time: new Date(stats.ctime.getTime()),
             };
           }
+
+          // generate a document ID based on the creation time
+          var shasum = crypto.createHash('sha1');
+          shasum.write(parsedName.time.toString());
+
           callback(null, {
+            id: shasum.digest('hex'),
             name: parsedName.name,
             time: parsedName.time,
             kbytes: stats.size/1024.0,
