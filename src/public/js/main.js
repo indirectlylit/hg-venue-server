@@ -67,7 +67,7 @@ $(function() {
   /* Recording State */
   /*******************/
 
-  app.websocket.on('logger.recording_state', function(recording_state) {
+  app.websocket.on('logger.state.recording_state', function(recording_state) {
     app.state.logger_info.recording_state = recording_state;
     app.views.recorder.render();
   });

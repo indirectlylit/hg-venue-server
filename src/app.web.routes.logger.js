@@ -22,7 +22,7 @@ app_web.route('put', '/api/logger/start', function(req, res) {
       return res.json(500, err);
     }
     // redundant response so all clients get the message
-    app_pubsub.publish('logger.recording_state', state);
+    app_pubsub.publish('logger.state.recording_state', state);
     res.json(state);
   });
 });
@@ -34,7 +34,7 @@ app_web.route('put', '/api/logger/stop', function(req, res) {
       return res.json(500, err);
     }
     // redundant response so all clients get the message
-    app_pubsub.publish('logger.recording_state', state);
+    app_pubsub.publish('logger.state.recording_state', state);
     res.json(state);
   });
 });
@@ -46,7 +46,7 @@ app_web.route('put', '/api/logger/reset', function(req, res) {
       return res.json(500, err);
     }
     // redundant response so all clients get the message
-    app_pubsub.publish('logger.recording_state', state);
+    app_pubsub.publish('logger.state.recording_state', state);
     res.json(state);
   });
 });

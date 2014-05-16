@@ -48,7 +48,7 @@ setInterval(function() {
       console.log("Error getting recording state:", err);
     }
     else if (recording_state.recording) {
-      app_pubsub.publish('logger.recording_state', recording_state);
+      app_pubsub.publish('logger.state.recording_state', recording_state);
     }
   });
 }, 1000);
@@ -74,7 +74,7 @@ app_sensors.on('data', function(data) {
 app_pubsub.subscribe([
   'network.stats',
   'server.stats',
-  'logger.recording_state',
+  'logger.state.recording_state',
 ], app_web.writeToSockets);
 
 // log file output
