@@ -113,7 +113,6 @@ app_network_udp.on("message", function (msg, rinfo) {
   handleIncomingData(msg.toString(), rinfo.address);
 });
 
-
 app_network_serial.on("data", function (data) {
   handleIncomingData(data.toString(), "serial port");
 });
