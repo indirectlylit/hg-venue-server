@@ -4,11 +4,15 @@
 // All Rights Reserved
 
 
-$(function() {
+/*
+  Note: all views and the following files are loaded before this file in HTML:
+   * jquery.hotkeys-mod.js
+   * utils.js
+   * websocket.js
+   * ctrl.js
+*/
 
-  /*************/
-  /* DOM Setup */
-  /*************/
+$(function() {
 
   app.views = app.views || {};
   app.views.network         = new app.views.Network().render();
@@ -27,11 +31,6 @@ $(function() {
 
   // hide settings when not in advanced mode
   $('.js-settings').toggleClass('hidden', !location.hash.match(/^#?advanced$/));
-
-
-  /*********************/
-  /* Application State */
-  /*********************/
 
   // Note: the following should be pre-populated by the server:
   // * app.state.logger_info
