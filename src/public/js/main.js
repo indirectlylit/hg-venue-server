@@ -16,7 +16,7 @@ $(function() {
   app.views.serverSettings  = new app.views.ServerSettings().render();
   app.views.logList         = new app.views.LogList().render();
   app.views.recorder        = new app.views.Recorder().render();
-  app.views.connection      = new app.views.ConnectionIndicator().render();
+  app.views.connection      = new app.views.NotConnectedLayer().render();
 
   // configure bootstrap tooltips
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});

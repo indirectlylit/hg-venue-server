@@ -1,4 +1,10 @@
 
+.js-not-connected-layer .modal-content {
+  background-color: #365B8A;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 
 .navbar-text.navbar-right:last-child {
   margin-right: 15px;
