@@ -33,7 +33,7 @@ var stats = {
 //// LOCAL FUNCTIONS
 
 var retrieveDiskSpace = function() {
-  cp.exec("df -k  " + app_logger.dataDir(), function(error, stdout, stderr) {
+  cp.exec("df -k  " + app_logger.dataDir(), function (error, stdout, stderr) {
     if (error) {
       stats.totaldisk = null;
       stats.freedisk = null;

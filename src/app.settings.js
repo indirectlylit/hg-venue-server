@@ -41,7 +41,7 @@ function set(key, value, callback) {
     callback();
   }
   settings[key] = value;
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function(){callback();});
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function (){callback();});
 }
 
 function reset(callback) {

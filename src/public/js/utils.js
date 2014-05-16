@@ -18,7 +18,7 @@ app.utils.setLabelClass = function(elem, labelClass) {
     'label-warning',
     'label-danger'
   ];
-  _.forEach(classes, function(className) {
+  _.forEach(classes, function (className) {
     $(elem).toggleClass(className, className==labelClass);
   });
 };
@@ -26,7 +26,7 @@ app.utils.setLabelClass = function(elem, labelClass) {
 
 app.utils.genTableRow = function() {
   var row = "<tr>";
-  _.each(arguments, function(arg) {
+  _.each(arguments, function (arg) {
       row = row + "<td>" + arg + "</td>";
   });
   return row + "</tr>";

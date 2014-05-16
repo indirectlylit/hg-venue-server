@@ -15,8 +15,8 @@ var app_web = require("./app.web");
 
 
 
-app_web.route('put', '/api/logger/start', function(req, res) {
-  app_logger.startLogging(function(err, state){
+app_web.route('put', '/api/logger/start', function (req, res) {
+  app_logger.startLogging(function (err, state){
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
@@ -27,8 +27,8 @@ app_web.route('put', '/api/logger/start', function(req, res) {
   });
 });
 
-app_web.route('put', '/api/logger/stop', function(req, res) {
-  app_logger.stopLogging(function(err, state){
+app_web.route('put', '/api/logger/stop', function (req, res) {
+  app_logger.stopLogging(function (err, state){
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
@@ -39,8 +39,8 @@ app_web.route('put', '/api/logger/stop', function(req, res) {
   });
 });
 
-app_web.route('put', '/api/logger/reset', function(req, res) {
-  app_logger.reset(function(err, state){
+app_web.route('put', '/api/logger/reset', function (req, res) {
+  app_logger.reset(function (err, state){
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
@@ -51,13 +51,13 @@ app_web.route('put', '/api/logger/reset', function(req, res) {
   });
 });
 
-app_web.route('post', '/api/logger/save_as', function(req, res) {
-  app_logger.saveAs(req.body, function(err){
+app_web.route('post', '/api/logger/save_as', function (req, res) {
+  app_logger.saveAs(req.body, function (err){
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_logger.getState(function(err, loggerState) {
+    app_logger.getState(function (err, loggerState) {
       if (err) {
         console.log("Error:", err);
         return res.json(500, err);
@@ -67,13 +67,13 @@ app_web.route('post', '/api/logger/save_as', function(req, res) {
   });
 });
 
-app_web.route('delete', '/api/logger/files/:id', function(req, res) {
-  app_logger.deleteFile(req.params.id, function(err){
+app_web.route('delete', '/api/logger/files/:id', function (req, res) {
+  app_logger.deleteFile(req.params.id, function (err){
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_logger.getState(function(err, loggerState) {
+    app_logger.getState(function (err, loggerState) {
       if (err) {
         console.log("Error:", err);
         return res.json(500, err);
@@ -83,7 +83,7 @@ app_web.route('delete', '/api/logger/files/:id', function(req, res) {
   });
 });
 
-app_web.route('get', '/api/logger/files/:id', function(req, res) {
+app_web.route('get', '/api/logger/files/:id', function (req, res) {
   app_logger.getFileInfo(req.params.id, function (err, fileInfo){
     if (err) {
       console.log("Error:", err);
@@ -93,18 +93,18 @@ app_web.route('get', '/api/logger/files/:id', function(req, res) {
   });
 });
 
-app_web.route('put', '/api/logger/external', function(req, res) {
+app_web.route('put', '/api/logger/external', function (req, res) {
   if (!_.contains([true, false], req.body)) {
     var err = "'on' must be true or false";
     console.log("Error:", err);
     return res.json(400, err);
   }
-  app_logger.setExternal(req.body, function(err, state){
+  app_logger.setExternal(req.body, function (err, state){
     if (err) {
       console.log("Error:", err);
       return res.json(400, err);
     }
-    app_logger.getState(function(err, loggerState) {
+    app_logger.getState(function (err, loggerState) {
       if (err) {
         console.log("Error:", err);
         return res.json(500, err);

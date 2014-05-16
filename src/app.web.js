@@ -23,17 +23,17 @@ var webSockets = [];
 var sockjsServer = sockjs.createServer();
 var httpStreamServer = http.createServer();
 
-sockjsServer.on('connection', function(conn) {
+sockjsServer.on('connection', function (conn) {
   webSockets.push(conn);
   console.log("sockjsServer connection: "+webSockets.length);
-  conn.on('close', function(conn) {
+  conn.on('close', function (conn) {
     webSockets.pop(conn);
     console.log("sockjsServer connection close: "+webSockets.length);
   });
 });
 
 sockjsServer.installHandlers(httpStreamServer, {prefix:'/data'});
-httpStreamServer.listen(8081, function(){
+httpStreamServer.listen(8081, function (){
   console.log("Stream server listening on port 8081");
 });
 
@@ -79,8 +79,8 @@ module.exports.loadFiles = function(directory, extension, callback) {
 
     // load contents of all templates and assign them IDs
     function(filePaths, callback) {
-      filePaths = _.filter(filePaths, function(filePath) {return path.extname(filePath) === extension;});
-      var allMetaData = _.map(filePaths, function(filePath) {
+      filePaths = _.filter(filePaths, function (filePath) {return path.extname(filePath) === extension;});
+      var allMetaData = _.map(filePaths, function (filePath) {
         return {
           'file': filePath,
           'id':   path.basename(filePath).slice(0, -(extension.length))
@@ -91,7 +91,7 @@ module.exports.loadFiles = function(directory, extension, callback) {
       async.map(
         allMetaData,
         function (metaData, callback) {
-          fs.readFile(metaData['file'], 'utf8', function(err, contents) {
+          fs.readFile(metaData['file'], 'utf8', function (err, contents) {
             // a list of these objects gets passed to index.hjs
             var data = {
               id: metaData['id'],
@@ -114,7 +114,7 @@ module.exports.route = function(verb, url, handler) {
   expressApp[verb](url, handler);
 };
 
-http.createServer(expressApp).listen(expressApp.get('port'), function(){
+http.createServer(expressApp).listen(expressApp.get('port'), function (){
   console.log("Web server listening on port " + expressApp.get('port'));
 });
 

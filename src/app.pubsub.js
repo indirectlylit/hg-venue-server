@@ -25,7 +25,7 @@ var subscribe = function(channelGlobs, handler) {
   if (typeof channelGlobs === 'string') {
     channelGlobs = [channelGlobs];
   }
-  _.each(channelGlobs, function(channelGlob) {
+  _.each(channelGlobs, function (channelGlob) {
     handlers.push({
       pattern:  new minimatch.Minimatch(channelGlob),
       glob:     channelGlob,
@@ -50,7 +50,7 @@ var publish = function(channel, data) {
     time: (new Date()).toISOString(),
   });
   var sentTo = 0;
-  _.each(handlers, function(handler) {
+  _.each(handlers, function (handler) {
     if (handler.pattern.match(channel)) {
       handler.func(message);
       sentTo++;

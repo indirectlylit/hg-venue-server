@@ -42,7 +42,7 @@ var tooFast = false;
 var quoteFileName = function(input) {
   // generates a URI-encoded string that is safe to use in a file name
   var SAFE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789^&'@{}[],$=!#()+_- ";
-  return _.map(input, function(character) {
+  return _.map(input, function (character) {
     if (_.contains(SAFE_CHARS, character)) { return character; }
     return '%'+(character.charCodeAt(0).toString(16));
   }).join('');
@@ -103,7 +103,7 @@ var recordingTime = function() {
 };
 
 var getFileList = function(callback) {
-  fs.readdir(dataDir(), function(err, fileNames) {
+  fs.readdir(dataDir(), function (err, fileNames) {
     if (err) {
       console.log("Could not list files:", err);
       callback(err);
@@ -114,7 +114,7 @@ var getFileList = function(callback) {
     async.map(
       fileNames,
       function (fName, callback) {
-        fs.stat(path.join(dataDir(), fName), function(err, stats) {
+        fs.stat(path.join(dataDir(), fName), function (err, stats) {
           if (err) {
             callback(err);
             return;
@@ -164,12 +164,12 @@ var startLogging = function(callback) {
   if (fileStream) {
     return callback("Already logging.");
   }
-  fs.exists(tempFileName(), function(exists) {
+  fs.exists(tempFileName(), function (exists) {
     if (exists) {
       return callback("Already exists");
     }
     fileStream = fs.createWriteStream(tempFileName());
-    fileStream.on('error', function(err) {
+    fileStream.on('error', function (err) {
 //      console.log("File stream error:", err);
     });
     startTime = new Date();
@@ -201,13 +201,13 @@ var reset = function(callback) {
   if (fileStream) {
     return callback("Currently logging.");
   }
-  fs.exists(tempFileName(), function(exists) {
+  fs.exists(tempFileName(), function (exists) {
     if (!exists) {
       return callback("Nothing to reset "+tempFileName());
     }
     startTime = null;
     stopTime = null;
-    fs.unlink(tempFileName(), function(err) {
+    fs.unlink(tempFileName(), function (err) {
       if (err) {
         callback(err);
       }
@@ -220,7 +220,7 @@ var saveAs = function(label, callback) {
   if (fileStream) {
     return callback("currently logging");
   }
-  fs.exists(tempFileName(), function(exists) {
+  fs.exists(tempFileName(), function (exists) {
     if (!exists) {
       return callback("No data written");
     }
@@ -231,7 +231,7 @@ var saveAs = function(label, callback) {
     }
     var target = path.join(dataDir(), genFileName(startTime, label));
     console.log("Rename '"+tempFileName()+"' to '"+target+"'");
-    childProcess.exec('mv '+ tempFileName() + ' "' + target + '"', function(err, std_out, std_err) {
+    childProcess.exec('mv '+ tempFileName() + ' "' + target + '"', function (err, std_out, std_err) {
       if (!err) {
         startTime = null;
         stopTime = null;
@@ -254,7 +254,7 @@ var getFileInfo = function(id, callback) {
 };
 
 var deleteFile = function(id, callback) {
-  getFileInfo(id, function(err, fileInfo) {
+  getFileInfo(id, function (err, fileInfo) {
     if (err) return callback(err);
     fs.unlink(path.join(dataDir(), fileInfo.fName), function (err) {
       if (err) return callback(err);
@@ -264,7 +264,7 @@ var deleteFile = function(id, callback) {
 };
 
 var getRecordingState = function(callback) {
-  fs.exists(tempFileName(), function(exists) {
+  fs.exists(tempFileName(), function (exists) {
     // reset state
     if (!exists) {
       return callback(null, {
@@ -285,7 +285,7 @@ var getRecordingState = function(callback) {
     }
     // temp file written
     else {
-      fs.stat(tempFileName(), function(err, stats) {
+      fs.stat(tempFileName(), function (err, stats) {
         if (err) {
           return callback(err);
         }
@@ -314,7 +314,7 @@ var setExternalWithChecks = function(external, callback) {
       return;
     }
     result = setExternalSync(external);
-    app_settings.set('log_external', result.external, function(err) {
+    app_settings.set('log_external', result.external, function (err) {
       callback(err, result);
     });
   });

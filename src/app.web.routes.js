@@ -16,19 +16,19 @@ var app_web = require("./app.web");
 var app_web_routes_logger = require("./app.web.routes.logger");
 
 
-app_web.route('get', '/', function(req, res) {
+app_web.route('get', '/', function (req, res) {
   // render the index with all templates embedded; also auto-load view files
-  app_web.loadFiles('templates', '.hjs', function(err, templateData) {
+  app_web.loadFiles('templates', '.hjs', function (err, templateData) {
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_web.loadFiles(path.join('public', 'js', 'views'), '.js', function(err, viewData) {
+    app_web.loadFiles(path.join('public', 'js', 'views'), '.js', function (err, viewData) {
       if (err) {
         console.log("Error:", err);
         return res.json(500, err);
       }
-      app_logger.getState(function(err, logger_info) {
+      app_logger.getState(function (err, logger_info) {
         if (err) {
           console.log("Error:", err);
           return res.json(500, err);
@@ -50,14 +50,14 @@ app_web.route('get', '/', function(req, res) {
 });
 
 
-app_web.route('put', '/api/squarewave/', function(req, res) {
+app_web.route('put', '/api/squarewave/', function (req, res) {
   var state = req.body;
   if (!_.contains([true, false], state)) {
     var err = "'on' must be true or false";
     console.log("Error:", err);
     return res.json(400, err);
   }
-  app_gpio.outputSquareWave(state, function(err) {
+  app_gpio.outputSquareWave(state, function (err) {
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
@@ -67,7 +67,7 @@ app_web.route('put', '/api/squarewave/', function(req, res) {
 });
 
 
-app_web.route('get', '/api/socket_ready', function(req, res) {
+app_web.route('get', '/api/socket_ready', function (req, res) {
   res.json(app_web.socketReady());
 });
 

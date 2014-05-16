@@ -46,7 +46,7 @@ $(function() {
   /* Network Statistics */
   /**********************/
 
-  app.websocket.on('network.stats', function(newStats) {
+  app.websocket.on('network.stats', function (newStats) {
     app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
     app.state.networkStats = newStats;
     app.views.network.render();
@@ -57,7 +57,7 @@ $(function() {
   /* Server Statistics */
   /*********************/
 
-  app.websocket.on('server.stats', function(stats) {
+  app.websocket.on('server.stats', function (stats) {
     app.state.serverStats = stats;
     app.views.serverStats.render();
   });
@@ -67,7 +67,7 @@ $(function() {
   /* Recording State */
   /*******************/
 
-  app.websocket.on('logger.state.recording_state', function(recording_state) {
+  app.websocket.on('logger.state.recording_state', function (recording_state) {
     app.state.logger_info.recording_state = recording_state;
     app.views.recorder.render();
   });
@@ -77,19 +77,19 @@ $(function() {
   /* General Websocket events */
   /****************************/
 
-  app.websocket.on('connecting', function(e) {
+  app.websocket.on('connecting', function (e) {
     app.views.connection.render();
   });
 
-  app.websocket.on('error', function(e) {
+  app.websocket.on('error', function (e) {
     app.views.connection.render();
   });
 
-  app.websocket.on('close', function(e) {
+  app.websocket.on('close', function (e) {
     app.views.connection.render();
   });
 
-  app.websocket.on('open', function(e) {
+  app.websocket.on('open', function (e) {
     app.views.connection.render();
   });
 

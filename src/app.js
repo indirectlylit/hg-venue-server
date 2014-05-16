@@ -54,7 +54,7 @@ setInterval(function() {
 }, 1000);
 
 // square wave
-app_gpio.on('edge', function(state, timeToChange) {
+app_gpio.on('edge', function (state, timeToChange) {
   app_pubsub.publish('server.pulse', {
     state: state,
     cmd_time: timeToChange,
@@ -62,11 +62,11 @@ app_gpio.on('edge', function(state, timeToChange) {
 });
 
 // sensors
-app_sensors.on('stats', function(stats) {
+app_sensors.on('stats', function (stats) {
   app_pubsub.publish('network.stats', stats);
 });
 
-app_sensors.on('data', function(data) {
+app_sensors.on('data', function (data) {
   app_pubsub.publish('network.data', data);
 });
 
@@ -84,7 +84,7 @@ app_pubsub.subscribe('*', app_logger.write);
 var shuttingDown = false;
 
 // shutdown
-app_gpio.on('shutdown', function() {
+app_gpio.on('shutdown', function () {
   if (shuttingDown) {
     return;
   }
@@ -96,7 +96,7 @@ app_gpio.on('shutdown', function() {
       console.log("Could not stop logging:", err);
     }
   });
-  child_process.exec("sudo halt", function(err, std_out, std_err) {
+  child_process.exec("sudo halt", function (err, std_out, std_err) {
     if (err) {
       console.log("Could not shut down.");
     }

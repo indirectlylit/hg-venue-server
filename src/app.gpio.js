@@ -66,14 +66,14 @@ var GPIO_BIN = "/usr/local/bin/gpio";
 
 // initiate a command to the GPIO utility
 var gpio = function(command, callback) {
-  child_process.exec(GPIO_BIN + ' ' + command, function(err, std_out, std_err) {
+  child_process.exec(GPIO_BIN + ' ' + command, function (err, std_out, std_err) {
     callback(err, std_out.trim());
   });
 };
 
 // state = "in", "out", "pwm", "clock", "up", "down", "tri"
 var setPinMode = function(pin, state, callback) {
-  gpio('mode '+HEADER_PIN_MAP[pin]+' '+state, function(err) {
+  gpio('mode '+HEADER_PIN_MAP[pin]+' '+state, function (err) {
     if (err) {
       err = "Could not set GPIO pin " + pin + " to " + state + ": " + err;
       console.log(err);
@@ -87,7 +87,7 @@ var setPinMode = function(pin, state, callback) {
 // state = true, false
 var writePin = function(pin, state, callback) {
   state = state ? '1' : '0';
-  gpio('write '+HEADER_PIN_MAP[pin]+' '+state, function(err) {
+  gpio('write '+HEADER_PIN_MAP[pin]+' '+state, function (err) {
     if (err) {
       err = "Could not write a " + state + " to GPIO pin " + pin + ": " + err;
       console.log(err);
@@ -100,7 +100,7 @@ var writePin = function(pin, state, callback) {
 
 // returns true, false
 var readPin = function(pin, callback) {
-  gpio('read '+HEADER_PIN_MAP[pin], function(err, val) {
+  gpio('read '+HEADER_PIN_MAP[pin], function (err, val) {
     if (err) {
       err = "Could not read GPIO pin " + pin + ": " + err;
       console.log(err);
@@ -140,14 +140,14 @@ var getWaveInfo = function() {
 //// MODULE LOGIC
 
 // set the reference signal pin to be an output and set up a square wave
-setPinMode(REFERENCE_SIGNAL, 'out', function(err, std_out, std_err) {
+setPinMode(REFERENCE_SIGNAL, 'out', function (err, std_out, std_err) {
   if (err) return;
   // once the pin mode is set, set up a square wave
   setInterval(function() {
     if (!generateWave) return;
     var t_0 = process.hrtime();
     waveState = !waveState;
-    writePin(REFERENCE_SIGNAL, waveState, function(err, std_out, std_err) {
+    writePin(REFERENCE_SIGNAL, waveState, function (err, std_out, std_err) {
       if (err) return;
       // return current state and the time it took to change the state in microseconds
       eventEmitter.emit('edge', waveState, process.hrtime(t_0)[1]/1e3);
@@ -157,20 +157,20 @@ setPinMode(REFERENCE_SIGNAL, 'out', function(err, std_out, std_err) {
 
 
 // get ready to listen for shutdown commands
-setPinMode(NOT_SHUTDOWN_REQUEST, 'in', function(err) {
+setPinMode(NOT_SHUTDOWN_REQUEST, 'in', function (err) {
   if (err) return;
 
   // default state of this input is to not shutdown
-  setPinMode(NOT_SHUTDOWN_REQUEST, 'up', function(err) {
+  setPinMode(NOT_SHUTDOWN_REQUEST, 'up', function (err) {
     if (err) return;
 
     // get the status pin mode ready
-    setPinMode(SERVER_STATUS, 'out', function(err) {
+    setPinMode(SERVER_STATUS, 'out', function (err) {
       if (err) return;
 
       // begin polling for the shutdown signal every two seconds
       setInterval(function checkForShutdown() {
-        readPin(NOT_SHUTDOWN_REQUEST, function(err, notShutdown) {
+        readPin(NOT_SHUTDOWN_REQUEST, function (err, notShutdown) {
           if (err) return;
 
           // double-negative because pin is active-low
@@ -181,7 +181,7 @@ setPinMode(NOT_SHUTDOWN_REQUEST, 'in', function(err) {
       }, 2000);
 
       // indicate to the power controller that we're ready to receive shutdown signals
-      writePin(SERVER_STATUS, true, function(){});
+      writePin(SERVER_STATUS, true, function (){});
     });
   });
 });

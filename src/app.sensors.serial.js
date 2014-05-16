@@ -23,11 +23,11 @@ function createSerialPort(name) {
     {baudrate: SERIAL_RATE, parser: serialport.parsers.readline("\n")},
     false
   );
-  port.on("close", function(data) {
+  port.on("close", function (data) {
     serial_active = false;
     console.log("\n----\nClosed SerialPort at "+Date.now()+"\n----\n");
   });
-  port.on("data", function(data) {
+  port.on("data", function (data) {
     eventEmitter.emit("data", data);
   });
   return port;
