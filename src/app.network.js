@@ -31,6 +31,7 @@ var windowPeriod = app_settings.get('client_update_period');
 
 var updateStats = function(data, address) {
   statTrackers[address] = statTrackers[address] || {
+    uid : 0,
     totalMessages : 0,
     totalBytes: 0,
     lastPacketID: 0,
@@ -39,6 +40,8 @@ var updateStats = function(data, address) {
     accumulated_c_in: 0,
     accumulated_c_out: 0,
   };
+  statTrackers[address].uid = data.msg.uid;
+  statTrackers[address].kind = data.msg.kind;
   statTrackers[address].totalMessages++;
   statTrackers[address].totalBytes += data.size;
   if (data.msg.i !== statTrackers[address]+1) {
@@ -69,6 +72,8 @@ var genStatsFromTracker = function(tracker) {
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
   stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
   stats['avg_c_out'] =    tracker.accumulated_c_out/tracker.totalMessages;
+  stats['uid'] =          tracker.uid;
+  stats['kind'] =         tracker.kind;
   return stats;
 };
 
@@ -90,6 +95,11 @@ var handleIncomingData = function(message, address) {
   }
   data.address = address;
   data.size = message.length;
+
+  // UIDs are sometimes not reported or reported as negative numbers
+  data.msg.uid = data.msg.uid || 0;
+  data.msg.uid = Math.abs(data.msg.uid);
+
   if (!data.error) {
     updateStats(data, address);
   }
