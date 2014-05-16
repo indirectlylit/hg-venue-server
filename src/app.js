@@ -33,7 +33,7 @@ var child_process = require('child_process');
 var app_gpio = require("./app.gpio");
 var app_logger = require("./app.logger");
 var app_pubsub = require("./app.pubsub");
-var app_sensors = require("./app.sensors");
+var app_network = require("./app.network");
 var app_serverStats = require("./app.serverStats");
 var app_web = require("./app.web");
 
@@ -62,11 +62,11 @@ app_gpio.on('edge', function (state, timeToChange) {
 });
 
 // sensors
-app_sensors.on('stats', function (stats) {
+app_network.on('stats', function (stats) {
   app_pubsub.publish('network.stats', stats);
 });
 
-app_sensors.on('data', function (data) {
+app_network.on('data', function (data) {
   app_pubsub.publish('network.data', data);
 });
 

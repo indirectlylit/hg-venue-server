@@ -13,8 +13,8 @@ var events = require('events');
 
 //// INTERNAL MODULES
 
-var app_sensors_serial = require("./app.sensors.serial");
-var app_sensors_udp = require("./app.sensors.udp");
+var app_network_serial = require("./app.network.serial");
+var app_network_udp = require("./app.network.udp");
 var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 
@@ -99,12 +99,12 @@ var handleIncomingData = function(message, address) {
 
 //// MODULE LOGIC
 
-app_sensors_udp.on("message", function (msg, rinfo) {
+app_network_udp.on("message", function (msg, rinfo) {
   handleIncomingData(msg.toString(), rinfo.address);
 });
 
 
-app_sensors_serial.on("data", function (data) {
+app_network_serial.on("data", function (data) {
   handleIncomingData(data.toString(), "serial port");
 });
 
