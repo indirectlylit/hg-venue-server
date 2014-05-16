@@ -17,6 +17,7 @@ app.websocket.CLOSING    = 2;  // The connection is in the process of closing.
 app.websocket.CLOSED     = 3;  // The connection is closed or couldn't be opened.
 
 app.websocket.checkingReady = false;
+app.websocket.reloadWholePage = false;
 
 
 app.websocket._makeAddress = function(address) {
@@ -33,7 +34,7 @@ app.websocket._makeAddress = function(address) {
 
 
 app.websocket.start = function() {
-  setInterval(function() {
+  setInterval(function heartbeat() {
     if (app.websocket.checkingReady) return;
     if (!app.websocket.socket || app.websocket.socket.readyState == app.websocket.CLOSED) {
       app.websocket.checkingReady = true;
@@ -44,7 +45,15 @@ app.websocket.start = function() {
       })
       .done(function(ready, textStatus, jqXHR) {
         if (ready) {
-          app.websocket.reconnect();
+          if (app.websocket.reloadWholePage) {
+            // Instead of reconnecting after a disconnection, reload tbe whole page.
+            //  * makes sure initState is reloaded and we're in sync
+            //  * loads any new styles, helpful during development
+            location.reload(true);
+          }
+          else {
+            app.websocket.reconnect();
+          }
         }
       })
       .always(function(){
@@ -61,6 +70,7 @@ app.websocket.reconnect = function() {
   app.websocket.socket.onclose = function(e) {
     console.log("socket closed");
     app.websocket.trigger('close', e);
+    app.websocket.reloadWholePage = true;
   };
   app.websocket.socket.onerror = function(e) {
     console.log("socket error", e);
