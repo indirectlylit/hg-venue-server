@@ -182,7 +182,7 @@ var stopLogging = function(callback) {
   if (!fileStream) {
     return callback("Not logging.");
   }
-  fileStream.dontwrite = true;
+  fileStream.stopped = true;
   fileStream.end(function(err){
     if (err) {
       console.log("Could not close the file stream:", err);
@@ -299,7 +299,7 @@ var getRecordingState = function(callback) {
 };
 
 var write = function(data) {
-  if (fileStream && fileStream.fd && !fileStream.closed && !fileStream.dontwrite) {
+  if (fileStream && fileStream.fd && !fileStream.closed && !fileStream.stopped) {
     var ok = fileStream.write(data+'\n');
     tooFast = tooFast || !ok;
   }
