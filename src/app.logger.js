@@ -192,7 +192,7 @@ var stopLogging = function(callback) {
     return callback("Not logging.");
   }
   fileStream.stopped = true;
-  fileStream.end(function(err){
+  fileStream.end(function (err){
     if (err) {
       console.log("Could not close the file stream:", err);
       callback(err);
@@ -250,7 +250,7 @@ var saveAs = function(label, callback) {
 };
 
 var getFileInfo = function(id, callback) {
-  getFileList(function(err, allFileInfo) {
+  getFileList(function (err, allFileInfo) {
     if (err) return callback(err);
     var fileInfo = _.find(allFileInfo, {'id':id});
     if (!fileInfo) {
@@ -317,7 +317,7 @@ var write = function(data) {
 };
 
 var setExternalWithChecks = function(external, callback) {
-  getRecordingState(function(err, state) {
+  getRecordingState(function (err, state) {
     if (state.recording) {
       callback("Cannot change directory while recording.");
       return;
@@ -334,13 +334,13 @@ var getState = function(callback) {
   var info = {
     'location' : getLocationInfo()
   };
-  getFileList(function(err, saved_file_info) {
+  getFileList(function (err, saved_file_info) {
     if (err) {
       callback(err);
       return;
     }
     info.saved_files = saved_file_info;
-    getRecordingState(function(err, recording_state) {
+    getRecordingState(function (err, recording_state) {
       if (err) {
         callback(err);
         return;

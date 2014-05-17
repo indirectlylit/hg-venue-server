@@ -35,7 +35,7 @@ function createSerialPort(name) {
 
 function attemptLogging() {
   if (!serial_active) {
-    serialPort.open(function(error) {
+    serialPort.open(function (error) {
       if (error) {
         serial_active = false;
         return;

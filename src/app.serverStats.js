@@ -67,7 +67,7 @@ getStats = function() {
 
 retrieveDiskSpace();
 
-setInterval(function() {
+setInterval(function () {
   retrieveDiskSpace();
 }, 2500);
 

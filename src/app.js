@@ -41,9 +41,9 @@ var app_web = require("./app.web");
 //// MODULE LOGIC
 
 // server stats
-setInterval(function() {
+setInterval(function () {
   app_pubsub.publish('server.stats', app_serverStats.getStats());
-  app_logger.getRecordingState(function(err, recording_state) {
+  app_logger.getRecordingState(function (err, recording_state) {
     if (err) {
       console.log("Error getting recording state:", err);
     }
@@ -92,7 +92,7 @@ app_gpio.on('shutdown', function () {
   shuttingDown = true;
   console.log("SHUTDOWN");
   publish('server.shutdown', {});
-  app_logger.stopLogging(function(err) {
+  app_logger.stopLogging(function (err) {
     if (err) {
       console.log("Could not stop logging:", err);
     }

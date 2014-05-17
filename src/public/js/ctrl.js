@@ -15,7 +15,7 @@ var _ajax = function(verb, url, data) {
     data:         JSON.stringify(data),
     contentType:  'application/json'
   })
-  .fail(function(jqXHR, textStatus, errorThrown) {
+  .fail(function (jqXHR, textStatus, errorThrown) {
     var err = ([textStatus, errorThrown, jqXHR.responseText]).join('\n');
     if (jqXHR.readyState === 0 || jqXHR.status === 0) {
       err = "No response received from server.";
@@ -32,20 +32,20 @@ var _ajax = function(verb, url, data) {
 
 app.ctrl.setWave = function(newState) {
   _ajax('put', '/api/squarewave/', newState)
-  .done(function(on, textStatus, jqXHR) {
+  .done(function (on, textStatus, jqXHR) {
     app.state.wave_info.on = on;
   })
-  .always(function() {
+  .always(function () {
     app.views.serverSettings.render();
   });
 };
 
 app.ctrl.setLogExternal = function(newState) {
   _ajax('put', '/api/logger/external/', newState)
-  .done(function(data, textStatus, jqXHR) {
+  .done(function (data, textStatus, jqXHR) {
     app.state.logger_info = data;
   })
-  .always(function() {
+  .always(function () {
     app.views.serverSettings.render();
     app.views.logList.render();
     app.views.recorder.render();
@@ -92,10 +92,10 @@ app.websocket.on('logger.state', function (logger_info) {
 
 var _updateRecordingState = function(state) {
   _ajax('put', '/api/logger/'+state)
-  .done(function(recording_state, textStatus, jqXHR) {
+  .done(function (recording_state, textStatus, jqXHR) {
     app.state.logger_info.recording_state = recording_state;
   })
-  .always(function() {
+  .always(function () {
     app.views.recorder.render();
   });
 };
@@ -115,10 +115,10 @@ app.ctrl.resetRecording = function() {
 
 app.ctrl.saveRecording = function(name) {
   _ajax('post', '/api/logger/save_as/', name)
-  .done(function(logger_info, textStatus, jqXHR) {
+  .done(function (logger_info, textStatus, jqXHR) {
     app.state.logger_info = logger_info;
   })
-  .always(function() {
+  .always(function () {
     app.views.recorder.render();
     app.views.logList.render();
   });
@@ -126,10 +126,10 @@ app.ctrl.saveRecording = function(name) {
 
 app.ctrl.deleteFile = function(fileID) {
   _ajax('delete', '/api/logger/files/'+fileID)
-  .done(function(logger_info, textStatus, jqXHR) {
+  .done(function (logger_info, textStatus, jqXHR) {
     app.state.logger_info = logger_info;
   })
-  .always(function() {
+  .always(function () {
     app.views.logList.render();
   });
 };

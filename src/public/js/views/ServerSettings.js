@@ -39,7 +39,7 @@ app.views.ServerSettings = Backbone.Viewmaster.extend({
     app.ctrl.setLogExternal(checkbox.prop('checked'));
     checkbox.prop('disabled', true);
   },
-  _updateSocket: _.debounce(function(event) {
+  _updateSocket: _.debounce(function (event) {
     app.websocket.setAddress(event.target.value);
   }, 100),
   _submit: function(event) {

@@ -43,7 +43,7 @@ app.websocket.start = function() {
         type:         "get",
         contentType:  'application/json'
       })
-      .done(function(ready, textStatus, jqXHR) {
+      .done(function (ready, textStatus, jqXHR) {
         if (ready) {
           if (app.websocket.reloadWholePage) {
             // Instead of reconnecting after a disconnection, reload tbe whole page.
@@ -56,7 +56,7 @@ app.websocket.start = function() {
           }
         }
       })
-      .always(function(){
+      .always(function (){
         app.websocket.checkingReady = false;
       });
     }

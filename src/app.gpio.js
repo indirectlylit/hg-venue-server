@@ -143,7 +143,7 @@ var getWaveInfo = function() {
 setPinMode(REFERENCE_SIGNAL, 'out', function (err, std_out, std_err) {
   if (err) return;
   // once the pin mode is set, set up a square wave
-  setInterval(function() {
+  setInterval(function () {
     if (!generateWave) return;
     var t_0 = process.hrtime();
     waveState = !waveState;
