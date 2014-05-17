@@ -37,6 +37,14 @@ var stopTime;
 var fileNamePattern = /(.*?) - (.*)\.txt/;
 var tooFast = false;
 
+var rateCalc = {
+  WINDOW : 1000,
+  msgsIn : 0,
+  msgsOut : 0,
+  rateIn : 0,
+  rateOut : 0,
+};
+
 
 //// LOCAL FUNCTIONS
 
@@ -304,6 +312,8 @@ var write = function(data) {
     var ok = fileStream.write(data+'\n');
     tooFast = tooFast || !ok;
   }
+  rateCalc.msgsIn++;
+  rateCalc.msgsOut++;
 };
 
 var setExternalWithChecks = function(external, callback) {
@@ -353,6 +363,15 @@ var overloaded = function() {
 process.env.TZ = 'America/New_York';
 setExternalSync(app_settings.get('log_external'));
 
+setInterval(
+  function recalcRates() {
+    rateCalc.rateIn = 1.0 * rateCalc.msgsIn / rateCalc.WINDOW;
+    rateCalc.rateOut = 1.0 * rateCalc.msgsOut / rateCalc.WINDOW;
+    rateCalc.msgsOut = rateCalc.msgsIn = 0;
+    // console.log("In:", rateCalc.rateIn.toFixed(3), "\tOut:", rateCalc.rateOut.toFixed(3));
+  },
+  rateCalc.WINDOW
+);
 
 //// EXPORTS
 
