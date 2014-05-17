@@ -37,6 +37,7 @@ var stopTime;
 var fileNamePattern = /(.*?) - (.*)\.txt/;
 var tooFast = false;
 
+
 //// LOCAL FUNCTIONS
 
 var quoteFileName = function(input) {
