@@ -179,15 +179,13 @@ var startLogging = function(callback) {
 };
 
 var stopLogging = function(callback) {
-console.log("A");
   if (!fileStream) {
     return callback("Not logging.");
   }
-fileStream.dontwrite = true;
+  fileStream.dontwrite = true;
   fileStream.end(function(err){
-console.log("B");
     if (err) {
-console.log("ERR", err);
+      console.log("Could not close the file stream:", err);
       callback(err);
       return;
     }
