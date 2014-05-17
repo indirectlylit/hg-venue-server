@@ -35,7 +35,6 @@ var fileStream;
 var startTime;
 var stopTime;
 var fileNamePattern = /(.*?) - (.*)\.txt/;
-var tooFast = false;
 
 var rateCalc = {
   WINDOW : 1000,
@@ -181,6 +180,9 @@ var startLogging = function(callback) {
     fileStream.on('error', function (err) {
       console.log("File stream error:", err);
     });
+    fileStream.on('drain', function () {
+      console.log("DRAINED");
+    });
     startTime = new Date();
     stopTime = null;
     getRecordingState(callback);
@@ -310,7 +312,6 @@ var getRecordingState = function(callback) {
 var write = function(data) {
   if (fileStream && fileStream.fd && !fileStream.closed && !fileStream.stopped) {
     var ok = fileStream.write(data+'\n');
-    tooFast = tooFast || !ok;
   }
   rateCalc.msgsIn++;
   rateCalc.msgsOut++;
@@ -351,10 +352,9 @@ var getState = function(callback) {
   });
 };
 
-var overloaded = function() {
-  var temp = tooFast;
-  tooFast = false;
-  return temp;
+var wasOverloaded = function() {
+  // TODO: fix me
+  return false;
 };
 
 
@@ -380,7 +380,7 @@ module.exports.getFileInfo        = getFileInfo;
 module.exports.getState           = getState;
 module.exports.getRecordingState  = getRecordingState;
 module.exports.setExternal        = setExternalWithChecks;
-module.exports.overloaded         = overloaded;
+module.exports.overloaded         = wasOverloaded;
 
 module.exports.write              = write;
 module.exports.stopLogging        = stopLogging;
