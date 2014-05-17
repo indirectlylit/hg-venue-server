@@ -170,7 +170,7 @@ var startLogging = function(callback) {
     }
     fileStream = fs.createWriteStream(tempFileName());
     fileStream.on('error', function (err) {
-//      console.log("File stream error:", err);
+      console.log("File stream error:", err);
     });
     startTime = new Date();
     stopTime = null;
