@@ -5,9 +5,9 @@
   <table class="table table-condensed">
     <thead>
       <td class="text-left">Sensor ID</td>
-      <td class="text-right"><span data-toggle="tooltip" class="helptext" title="Voltage (volts)">Voltage (volts)</span></td>
-      <td class="text-right"><span data-toggle="tooltip" class="helptext" title="Current (amps)">Current (amps)</span></td>
-      <td class="text-right"><span data-toggle="tooltip" class="helptext" title="Power (watts)">Power (watts)</span></td>
+      <td class="text-right">Voltage (volts)</td>
+      <td class="text-right">Current (amps)</td>
+      <td class="text-right">Power (watts)</td>
     </thead>
     <tbody class="js-dataTable">
 {{#tableRows}}

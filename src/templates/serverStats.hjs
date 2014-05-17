@@ -11,9 +11,9 @@
     <dd>{{ disk }}</dd>
     <dt>Free RAM</dt>
     <dd>{{ memory }}</dd>
-    <dt><span data-toggle="tooltip" class="helptext" title="1, 5, 15 minute load averages">CPU Load</span></dt>
+    <dt>CPU Load</dt>
     <dd>{{ load }}</dd>
-    <dt><span data-toggle="tooltip" class="helptext" title="whether write buffers are filled">Logs Overloaded</span></dt>
+    <dt>Logs Overloaded</dt>
     <dd>{{ overload }}</dd>
   </dl>
 </div>
