@@ -32,6 +32,7 @@ var app_settings = require('./app.settings');
 var isExternal;
 var rootDir;
 var fileStream;
+var backPressure;
 var startTime;
 var stopTime;
 var fileNamePattern = /(.*?) - (.*)\.txt/;
@@ -177,11 +178,13 @@ var startLogging = function(callback) {
       return callback("Already exists");
     }
     fileStream = fs.createWriteStream(tempFileName());
+    backPressure = false;
     fileStream.on('error', function (err) {
       console.log("File stream error:", err);
     });
     fileStream.on('drain', function () {
       console.log("DRAINED");
+      backPressure = false;
     });
     startTime = new Date();
     stopTime = null;
@@ -200,7 +203,8 @@ var stopLogging = function(callback) {
       callback(err);
       return;
     }
-    fileStream = null;
+    fileStream = undefined;
+    backPressure = undefined;
     stopTime = new Date();
     getRecordingState(callback);
   });
@@ -309,12 +313,15 @@ var getRecordingState = function(callback) {
   });
 };
 
-var write = function(data) {
-  if (fileStream && fileStream.fd && !fileStream.closed && !fileStream.stopped) {
-    var ok = fileStream.write(data+'\n');
-  }
+var write = function(data, channel) {
   rateCalc.msgsIn++;
-  rateCalc.msgsOut++;
+  if (fileStream && fileStream.fd && !fileStream.closed && !fileStream.stopped) {
+    if (backPressure && channel === "network.data") {
+      return;
+    }
+    backPressure = !fileStream.write(data+'\n');
+    rateCalc.msgsOut++;
+  }
 };
 
 var setExternalWithChecks = function(external, callback) {
@@ -352,9 +359,8 @@ var getState = function(callback) {
   });
 };
 
-var wasOverloaded = function() {
-  // TODO: fix me
-  return false;
+var isOverloaded = function() {
+  return backPressure;
 };
 
 
@@ -380,7 +386,7 @@ module.exports.getFileInfo        = getFileInfo;
 module.exports.getState           = getState;
 module.exports.getRecordingState  = getRecordingState;
 module.exports.setExternal        = setExternalWithChecks;
-module.exports.overloaded         = wasOverloaded;
+module.exports.overloaded         = isOverloaded;
 
 module.exports.write              = write;
 module.exports.stopLogging        = stopLogging;

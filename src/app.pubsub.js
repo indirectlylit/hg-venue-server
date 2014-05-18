@@ -52,7 +52,7 @@ var publish = function(channel, data) {
   var sentTo = 0;
   _.each(handlers, function (handler) {
     if (handler.pattern.match(channel)) {
-      handler.func(message);
+      handler.func(message, channel);
       sentTo++;
     }
   });
