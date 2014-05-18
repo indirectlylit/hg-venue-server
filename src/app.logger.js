@@ -183,7 +183,6 @@ var startLogging = function(callback) {
       console.log("File stream error:", err);
     });
     fileStream.on('drain', function () {
-      console.log("DRAINED");
       backPressure = false;
     });
     startTime = new Date();
