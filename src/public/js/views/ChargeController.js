@@ -15,7 +15,7 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
     chargeControllerStats = _.find(app.state.networkStats, function findController(statsObj) {
       return statsObj.last_msg.kind === 'ctrl';
     });
-    if (chargeControllerStats) {
+    if (chargeControllerStats && chargeControllerStats.last_msg.v) {
       return {
         'inv' : chargeControllerStats.last_msg.inv ? 'On' : 'Off',
         'tiers' : chargeControllerStats.last_msg.tiers,
