@@ -86,6 +86,10 @@ var handleIncomingData = function(message, address) {
       address = data.msg.address;
       delete data.msg.address;
     }
+
+    // UIDs are sometimes not reported or reported as negative numbers
+    data.msg.uid = data.msg.uid || 0;
+    data.msg.uid = Math.abs(data.msg.uid);
   }
   catch(e) {
     data.error = e;
@@ -93,10 +97,6 @@ var handleIncomingData = function(message, address) {
   }
   data.address = address;
   data.size = message.length;
-
-  // UIDs are sometimes not reported or reported as negative numbers
-  data.msg.uid = data.msg.uid || 0;
-  data.msg.uid = Math.abs(data.msg.uid);
 
   if (!data.error) {
     updateStats(data, address);
