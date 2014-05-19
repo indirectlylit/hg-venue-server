@@ -68,7 +68,7 @@ var genFileName = function(time, label) {
 
 var parseFileName = function(fileName) {
   var match = fileName.match(fileNamePattern);
-  if (match[1] && match[2]) {
+  if (match && match[1] && match[2]) {
     return {
       time: new Date(match[1].replace(/'/g, ":")),
       name: unquoteFileName(match[2]),
