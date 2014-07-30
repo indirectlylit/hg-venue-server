@@ -1,6 +1,6 @@
 # Venue Server Log Format
 
-Log files from the Venue Server are plain text files comprised of [valid JSON objects](http://json.org/), one per line.
+Log files from the Venue Server are plain text files comprised of [serialized JSON objects](http://json.org/), one per line.
 
 A typical message might contain data like this:
 
@@ -32,7 +32,7 @@ The server deals with a number of different kinds of messages. At the top level,
 
 ### Time
 
-> `time` (string)
+**`time` (string)**
 
 An [ISO 8601](https://xkcd.com/1179/)-formatted timestamp, which is the moment when the venue server wrote the message.
 
@@ -40,7 +40,7 @@ An [ISO 8601](https://xkcd.com/1179/)-formatted timestamp, which is the moment w
 
 ### Channel
 
-> `chan` (string)
+**`chan` (string)**
 
 The channel to which the data belongs, or the 'type' of message. This is used for both publish/subscribe routing and for specifying what sort of content is in the `data` object.
 
@@ -53,13 +53,13 @@ The current possible values of `chan` are:
 
 ### Data
 
-> `data` (object or array)
+**`data` (object or array)**
 
 An object containing the actual message data, which will vary in structure and content based on the channel.
 
 ## Network Data
 
-> when `chan == "network.data"`, `data` is an object
+**when `chan == "network.data"`, `data` is an object**
 
 This is the most common message type. Each sensor on the network sends at least 10 of these per second to the Venue Server.
 
@@ -67,19 +67,19 @@ Each `data` object includes three members: `address`, `message`, and `size`.
 
 ### Address
 
-> `address` (string)
+**`address` (string)**
 
 This string represents where the venue server got this data from. Typical values are an IP address or the string "serial port". Note that these values may not uniquely define a particular sensor over long periods of time because IP addresses change when the system loses power.
 
 ### Size
 
-> `size` (integer)
+**`size` (integer)**
 
 The size in bytes of the original message, as it was sent over the wire.
 
 ### Message
 
-> `msg` (object)
+**`msg` (object)**
 
 This object contains the decoded information sent by the sensor. Its members vary, but a few are important:
 
@@ -100,26 +100,26 @@ The following members only exist in charge controller data:
 
 ## Server Stats
 
-> when `chan == "server.stats"`, `data` is an object
+**when `chan == "server.stats"`, `data` is an object**
 
 These messages periodically log the health of the Venue Server. They include information such as CPU usage and available memory, as described below.
 
 
 ### Memory
 
-> `totalmem` and `freemem` (integers)
+**`totalmem` and `freemem` (integers)**
 
 Total and free RAM, measured in KBytes.
 
 ### Disk Space
 
-> `totaldisk` and `freedisk` (integers)
+**`totaldisk` and `freedisk` (integers)**
 
 Total and free disk space, measured in KBytes.
 
 ### CPU Load Averages
 
-> `loadavg` (array of floats)
+**`loadavg` (array of floats)**
 
 CPU load is the amount of computational work that the server is performing. The three numbers represent the average system load over the last one, five, and fifteen minutes.
 
@@ -128,18 +128,18 @@ Note: [CPU load](http://www.linuxjournal.com/article/9001) is related to - but d
 
 ### Uptime
 
-> `uptime` (integer)
+**`uptime` (integer)**
 
 How long the server hardware has been running, in seconds.
 
-> `appUptime` (integer)
+**`appUptime` (integer)**
 
 How long the server software has been running, in seconds.
 
 
 ### Logging Overload Flag
 
-> `logs_overloaded` (bool)
+**`logs_overloaded` (bool)**
 
 This value indicates whether log data is being buffered in memory due to throughput issues. This flag is returned by the node.js stream [`write()`](http://nodejs.org/api/stream.html#stream_writable_write_chunk_encoding_callback) function.
 
@@ -149,10 +149,10 @@ Note that when the logs are overloaded, the server will *not* try to write `netw
 
 These message channels are used primarily to drive the live Venue Server, and are not particularly important for post-event analysis.
 
-> when `chan == "network.stats"`, `data`  is an array
+**when `chan == "network.stats"`, `data`  is an array**
 
 Each element of the `data` array is an object that contains aggregated information over a short window of time.
 
-> when `chan == "logger.state"`, `data` is an object
+**when `chan == "logger.state"`, `data` is an object**
 
 This object contains information about the data being logged to disk.
