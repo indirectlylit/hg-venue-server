@@ -1,6 +1,3 @@
-
-
-
 # Venue Server
 
 This is network coordinator application. It takes data from our sensor network, combines it, and makes it available.
@@ -97,8 +94,6 @@ We do not need to disable bootup info which is sent by the Pi on boot.
 
 The server uses an external USB hard drive to write data to. This should be set up to be automatically mounted and writable by both the root and pi users at `/media/usbhdd`.
 
-At the time of this writing, we [aren't yet able to reliably auto-mount the hard drive](https://bitbucket.org/pedalpower/venue-server/issue/6/).
-
 
 ## Developing locally, deploying on a Raspberry Pi
 
@@ -106,6 +101,12 @@ When developing, just dirty copy over the folder and restart the daemon.
 
     > scp -r ~/mycode/venue-server pi@10.0.0.10:~/venue-server
     > ssh pi@10.0.0.10 "sudo /etc/init.d/venuserver restart"
+
+
+## Logs
+
+Log files can be downloaded directly from the web interface. See data.md for information on the log file format.
+
 
 -----------
 
