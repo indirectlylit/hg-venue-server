@@ -13,7 +13,7 @@ The application server should run on any OS: We leverage virtual machines to cre
 2. Install [Vagrant](http://www.vagrantup.com/). This wrapper software allows us to provision new virtual machines in a reproducible way. It is known to work with version 1.4.2.
 3. Make sure you have git installed.
 4. Clone this repository to your computer.
-    * For example: `git clone git@bitbucket.org:pedalpower/venue-server.git`
+    * For example: `git clone git@bitbucket.org:thehumangrid/venue-server.git`
 
 
 
@@ -113,4 +113,3 @@ Log files can be downloaded directly from the web interface. See data.md for inf
 
 The Human Grid
 All Rights Reserved
-
