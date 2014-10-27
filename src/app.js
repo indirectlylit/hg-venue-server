@@ -91,7 +91,7 @@ app_gpio.on('shutdown', function () {
   }
   shuttingDown = true;
   console.log("SHUTDOWN");
-  publish('server.shutdown', {});
+  app_pubsub.publish('server.shutdown', {});
   app_logger.stopLogging(function (err) {
     if (err) {
       console.log("Could not stop logging:", err);
