@@ -3,19 +3,16 @@
 </div>
 <div class="panel-body">
   <table class="table table-condensed">
-    <thead>
-      <td class="text-left">Sensor ID</td>
-      <td class="text-right">Voltage (volts)</td>
-      <td class="text-right">Current (amps)</td>
-      <td class="text-right">Power (watts)</td>
-    </thead>
     <tbody class="js-dataTable">
 {{#tableRows}}
       <tr>
-        <td class='text-left'>{{ uid }}</td>
-        <td class='text-right'>{{ voltage }}</td>
-        <td class='text-right'>{{ current }}</td>
-        <td class='text-right'>{{ power_out }}</td>
+        <td class="constrained-large"># {{ uid }}</td>
+        <td class="constrained-small text-right">{{ power_out }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator input" style="width: {{ power_out_pct }}%"></span>
+          </div>
+        </td>
       </tr>
 {{/tableRows}}
     </tbody>

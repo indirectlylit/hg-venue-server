@@ -35,6 +35,7 @@
         <div class="col-md-8">
           <div class="panel panel-default js-chargecontroller"></div>
           <div class="panel panel-default js-bikes"></div>
+          <div class="panel panel-default js-acsensors"></div>
         </div>
       </div> <!-- /row -->
       <div class="row">

@@ -5,8 +5,8 @@
   <div class="panel-body">
     <table class="table table-condensed">
       <thead>
-        <td class='time-col'>Time</td>
-        <td class='label-col'>Label</td>
+        <td class='logList-time-col'>Time</td>
+        <td class='logList-label-col'>Label</td>
         <td class='text-right'>Size</td>
       </thead>
       <tbody>

@@ -1,33 +1,32 @@
 <div class="panel-heading">
-  <h3 class="panel-title">Charge Controller</h3>
+  <h3 class="panel-title">
+    Charge Controller
+    <span class="ctrl-state">
+      <span class="ctrl-label">Inverter:</span> {{ inv }}
+      <span class="ctrl-label">Tiers:</span> {{ tiers }}
+      <span class="ctrl-label">Shunts:</span> {{ shunts }}
+    </span>
+  </h3>
 </div>
 <div class="panel-body">
   <table class="table table-condensed">
-    <thead>
-      <td class="text-center">Inverter</td>
-      <td class="text-center">Tiers</td>
-      <td class="text-center">Shunts</td>
-      <td class="text-center">Voltage</td>
-      <td class="text-center">Generating</td>
-      <td class="text-center">Consuming</td>
-    </thead>
     <tbody>
       <tr>
-        <td class="text-center">{{ inv }}</td>
-        <td class="text-center">{{ tiers }}</td>
-        <td class="text-center">{{ shunts }}</td>
-        <td class="text-center">{{ voltage }}</td>
-        <td class="text-center">
-          <ul class="ctrl-metrics">
-            <li> <span class="value">{{ current_in }}  </span><span class="unit">amps</span>  </li>
-            <li> <span class="value">{{ power_in }}    </span><span class="unit">watts</span> </li>
-          </ul>
+        <td class="constrained-large">Generation</td>
+        <td class="constrained-small text-right">{{ power_in }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator input" style="width: {{ power_in_pct }}%"></span>
+          </div>
         </td>
-        <td class="text-center">
-          <ul class="ctrl-metrics">
-            <li> <span class="value">{{ current_out }} </span><span class="unit">amps</span>  </li>
-            <li> <span class="value">{{ power_out }}   </span><span class="unit">watts</span> </li>
-          </ul>
+      </tr>
+      <tr>
+        <td class="constrained-large">Consumption</td>
+        <td class="constrained-small text-right">{{ power_out }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator output" style="width: {{ power_out_pct }}%"></span>
+          </div>
         </td>
       </tr>
     </tbody>

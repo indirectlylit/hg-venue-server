@@ -29,8 +29,8 @@ var windowPeriod = app_settings.get('client_update_period');
 
 //// LOCAL FUNCTIONS
 
-var updateStats = function(data, address) {
-  statTrackers[address] = statTrackers[address] || {
+var updateStats = function(data, id) {
+  statTrackers[id] = statTrackers[id] || {
     last_msg : {},
     totalMessages : 0,
     totalBytes: 0,
@@ -39,17 +39,30 @@ var updateStats = function(data, address) {
     accumulated_v: 0,
     accumulated_c_in: 0,
     accumulated_c_out: 0,
+    accumulated_c_out_2: 0,
+    accumulated_c_out_3: 0,
   };
-  statTrackers[address].last_msg = data.msg;
-  statTrackers[address].totalMessages++;
-  statTrackers[address].totalBytes += data.size;
-  if (data.msg.i !== statTrackers[address]+1) {
-    statTrackers[address].dropped++;
+  statTrackers[id].last_msg = data.msg;
+  statTrackers[id].totalMessages++;
+  statTrackers[id].totalBytes += data.size;
+  if (data.msg.i !== statTrackers[id]+1) {
+    statTrackers[id].dropped++;
   }
-  statTrackers[address].lastPacketID = data.msg.i;
-  statTrackers[address].accumulated_v += data.msg.v;
-  statTrackers[address].accumulated_c_in += data.msg.c_in;
-  statTrackers[address].accumulated_c_out += data.msg.c_out;
+  statTrackers[id].lastPacketID = data.msg.i;
+  statTrackers[id].accumulated_v += data.msg.v;
+
+  if (data.msg.kind == "ctrl") {
+    statTrackers[id].accumulated_c_in += data.msg.c_in;
+    statTrackers[id].accumulated_c_out += data.msg.c_out;
+  }
+  else if (data.msg.kind == "bike") {
+    statTrackers[id].accumulated_c_out += data.msg.c_out;
+  }
+  else if (data.msg.kind == "acsensor") {
+    statTrackers[id].accumulated_c_out += data.msg.c_1;
+    statTrackers[id].accumulated_c_out_2 += data.msg.c_2;
+    statTrackers[id].accumulated_c_out_3 += data.msg.c_3;
+  }
 };
 
 var resetStatTracker = function(tracker) {
@@ -59,6 +72,8 @@ var resetStatTracker = function(tracker) {
   tracker.accumulated_v = 0;
   tracker.accumulated_c_in = 0;
   tracker.accumulated_c_out = 0;
+  tracker.accumulated_c_out_2 = 0;
+  tracker.accumulated_c_out_3 = 0;
   return tracker;
 };
 
@@ -71,10 +86,15 @@ var genStatsFromTracker = function(tracker) {
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
   stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
   stats['avg_c_out'] =    tracker.accumulated_c_out/tracker.totalMessages;
+  stats['avg_c_out_2'] =  tracker.accumulated_c_out_2/tracker.totalMessages;
+  stats['avg_c_out_3'] =  tracker.accumulated_c_out_3/tracker.totalMessages;
   stats['last_msg'] =     tracker.last_msg;
   return stats;
 };
 
+var identifier = function(data) {
+  return([data.address, data.msg.uid].join('-'));
+};
 
 var handleIncomingData = function(message, address) {
   var data = {};
@@ -99,7 +119,7 @@ var handleIncomingData = function(message, address) {
   data.size = message.length;
 
   if (!data.error) {
-    updateStats(data, address);
+    updateStats(data, identifier(data));
   }
   eventEmitter.emit('data', data);
 };

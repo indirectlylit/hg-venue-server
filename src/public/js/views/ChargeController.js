@@ -16,26 +16,26 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
       return statsObj.last_msg.kind === 'ctrl';
     });
     if (chargeControllerStats && chargeControllerStats.last_msg.v) {
+      var power_in = chargeControllerStats.avg_c_in * chargeControllerStats.avg_v;
+      var power_out = chargeControllerStats.avg_c_out * chargeControllerStats.avg_v;
       return {
         'inv' : chargeControllerStats.last_msg.inv ? 'On' : 'Off',
         'tiers' : chargeControllerStats.last_msg.tiers,
         'shunts' : chargeControllerStats.last_msg.shunts,
-        'voltage' : chargeControllerStats.avg_v.toFixed(1) + ' volts',
-        'current_in' : chargeControllerStats.avg_c_in.toFixed(1),
-        'current_out' : chargeControllerStats.avg_c_out.toFixed(1),
-        'power_in' : (chargeControllerStats.avg_c_in * chargeControllerStats.avg_v).toFixed(1),
-        'power_out' : (chargeControllerStats.avg_c_out * chargeControllerStats.avg_v).toFixed(1),
+        'power_in' : power_in.toFixed(1),
+        'power_out' : power_out.toFixed(1),
+        'power_in_pct' : 100.0 * (power_in / app.maxGraph),
+        'power_out_pct' : 100.0 * (power_out / app.maxGraph),
       };
     }
     return {
-      'inv' : '?',
-      'tiers' : '?',
-      'shunts' : '?',
-      'voltage' : '?',
-      'current_in' : '?',
-      'current_out' : '?',
-      'power_in' : '?',
-      'power_out' : '?'
+      'inv' : '',
+      'tiers' : '',
+      'shunts' : '',
+      'power_in' : '',
+      'power_out' : '',
+      'power_in_pct' : 0,
+      'power_out_pct' : 0,
     };
   },
   initialize: function() {

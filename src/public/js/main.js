@@ -15,6 +15,7 @@
 $(function() {
 
   app.views = app.views || {};
+  app.views.acsensors       = new app.views.ACSensors().render();
   app.views.bikes           = new app.views.Bikes().render();
   app.views.chargeController = new app.views.ChargeController().render();
   app.views.serverStats     = new app.views.ServerStats().render();
@@ -40,6 +41,9 @@ $(function() {
   app.state.clientAddresses = [];
   app.state.networkStats = {};
   app.state.fileName = "";
+
+  // global scale for graphs
+  app.maxGraph = 1600; // watts
 
   // start up the socket once all the handlers are in place
   app.websocket.start();

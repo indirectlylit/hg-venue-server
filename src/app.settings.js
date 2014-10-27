@@ -15,7 +15,7 @@ var defaults = {
   log_file_name : '',
   log_external : true,
   output_square_wave : false,
-  client_update_period : 1000, // ms
+  client_update_period : 650, // ms
 };
 
 var settings = {};

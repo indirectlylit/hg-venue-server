@@ -22,11 +22,11 @@ app.views.Bikes = Backbone.Viewmaster.extend({
     );
     return {
       'tableRows': _.map(bikeStats, function genStatsTableRow(stats) {
-        row = {};
+        var power_out = stats.avg_v * stats.avg_c_out;
+        var row = {};
         row.uid = stats.last_msg.uid;
-        row.voltage = stats.avg_v.toFixed(1);
-        row.current = stats.avg_c_out.toFixed(1);
-        row.power_out = (stats.avg_v * stats.avg_c_out).toFixed(1);
+        row.power_out = power_out.toFixed(1);
+        row.power_out_pct = 100.0 * (power_out / app.maxGraph);
         return row;
       }
     )};

@@ -1,25 +1,12 @@
 
-.ctrl-metrics {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
+.ctrl-state {
+  font-size: 14px;
+  float: right;
 }
 
-.ctrl-metrics li {
-  display: block;
-}
-
-.ctrl-metrics .value {
-  display: inline-block;
-  min-width: 55px;
-  text-align: right;
-}
-
-.ctrl-metrics .unit {
-  display: inline-block;
-  min-width: 55px;
-  text-align: left;
-  margin-left: 0.3em;
+.ctrl-label {
+  font-weight: bold;
+  margin-left: 8px;
 }
 
 .js-not-connected-layer .modal-content {
@@ -77,14 +64,54 @@ thead td {
   font-weight: bold;
 }
 
-.time-col {
+.logList-time-col {
   width: 30%;
 }
 
-.label-col {
+.logList-label-col {
   width: 50%;
 }
 
 .nowrap {
   white-space: nowrap;
 }
+
+.table > tbody > tr > td {
+  border: none;
+}
+
+.constrained-large {
+  width: 150px
+}
+
+.constrained-small {
+  width: 100px
+}
+
+.bar-cell {
+  vertical-align: middle !important;
+}
+
+.bar {
+  background-color: black;
+  height: 14px;
+  padding: 0;
+  position: relative;
+}
+
+.bar-indicator {
+  background-color: gray;
+  height: 14px;
+  display: inline-block;
+  position: absolute;
+  border: 1px solid black;
+}
+
+.bar-indicator.input {
+  background-color: #5bc0de;
+}
+
+.bar-indicator.output {
+  background-color: #f0ad4e;
+}
+
