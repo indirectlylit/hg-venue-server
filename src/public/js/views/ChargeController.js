@@ -12,9 +12,14 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
     return app.utils.render('chargeController', context);
   },
   context: function() {
-    chargeControllerStats = _.find(app.state.networkStats, function findController(statsObj) {
+    var chargeControllerStats = _.find(app.state.networkStats, function findController(statsObj) {
       return statsObj.last_msg.kind === 'ctrl';
     });
+    // there should be at most one of these
+    var acsensorStats = _.where(app.state.networkStats, function findControllerAC(statsObj) {
+      return statsObj.last_msg.kind === 'ctrl-ac';
+    });
+    var tierRows = _.map(acsensorStats, app.utils.genStatsTableRow);
     if (chargeControllerStats && chargeControllerStats.last_msg.v) {
       var power_in = chargeControllerStats.avg_c_in * chargeControllerStats.avg_v;
       var power_out = chargeControllerStats.avg_c_out * chargeControllerStats.avg_v;
@@ -26,6 +31,7 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
         'power_out' : power_out.toFixed(1),
         'power_in_pct' : 100.0 * (power_in / app.maxGraph),
         'power_out_pct' : 100.0 * (power_out / app.maxGraph),
+        'tableRows': tierRows,
       };
     }
     return {
@@ -36,6 +42,7 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
       'power_out' : '',
       'power_in_pct' : 0,
       'power_out_pct' : 0,
+      'tableRows': tierRows,
     };
   },
   initialize: function() {

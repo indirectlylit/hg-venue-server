@@ -29,6 +29,35 @@
           </div>
         </td>
       </tr>
+{{#tableRows}}
+      <tr>
+        <td class="constrained-large ctrl-tier">Tier 1</td>
+        <td class="constrained-small text-right">{{ power_out_1 }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator output" style="width: {{ power_out_1_pct }}%"></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="constrained-large ctrl-tier">Tier 2</td>
+        <td class="constrained-small text-right">{{ power_out_2 }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator output" style="width: {{ power_out_2_pct }}%"></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="constrained-large ctrl-tier">Tier 3</td>
+        <td class="constrained-small text-right">{{ power_out_3 }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator output" style="width: {{ power_out_3_pct }}%"></span>
+          </div>
+        </td>
+      </tr>
+{{/tableRows}}
     </tbody>
   </table>
 </div>

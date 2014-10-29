@@ -9,6 +9,10 @@
   margin-left: 8px;
 }
 
+.table .ctrl-tier {
+  padding-left: 20px;
+}
+
 .js-not-connected-layer .modal-content {
   background-color: #365B8A;
   text-align: center;
