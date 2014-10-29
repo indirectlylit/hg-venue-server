@@ -57,9 +57,14 @@ app.ctrl.setLogExternal = function(newState) {
 /* Network Statistics */
 /**********************/
 
+app.pauseRendering = false;
+
 app.websocket.on('network.stats', function (newStats) {
   app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
   app.state.networkStats = newStats;
+  if (app.pauseRendering) {
+    return;
+  }
   app.views.acsensors.render();
   app.views.bikes.render();
   app.views.chargeController.render();
