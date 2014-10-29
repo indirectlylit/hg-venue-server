@@ -6,7 +6,7 @@
     <tbody class="js-dataTable">
 {{#tableRows}}
       <tr>
-        <td class="constrained-large"># {{ uid }} circuit A</td>
+        <td class="constrained-large">Circuit A</td>
         <td class="constrained-small text-right">{{ power_out_1 }} W</td>
         <td class="bar-cell">
           <div class="bar">
@@ -15,7 +15,7 @@
         </td>
       </tr>
       <tr>
-        <td class="constrained-large"># {{ uid }} circuit B</td>
+        <td class="constrained-large">Circuit B</td>
         <td class="constrained-small text-right">{{ power_out_2 }} W</td>
         <td class="bar-cell">
           <div class="bar">
@@ -24,7 +24,7 @@
         </td>
       </tr>
       <tr>
-        <td class="constrained-large"># {{ uid }} circuit C</td>
+        <td class="constrained-large">Circuit C</td>
         <td class="constrained-small text-right">{{ power_out_3 }} W</td>
         <td class="bar-cell">
           <div class="bar">
