@@ -58,7 +58,7 @@ var updateStats = function(data, id) {
   else if (data.msg.kind == "bike") {
     statTrackers[id].accumulated_c_out += data.msg.c_out;
   }
-  else if (data.msg.kind == "acsensor") {
+  else if (data.msg.kind == "3-ac" || data.msg.kind == "ctrl-ac") {
     statTrackers[id].accumulated_c_out += data.msg.c_1;
     statTrackers[id].accumulated_c_out_2 += data.msg.c_2;
     statTrackers[id].accumulated_c_out_3 += data.msg.c_3;
