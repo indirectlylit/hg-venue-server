@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
 	config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
 	## Uncomment this line to give the VM an IP locally
-	# config.vm.network "private_network", ip: "10.0.0.10"
+	config.vm.network "private_network", ip: "11.0.0.10"
 
 	## Uncomment these lines to give the VM an IP on the LAN
 	# config.vm.network :public_network
@@ -51,6 +51,6 @@ Vagrant.configure("2") do |config|
 	config.vm.network :forwarded_port, :host => 8080, :guest => 8080 # web
 	config.vm.network :forwarded_port, :host => 8081, :guest => 8081 # websockets
 	config.vm.network :forwarded_port, :host => 7777, :guest => 7777 # UDP
-	config.vm.network :forwarded_port, :host => 5959, :guest => 5959 # 'look' node profiling
+	# config.vm.network :forwarded_port, :host => 5959, :guest => 5959 # 'look' node profiling
 
 end

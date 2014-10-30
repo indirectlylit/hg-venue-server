@@ -18,7 +18,7 @@ var app_web_routes_logger = require("./app.web.routes.logger");
 
 app_web.route('get', '/', function (req, res) {
   // render the index with all templates embedded; also auto-load view files
-  app_web.loadFiles('templates', '.hjs', function (err, templateData) {
+  app_web.loadFiles('templates/inner', '.hjs', function (err, templateData) {
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
@@ -39,7 +39,7 @@ app_web.route('get', '/', function (req, res) {
           wave_info:      app_gpio.getWaveInfo(),
           serverStats:    app_serverStats.getStats()
         };
-        res.render('index', {
+        res.render('templates/index', {
           templateData: templateData,
           viewData: viewData,
           initState: JSON.stringify(initState)
