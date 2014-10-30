@@ -16,7 +16,7 @@ var app_web = require("./app.web");
 var app_web_routes_logger = require("./app.web.routes.logger");
 
 
-app_web.route('get', '/', function (req, res) {
+var base = function(baseName, req, res) {
   // render the index with all templates embedded; also auto-load view files
   app_web.loadFiles('templates/inner', '.hjs', function (err, templateData) {
     if (err) {
@@ -39,7 +39,7 @@ app_web.route('get', '/', function (req, res) {
           wave_info:      app_gpio.getWaveInfo(),
           serverStats:    app_serverStats.getStats()
         };
-        res.render('templates/index', {
+        res.render('templates/'+baseName, {
           templateData: templateData,
           viewData: viewData,
           initState: JSON.stringify(initState)
@@ -47,8 +47,15 @@ app_web.route('get', '/', function (req, res) {
       });
     });
   });
+};
+
+app_web.route('get', '/', function (req, res) {
+  base('index', req, res);
 });
 
+app_web.route('get', '/admin', function (req, res) {
+  base('admin', req, res);
+});
 
 app_web.route('put', '/api/squarewave/', function (req, res) {
   var state = req.body;

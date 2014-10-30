@@ -21,28 +21,19 @@
       </div>
     </div>
 
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="navbar-text">Venue Server</div>
-      <div class="navbar-text navbar-right js-connectionIndicator"></div>
-    </nav>
+    <br/>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          <div class="panel panel-default js-serverStats"></div>
-          <div class="panel panel-default js-settings"></div>
-        </div>
+        <div class="col-md-2"></div>
         <div class="col-md-8">
           <div class="panel panel-default js-chargecontroller"></div>
           <div class="panel panel-default js-bikes"></div>
           <div class="panel panel-default js-acsensors"></div>
         </div>
-      </div> <!-- /row -->
-      <div class="row">
-        <div class="col-md-4 js-recorder"></div>
-        <div class="col-md-8 js-logList"></div>
-      </div> <!-- /row -->
-    </div> <!-- /container -->
+        <div class="col-md-2"></div>
+      </div>
+    </div>
 
     <!-- templates -->
 {{#templateData}}
