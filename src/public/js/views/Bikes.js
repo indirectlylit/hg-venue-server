@@ -25,7 +25,7 @@ app.views.Bikes = Backbone.Viewmaster.extend({
         var power_out = stats.avg_v * stats.avg_c_out;
         var row = {};
         row.uid = stats.last_msg.uid;
-        row.power_out = power_out.toFixed(1);
+        row.power_out = power_out.toFixed(0);
         row.power_out_pct = 100.0 * (power_out / app.maxGraph);
         return row;
       }
