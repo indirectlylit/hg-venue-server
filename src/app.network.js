@@ -89,6 +89,14 @@ var genStatsFromTracker = function(tracker) {
   stats['avg_c_out_2'] =  tracker.accumulated_c_out_2/tracker.totalMessages;
   stats['avg_c_out_3'] =  tracker.accumulated_c_out_3/tracker.totalMessages;
   stats['last_msg'] =     tracker.last_msg;
+  if (tracker.last_msg.kind == "bike") {
+    var label = app_settings.get('bike_labels')[''+tracker.last_msg.uid];
+    if (label) {
+      stats['label'] = label;
+    } else {
+      stats['label'] = "";
+    }
+  }
   return stats;
 };
 
