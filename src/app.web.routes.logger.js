@@ -120,3 +120,8 @@ app_web.route('get', '/api/logger/files/:id', function (req, res) {
   });
 });
 
+app_web.route('get', '/api/logger/clap', function (req, res) {
+  app_pubsub.publish('logger.state.clap', true);
+  return res.json(200)
+});
+

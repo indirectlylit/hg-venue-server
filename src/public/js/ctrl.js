@@ -140,6 +140,9 @@ app.ctrl.deleteFile = function(fileID) {
   });
 };
 
+app.ctrl.clap = function() {
+  _ajax('get', '/api/logger/clap')
+};
 
 
 

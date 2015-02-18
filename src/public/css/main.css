@@ -119,3 +119,8 @@ thead td {
   background-color: #f0ad4e;
 }
 
+.icon-clapper {
+  background-image: url("/clapper.png");
+  background-position: center center;
+  height: 14px;
+}

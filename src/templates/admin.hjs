@@ -23,6 +23,7 @@
 
     <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-text">Venue Server Admin</div>
+      <div class="navbar-text navbar-right js-clapper"></div>
       <div class="navbar-text navbar-right js-connectionIndicator"></div>
     </nav>
 

@@ -1,0 +1,4 @@
+<button type="button" class="btn js-clap">
+  <span class="glyphicon icon-clapper"></span>
+  Clap
+</button>
