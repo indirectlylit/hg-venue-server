@@ -41,6 +41,7 @@ var updateStats = function(data, id) {
     accumulated_c_out: 0,
     accumulated_c_out_2: 0,
     accumulated_c_out_3: 0,
+    accumulated_c_out_4: 0,
   };
   statTrackers[id].last_msg = data.msg;
   statTrackers[id].totalMessages++;
@@ -58,9 +59,11 @@ var updateStats = function(data, id) {
   else if (data.msg.kind == "bike") {
     statTrackers[id].accumulated_c_out += data.msg.c_out;
   }
-  else if (data.msg.kind == "proto-em") {
+  else if (data.msg.kind == "4-ac") {
     statTrackers[id].accumulated_c_out += data.msg.c_1;
     statTrackers[id].accumulated_c_out_2 += data.msg.c_2;
+    statTrackers[id].accumulated_c_out_3 += data.msg.c_3;
+    statTrackers[id].accumulated_c_out_4 += data.msg.c_4;
   }
   else if (data.msg.kind == "ctrl-ac") {
     statTrackers[id].accumulated_c_out += data.msg.c_1;
@@ -78,6 +81,7 @@ var resetStatTracker = function(tracker) {
   tracker.accumulated_c_out = 0;
   tracker.accumulated_c_out_2 = 0;
   tracker.accumulated_c_out_3 = 0;
+  tracker.accumulated_c_out_4 = 0;
   return tracker;
 };
 
@@ -108,6 +112,7 @@ var genStatsFromTracker = function(tracker) {
   stats['avg_c_out'] =    tracker.accumulated_c_out/tracker.totalMessages;
   stats['avg_c_out_2'] =  tracker.accumulated_c_out_2/tracker.totalMessages;
   stats['avg_c_out_3'] =  tracker.accumulated_c_out_3/tracker.totalMessages;
+  stats['avg_c_out_4'] =  tracker.accumulated_c_out_4/tracker.totalMessages;
   stats['last_msg'] =     tracker.last_msg;
   if (tracker.last_msg.kind == "bike") {
     // var label = app_settings.get('bike_labels')[''+tracker.last_msg.uid];
