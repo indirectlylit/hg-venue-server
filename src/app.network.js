@@ -38,7 +38,7 @@ var N_OUTPUT_SENSORS = {
 
 var initAccumOutArray = function(kind) {
   var arr = [];
-  for (i=0; i < N_OUTPUT_SENSORS[kind]; i++) {
+  for (var i=0; i < N_OUTPUT_SENSORS[kind]; i++) {
     arr.push(0);
   }
   return arr;
@@ -75,7 +75,7 @@ var updateStats = function(data, id) {
     case "ctrl-ac":
     case "4-ac":
     default:
-      for (i=0; i < N_OUTPUT_SENSORS[data.msg.kind]; i++) {
+      for (var i=0; i < N_OUTPUT_SENSORS[data.msg.kind]; i++) {
         statTrackers[id].accumulated_c_out[i] += data.msg['c_'+(i+1)];
       }
   }
@@ -87,7 +87,7 @@ var resetStatTracker = function(tracker) {
   tracker.dropped = 0;
   tracker.accumulated_v = 0;
   tracker.accumulated_c_in = 0;
-  for (i = 0; i < tracker.accumulated_c_out.length; i++) {
+  for (var i = 0; i < tracker.accumulated_c_out.length; i++) {
     tracker.accumulated_c_out[i] = 0;
   }
   return tracker;
