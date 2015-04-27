@@ -12,11 +12,10 @@ var path = require('path');
 var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
 
 var defaults = {
-  log_file_name : '',
   log_external : true,
   output_square_wave : false,
   client_update_period : 650, // ms
-  bike_labels : {},
+  sensor_labels : {}, // map of sensor UIDs to label names
 };
 
 var settings = {};
@@ -72,6 +71,7 @@ try {
   }
 }
 catch (e) {
+  console.log("Couldn't read settings file", CONFIG_FILE, e);
   resetSync();
 }
 

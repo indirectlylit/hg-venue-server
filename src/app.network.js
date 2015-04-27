@@ -93,22 +93,6 @@ var resetStatTracker = function(tracker) {
   return tracker;
 };
 
-bike_labels = {
-  "24340":  "Bike 01",
-  "6213":   "Bike 02",
-  "9129":   "Bike 03",
-  "14798":  "Bike 04",
-  "25410":  "Bike 05",
-  "28052":  "Bike 06",
-  "27805":  "Bike 07",
-  "7410":   "Bike 08",
-  "16251":  "Bike 09",
-  "18837":  "Bike 10",
-  "19951":  "Bike 11",
-  "9215":   "Bike 12",
-  "16928":  "Bike 13"
-};
-
 var genStatsFromTracker = function(tracker) {
   // find message rate
   var kind = tracker.last_msg.kind;
@@ -124,8 +108,7 @@ var genStatsFromTracker = function(tracker) {
     stats['avg_c_out'].push(tracker.accumulated_c_out[i]/tracker.totalMessages)
   }
   if (kind == "bike") {
-    // var label = app_settings.get('bike_labels')[''+tracker.last_msg.uid];
-    var label = bike_labels[''+tracker.last_msg.uid];
+    var label = app_settings.get('sensor_labels')[''+tracker.last_msg.uid];
     if (label) {
       stats['label'] = label;
     } else {
