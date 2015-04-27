@@ -29,6 +29,21 @@ var windowPeriod = app_settings.get('client_update_period');
 
 //// LOCAL FUNCTIONS
 
+var N_OUTPUT_SENSORS = {
+  "ctrl": 1,
+  "bike": 1,
+  "4-ac": 4,
+  "ctrl-ac": 3,
+};
+
+var initAccumOutArray = function(kind) {
+  var arr = [];
+  for (i=0; i < N_OUTPUT_SENSORS[kind]; i++) {
+    arr.push(0);
+  }
+  return arr;
+};
+
 var updateStats = function(data, id) {
   statTrackers[id] = statTrackers[id] || {
     last_msg : {},
@@ -38,7 +53,7 @@ var updateStats = function(data, id) {
     dropped : 0,
     accumulated_v: 0,
     accumulated_c_in: 0,
-    accumulated_c_out = [0, 0, 0, 0],
+    accumulated_c_out: initAccumOutArray(data.msg.kind),
   };
   statTrackers[id].last_msg = data.msg;
   statTrackers[id].totalMessages++;
@@ -49,23 +64,20 @@ var updateStats = function(data, id) {
   statTrackers[id].lastPacketID = data.msg.i;
   statTrackers[id].accumulated_v += data.msg.v;
 
-  if (data.msg.kind == "ctrl") {
-    statTrackers[id].accumulated_c_in += data.msg.c_in;
-    statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
-  }
-  else if (data.msg.kind == "bike") {
-    statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
-  }
-  else if (data.msg.kind == "4-ac") {
-    statTrackers[id].accumulated_c_out[0] += data.msg.c_1;
-    statTrackers[id].accumulated_c_out[1] += data.msg.c_2;
-    statTrackers[id].accumulated_c_out[2] += data.msg.c_3;
-    statTrackers[id].accumulated_c_out[3] += data.msg.c_4;
-  }
-  else if (data.msg.kind == "ctrl-ac") {
-    statTrackers[id].accumulated_c_out[0] += data.msg.c_1;
-    statTrackers[id].accumulated_c_out[1] += data.msg.c_2;
-    statTrackers[id].accumulated_c_out[2] += data.msg.c_3;
+  switch (data.msg.kind) {
+    case "ctrl":
+      statTrackers[id].accumulated_c_in += data.msg.c_in;
+      statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
+      break;
+    case "bike":
+      statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
+      break;
+    case "ctrl-ac":
+    case "4-ac":
+    default:
+      for (i=0; i < N_OUTPUT_SENSORS[data.msg.kind]; i++) {
+        statTrackers[id].accumulated_c_out[i] += data.msg['c_'+(i+1)];
+      }
   }
 };
 
@@ -75,7 +87,9 @@ var resetStatTracker = function(tracker) {
   tracker.dropped = 0;
   tracker.accumulated_v = 0;
   tracker.accumulated_c_in = 0;
-  tracker.accumulated_c_out = [0, 0, 0, 0];
+  for (i = 0; i < tracker.accumulated_c_out.length; i++) {
+    tracker.accumulated_c_out[i] = 0;
+  }
   return tracker;
 };
 
