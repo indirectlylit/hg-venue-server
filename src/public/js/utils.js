@@ -82,6 +82,7 @@ app.utils.warn = function(msg) {
 };
 
 app.utils.genACStatsTableRow = function(stats) {
+  var kind = stats.last_msg.kind;
   var row = {
     uid: stats.last_msg.uid,
     output_sensor: [],
@@ -91,7 +92,7 @@ app.utils.genACStatsTableRow = function(stats) {
     row.output_sensor.push({
       power: power.toFixed(0),
       power_pct: 100.0 * (power / app.maxGraph),
-      circuit: i+1,
+      circuit: kind == "ctrl-ac" ? i+1 : String.fromCharCode('A'.charCodeAt(0)+i),
     });
   }
   return row;
