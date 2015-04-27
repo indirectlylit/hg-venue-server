@@ -111,18 +111,19 @@ bike_labels = {
 
 var genStatsFromTracker = function(tracker) {
   // find message rate
+  var kind = tracker.last_msg.kind;
   var stats = {};
   stats['message_rate'] = 1000.0*(tracker.totalMessages/windowPeriod);
   stats['data_rate'] =    1000.0*(tracker.totalBytes/windowPeriod);
   stats['drop_rate'] =    1000.0*(tracker.dropped/windowPeriod);
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
   stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
-  stats['avg_c_out'] =    tracker.accumulated_c_out[0]/tracker.totalMessages;
-  stats['avg_c_out_2'] =  tracker.accumulated_c_out[1]/tracker.totalMessages;
-  stats['avg_c_out_3'] =  tracker.accumulated_c_out[2]/tracker.totalMessages;
-  stats['avg_c_out_4'] =  tracker.accumulated_c_out[3]/tracker.totalMessages;
   stats['last_msg'] =     tracker.last_msg;
-  if (tracker.last_msg.kind == "bike") {
+  stats['avg_c_out'] = [];
+  for (var i = 0; i < N_OUTPUT_SENSORS[kind]; i++) {
+    stats['avg_c_out'].push(tracker.accumulated_c_out[i]/tracker.totalMessages)
+  }
+  if (kind == "bike") {
     // var label = app_settings.get('bike_labels')[''+tracker.last_msg.uid];
     var label = bike_labels[''+tracker.last_msg.uid];
     if (label) {

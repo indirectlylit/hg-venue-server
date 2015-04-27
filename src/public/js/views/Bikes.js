@@ -21,8 +21,8 @@ app.views.Bikes = Backbone.Viewmaster.extend({
       }
     );
     return {
-      'tableRows': _.sortBy(_.map(bikeStats, function genStatsTableRow(stats) {
-        var power_out = stats.avg_v * stats.avg_c_out;
+      'tableRows': _.sortBy(_.map(bikeStats, function genBikeStatsTableRow(stats) {
+        var power_out = stats.avg_v * stats.avg_c_out[0];
         var row = {};
         row.label = stats.label ? stats.label : '# '+stats.last_msg.uid;
         row.power_out = power_out.toFixed(0);
@@ -38,5 +38,3 @@ app.views.Bikes = Backbone.Viewmaster.extend({
     return {};
   }
 });
-
-

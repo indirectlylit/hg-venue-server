@@ -21,7 +21,7 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
       }
     );
     return {
-      'tableRows': _.map(acsensorStats, app.utils.genStatsTableRow)
+      'tableRows': _.map(acsensorStats, app.utils.genACStatsTableRow)
     };
   },
   initialize: function() {
