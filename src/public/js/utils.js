@@ -81,10 +81,33 @@ app.utils.warn = function(msg) {
   console.log('warn:', msg);
 };
 
+app.utils.pad = function(number) {
+  if (number <= 10000) {
+    return ("000"+number).slice(-5);
+  }
+  return ''+number;
+}
+
+app.utils.sensorLabel = function(stats, circuit) {
+  switch (stats.kind) {
+    case "ctrl-ac":
+      return "Tier " + (circuit + 1);
+    case "4-ac":
+      if (stats.labels[circuit]) {
+        return stats.labels[circuit];
+      }
+      return ['#', app.utils.pad(stats.uid), String.fromCharCode('A'.charCodeAt(0)+circuit)].join(' ');
+    case "bike":
+      return stats.label ? stats.label : '# '+app.utils.pad(stats.uid);
+    default:
+      console.log('unhandled label type: '+stats.kind);
+      return '# '+app.utils.pad(stats.uid);
+  }
+}
+
 app.utils.genACStatsTableRow = function(stats) {
-  var kind = stats.last_msg.kind;
   var row = {
-    uid: stats.last_msg.uid,
+    uid: stats.uid,
     output_sensor: [],
   };
   for (var i = 0; i < stats.avg_c_out.length; i++) {
@@ -92,7 +115,7 @@ app.utils.genACStatsTableRow = function(stats) {
     row.output_sensor.push({
       power: power.toFixed(0),
       power_pct: 100.0 * (power / app.maxGraph),
-      circuit: kind == "ctrl-ac" ? i+1 : String.fromCharCode('A'.charCodeAt(0)+i),
+      circuit: app.utils.sensorLabel(stats, i),
     });
   }
   return row;

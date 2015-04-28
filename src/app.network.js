@@ -46,6 +46,8 @@ var initAccumOutArray = function(kind) {
 
 var updateStats = function(data, id) {
   statTrackers[id] = statTrackers[id] || {
+    uid : data.msg.uid,
+    kind : data.msg.kind,
     last_msg : {},
     totalMessages : 0,
     totalBytes: 0,
@@ -103,23 +105,35 @@ var genStatsFromTracker = function(tracker) {
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
   stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
   stats['last_msg'] =     tracker.last_msg;
+  stats['uid'] =          tracker.uid;
+  stats['kind'] =         tracker.kind;
   stats['avg_c_out'] = [];
   for (var i = 0; i < N_OUTPUT_SENSORS[kind]; i++) {
     stats['avg_c_out'].push(tracker.accumulated_c_out[i]/tracker.totalMessages)
   }
   if (kind == "bike") {
-    var label = app_settings.get('sensor_labels')[''+tracker.last_msg.uid];
+    // just a string
+    var label = app_settings.get('sensor_labels')[''+tracker.uid];
     if (label) {
       stats['label'] = label;
     } else {
       stats['label'] = "";
     }
   }
+  else if (kind == "4-ac") {
+    // array of labels
+    var labels = app_settings.get('sensor_labels')[''+tracker.uid];
+    if (labels) {
+      stats['labels'] = labels;
+    } else {
+      stats['labels'] = new Array(N_OUTPUT_SENSORS["4-ac"]);
+    }
+  }
   return stats;
 };
 
 var identifier = function(data) {
-  return([data.address, data.msg.uid].join('-'));
+  return([data.msg.uid, data.address].join('@'));
 };
 
 var handleIncomingData = function(message, address) {
