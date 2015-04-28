@@ -90,14 +90,14 @@ app.utils.pad = function(number) {
 
 app.utils.sensorLabel = function(stats, circuit) {
   switch (stats.kind) {
-    case "ctrl-ac":
+    case app.KIND.TIERS:
       return "Tier " + (circuit + 1);
-    case "4-ac":
+    case app.KIND.AC:
       if (stats.labels[circuit]) {
         return stats.labels[circuit];
       }
       return ['#', app.utils.pad(stats.uid), String.fromCharCode('A'.charCodeAt(0)+circuit)].join(' ');
-    case "bike":
+    case app.KIND.BIKE:
       return stats.label ? stats.label : '# '+app.utils.pad(stats.uid);
     default:
       console.log('unhandled label type: '+stats.kind);

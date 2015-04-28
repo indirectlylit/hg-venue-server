@@ -14,7 +14,7 @@ app.views.Bikes = Backbone.Viewmaster.extend({
   context: function() {
     var bikeStats = _.sortBy(
       _.where(app.state.networkStats, function findController(statsObj) {
-        return statsObj.kind === 'bike';
+        return statsObj.kind === app.KIND.BIKE;
       }),
       function (statObj){
         return statObj.uid;

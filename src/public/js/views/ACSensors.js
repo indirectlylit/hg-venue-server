@@ -14,7 +14,7 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
   context: function() {
     var acsensorStats = _.sortBy(
       _.where(app.state.networkStats, function findAC(statsObj) {
-        return statsObj.kind === '4-ac';
+        return statsObj.kind === app.KIND.AC;
       }),
       function (statObj){
         return statObj.uid;

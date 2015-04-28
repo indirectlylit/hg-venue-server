@@ -27,14 +27,23 @@ var recentStats = {};
 var windowPeriod = app_settings.get('client_update_period');
 
 
-//// LOCAL FUNCTIONS
+//// CONSTANTS
 
-var N_OUTPUT_SENSORS = {
-  "ctrl": 1,
-  "bike": 1,
-  "4-ac": 4,
-  "ctrl-ac": 3,
-};
+var KIND = {
+  AC: "4-ac",
+  CTRL: "ctrl",
+  TIERS: "ctrl-ac",
+  BIKE: "bike",
+}
+
+var N_OUTPUT_SENSORS = {};
+N_OUTPUT_SENSORS[KIND.CTRL] = 1;
+N_OUTPUT_SENSORS[KIND.BIKE] = 1;
+N_OUTPUT_SENSORS[KIND.AC] = 4;
+N_OUTPUT_SENSORS[KIND.TIERS] = 3;
+
+
+//// LOCAL FUNCTIONS
 
 var initAccumOutArray = function(kind) {
   var arr = [];
@@ -67,15 +76,15 @@ var updateStats = function(data, id) {
   statTrackers[id].accumulated_v += data.msg.v;
 
   switch (data.msg.kind) {
-    case "ctrl":
+    case KIND.CTRL:
       statTrackers[id].accumulated_c_in += data.msg.c_in;
       statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
       break;
-    case "bike":
+    case KIND.BIKE:
       statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
       break;
-    case "ctrl-ac":
-    case "4-ac":
+    case KIND.TIERS:
+    case KIND.AC:
     default:
       for (var i=0; i < N_OUTPUT_SENSORS[data.msg.kind]; i++) {
         statTrackers[id].accumulated_c_out[i] += data.msg['c_'+(i+1)];
@@ -113,7 +122,7 @@ var genStatsFromTracker = function(tracker) {
 
   // customize information
   switch (tracker.kind) {
-    case "bike":
+    case KIND.BIKE:
       // just a string
       var label = app_settings.get('sensor_labels')[''+tracker.uid];
       if (label) {
@@ -122,16 +131,16 @@ var genStatsFromTracker = function(tracker) {
         stats['label'] = "";
       }
       break;
-    case "4-ac":
+    case KIND.AC:
       // array of labels
       var labels = app_settings.get('sensor_labels')[''+tracker.uid];
       if (labels) {
         stats['labels'] = labels;
       } else {
-        stats['labels'] = new Array(N_OUTPUT_SENSORS["4-ac"]);
+        stats['labels'] = new Array(N_OUTPUT_SENSORS[KIND.AC]);
       }
       break;
-    case "ctrl":
+    case KIND.CTRL:
       stats['inv'] = tracker.last_msg.inv;
       stats['tiers'] = tracker.last_msg.tiers;
       stats['shunts'] = tracker.last_msg.shunts;

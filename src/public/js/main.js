@@ -14,6 +14,13 @@
 
 $(function() {
 
+  app.KIND = {
+    AC: "4-ac",
+    CTRL: "ctrl",
+    TIERS: "ctrl-ac",
+    BIKE: "bike",
+  };
+
   app.views = app.views || {};
   app.views.acsensors       = new app.views.ACSensors().render();
   app.views.bikes           = new app.views.Bikes().render();
