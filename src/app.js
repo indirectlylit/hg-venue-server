@@ -70,9 +70,14 @@ app_network.on('data', function (data) {
   app_pubsub.publish('network.data', data);
 });
 
+app_network.on('ping', function (data) {
+  app_pubsub.publish('network.ping', data);
+});
+
 // web socket output
 app_pubsub.subscribe([
   'network.stats',
+  'network.ping',
   'server.stats',
   'logger.state',
   'logger.state.recording_state',
@@ -103,4 +108,3 @@ app_gpio.on('shutdown', function () {
     }
   });
 });
-

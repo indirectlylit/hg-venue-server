@@ -177,7 +177,13 @@ var handleIncomingData = function(message, address) {
   data.size = message.length;
 
   if (!data.error) {
-    updateStats(data, identifier(data));
+    if (data.msg.ping) {
+      eventEmitter.emit('ping', data);
+      console.log("PING!", data);
+    }
+    else {
+      updateStats(data, identifier(data));
+    }
   }
   eventEmitter.emit('data', data);
 };
