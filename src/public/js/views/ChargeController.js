@@ -24,9 +24,7 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
     };
 
     // Make sure we have data from the charge controller
-    var chargeControllerStats = _.find(app.state.networkStats, function findController(statsObj) {
-      return statsObj.kind === app.KIND.CTRL;
-    });
+    var chargeControllerStats = _.find(app.state.networkStats, {kind: app.KIND.CTRL});
     if (chargeControllerStats) {
       var power_in = chargeControllerStats.avg_c_in * chargeControllerStats.avg_v;
       var power_out = chargeControllerStats.avg_c_out[0] * chargeControllerStats.avg_v;
@@ -40,9 +38,7 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
     }
 
     // there should be 0 or 1 of these
-    var acsensorStats = _.find(app.state.networkStats, function findControllerAC(statsObj) {
-      return statsObj.kind === app.KIND.TIERS;
-    });
+    var acsensorStats = _.find(app.state.networkStats, {kind: app.KIND.TIERS});
     if (acsensorStats) {
       var tiers = app.utils.genACStatsTableRow(acsensorStats);
       ctx.tierInfo = tiers.output_sensor;

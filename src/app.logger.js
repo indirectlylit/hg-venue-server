@@ -249,7 +249,7 @@ var saveAs = function(label, callback) {
 var getFileInfo = function(id, callback) {
   getFileList(function (err, allFileInfo) {
     if (err) return callback(err);
-    var fileInfo = _.find(allFileInfo, {'id':id});
+    var fileInfo = _.find(allFileInfo, {id:id});
     if (!fileInfo) {
       return callback("File id not found: "+id);
     }
