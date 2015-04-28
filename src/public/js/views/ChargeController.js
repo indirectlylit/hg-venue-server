@@ -27,12 +27,12 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
     var chargeControllerStats = _.find(app.state.networkStats, function findController(statsObj) {
       return statsObj.kind === 'ctrl';
     });
-    if (chargeControllerStats && chargeControllerStats.last_msg.v) {
+    if (chargeControllerStats) {
       var power_in = chargeControllerStats.avg_c_in * chargeControllerStats.avg_v;
       var power_out = chargeControllerStats.avg_c_out[0] * chargeControllerStats.avg_v;
-      ctx.inv = chargeControllerStats.last_msg.inv ? 'On' : 'Off';
-      ctx.tiers = chargeControllerStats.last_msg.tiers;
-      ctx.shunts = chargeControllerStats.last_msg.shunts;
+      ctx.inv = chargeControllerStats.inv ? 'On' : 'Off';
+      ctx.tiers = chargeControllerStats.tiers;
+      ctx.shunts = chargeControllerStats.shunts;
       ctx.power_in = power_in.toFixed(0);
       ctx.power_out = power_out.toFixed(0);
       ctx.power_in_pct = 100.0 * (power_in / app.maxGraph);

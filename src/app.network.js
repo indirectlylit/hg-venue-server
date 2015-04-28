@@ -97,38 +97,47 @@ var resetStatTracker = function(tracker) {
 
 var genStatsFromTracker = function(tracker) {
   // find message rate
-  var kind = tracker.last_msg.kind;
   var stats = {};
   stats['message_rate'] = 1000.0*(tracker.totalMessages/windowPeriod);
   stats['data_rate'] =    1000.0*(tracker.totalBytes/windowPeriod);
   stats['drop_rate'] =    1000.0*(tracker.dropped/windowPeriod);
   stats['avg_v'] =        tracker.accumulated_v/tracker.totalMessages;
   stats['avg_c_in'] =     tracker.accumulated_c_in/tracker.totalMessages;
-  stats['last_msg'] =     tracker.last_msg;
   stats['uid'] =          tracker.uid;
   stats['kind'] =         tracker.kind;
+
   stats['avg_c_out'] = [];
-  for (var i = 0; i < N_OUTPUT_SENSORS[kind]; i++) {
+  for (var i = 0; i < N_OUTPUT_SENSORS[tracker.kind]; i++) {
     stats['avg_c_out'].push(tracker.accumulated_c_out[i]/tracker.totalMessages)
   }
-  if (kind == "bike") {
-    // just a string
-    var label = app_settings.get('sensor_labels')[''+tracker.uid];
-    if (label) {
-      stats['label'] = label;
-    } else {
-      stats['label'] = "";
-    }
+
+  // customize information
+  switch (tracker.kind) {
+    case "bike":
+      // just a string
+      var label = app_settings.get('sensor_labels')[''+tracker.uid];
+      if (label) {
+        stats['label'] = label;
+      } else {
+        stats['label'] = "";
+      }
+      break;
+    case "4-ac":
+      // array of labels
+      var labels = app_settings.get('sensor_labels')[''+tracker.uid];
+      if (labels) {
+        stats['labels'] = labels;
+      } else {
+        stats['labels'] = new Array(N_OUTPUT_SENSORS["4-ac"]);
+      }
+      break;
+    case "ctrl":
+      stats['inv'] = tracker.last_msg.inv;
+      stats['tiers'] = tracker.last_msg.tiers;
+      stats['shunts'] = tracker.last_msg.shunts;
+      break;
   }
-  else if (kind == "4-ac") {
-    // array of labels
-    var labels = app_settings.get('sensor_labels')[''+tracker.uid];
-    if (labels) {
-      stats['labels'] = labels;
-    } else {
-      stats['labels'] = new Array(N_OUTPUT_SENSORS["4-ac"]);
-    }
-  }
+
   return stats;
 };
 
