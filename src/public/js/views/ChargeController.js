@@ -38,17 +38,18 @@ app.views.ChargeController = Backbone.Viewmaster.extend({
     }
 
     // there should be 0 or 1 of these
-    var acsensorStats = _.find(app.state.networkStats, {kind: app.KIND.TIERS});
-    if (acsensorStats) {
-        ctx.tierInfo = [];
-        for (var i = 0; i < acsensorStats.avg_c_out.length; i++) {
-          var power = acsensorStats.avg_v * acsensorStats.avg_c_out[i];
-          ctx.tierInfo.push({
+    var tierStats = _.find(app.state.networkStats, {kind: app.KIND.TIERS});
+    if (tierStats) {
+      ctx.tierInfo = _(tierStats.avg_c_out)
+        .map(function(avg_c_out, i){
+          var power = tierStats.avg_v * avg_c_out;
+          return {
             power: power.toFixed(0),
             power_pct: 100.0 * (power / app.maxGraph),
             label_disp: "Tier " + (i + 1),
-          });
-        }
+          };
+        })
+        .value()
     }
 
     return ctx;
