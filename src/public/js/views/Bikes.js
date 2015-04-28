@@ -17,12 +17,13 @@ app.views.Bikes = Backbone.Viewmaster.extend({
       .map(function(stats) {
         var power_out = stats.avg_v * stats.avg_c_out[0];
         return {
+          unlabeled: !stats.label,
           label_disp: stats.label ? stats.label : '# '+app.utils.pad(stats.uid),
           power_out: power_out.toFixed(0),
           power_out_pct: 100.0 * (power_out / app.maxGraph),
         };
       })
-      .sortBy('label_disp')
+      .sortByOrder(['unlabeled', 'label_disp'])
       .value();
     return { 'tableRows': rows };
   },

@@ -26,6 +26,7 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
               String.fromCharCode('A'.charCodeAt(0)+i)
             ].join(' ');
           sensors.push({
+            unlabeled: !stats.labels[i],
             power: power.toFixed(0),
             power_pct: 100.0 * (power / app.maxGraph),
             label_disp: label_disp,
@@ -34,7 +35,7 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
         return sensors;
       })
       .flatten()
-      .sortBy('label_disp')
+      .sortByOrder(['unlabeled', 'label_disp'])
       .value();
 
     return {
