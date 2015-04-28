@@ -96,7 +96,7 @@ app.utils.sensorLabel = function(stats, circuit) {
       if (stats.labels[circuit]) {
         return stats.labels[circuit];
       }
-      return ['#', app.utils.pad(stats.uid), String.fromCharCode('A'.charCodeAt(0)+circuit)].join(' ');
+      return ['#', app.utils.pad(stats.uid), '-', String.fromCharCode('A'.charCodeAt(0)+circuit)].join(' ');
     case app.KIND.BIKE:
       return stats.label ? stats.label : '# '+app.utils.pad(stats.uid);
     default:
