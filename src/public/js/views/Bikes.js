@@ -12,23 +12,19 @@ app.views.Bikes = Backbone.Viewmaster.extend({
     return app.utils.render('bikes', context);
   },
   context: function() {
-    var bikeStats = _.sortBy(
-      _.where(app.state.networkStats, {kind: app.KIND.BIKE}),
-      function (statObj){
-        return statObj.uid;
-      }
-    );
-    return {
-      'tableRows': _.sortBy(_.map(bikeStats, function genBikeStatsTableRow(stats) {
+    var rows = _(app.state.networkStats)
+      .where({kind: app.KIND.BIKE})
+      .map(function(stats) {
         var power_out = stats.avg_v * stats.avg_c_out[0];
         return {
-          label: app.utils.sensorLabel(stats),
+          label_disp: stats.label ? stats.label : '# '+app.utils.pad(stats.uid),
           power_out: power_out.toFixed(0),
           power_out_pct: 100.0 * (power_out / app.maxGraph),
         };
-      }),
-      'label')
-    };
+      })
+      .sortBy('label_disp')
+      .value();
+    return { 'tableRows': rows };
   },
   initialize: function() {
   },

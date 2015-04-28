@@ -87,36 +87,3 @@ app.utils.pad = function(number) {
   }
   return ''+number;
 }
-
-app.utils.sensorLabel = function(stats, circuit) {
-  switch (stats.kind) {
-    case app.KIND.TIERS:
-      return "Tier " + (circuit + 1);
-    case app.KIND.AC:
-      if (stats.labels[circuit]) {
-        return stats.labels[circuit];
-      }
-      return ['#', app.utils.pad(stats.uid), '-', String.fromCharCode('A'.charCodeAt(0)+circuit)].join(' ');
-    case app.KIND.BIKE:
-      return stats.label ? stats.label : '# '+app.utils.pad(stats.uid);
-    default:
-      console.log('unhandled label type: '+stats.kind);
-      return '# '+app.utils.pad(stats.uid);
-  }
-}
-
-app.utils.genACStatsTableRow = function(stats) {
-  var row = {
-    uid: stats.uid,
-    output_sensor: [],
-  };
-  for (var i = 0; i < stats.avg_c_out.length; i++) {
-    var power = stats.avg_v * stats.avg_c_out[i];
-    row.output_sensor.push({
-      power: power.toFixed(0),
-      power_pct: 100.0 * (power / app.maxGraph),
-      circuit: app.utils.sensorLabel(stats, i),
-    });
-  }
-  return row;
-};

@@ -5,9 +5,8 @@
   <table class="table table-condensed">
     <tbody class="js-dataTable">
 {{#tableRows}}
-  {{#output_sensor}}
       <tr>
-        <td class="constrained-large">{{ circuit }}</td>
+        <td class="constrained-large">{{ label_disp }}</td>
         <td class="constrained-small text-right">{{ power }} W</td>
         <td class="bar-cell">
           <div class="bar">
@@ -15,7 +14,6 @@
           </div>
         </td>
       </tr>
-  {{/output_sensor}}
 {{/tableRows}}
     </tbody>
   </table>
