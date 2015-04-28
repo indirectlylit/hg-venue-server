@@ -57,6 +57,10 @@ app_web.route('get', '/admin', function (req, res) {
   base('admin', req, res);
 });
 
+app_web.route('get', '/labels', function (req, res) {
+  base('labels', req, res);
+});
+
 app_web.route('put', '/api/squarewave/', function (req, res) {
   var state = req.body;
   if (!_.contains([true, false], state)) {
@@ -77,4 +81,3 @@ app_web.route('put', '/api/squarewave/', function (req, res) {
 app_web.route('get', '/api/socket_ready', function (req, res) {
   res.json(app_web.socketReady());
 });
-
