@@ -177,7 +177,8 @@ app_network_serial.on("data", function (data) {
   handleIncomingData(data.toString(), "serial port");
 });
 
-setInterval(function genStats() {
+
+var sendStats = function() {
   var recentStats = _.transform(
     _.filter(statTrackers, function filter(tracker) {
       return tracker.totalMessages > 0;
@@ -190,9 +191,17 @@ setInterval(function genStats() {
     trackers[key] = resetStatTracker(tracker);
   });
   eventEmitter.emit('stats', recentStats);
+}
+
+var sendLabels = function() {
   eventEmitter.emit('bike-labels', app_settings.get('bike_labels'));
   eventEmitter.emit('ac-labels', app_settings.get('ac_labels'));
-}, windowPeriod);
+}
+
+setInterval(sendStats, windowPeriod);
+setInterval(sendLabels, windowPeriod*5);
+sendStats();
+sendLabels();
 
 
 
