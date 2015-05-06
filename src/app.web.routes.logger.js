@@ -116,7 +116,12 @@ app_web.route('get', '/api/logger/files/:id', function (req, res) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    res.download(path.join(app_logger.dataDir(), fileInfo.fName));
+
+    // express.js's download function seems to automatically URI-decode the file name,
+    // even though the encoded version is the correct name. Below, we encode it a second
+    // time to trick it into using the correct name.
+    var encoded = encodeURIComponent(fileInfo.fName);
+    res.download(path.join(app_logger.dataDir(), encoded));
   });
 });
 
@@ -124,4 +129,3 @@ app_web.route('get', '/api/logger/clap', function (req, res) {
   app_pubsub.publish('logger.state.clap', true);
   return res.json(200)
 });
-
