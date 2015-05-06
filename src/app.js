@@ -66,6 +66,14 @@ app_network.on('stats', function (stats) {
   app_pubsub.publish('network.stats', stats);
 });
 
+app_network.on('bike-labels', function (labels) {
+  app_pubsub.publish('network.labels.bikes', labels);
+});
+
+app_network.on('ac-labels', function (labels) {
+  app_pubsub.publish('network.labels.ac', labels);
+});
+
 app_network.on('data', function (data) {
   app_pubsub.publish('network.data', data);
 });
@@ -78,6 +86,7 @@ app_network.on('ping', function (data) {
 app_pubsub.subscribe([
   'network.stats',
   'network.ping',
+  'network.labels.*',
   'server.stats',
   'logger.state',
   'logger.state.recording_state',

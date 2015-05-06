@@ -75,6 +75,16 @@ app.websocket.on('network.ping', function (msg) {
 });
 
 
+app.websocket.on('network.labels.bikes', function (msg) {
+  console.log("BIKES!", msg);
+});
+
+
+app.websocket.on('network.labels.ac', function (msg) {
+  console.log("AC!", msg);
+});
+
+
 /*********************/
 /* Server Statistics */
 /*********************/

@@ -121,32 +121,11 @@ var genStatsFromTracker = function(tracker) {
   }
 
   // customize information
-  switch (tracker.kind) {
-    case KIND.BIKE:
-      // just a string
-      var label = app_settings.get('sensor_labels')[''+tracker.uid];
-      if (label) {
-        stats['label'] = label;
-      } else {
-        stats['label'] = "";
-      }
-      break;
-    case KIND.AC:
-      // array of labels
-      var labels = app_settings.get('sensor_labels')[''+tracker.uid];
-      if (labels) {
-        stats['labels'] = labels;
-      } else {
-        stats['labels'] = new Array(N_OUTPUT_SENSORS[KIND.AC]);
-      }
-      break;
-    case KIND.CTRL:
-      stats['inv'] = tracker.last_msg.inv;
-      stats['tiers'] = tracker.last_msg.tiers;
-      stats['shunts'] = tracker.last_msg.shunts;
-      break;
+  if (tracker.kind == KIND.CTRL) {
+    stats['inv'] = tracker.last_msg.inv;
+    stats['tiers'] = tracker.last_msg.tiers;
+    stats['shunts'] = tracker.last_msg.shunts;
   }
-
   return stats;
 };
 
@@ -211,6 +190,8 @@ setInterval(function genStats() {
     trackers[key] = resetStatTracker(tracker);
   });
   eventEmitter.emit('stats', recentStats);
+  eventEmitter.emit('bike-labels', app_settings.get('bike_labels'));
+  eventEmitter.emit('ac-labels', app_settings.get('ac_labels'));
 }, windowPeriod);
 
 

@@ -15,7 +15,8 @@ var defaults = {
   log_external : true,
   output_square_wave : false,
   client_update_period : 650, // ms
-  sensor_labels : {}, // map of sensor UIDs to label names
+  bike_labels : [], // list of objects: {id:___, label:___}
+  ac_labels : [],   // list of objects: {id:___, labels:[___, ___, ___, ___]}
 };
 
 var settings = {};

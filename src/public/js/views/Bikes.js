@@ -12,6 +12,7 @@ app.views.Bikes = Backbone.Viewmaster.extend({
     return app.utils.render('bikes', context);
   },
   context: function() {
+    // TODO - labels
     var rows = _(app.state.networkStats)
       .where({kind: app.KIND.BIKE})
       .map(function(stats) {
