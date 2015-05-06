@@ -12,6 +12,7 @@ var path = require('path');
 var app_gpio = require("./app.gpio");
 var app_logger = require("./app.logger");
 var app_serverStats = require("./app.serverStats");
+var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 var app_web_routes_logger = require("./app.web.routes.logger");
 
@@ -38,10 +39,7 @@ var base = function(baseName, req, res) {
           logger_info:    logger_info,
           wave_info:      app_gpio.getWaveInfo(),
           serverStats:    app_serverStats.getStats(),
-          labels:         {
-            "bikes": app_settings.get('bike_labels'),
-            "ac": app_settings.get('ac_labels')
-          },
+          labels:         app_settings.get('labels'),
         };
         res.render('templates/'+baseName, {
           templateData: templateData,

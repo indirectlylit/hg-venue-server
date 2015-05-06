@@ -15,8 +15,24 @@ var defaults = {
   log_external : true,
   output_square_wave : false,
   client_update_period : 650, // ms
-  bike_labels : [], // list of objects: {id:___, label:___}
-  ac_labels : [],   // list of objects: {id:___, labels:[___, ___, ___, ___]}
+  labels : {
+    "bikes": [
+      {
+        "id": "27805",
+        "label": "Bike X"
+      },
+    ],  // list of objects: {id:___, label:___}
+    "ac": [
+      {
+        "id": "4247",
+        "labels": [null, "AC ONE", null, null]
+      },
+      {
+        "id": "4246",
+        "labels": ["AA", "AC TWO", "CC", "DD"]
+      },
+    ],   // list of objects: {id:___, labels:[___, ___, ___, ___]}
+  },
 };
 
 var settings = {};

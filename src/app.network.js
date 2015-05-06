@@ -194,8 +194,7 @@ var sendStats = function() {
 }
 
 var sendLabels = function() {
-  eventEmitter.emit('bike-labels', app_settings.get('bike_labels'));
-  eventEmitter.emit('ac-labels', app_settings.get('ac_labels'));
+  eventEmitter.emit('labels', app_settings.get('labels'));
 }
 
 setInterval(sendStats, windowPeriod);
