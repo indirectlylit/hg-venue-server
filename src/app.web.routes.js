@@ -37,7 +37,11 @@ var base = function(baseName, req, res) {
         var initState = {
           logger_info:    logger_info,
           wave_info:      app_gpio.getWaveInfo(),
-          serverStats:    app_serverStats.getStats()
+          serverStats:    app_serverStats.getStats(),
+          labels:         {
+            "bikes": app_settings.get('bike_labels'),
+            "ac": app_settings.get('ac_labels')
+          },
         };
         res.render('templates/'+baseName, {
           templateData: templateData,
