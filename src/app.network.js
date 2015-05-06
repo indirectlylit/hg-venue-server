@@ -176,16 +176,15 @@ var handleIncomingData = function(message, address) {
   data.address = address;
   data.size = message.length;
 
-  if (!data.error) {
-    if (data.msg.ping) {
-      eventEmitter.emit('ping', data);
-      console.log("PING!", data);
-    }
-    else {
+  if (data.msg.ping) {
+    eventEmitter.emit('ping', data);
+  }
+  else {
+    if (!data.error) {
       updateStats(data, identifier(data));
     }
+    eventEmitter.emit('data', data);
   }
-  eventEmitter.emit('data', data);
 };
 
 
