@@ -53,9 +53,9 @@ app.ctrl.setLogExternal = function(newState) {
 };
 
 
-/**********************/
-/* Network Statistics */
-/**********************/
+/***********************/
+/* Data Network Events */
+/***********************/
 
 app.pauseRendering = false;
 
@@ -68,6 +68,10 @@ app.websocket.on('network.stats', function (newStats) {
   app.views.acsensors.render();
   app.views.bikes.render();
   app.views.chargeController.render();
+});
+
+app.websocket.on('network.ping', function (msg) {
+  console.log("PING!", msg);
 });
 
 
@@ -166,4 +170,3 @@ app.websocket.on('close', function (e) {
 app.websocket.on('open', function (e) {
   app.views.connection.render();
 });
-
