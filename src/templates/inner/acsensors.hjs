@@ -4,9 +4,9 @@
 <div class="panel-body">
   <table class="table table-condensed">
     <tbody class="js-dataTable">
-{{#tableRows}}
+{{#rows}}
       <tr>
-        <td class="constrained-large">{{ label_disp }}</td>
+        <td class="constrained-large {{# unlabeled }}text-muted{{/ unlabeled }}">{{ label }}</td>
         <td class="constrained-small text-right">{{ power }} W</td>
         <td class="bar-cell">
           <div class="bar">
@@ -14,7 +14,7 @@
           </div>
         </td>
       </tr>
-{{/tableRows}}
+{{/rows}}
     </tbody>
   </table>
 </div>

@@ -80,10 +80,3 @@ app.utils.warn = function(msg) {
   });
   console.log('warn:', msg);
 };
-
-app.utils.pad = function(number) {
-  if (number <= 10000) {
-    return ("000"+number).slice(-5);
-  }
-  return ''+number;
-}
