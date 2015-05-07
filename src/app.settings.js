@@ -16,22 +16,13 @@ var defaults = {
   output_square_wave : false,
   client_update_period : 650, // ms
   labels : {
-    "bikes": [
-      {
-        "id": "27805",
-        "label": "Bike X"
-      },
-    ],  // list of objects: {id:___, label:___}
-    "ac": [
-      {
-        "id": "4247",
-        "labels": [null, "AC ONE", null, null]
-      },
-      {
-        "id": "4246",
-        "labels": ["AA", "AC TWO", "CC", "DD"]
-      },
-    ],   // list of objects: {id:___, labels:[___, ___, ___, ___]}
+    "bikes": {
+      "27805": "Bike X"
+    },
+    "ac":{
+      "04247": [null, "AC ONE", null, null],
+      "04246": ["AA", "AC TWO", "CC", "DD"],
+    },
   },
 };
 

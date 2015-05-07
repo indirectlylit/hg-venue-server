@@ -4,7 +4,7 @@
 <div class="panel-body">
   <table class="table table-condensed">
     <tbody class="js-dataTable">
-{{#tableRows}}
+{{#labeledRows}}
       <tr>
         <td class="constrained-large">{{ label_disp }}</td>
         <td class="constrained-small text-right">{{ power_out }} W</td>
@@ -14,7 +14,18 @@
           </div>
         </td>
       </tr>
-{{/tableRows}}
+{{/labeledRows}}
+{{#unlabeledRows}}
+      <tr>
+        <td class="constrained-large text-muted">{{ label_disp }}</td>
+        <td class="constrained-small text-right">{{ power_out }} W</td>
+        <td class="bar-cell">
+          <div class="bar">
+            <span class="bar-indicator input" style="width: {{ power_out_pct }}%"></span>
+          </div>
+        </td>
+      </tr>
+{{/unlabeledRows}}
     </tbody>
   </table>
 </div>

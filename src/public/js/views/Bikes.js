@@ -12,21 +12,33 @@ app.views.Bikes = Backbone.Viewmaster.extend({
     return app.utils.render('bikes', context);
   },
   context: function() {
-    // TODO - labels
-    var rows = _(app.state.networkStats)
-      .where({kind: app.KIND.BIKE})
-      .map(function(stats) {
-        var power_out = stats.avg_v * stats.avg_c_out[0];
-        return {
-          unlabeled: !stats.label,
-          label_disp: stats.label ? stats.label : '# '+app.utils.pad(stats.uid),
-          power_out: power_out.toFixed(0),
-          power_out_pct: 100.0 * (power_out / app.maxGraph),
-        };
-      })
-      .sortByOrder(['unlabeled', 'label_disp'])
-      .value();
-    return { 'tableRows': rows };
+    var bikeStats = _.where(app.state.networkStats, {'kind': app.KIND.BIKE})
+
+    var labeledRows = [];
+    var unlabeledRows = [];
+
+    var genRow = function(stats, label) {
+      var power_out = stats.avg_v * stats.avg_c_out[0];
+      return {
+        label_disp: label,
+        power_out: power_out.toFixed(0),
+        power_out_pct: 100.0 * (power_out / app.maxGraph),
+      };
+    };
+
+    _.forEach(bikeStats, function(stats, i){
+      if (app.state.labels.bikes[stats.uid]) {
+        labeledRows.push(genRow(stats, app.state.labels.bikes[stats.uid]));
+      }
+      else {
+        unlabeledRows.push(genRow(stats, '# '+stats.uid));
+      }
+    });
+
+    return {
+      'labeledRows': _.sortBy(labeledRows, 'label_disp'),
+      'unlabeledRows': _.sortBy(unlabeledRows, 'label_disp'),
+    };
   },
   initialize: function() {
   },
