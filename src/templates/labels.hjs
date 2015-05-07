@@ -22,7 +22,31 @@
     </div>
 
     <div class="main">
-      ........
+
+<!-- inner content -->
+
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#bikes" aria-controls="bikes" role="tab" data-toggle="tab">Bikes</a></li>
+    <li role="presentation"><a href="#ac" aria-controls="ac" role="tab" data-toggle="tab">AC</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="bikes">
+      BIKES
+    </div>
+    <div role="tabpanel" class="tab-pane" id="ac">
+      AC
+    </div>
+  </div>
+
+</div>
+
+<!-- /inner content -->
+
     </div>
 
 
