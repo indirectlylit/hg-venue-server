@@ -133,6 +133,13 @@ var identifier = function(data) {
   return([data.msg.uid, data.address].join('@'));
 };
 
+var paddedString = function(number) {
+  if (number <= 10000) {
+    return ("000"+number).slice(-5);
+  }
+  return ''+number;
+};
+
 var handleIncomingData = function(message, address) {
   var data = {};
   try {
@@ -147,6 +154,9 @@ var handleIncomingData = function(message, address) {
     // UIDs are sometimes not reported or reported as negative numbers
     data.msg.uid = data.msg.uid || 0;
     data.msg.uid = Math.abs(data.msg.uid);
+
+    // turn it into a string so it can be used as a JSON key
+    data.msg.uid = paddedString(data.msg.uid);
   }
   catch(e) {
     data.error = e;
