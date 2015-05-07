@@ -21,7 +21,7 @@ var defaults = {
     },
     "ac":{
       "04247": [null, "AC ONE", null, null],
-      "04246": ["AA", "AC TWO", "CC", "DD"],
+      "04246": ["AA", "ab", "CC", "DD"],
     },
   },
 };

@@ -32,7 +32,11 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
         rows.push(row);
       }
     });
-    return { 'rows': _.sortByOrder(rows, ['unlabeled', 'label']) };
+    return { 'rows': _.sortByOrder(rows, [
+        'unlabeled',
+        function (i) { return i.label.toLowerCase(); }
+      ])
+    };
   },
   initialize: function() {
   },

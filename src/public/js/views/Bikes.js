@@ -30,7 +30,10 @@ app.views.Bikes = Backbone.Viewmaster.extend({
         }
         return row;
       })
-      .sortByOrder(['unlabeled', 'label'])
+      .sortByOrder([
+        'unlabeled',
+        function (i) { return i.label.toLowerCase(); }
+      ])
       .value();
 
     return { 'rows': rows };
