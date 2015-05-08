@@ -23,29 +23,7 @@
 
     <div class="main">
 
-<!-- inner content -->
-
-<div role="tabpanel">
-
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#bikes" aria-controls="bikes" role="tab" data-toggle="tab">Bikes</a></li>
-    <li role="presentation"><a href="#ac" aria-controls="ac" role="tab" data-toggle="tab">AC</a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="bikes">
-      BIKES
-    </div>
-    <div role="tabpanel" class="tab-pane" id="ac">
-      AC
-    </div>
-  </div>
-
-</div>
-
-<!-- /inner content -->
+      <vs-labels-page></vs-labels-page>
 
     </div>
 
@@ -75,11 +53,16 @@
     <script src="/js/vendor/jquery.pnotify.js"></script>
     <script src="/js/vendor/jquery.cookie.min.js"></script>
     <script src="/js/vendor/moment.min.js"></script>
+    <script src="/js/vendor/riot+compiler.min.js"></script>
 
     <!-- views -->
 {{#viewData}}
     <script src="/js/views/{{id}}.js"></script>
 {{/viewData}}
+    <script src="/tags/vs-labels.tag" type="riot/tag"></script>
+    <script>
+      riot.mount('vs-labels-page');
+    </script>
 
     <!-- application -->
     <script src="/js/jquery.hotkeys-mod.js"></script>
