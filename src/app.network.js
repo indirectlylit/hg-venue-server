@@ -53,7 +53,7 @@ var initAccumOutArray = function(kind) {
 };
 
 var updateStats = function(data, id) {
-  statTrackers[id] = statTrackers[id] || {
+  var stats = statTrackers[id] = statTrackers[id] || {
     uid : data.msg.uid,
     kind : data.msg.kind,
     last_msg : {},
@@ -65,28 +65,28 @@ var updateStats = function(data, id) {
     accumulated_c_in: 0,
     accumulated_c_out: initAccumOutArray(data.msg.kind),
   };
-  statTrackers[id].last_msg = data.msg;
-  statTrackers[id].totalMessages++;
-  statTrackers[id].totalBytes += data.size;
-  if (data.msg.i !== statTrackers[id].lastPacketID+1) {
-    statTrackers[id].dropped++;
+  stats.last_msg = data.msg;
+  stats.totalMessages++;
+  stats.totalBytes += data.size;
+  if (data.msg.i !== stats.lastPacketID+1) {
+    stats.dropped++;
   }
-  statTrackers[id].lastPacketID = data.msg.i;
-  statTrackers[id].accumulated_v += data.msg.v;
+  stats.lastPacketID = data.msg.i;
+  stats.accumulated_v += data.msg.v;
 
   switch (data.msg.kind) {
     case KIND.CTRL:
-      statTrackers[id].accumulated_c_in += data.msg.c_in;
-      statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
+      stats.accumulated_c_in += data.msg.c_in;
+      stats.accumulated_c_out[0] += data.msg.c_out;
       break;
     case KIND.BIKE:
-      statTrackers[id].accumulated_c_out[0] += data.msg.c_out;
+      stats.accumulated_c_out[0] += data.msg.c_out;
       break;
     case KIND.TIERS:
     case KIND.AC:
     default:
       for (var i=0; i < N_OUTPUT_SENSORS[data.msg.kind]; i++) {
-        statTrackers[id].accumulated_c_out[i] += data.msg['c_'+(i+1)];
+        stats.accumulated_c_out[i] += data.msg['c_'+(i+1)];
       }
   }
 };
