@@ -23,7 +23,6 @@ var app_web = require("./app.web");
 
 var eventEmitter = new events.EventEmitter();
 var statTrackers = {};
-var recentStats = {};
 var windowPeriod = app_settings.get('client_update_period');
 
 
@@ -204,6 +203,21 @@ var sendStats = function() {
 }
 
 var sendLabels = function() {
+  // first, check to see whether any devices need to be added to the labels
+  var labels = app_settings.get('labels');
+
+  _.forEach(statTrackers, function(tracker) {
+    switch (tracker.kind) {
+      case KIND.BIKE:
+        labels.bikes[tracker.uid] = labels.bikes[tracker.uid] || new Array(N_OUTPUT_SENSORS[tracker.kind])
+        break;
+      case KIND.AC:
+        labels.ac[tracker.uid] = labels.ac[tracker.uid] || new Array(N_OUTPUT_SENSORS[tracker.kind])
+        break;
+    }
+  });
+
+  app_settings.set('labels', labels, function(){}); // don't wait for callback
   eventEmitter.emit('labels', app_settings.get('labels'));
 }
 
