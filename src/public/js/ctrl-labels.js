@@ -46,12 +46,6 @@ app.websocket.on('network.ping', function (msg) {
 });
 
 
-app.websocket.on('network.labels', function (labels) {
-  app.state.labels = labels;
-  // app.views.labels.render();
-});
-
-
 /****************************/
 /* General Websocket events */
 /****************************/

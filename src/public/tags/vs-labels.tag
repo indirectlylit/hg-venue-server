@@ -24,7 +24,6 @@
   </style>
 
   <script>
-    console.log("opts", opts);
     this.kind = opts.kind;
     this.sensors = opts.sensors;
 
@@ -92,23 +91,7 @@
 
   <script>
 
-    this.mapInput = function(key, value) {
-      return {
-        id: key,
-        labels: value,
-      }
-    };
-
-    this.tabs = [
-      {
-        kind: 'bikes',
-        sensors: _.map(opts.bikes, this.mapInput),
-      },
-      {
-        kind: 'ac',
-        sensors: _.map(opts.ac, this.mapInput),
-      },
-    ];
+    // tabs
 
     this.activeTab = 'bikes';
 
@@ -120,6 +103,36 @@
       this.activeTab = e.item.tab.kind;
       return true;
     }
+
+
+    // data updates
+
+    var self = this
+
+    app.websocket.on('network.labels', function (labels) {
+
+      var mapInput = function(key, value) {
+        return {
+          id: key,
+          labels: value,
+        }
+      };
+
+
+      self.tabs = [
+        {
+          kind: 'bikes',
+          sensors: _.map(labels.bikes, mapInput),
+        },
+        {
+          kind: 'ac',
+          sensors: _.map(labels.ac, mapInput),
+        },
+      ];
+
+      self.update(app.state.labels);
+    });
+
 
   </script>
 
