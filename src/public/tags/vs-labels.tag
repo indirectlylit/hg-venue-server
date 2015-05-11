@@ -32,13 +32,6 @@
       this.text = e.target.value;
     }
 
-    add(e) {
-      console.log("add", e);
-      if (this.text) {
-        this.labels.push({ label: this.text, unlabeled: Math.random() > 0.5 });
-        this.text = this.input.value = '';
-      }
-    }
   </script>
 
 </vs-labels-tab>
