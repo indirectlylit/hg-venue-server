@@ -28,11 +28,14 @@
     </div>
 
 
-{{#templateData}}
-    <script type="text/template" id="templates-{{id}}">
-{{{contents}}}
+    <script type="text/template" id="templates-notConnectedLayer">
+      <h3>Please wait...</h3>
+      <div class="progress progress-striped active">
+        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+          <span class="sr-only">Waiting for server...</span>
+        </div>
+      </div>
     </script>
-{{/templateData}}
 
     <!-- app data -->
     <script>
@@ -48,27 +51,19 @@
     <script src="/js/vendor/backbone.js"></script>
     <script src="/js/vendor/backbone.viewmaster.js"></script>
     <script src="/js/vendor/sockjs-0.3.4.js"></script>
-    <script src="/js/vendor/bootstrap.js"></script>
-    <script src="/js/vendor/bootstrap-lightbox.js"></script>
     <script src="/js/vendor/jquery.pnotify.js"></script>
     <script src="/js/vendor/jquery.cookie.min.js"></script>
     <script src="/js/vendor/moment.min.js"></script>
     <script src="/js/vendor/riot+compiler.min.js"></script>
 
     <!-- views -->
-{{#viewData}}
-    <script src="/js/views/{{id}}.js"></script>
-{{/viewData}}
+    <script src="/js/views/NotConnectedLayer.js"></script>
     <script src="/tags/vs-labels.tag" type="riot/tag"></script>
-    <script>
-      riot.mount('vs-labels-page');
-    </script>
 
     <!-- application -->
-    <script src="/js/jquery.hotkeys-mod.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
-    <script src="/js/ctrl.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/ctrl-labels.js"></script>
+    <script src="/js/labels-main.js"></script>
   </body>
 </html>
