@@ -218,7 +218,7 @@ var sendLabels = function() {
   });
 
   app_settings.set('labels', labels, function(){}); // don't wait for callback
-  eventEmitter.emit('labels', app_settings.get('labels'));
+  eventEmitter.emit('labels', labels);
 }
 
 setInterval(sendStats, windowPeriod);
