@@ -64,6 +64,9 @@ expressApp.configure(function (){
   expressApp.use(express.methodOverride());
   expressApp.use(expressApp.router);
   expressApp.use(express.static(path.join(__dirname, 'public')));
+
+  // set mime-type for client-compiled riot.js tag files
+  express.static.mime.define({'text/javascript': ['tag']});
 });
 
 
