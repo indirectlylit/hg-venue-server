@@ -60,7 +60,7 @@ app_web.route('get', '/admin', function (req, res) {
 });
 
 app_web.route('get', '/labels', function (req, res) {
-  base('labels-index', req, res);
+  base('index-labels', req, res);
 });
 
 app_web.route('put', '/api/squarewave/', function (req, res) {

@@ -22,9 +22,7 @@
     </div>
 
     <div class="main">
-
       <vs-labels-page></vs-labels-page>
-
     </div>
 
 
@@ -58,12 +56,14 @@
 
     <!-- views -->
     <script src="/js/views/NotConnectedLayer.js"></script>
-    <script src="/tags/vs-labels.tag" type="riot/tag"></script>
+    <script src="/tags/labels-page.tag" type="riot/tag"></script>
 
     <!-- application -->
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
     <script src="/js/ctrl-labels.js"></script>
-    <script src="/js/labels-main.js"></script>
+    <script src="/js/main-labels.js"></script>
+
+
   </body>
 </html>

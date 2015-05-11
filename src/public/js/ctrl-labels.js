@@ -37,12 +37,17 @@ app.websocket.on('network.stats', function (newStats) {
   if (app.pauseRendering) {
     return;
   }
-  // app.views.labels.render();
+  app.views.labels.update();
 });
 
 app.websocket.on('network.ping', function (msg) {
   console.log("PING!", msg);
-  // app.views.labels.render();
+  app.views.labels.update();
+});
+
+app.websocket.on('network.labels', function (labels) {
+  app.state.labels = labels;
+  app.views.labels.update();
 });
 
 

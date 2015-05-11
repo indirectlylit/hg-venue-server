@@ -72,13 +72,12 @@ app.websocket.on('network.stats', function (newStats) {
 
 app.websocket.on('network.ping', function (msg) {
   console.log("PING!", msg);
-  // app.views.labels.render();
 });
-
 
 app.websocket.on('network.labels', function (labels) {
   app.state.labels = labels;
-  // app.views.labels.render();
+  app.views.acsensors.render();
+  app.views.bikes.render();
 });
 
 

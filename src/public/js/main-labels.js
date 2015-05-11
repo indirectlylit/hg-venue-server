@@ -21,8 +21,10 @@ $(function() {
   };
 
   app.views = app.views || {};
-  app.views.connection      = new app.views.NotConnectedLayer().render();
-  app.views.labels          = riot.mount('vs-labels-page', app.state.labels);
+  app.views.connection = new app.views.NotConnectedLayer().render();
+  riot.compile(function() {
+    app.views.labels = riot.mount('vs-labels-page')[0];
+  })
 
   // configure notifications
   $.pnotify.defaults.styling = "bootstrap3";
@@ -36,7 +38,6 @@ $(function() {
   // * app.state.labels.ac
   app.state.clientAddresses = [];
   app.state.networkStats = {};
-  app.state.fileName = "";
 
   // start up the socket once all the handlers are in place
   app.websocket.start();
