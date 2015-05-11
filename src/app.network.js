@@ -68,7 +68,7 @@ var updateStats = function(data, id) {
   statTrackers[id].last_msg = data.msg;
   statTrackers[id].totalMessages++;
   statTrackers[id].totalBytes += data.size;
-  if (data.msg.i !== statTrackers[id]+1) {
+  if (data.msg.i !== statTrackers[id].lastPacketID+1) {
     statTrackers[id].dropped++;
   }
   statTrackers[id].lastPacketID = data.msg.i;
