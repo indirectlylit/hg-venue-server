@@ -31,7 +31,6 @@ $(function() {
   app.views.recorder        = new app.views.Recorder().render();
   app.views.connection      = new app.views.NotConnectedLayer().render();
   app.views.clapper         = new app.views.Clapper().render();
-  app.views.labels          = new app.views.Labels().render();
 
   // configure bootstrap tooltips
   $("[data-toggle=tooltip]").tooltip({ placement: 'auto top'});
