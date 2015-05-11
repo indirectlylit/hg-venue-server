@@ -18,8 +18,8 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
       for (var i=0; i<stats.avg_c_out.length; i++) {
         var power_out = stats.avg_v * stats.avg_c_out[i];
         var row = {
-          power_out: power_out.toFixed(0),
-          power_out_pct: 100.0 * (power_out / app.maxGraph),
+          power: power_out.toFixed(0),
+          power_pct: 100.0 * (power_out / app.maxGraph),
         };
         if (app.state.labels.ac[stats.uid] && app.state.labels.ac[stats.uid][i]) {
           row.unlabeled = false;
