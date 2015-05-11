@@ -17,7 +17,7 @@ var defaults = {
   client_update_period : 650, // ms
   labels : {
     "bikes": {
-      "27805": "Bike X"
+      "27805": ["Bike X"]
     },
     "ac":{
       "04247": [null, "AC ONE", null, null],

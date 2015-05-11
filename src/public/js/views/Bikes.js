@@ -22,7 +22,7 @@ app.views.Bikes = Backbone.Viewmaster.extend({
         };
         if (app.state.labels.bikes[stats.uid]) {
           row.unlabeled = false;
-          row.label = app.state.labels.bikes[stats.uid];
+          row.label = app.state.labels.bikes[stats.uid][0];
         }
         else {
           row.unlabeled = true;
@@ -32,7 +32,7 @@ app.views.Bikes = Backbone.Viewmaster.extend({
       })
       .sortByOrder([
         'unlabeled',
-        function (i) { return i.label.toLowerCase(); }
+        function (i) { return i.label[0].toLowerCase(); }
       ])
       .value();
 

@@ -92,23 +92,23 @@
 
   <script>
 
+    this.mapInput = function(key, value) {
+      return {
+        id: key,
+        labels: value,
+      }
+    };
+
     this.tabs = [
       {
         kind: 'bikes',
-        sensors: [
-          {id: '30984', labels: ['Label a']},
-          {id: '12345', labels: ['Label B']},
-        ]
+        sensors: _.map(opts.bikes, this.mapInput),
       },
       {
         kind: 'ac',
-        sensors: [
-          {id: '99984', labels: [null, 'Label c', null, null]},
-          {id: '92345', labels: ['Label A', 'Label B', 'Label C', 'Label D']},
-        ]
+        sensors: _.map(opts.ac, this.mapInput),
       },
     ];
-
 
     this.activeTab = 'bikes';
 
