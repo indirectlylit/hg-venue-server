@@ -1,27 +1,7 @@
 
 node_modules/*
-
-api_key.json
+data/*
 
 .DS_Store
-.project
-.pydevproject
-.metadata/*
 .vagrant*
-.cproject
-.git
-.settings/*
-Release/*
-bin/*
-gen/*
-obj/*
 *.log
-*.pyc
-*.class
-*.orig
-
-# sketchup temp files
-*~.skp
-
-# eagle temp files
-*.s#*
