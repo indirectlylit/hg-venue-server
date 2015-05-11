@@ -15,5 +15,7 @@
     <dd>{{ load }}</dd>
     <dt>Logs Overloaded</dt>
     <dd>{{ overload }}</dd>
+    <dt>Drop Rate</dt>
+    <dd>{{ drop_rate }}</dd>
   </dl>
 </div>

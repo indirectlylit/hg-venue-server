@@ -12,6 +12,10 @@ app.views.ServerStats = Backbone.Viewmaster.extend({
     return app.utils.render('serverStats', context);
   },
   context: function() {
+    var drop_rate = _(app.state.networkStats)
+      .map(function(stats){return stats.drop_rate})
+      .reduce(function(a, b){return a+b});
+
     return {
       memory:     app.utils.formatKBytes(app.state.serverStats.freemem) + " / " +
                   app.utils.formatKBytes(app.state.serverStats.totalmem),
@@ -23,6 +27,7 @@ app.views.ServerStats = Backbone.Viewmaster.extend({
       uptime:     moment.duration(app.state.serverStats.uptime, 'seconds').humanize(),
       appUptime:  moment.duration(app.state.serverStats.appUptime, 'seconds').humanize(),
       overload:   app.state.serverStats.logs_overloaded ? "Yes" : "No",
+      drop_rate:  drop_rate ? drop_rate.toFixed(2) + " msgs/s" : "None",
     };
   },
   initialize: function() {
@@ -31,5 +36,3 @@ app.views.ServerStats = Backbone.Viewmaster.extend({
     return {};
   }
 });
-
-
