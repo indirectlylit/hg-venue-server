@@ -33,7 +33,9 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
           row.unlabeled = true;
           row.label = ['#', stats.uid, '-', String.fromCharCode('A'.charCodeAt(0)+i)].join(' ');
         }
-        rows.push(row);
+        if (!row.unlabeled) {
+          rows.push(row);
+        }
       }
     });
     return { 'rows': _.sortByOrder(rows, [
