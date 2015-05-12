@@ -78,10 +78,8 @@ var parseFileName = function(fileName) {
 };
 
 var setExternalSync = function(external) {
-  var externalDir = _.find(["/media/usbhdd", "/vagrant"], fs.existsSync);
-  isExternal = Boolean(external && externalDir);
-  if (isExternal) {
-    rootDir = externalDir;
+  if (external) {
+    rootDir = app_settings.externalDir;
   }
   else {
     rootDir = os.tmpdir();

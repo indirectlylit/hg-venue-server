@@ -9,7 +9,12 @@ var path = require('path');
 
 //// LOCAL VARIABLES
 
-var CONFIG_FILE = path.join(os.tmpdir(), "venue_server_config.json");
+var externalDir = _.find(["/media/usbhdd", "/vagrant"], fs.existsSync);
+
+
+var CONFIG_FILE = path.join(externalDir, "venue_server_config.json");
+
+
 
 var defaults = {
   log_external : true,
@@ -84,3 +89,4 @@ catch (e) {
 module.exports.get = get;
 module.exports.set = set;
 module.exports.reset = reset;
+module.exports.externalDir = externalDir;
