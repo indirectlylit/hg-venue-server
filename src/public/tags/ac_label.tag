@@ -8,16 +8,16 @@
   </h3>
   <div>
     <div>
-      <label>A:</label><input value={labels[0]} data-receptacle="0" onkeyup={change}>
+      <label>A:</label><input value={labels[0]} data-receptacle="0" onchange={change}>
     <div>
     <div>
-      <label>B:</label><input value={labels[1]} data-receptacle="1" onkeyup={change}>
+      <label>B:</label><input value={labels[1]} data-receptacle="1" onchange={change}>
     <div>
     <div>
-      <label>C:</label><input value={labels[2]} data-receptacle="2" onkeyup={change}>
+      <label>C:</label><input value={labels[2]} data-receptacle="2" onchange={change}>
     <div>
     <div>
-      <label>D:</label><input value={labels[3]} data-receptacle="3" onkeyup={change}>
+      <label>D:</label><input value={labels[3]} data-receptacle="3" onchange={change}>
     <div>
   </div>
 
@@ -39,13 +39,11 @@
     this.labels = opts.labels
     this.uid = opts.uid
 
-    this.change = _.debounce(function(e) {
-        var newLabels = this.labels;
-        newLabels[Math.abs(e.target.dataset.receptacle)] = e.target.value;
-        app.ctrl.updateLabels(this.uid, newLabels);
-      },
-      500
-    );
+    this.change = function(e) {
+      var newLabels = this.labels;
+      newLabels[Math.abs(e.target.dataset.receptacle)] = e.target.value;
+      app.ctrl.updateLabels(this.uid, newLabels);
+    };
 
   </script>
 
