@@ -24,6 +24,15 @@ var _ajax = function(verb, url, data) {
   });
 };
 
+/***********/
+/* Updates */
+/***********/
+
+
+app.ctrl.updateLabels = function(uid, labels) {
+  _ajax('put', '/api/labels/'+uid, labels);
+};
+
 
 /***********************/
 /* Data Network Events */

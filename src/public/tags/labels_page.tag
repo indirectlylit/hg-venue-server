@@ -16,7 +16,7 @@
       <div class="tabPane {active: this.activeTab == this.TAB_BIKE}">
         BIKES
         <ul>
-          <li riot-tag="vs-bike-label" each={bikeSensors} uid={uid} label={labels} />
+          <li riot-tag="vs-bike-label" each={bikeSensors} uid={uid} label={labels[0]} />
         </ul>
       </div>
       <div class="tabPane {active: this.activeTab == this.TAB_AC}">

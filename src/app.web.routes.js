@@ -83,3 +83,31 @@ app_web.route('put', '/api/squarewave/', function (req, res) {
 app_web.route('get', '/api/socket_ready', function (req, res) {
   res.json(app_web.socketReady());
 });
+
+app_web.route('put', '/api/labels/:uid', function (req, res) {
+  var newLabels = req.body;
+  console.log("Put labels", req.params.uid, newLabels);
+
+  if (!newLabels) {
+    var err = "No labels sent"
+    console.log(err);
+    res.json(400, err);
+  }
+
+  var type = newLabels.length == 1 ? 'bikes' : 'ac';
+  var currentLabels = app_settings.get('labels');
+  _.forEach(currentLabels[type], function(labels, uid) {
+    if (uid == req.params.uid) {
+      console.log("Updating "+uid+" from "+labels+" to "+newLabels);
+      currentLabels[type][uid] = newLabels;
+    }
+  });
+  app_settings.set('labels', currentLabels, function(err) {
+    if (err) {
+      res.json(500, err);
+    }
+    else {
+      res.json({});
+    }
+  });
+});
