@@ -17,6 +17,10 @@ app.views.ACSensors = Backbone.Viewmaster.extend({
     _.forEach(acStats, function(stats){
       for (var i=0; i<stats.avg_c_out.length; i++) {
         var power_out = stats.avg_v * stats.avg_c_out[i];
+
+        // TEMPORARY - zero below some threshold
+        power_out = power_out < 5 ? 0 : power_out;
+
         var row = {
           power: power_out.toFixed(0),
           power_pct: 100.0 * (power_out / app.maxGraph),

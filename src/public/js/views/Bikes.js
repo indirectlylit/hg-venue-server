@@ -16,6 +16,10 @@ app.views.Bikes = Backbone.Viewmaster.extend({
       .where({'kind': app.KIND.BIKE})
       .map(function(stats, i){
         var power_out = stats.avg_v * stats.avg_c_out[0];
+
+        // TEMPORARY - zero below some threshold
+        power_out = power_out < 5 ? 0 : power_out;
+
         var row = {
           power_out: power_out.toFixed(0),
           power_out_pct: 100.0 * (power_out / app.maxGraph),
