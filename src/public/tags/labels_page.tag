@@ -72,6 +72,9 @@
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
+      background-color: #272b30;
+      border-radius: 5px;
+      padding: 10px;
     }
 
   </style>
