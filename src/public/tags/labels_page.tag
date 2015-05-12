@@ -87,18 +87,27 @@
     this.acSensors = [];
 
     this.on('update', function() {
-      var mapLabels = function(labels) {
-        return _.map(labels, function(item, uid) {
-          return {
-            'uid': uid,
-            'labels': item,
-          };
+      var updateLabels = function(target, all_labels) {
+        _.forEach(all_labels, function(labels, uid) {
+          var exists = false;
+          _.forEach(target, function(s) {
+            if (s.uid == uid) {
+              s.labels = labels
+              exists = true;
+            }
+          });
+          if (!exists) {
+            target.push({
+              'uid': uid,
+              'labels': labels,
+            });
+          }
         });
       }
 
-      this.bikeSensors = mapLabels(app.state.labels.bikes);
-      this.acSensors = mapLabels(app.state.labels.ac);
-    })
+      updateLabels(this.bikeSensors, app.state.labels.bikes);
+      updateLabels(this.acSensors, app.state.labels.ac);
+    });
 
 
   </script>
