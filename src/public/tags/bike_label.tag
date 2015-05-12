@@ -3,12 +3,12 @@
 <!--#######   HTML   ########-->
 
 <vs-bike-label>
-  <li>
+  <div>
     <div>{uid}</div>
     <div>
       <input value={label} onkeyup={change}>
     <div>
-  </li>
+  </div>
 
 
 

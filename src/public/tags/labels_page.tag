@@ -15,15 +15,11 @@
     <div class="tabContent">
       <div class="tabPane {active: this.activeTab == this.TAB_BIKE}">
         BIKES
-        <ul>
-          <li riot-tag="vs-bike-label" each={bikeSensors} uid={uid} label={labels[0]} />
-        </ul>
+        <vs-bike-label each={bikeSensors} uid={uid} label={labels[0]} />
       </div>
       <div class="tabPane {active: this.activeTab == this.TAB_AC}">
         AC
-        <ul>
-          <li riot-tag="vs-ac-label" each={acSensors} uid={uid} labels={labels} />
-        </ul>
+        <vs-ac-label each={acSensors} uid={uid} labels={labels} />
       </div>
     </div>
   </div>
