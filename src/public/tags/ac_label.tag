@@ -4,7 +4,7 @@
 
 <vs-ac-label>
   <h3>
-    Edit AC {uid}
+    AC # {uid}
   </h3>
   <div>
     <div>

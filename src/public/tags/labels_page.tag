@@ -3,7 +3,7 @@
 <!--#######   HTML   ########-->
 
 <vs-labels-page>
-  <div>
+  <div class="main">
     <div class="header">
       Press a sensor button to select and label it.
     </div>
@@ -13,28 +13,27 @@
       <vs-ac-label each={acSensors} uid={uid} labels={labels} class={hidden: !parent.isCurrent(uid)} />
     </div>
     <hr>
-    <div>
-      <h3>Bikes</h3>
-      <div each={bikeSensors}>
-        {uid}: {label}
+    <h3>Bikes</h3>
+    <div each={bikeSensors}>
+      # {uid}: {label}
+    </div>
+    <hr>
+    <h3>AC</h3>
+    <div each={acSensors} class="ac-group">
+      <div>
+        # {uid}
       </div>
-      <h3>AC</h3>
-      <div each={acSensors} class="ac-group">
-        <div>
-          {uid}
-        </div>
-        <div>
-          <label>A:</label>{labels[0]}
-        </div>
-        <div>
-          <label>B:</label>{labels[1]}
-        </div>
-        <div>
-          <label>C:</label>{labels[2]}
-        </div>
-        <div>
-          <label>D:</label>{labels[3]}
-        </div>
+      <div>
+        <label>A:</label>{labels[0]}
+      </div>
+      <div>
+        <label>B:</label>{labels[1]}
+      </div>
+      <div>
+        <label>C:</label>{labels[2]}
+      </div>
+      <div>
+        <label>D:</label>{labels[3]}
       </div>
     </div>
   </div>
@@ -56,6 +55,23 @@
     vs-labels-page label {
       width: 25px;
       color: grey;
+    }
+
+    vs-labels-page input {
+      width: 85%;
+      color: white;
+      background-color: black;
+      border: none;
+      border-radius: 3px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    vs-labels-page .main {
+      width: 100%;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
   </style>

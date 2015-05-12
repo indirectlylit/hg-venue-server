@@ -4,7 +4,7 @@
 
 <vs-bike-label>
   <div>
-    <h3>Edit Bike {uid}</h3>
+    <h3>Bike # {uid}</h3>
     <div>
       <input value={label} onkeyup={change}>
     <div>
