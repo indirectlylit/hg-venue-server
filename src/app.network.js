@@ -164,7 +164,11 @@ var handleIncomingData = function(message, address) {
   data.address = address;
   data.size = message.length;
 
-  if (data.msg.ping) {
+  if (!data.msg) {
+    console.log("No msg attribute", data);
+  }
+
+  if (data.msg && data.msg.ping) {
     eventEmitter.emit('ping', data);
   }
   else {
