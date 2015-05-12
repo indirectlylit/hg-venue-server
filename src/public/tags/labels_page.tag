@@ -9,8 +9,8 @@
       <hr>
     </div>
     <div>
-      <vs-bike-label each={bikeSensors} uid={uid} label={labels[0]} class={hidden: uid!=parent.currentUid} />
-      <vs-ac-label each={acSensors} uid={uid} labels={labels} class={hidden: uid!=parent.currentUid} />
+      <vs-bike-label each={bikeSensors} uid={uid} label={labels[0]} class={hidden: !parent.isCurrent(uid)} />
+      <vs-ac-label each={acSensors} uid={uid} labels={labels} class={hidden: !parent.isCurrent(uid)} />
     </div>
   </div>
 
@@ -37,6 +37,10 @@
     this.bikeSensors = [];
     this.acSensors = [];
     this.currentUid = null;
+
+    this.isCurrent = function(uid) {
+      return uid == app.state.currentLabel;
+    }
 
     this.on('update', function() {
       var updateLabels = function(target, all_labels) {

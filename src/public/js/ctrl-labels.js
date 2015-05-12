@@ -51,6 +51,7 @@ app.websocket.on('network.stats', function (newStats) {
 
 app.websocket.on('network.ping', function (msg) {
   console.log("PING!", msg);
+  app.state.currentLabel = msg.msg.uid;
   app.views.labels.update();
 });
 
