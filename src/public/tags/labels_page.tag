@@ -4,7 +4,7 @@
 
 <vs-labels-page>
   <div>
-    <div>
+    <div class="header">
       Press a sensor button to select and label it.
       <hr>
     </div>
@@ -20,7 +20,9 @@
 <!--#######   STYLES   ########-->
 
   <style>
-
+    vs-labels-page .header {
+      text-align: center;
+    }
   </style>
 
 
