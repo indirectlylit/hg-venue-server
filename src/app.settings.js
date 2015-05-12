@@ -16,13 +16,8 @@ var defaults = {
   output_square_wave : false,
   client_update_period : 650, // ms
   labels : {
-    "bikes": {
-      "27805": ["Bike X"]
-    },
-    "ac":{
-      "04247": [null, "AC ONE", null, null],
-      "04246": ["AA", "ab", "CC", "DD"],
-    },
+    "bikes": {},
+    "ac":{},
   },
 };
 
