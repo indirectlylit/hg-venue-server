@@ -98,7 +98,6 @@ app_web.route('put', '/api/labels/:uid', function (req, res) {
   var currentLabels = app_settings.get('labels');
   _.forEach(currentLabels[type], function(labels, uid) {
     if (uid == req.params.uid) {
-      console.log("Updating "+uid+" from "+labels+" to "+newLabels);
       currentLabels[type][uid] = newLabels;
     }
   });

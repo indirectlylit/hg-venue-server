@@ -43,7 +43,6 @@
     this.uid = opts.uid
 
     this.change = _.debounce(function(e) {
-        console.log(">>", e);
         var newLabels = this.labels;
         newLabels[Math.abs(e.target.dataset.receptacle)] = e.target.value;
         app.ctrl.updateLabels(this.uid, newLabels);
