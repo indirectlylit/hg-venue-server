@@ -6,11 +6,36 @@
   <div>
     <div class="header">
       Press a sensor button to select and label it.
-      <hr>
     </div>
+    <hr>
     <div>
       <vs-bike-label each={bikeSensors} uid={uid} label={labels[0]} class={hidden: !parent.isCurrent(uid)} />
       <vs-ac-label each={acSensors} uid={uid} labels={labels} class={hidden: !parent.isCurrent(uid)} />
+    </div>
+    <hr>
+    <div>
+      <h3>Bikes</h3>
+      <div each={bikeSensors}>
+        {uid}: {label}
+      </div>
+      <h3>AC</h3>
+      <div each={acSensors} class="ac-group">
+        <div>
+          {uid}
+        </div>
+        <div>
+          <label>A:</label>{labels[0]}
+        </div>
+        <div>
+          <label>B:</label>{labels[1]}
+        </div>
+        <div>
+          <label>C:</label>{labels[2]}
+        </div>
+        <div>
+          <label>D:</label>{labels[3]}
+        </div>
+      </div>
     </div>
   </div>
 
@@ -23,6 +48,16 @@
     vs-labels-page .header {
       text-align: center;
     }
+
+    vs-labels-page .ac-group {
+      margin-top: 5px;
+    }
+
+    vs-labels-page label {
+      width: 25px;
+      color: grey;
+    }
+
   </style>
 
 

@@ -3,21 +3,21 @@
 <!--#######   HTML   ########-->
 
 <vs-ac-label>
+  <h3>
+    Edit AC {uid}
+  </h3>
   <div>
-    {uid}
-  </div>
-  <div>
     <div>
-      A: <input value={labels[0]} data-receptacle="0" onkeyup={change}>
+      <label>A:</label><input value={labels[0]} data-receptacle="0" onkeyup={change}>
     <div>
     <div>
-      B: <input value={labels[1]} data-receptacle="1" onkeyup={change}>
+      <label>B:</label><input value={labels[1]} data-receptacle="1" onkeyup={change}>
     <div>
     <div>
-      C: <input value={labels[2]} data-receptacle="2" onkeyup={change}>
+      <label>C:</label><input value={labels[2]} data-receptacle="2" onkeyup={change}>
     <div>
     <div>
-      D: <input value={labels[3]} data-receptacle="3" onkeyup={change}>
+      <label>D:</label><input value={labels[3]} data-receptacle="3" onkeyup={change}>
     <div>
   </div>
 
@@ -27,9 +27,6 @@
 <!--#######   STYLES   ########-->
 
   <style>
-
-    vs-ac-label {
-    }
 
   </style>
 
