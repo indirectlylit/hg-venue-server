@@ -16,13 +16,13 @@
       <div class="tabPane {active: this.activeTab == this.TAB_BIKE}">
         BIKES
         <ul>
-          <li each={sensors}>{id}</li>
+          <li riot-tag="vs-bike-label" each={bikeSensors} uid={uid} label={labels} />
         </ul>
       </div>
       <div class="tabPane {active: this.activeTab == this.TAB_AC}">
         AC
         <ul>
-          <li each={sensors}>{id}</li>
+          <li riot-tag="vs-ac-label" each={acSensors} uid={uid} labels={labels} />
         </ul>
       </div>
     </div>
@@ -83,18 +83,21 @@
     //////////////////////
     //// data updates ////
 
+    this.bikeSensors = [];
+    this.acSensors = [];
+
     this.on('update', function() {
-      console.log(app.state);
-      // self.tabs = [
-      //   {
-      //     kind: 'bikes',
-      //     sensors: _.map(labels.bikes, mapInput),
-      //   },
-      //   {
-      //     kind: 'ac',
-      //     sensors: _.map(labels.ac, mapInput),
-      //   },
-      // ];
+      var mapLabels = function(labels) {
+        return _.map(labels, function(item, uid) {
+          return {
+            'uid': uid,
+            'labels': item,
+          };
+        });
+      }
+
+      this.bikeSensors = mapLabels(app.state.labels.bikes);
+      this.acSensors = mapLabels(app.state.labels.ac);
     })
 
 

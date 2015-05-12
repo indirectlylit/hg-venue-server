@@ -56,7 +56,9 @@
 
     <!-- views -->
     <script src="/js/views/NotConnectedLayer.js"></script>
-    <script src="/tags/labels-page.tag" type="riot/tag"></script>
+    <script src="/tags/labels_page.tag" type="riot/tag"></script>
+    <script src="/tags/bike_label.tag" type="riot/tag"></script>
+    <script src="/tags/ac_label.tag" type="riot/tag"></script>
 
     <!-- application -->
     <script src="/js/utils.js"></script>
