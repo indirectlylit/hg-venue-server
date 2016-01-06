@@ -128,3 +128,8 @@ When developing, just dirty copy over the folder and restart the daemon.
 
 Log files can be downloaded directly from the web interface. See `data.md` for information on the log file format.
 
+
+----------------
+
+© Human Grid, All Rights Reserved
+
