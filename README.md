@@ -15,7 +15,7 @@ It also provides a range of web-based user interfaces for:
 
 Monitor app:
 
-![Monitor](screenshot-monitor.png =250x)
+![Monitor](screenshot-monitor.png)
 
 Logging admin app:
 
