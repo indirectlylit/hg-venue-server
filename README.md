@@ -1,11 +1,32 @@
 # Venue Server
 
-This is network coordinator application. It takes data from our sensor network, combines it, and makes it available.
+The Venue Server is the primary network coordinator and user interface for the sensor network.
+
+It is primarily responsible for receiving streams of data from tens or hundreds of sensor connected to the network and logging them to a hard drive.
+
+It also provides a range of web-based user interfaces for:
+
+* monitor network state in real time, including power consumption and generation of all bikes and on-stage components
+* monitor charge controller state, including the inverter, shunts, tiers, and voltage levels
+* annotate and label sensors using the physical buttons
+* start and stop logging
+* download and manage log files
 
 
-## Setting up the dev environment ##
+Monitor app:
 
-### Virtual Machine ###
+![Monitor](screenshot-monitor.png)
+
+Logging admin app:
+
+![Monitor](screenshot-logging.png)
+
+(not shown - mobile sensor labeling app)
+
+
+## Setting up the dev environment
+
+### Virtual Machine
 
 The application server should run on any OS: We leverage virtual machines to create a reproducible environment.
 
@@ -105,11 +126,5 @@ When developing, just dirty copy over the folder and restart the daemon.
 
 ## Logs
 
-Log files can be downloaded directly from the web interface. See data.md for information on the log file format.
+Log files can be downloaded directly from the web interface. See `data.md` for information on the log file format.
 
-
------------
-
-
-The Human Grid
-All Rights Reserved

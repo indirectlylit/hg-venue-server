@@ -1,0 +1,4 @@
+Copyright (C) Devon Rueckner, Jonathan Dehan, Jamie Alegre, and The Human Grid
+All Rights Reserved
+
+We're planning on switching to an open-source license.
