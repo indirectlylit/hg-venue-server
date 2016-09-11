@@ -53,7 +53,7 @@ var SERIAL_RATE = 57600;
 var serial_active = false;
 var eventEmitter = new events.EventEmitter();
 
-var portName = os.arch() === "arm" ? "ttyAMA0" : "ttyUSB0";
+var portName = os.arch() === "arm" ? "ttyO4" : "ttyUSB0";
 var serialPort = createSerialPort(portName);
 
 
