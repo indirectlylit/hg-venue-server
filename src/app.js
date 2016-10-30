@@ -26,7 +26,7 @@ var fs = require("fs");
 var os = require('os');
 var path = require('path');
 var child_process = require('child_process');
-var GPIO = require('inout').Gpio;
+var GPIO = require('onoff').Gpio;
 
 
 //// INTERNAL MODULES
@@ -88,9 +88,13 @@ app_pubsub.subscribe([
 app_pubsub.subscribe('*', app_logger.write);
 
 // set beaglebone GPIO status output on pin 9-15
-var status_pin = new gpio(48, 'out');
+var status_pin = new GPIO(48, 'out');
 status_pin.writeSync(1);
 
 // start logging immediately
-app_logger.startLogging();
+app_logger.startLogging(function err(msg) {
+  if (msg) {
+    console.log("LOGGING ERROR:", msg);
+  }
+});
 

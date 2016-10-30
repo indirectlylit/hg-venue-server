@@ -9,7 +9,6 @@ var _ = require('lodash');
 var path = require('path');
 
 
-var app_gpio = require("./app.gpio");
 var app_logger = require("./app.logger");
 var app_serverStats = require("./app.serverStats");
 var app_settings = require("./app.settings");
@@ -37,7 +36,6 @@ var base = function(baseName, req, res) {
         // gets put in app.state on the client
         var initState = {
           logger_info:    logger_info,
-          wave_info:      app_gpio.getWaveInfo(),
           serverStats:    app_serverStats.getStats(),
           labels:         app_settings.get('labels'),
         };
@@ -62,23 +60,6 @@ app_web.route('get', '/admin', function (req, res) {
 app_web.route('get', '/labels', function (req, res) {
   base('index-labels', req, res);
 });
-
-app_web.route('put', '/api/squarewave/', function (req, res) {
-  var state = req.body;
-  if (!_.contains([true, false], state)) {
-    var err = "'on' must be true or false";
-    console.log("Error:", err);
-    return res.json(400, err);
-  }
-  app_gpio.outputSquareWave(state, function (err) {
-    if (err) {
-      console.log("Error:", err);
-      return res.json(500, err);
-    }
-    res.json(state);
-  });
-});
-
 
 app_web.route('get', '/api/socket_ready', function (req, res) {
   res.json(app_web.socketReady());
