@@ -28,6 +28,7 @@ var windowPeriod = app_settings.get('client_update_period');
 
 //// CONSTANTS
 
+/*
 var KIND = {
   AC: "4-ac",
   CTRL: "ctrl",
@@ -127,6 +128,7 @@ var genStatsFromTracker = function(tracker) {
   }
   return stats;
 };
+*/
 
 var identifier = function(data) {
   return([data.msg.uid, data.address].join('@'));
@@ -172,9 +174,10 @@ var handleIncomingData = function(message, address) {
     eventEmitter.emit('ping', data);
   }
   else {
-    if (!data.error) {
-      updateStats(data, identifier(data));
-    }
+    // if (!data.error) {
+    //   updateStats(data, identifier(data));
+    // }
+    console.log(data);
     eventEmitter.emit('data', data);
   }
 };
@@ -190,7 +193,7 @@ app_network_serial.on("data", function (data) {
   handleIncomingData(data.toString(), "serial port");
 });
 
-
+/*
 var sendStats = function() {
   var recentStats = _.transform(
     _.filter(statTrackers, function filter(tracker) {
@@ -229,7 +232,7 @@ setInterval(sendStats, windowPeriod);
 setInterval(sendLabels, windowPeriod*5);
 sendStats();
 sendLabels();
-
+*/
 
 
 //// EXPORTS

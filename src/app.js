@@ -43,6 +43,7 @@ var app_web = require("./app.web");
 // server stats
 setInterval(function () {
   app_pubsub.publish('server.stats', app_serverStats.getStats());
+  /*
   app_logger.getRecordingState(function (err, recording_state) {
     if (err) {
       console.log("Error getting recording state:", err);
@@ -51,6 +52,7 @@ setInterval(function () {
       app_pubsub.publish('logger.state.recording_state', recording_state);
     }
   });
+  */
 }, 1000);
 
 // sensors
@@ -71,6 +73,7 @@ app_network.on('ping', function (data) {
 });
 
 // web socket output
+/*
 app_pubsub.subscribe([
   'network.stats',
   'network.ping',
@@ -79,6 +82,7 @@ app_pubsub.subscribe([
   'logger.state',
   'logger.state.recording_state',
 ], app_web.writeToSockets);
+*/
 
 // log file output
 app_pubsub.subscribe('*', app_logger.write);
@@ -87,5 +91,6 @@ app_pubsub.subscribe('*', app_logger.write);
 var status_pin = new gpio(48, 'out');
 status_pin.writeSync(1);
 
-
+// start logging immediately
+app_logger.startLogging();
 
