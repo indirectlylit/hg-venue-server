@@ -1,0 +1,49 @@
+#! /bin/sh
+# /etc/init.d/venue-server
+
+### BEGIN INIT INFO
+# Provides:          venue-server
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start the venue server
+# Description:       Thanks www.stuffaboutcode.com for the template
+### END INIT INFO
+
+set -e # exit on error
+
+. /lib/lsb/init-functions
+
+NAME=venue-server
+PIDFILE=/var/run/${NAME}.pid
+NODE=/usr/bin/node
+APP=/root/venue-server/src/app.js
+LOG=/var/log/venue-server.log
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    log_daemon_msg "Starting ${NAME}"
+    start-stop-daemon --start --make-pidfile --pidfile ${PIDFILE} --name ${NAME} --background --startas /bin/bash -- -c "exec $NODE $APP 80 > $LOG 2>&1"
+    log_end_msg $?
+    ;;
+  stop)
+	log_daemon_msg "Stopping ${NAME}"
+	start-stop-daemon --stop --quiet --oknodo --pidfile ${PIDFILE}
+	log_end_msg $?
+	rm -f ${PIDFILE}
+	;;
+  restart)
+	log_daemon_msg "Restarting ${NAME}"
+	$0 stop
+	$0 start
+	log_end_msg $?
+	;;
+  *)
+    echo "Usage: /etc/init.d/${0} {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
