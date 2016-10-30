@@ -11,23 +11,6 @@
       "version": "0.2.10",
       "from": "async@"
     },
-    "bunyan": {
-      "version": "0.22.1",
-      "from": "bunyan@0.22.1",
-      "resolved": "https://registry.npmjs.org/bunyan/-/bunyan-0.22.1.tgz",
-      "dependencies": {
-        "mv": {
-          "version": "0.0.5",
-          "from": "mv@0.0.5",
-          "resolved": "https://registry.npmjs.org/mv/-/mv-0.0.5.tgz"
-        },
-        "dtrace-provider": {
-          "version": "0.2.8",
-          "from": "dtrace-provider@0.2.8",
-          "resolved": "https://registry.npmjs.org/dtrace-provider/-/dtrace-provider-0.2.8.tgz"
-        }
-      }
-    },
     "express": {
       "version": "3.4.8",
       "from": "https://registry.npmjs.org/express/-/express-3.4.8.tgz",
