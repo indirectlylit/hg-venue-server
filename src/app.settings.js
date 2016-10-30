@@ -18,7 +18,6 @@ var CONFIG_FILE = path.join(externalDir, "venue_server_config.json");
 
 var defaults = {
   log_external : true,
-  output_square_wave : false,
   client_update_period : 650, // ms
   labels : {
     "bikes": {},

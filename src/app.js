@@ -26,11 +26,11 @@ var fs = require("fs");
 var os = require('os');
 var path = require('path');
 var child_process = require('child_process');
+var GPIO = require('inout').Gpio;
 
 
 //// INTERNAL MODULES
 
-var app_gpio = require("./app.gpio");
 var app_logger = require("./app.logger");
 var app_pubsub = require("./app.pubsub");
 var app_network = require("./app.network");
@@ -52,14 +52,6 @@ setInterval(function () {
     }
   });
 }, 1000);
-
-// square wave
-app_gpio.on('edge', function (state, timeToChange) {
-  app_pubsub.publish('server.pulse', {
-    state: state,
-    cmd_time: timeToChange,
-  });
-});
 
 // sensors
 app_network.on('stats', function (stats) {
@@ -91,25 +83,9 @@ app_pubsub.subscribe([
 // log file output
 app_pubsub.subscribe('*', app_logger.write);
 
+// set beaglebone GPIO status output on pin 9-15
+var status_pin = new gpio(48, 'out');
+status_pin.writeSync(1);
 
-var shuttingDown = false;
 
-// shutdown
-app_gpio.on('shutdown', function () {
-  if (shuttingDown) {
-    return;
-  }
-  shuttingDown = true;
-  console.log("SHUTDOWN");
-  app_pubsub.publish('server.shutdown', {});
-  app_logger.stopLogging(function (err) {
-    if (err) {
-      console.log("Could not stop logging:", err);
-    }
-  });
-  child_process.exec("sudo halt", function (err, std_out, std_err) {
-    if (err) {
-      console.log("Could not shut down.");
-    }
-  });
-});
+
