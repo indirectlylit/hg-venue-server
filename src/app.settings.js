@@ -9,7 +9,7 @@ var path = require('path');
 
 //// LOCAL VARIABLES
 
-var externalDir = _.find(["/media/usbhdd", "/vagrant"], fs.existsSync);
+var externalDir = _.find(["/media/usbhdd", "/vagrant", "../"], fs.existsSync);
 
 
 var CONFIG_FILE = path.join(externalDir, "venue_server_config.json");
