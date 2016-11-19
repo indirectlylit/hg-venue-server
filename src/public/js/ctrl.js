@@ -84,7 +84,7 @@ app.websocket.on('stats.labels', function (labels) {
 /* Server Statistics */
 /*********************/
 
-app.websocket.on('server.stats', function (stats) {
+app.websocket.on('stats.server', function (stats) {
   app.state.serverStats = stats;
   app.views.serverStats.render();
 });

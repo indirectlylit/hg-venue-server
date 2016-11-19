@@ -47,8 +47,9 @@ The channel to which the data belongs, or the 'type' of message. This is used fo
 The current possible values of `chan` are:
 
  * `network.data`
- * `network.stats`
- * `server.stats`
+ * `stats.network`
+ * `stats.labels`
+ * `stats.server`
  * `logger.state`
 
 ### Data
@@ -100,7 +101,7 @@ The following members only exist in charge controller data:
 
 ## Server Stats
 
-**when `chan == "server.stats"`, `data` is an object**
+**when `chan == "stats.server"`, `data` is an object**
 
 These messages periodically log the health of the Venue Server. They include information such as CPU usage and available memory, as described below.
 
@@ -149,7 +150,7 @@ Note that when the logs are overloaded, the server will *not* try to write `netw
 
 These message channels are used primarily to drive the live Venue Server, and are not particularly important for post-event analysis.
 
-**when `chan == "network.stats"`, `data`  is an array**
+**when `chan == "stats.network"`, `data`  is an array**
 
 Each element of the `data` array is an object that contains aggregated information over a short window of time.
 

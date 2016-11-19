@@ -44,7 +44,7 @@ var app_web = require("./app.web");
 
 // server stats
 setInterval(function () {
-  app_pubsub.publish('server.stats', app_stats_server.getStats());
+  app_pubsub.publish('stats.server', app_stats_server.getStats());
   app_logger.getRecordingState(function (err, recording_state) {
     if (err) {
       console.log("Error getting recording state:", err);
@@ -75,9 +75,9 @@ app_network.on('ping', function (data) {
 // web socket output
 app_pubsub.subscribe([
   'stats.network',
-  'network.ping',
   'stats.labels',
-  'server.stats',
+  'stats.server',
+  'network.ping',
   'logger.state',
   'logger.state.recording_state',
 ], app_web.writeToSockets);
