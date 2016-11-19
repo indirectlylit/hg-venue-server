@@ -164,10 +164,9 @@ var startLogging = function(callback) {
     return callback("Already logging.");
   }
   fs.exists(tempFileName(), function (exists) {
-    // if (exists) {
-    //   return callback("Already exists");
-    // }
-    console.log("Logging to ", tempFileName());
+    if (exists) {
+      return callback("Already exists");
+    }
     fileStream = fs.createWriteStream(tempFileName());
     backPressure = false;
     fileStream.on('error', function (err) {
