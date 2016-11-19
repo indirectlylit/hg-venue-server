@@ -15,7 +15,7 @@
     <hr>
     <h3>Bikes</h3>
     <div each={bikeSensors}>
-      # {uid}: {label}
+      # {uid}: {labels[0]}
     </div>
     <hr>
     <h3>AC</h3>

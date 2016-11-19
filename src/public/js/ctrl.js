@@ -60,7 +60,6 @@ app.ctrl.setLogExternal = function(newState) {
 app.pauseRendering = false;
 
 app.websocket.on('stats.network', function (newStats) {
-  app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
   app.state.networkStats = newStats;
   if (app.pauseRendering) {
     return;

@@ -30,15 +30,6 @@ $(function() {
   $.pnotify.defaults.styling = "bootstrap3";
   // $.pnotify.defaults.history = false;
 
-  // Note: the following should be pre-populated by the server:
-  // * app.state.logger_info
-  // * app.state.wave_info
-  // * app.state.serverStats
-  // * app.state.labels.bikes
-  // * app.state.labels.ac
-  app.state.clientAddresses = [];
-  app.state.networkStats = {};
-
   // start up the socket once all the handlers are in place
   app.websocket.start();
 });

@@ -40,17 +40,7 @@ app.ctrl.updateLabels = function(uid, labels) {
 
 app.pauseRendering = false;
 
-app.websocket.on('stats.network', function (newStats) {
-  app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
-  app.state.networkStats = newStats;
-  if (app.pauseRendering) {
-    return;
-  }
-  app.views.labels.update();
-});
-
 app.websocket.on('network.ping', function (msg) {
-  console.log("PING!", msg);
   app.state.currentLabel = msg.msg.uid;
   app.views.labels.update();
 });

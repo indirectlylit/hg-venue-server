@@ -48,7 +48,6 @@ $(function() {
   // * app.state.serverStats
   // * app.state.labels.bikes
   // * app.state.labels.ac
-  app.state.clientAddresses = [];
   app.state.networkStats = {};
   app.state.fileName = "";
 
