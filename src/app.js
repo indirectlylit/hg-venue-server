@@ -88,8 +88,12 @@ app_pubsub.subscribe([
 app_pubsub.subscribe('*', app_logger.write);
 
 // set beaglebone GPIO status output on pin 9-15
-var status_pin = new GPIO(48, 'out');
-status_pin.writeSync(1);
+try {
+  var status_pin = new GPIO(48, 'out');
+  status_pin.writeSync(1);
+} catch (msg) {
+  console.log("GPIO ERROR:", msg);
+}
 
 // start logging immediately
 app_logger.startLogging(function err(msg) {
