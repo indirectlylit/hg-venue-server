@@ -40,7 +40,7 @@ app.ctrl.updateLabels = function(uid, labels) {
 
 app.pauseRendering = false;
 
-app.websocket.on('network.stats', function (newStats) {
+app.websocket.on('stats.network', function (newStats) {
   app.state.clientAddresses = _.union(app.state.clientAddresses, _.keys(newStats)).sort();
   app.state.networkStats = newStats;
   if (app.pauseRendering) {
@@ -55,7 +55,7 @@ app.websocket.on('network.ping', function (msg) {
   app.views.labels.update();
 });
 
-app.websocket.on('network.labels', function (labels) {
+app.websocket.on('stats.labels', function (labels) {
   app.state.labels = labels;
   app.views.labels.update();
 });

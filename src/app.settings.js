@@ -37,18 +37,27 @@ function get(key) {
   if (!_.has(settings, key)) {
     throw("'" + key + "' is not a setting.");
   }
-  return settings[key];
+  return _.cloneDeep(settings[key]);
 }
 
 function set(key, value, callback) {
   if (!_.has(settings, key)) {
-    callback("'" + key + "' is not a setting.");
+    if (callback) {
+      callback("'" + key + "' is not a setting.");
+    }
   }
-  if (settings[key] === value) {
-    callback();
+  if (_.isEqual(settings[key], value)) {
+    if (callback) {
+      callback();
+    }
+    return;
   }
   settings[key] = value;
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function (){callback();});
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function () {
+    if (callback) {
+      callback();
+    }
+  });
 }
 
 function reset(callback) {

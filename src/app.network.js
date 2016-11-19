@@ -15,7 +15,6 @@ var events = require('events');
 
 var app_network_serial = require("./app.network.serial");
 var app_network_udp = require("./app.network.udp");
-var app_network_stats = require("./app.network.stats");
 var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 
@@ -23,15 +22,11 @@ var app_web = require("./app.web");
 //// LOCAL VARIABLES
 
 var eventEmitter = new events.EventEmitter();
-app_network_stats.eventEmitter = eventEmitter; // hack hack
+
 
 //// HELPERS
 
-var identifier = function(data) {
-  return([data.msg.uid, data.address].join('@'));
-};
-
-var paddedString = function(number) {
+var _paddedString = function(number) {
   if (number <= 10000) {
     return ("000"+number).slice(-5);
   }
@@ -54,7 +49,7 @@ var handleIncomingData = function(message, address) {
     data.msg.uid = Math.abs(data.msg.uid);
 
     // turn it into a string so it can be used as a JSON key
-    data.msg.uid = paddedString(data.msg.uid);
+    data.msg.uid = _paddedString(data.msg.uid);
   }
   catch(e) {
     data.error = e;
@@ -69,11 +64,7 @@ var handleIncomingData = function(message, address) {
 
   if (data.msg && data.msg.ping) {
     eventEmitter.emit('ping', data);
-  }
-  else {
-    if (!data.error) {
-      app_network_stats.updateStats(data, identifier(data));
-    }
+  } else {
     eventEmitter.emit('data', data);
   }
 };
@@ -81,12 +72,12 @@ var handleIncomingData = function(message, address) {
 
 //// MODULE LOGIC
 
-app_network_udp.on("message", function (msg, rinfo) {
+app_network_udp.on('message', function (msg, rinfo) {
   handleIncomingData(msg.toString(), rinfo.address);
 });
 
-app_network_serial.on("data", function (data) {
-  handleIncomingData(data.toString(), "serial port");
+app_network_serial.on('data', function (data) {
+  handleIncomingData(data.toString(), 'serial');
 });
 
 

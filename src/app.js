@@ -34,7 +34,9 @@ var GPIO = require('onoff').Gpio;
 var app_logger = require("./app.logger");
 var app_pubsub = require("./app.pubsub");
 var app_network = require("./app.network");
-var app_serverStats = require("./app.serverStats");
+var app_stats_network = require("./app.stats.network");
+var app_stats_labels = require("./app.stats.labels");
+var app_stats_server = require("./app.stats.server");
 var app_web = require("./app.web");
 
 
@@ -42,7 +44,7 @@ var app_web = require("./app.web");
 
 // server stats
 setInterval(function () {
-  app_pubsub.publish('server.stats', app_serverStats.getStats());
+  app_pubsub.publish('server.stats', app_stats_server.getStats());
   app_logger.getRecordingState(function (err, recording_state) {
     if (err) {
       console.log("Error getting recording state:", err);
@@ -54,12 +56,12 @@ setInterval(function () {
 }, 1000);
 
 // sensors
-app_network.on('stats', function (stats) {
-  app_pubsub.publish('network.stats', stats);
+app_stats_network.on('stats', function (stats) {
+  app_pubsub.publish('stats.network', stats);
 });
 
-app_network.on('labels', function (labels) {
-  app_pubsub.publish('network.labels', labels);
+app_stats_labels.on('labels', function (labels) {
+  app_pubsub.publish('stats.labels', labels);
 });
 
 app_network.on('data', function (data) {
@@ -72,9 +74,9 @@ app_network.on('ping', function (data) {
 
 // web socket output
 app_pubsub.subscribe([
-  'network.stats',
+  'stats.network',
   'network.ping',
-  'network.labels',
+  'stats.labels',
   'server.stats',
   'logger.state',
   'logger.state.recording_state',

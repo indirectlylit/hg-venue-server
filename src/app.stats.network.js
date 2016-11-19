@@ -8,39 +8,39 @@
 //// EXTERNAL MODULES
 
 var _ = require('lodash');
+var events = require('events');
 
 
 //// INTERNAL MODULES
 
+var app_constants = require("./app.constants");
 var app_settings = require("./app.settings");
+var app_network = require("./app.network");
 
 
 //// LOCAL VARIABLES
 
-var moduleExports = {};
+var eventEmitter = new events.EventEmitter();
 var statTrackers = {};
 var windowPeriod = app_settings.get('client_update_period');
 
 
 //// CONSTANTS
 
-var KIND = {
-  AC: "4-ac",
-  CTRL: "ctrl",
-  TIERS: "ctrl-ac",
-  BIKE: "bike",
-}
-
 var N_OUTPUT_SENSORS = {};
-N_OUTPUT_SENSORS[KIND.CTRL] = 1;
-N_OUTPUT_SENSORS[KIND.BIKE] = 1;
-N_OUTPUT_SENSORS[KIND.AC] = 4;
-N_OUTPUT_SENSORS[KIND.TIERS] = 3;
+N_OUTPUT_SENSORS[app_constants.MachineKinds.CTRL] = 1;
+N_OUTPUT_SENSORS[app_constants.MachineKinds.BIKE] = 1;
+N_OUTPUT_SENSORS[app_constants.MachineKinds.AC] = 4;
+N_OUTPUT_SENSORS[app_constants.MachineKinds.TIERS] = 3;
 
 
 //// LOGIC
 
-var initAccumOutArray = function(kind) {
+var _nodeIdentifier = function(data) {
+  return([data.msg.kind, data.msg.uid, data.address].join('_'));
+};
+
+var _initAccumOutArray = function(kind) {
   var arr = [];
   for (var i=0; i < N_OUTPUT_SENSORS[kind]; i++) {
     arr.push(0);
@@ -48,7 +48,8 @@ var initAccumOutArray = function(kind) {
   return arr;
 };
 
-var updateStats = function(data, id) {
+var updateStats = function(data) {
+  var id = _nodeIdentifier(data);
   var stats = statTrackers[id] = statTrackers[id] || {
     uid : data.msg.uid,
     kind : data.msg.kind,
@@ -59,7 +60,7 @@ var updateStats = function(data, id) {
     dropped : 0,
     accumulated_v: 0,
     accumulated_c_in: 0,
-    accumulated_c_out: initAccumOutArray(data.msg.kind),
+    accumulated_c_out: _initAccumOutArray(data.msg.kind),
   };
   stats.last_msg = data.msg;
   stats.totalMessages++;
@@ -71,15 +72,15 @@ var updateStats = function(data, id) {
   stats.accumulated_v += data.msg.v;
 
   switch (data.msg.kind) {
-    case KIND.CTRL:
+    case app_constants.MachineKinds.CTRL:
       stats.accumulated_c_in += data.msg.c_in;
       stats.accumulated_c_out[0] += data.msg.c_out;
       break;
-    case KIND.BIKE:
+    case app_constants.MachineKinds.BIKE:
       stats.accumulated_c_out[0] += data.msg.c_out;
       break;
-    case KIND.TIERS:
-    case KIND.AC:
+    case app_constants.MachineKinds.TIERS:
+    case app_constants.MachineKinds.AC:
     default:
       for (var i=0; i < N_OUTPUT_SENSORS[data.msg.kind]; i++) {
         stats.accumulated_c_out[i] += data.msg['c_'+(i+1)];
@@ -116,7 +117,7 @@ var genStatsFromTracker = function(tracker) {
   }
 
   // customize information
-  if (tracker.kind == KIND.CTRL) {
+  if (tracker.kind == app_constants.MachineKinds.CTRL) {
     stats['inv'] = tracker.last_msg.inv;
     stats['tiers'] = tracker.last_msg.tiers;
     stats['shunts'] = tracker.last_msg.shunts;
@@ -138,43 +139,25 @@ var sendStats = function() {
     trackers[key] = resetStatTracker(tracker);
   });
 
-  // hack hack
-  if (moduleExports.eventEmitter) {
-    moduleExports.eventEmitter.emit('stats', recentStats);
-  }
-}
-
-var sendLabels = function() {
-  // first, check to see whether any devices need to be added to the labels
-  var labels = app_settings.get('labels');
-
-  _.forEach(statTrackers, function(tracker) {
-    switch (tracker.kind) {
-      case KIND.BIKE:
-        labels.bikes[tracker.uid] = labels.bikes[tracker.uid] || new Array(N_OUTPUT_SENSORS[tracker.kind])
-        break;
-      case KIND.AC:
-        labels.ac[tracker.uid] = labels.ac[tracker.uid] || new Array(N_OUTPUT_SENSORS[tracker.kind])
-        break;
-    }
-  });
-
-  app_settings.set('labels', labels, function(){}); // don't wait for callback
-
-  // hack hack
-  if (moduleExports.eventEmitter) {
-    moduleExports.eventEmitter.emit('labels', labels);
+  if (eventEmitter) {
+    eventEmitter.emit('stats', recentStats);
   }
 }
 
 setInterval(sendStats, windowPeriod);
-setInterval(sendLabels, windowPeriod*5);
 sendStats();
-sendLabels();
 
+
+
+//// EVENT HANDLERS
+
+app_network.on('data', function (data) {
+  if (!data.error) {
+    updateStats(data);
+  }
+});
 
 
 //// EXPORTS
 
-moduleExports.updateStats = updateStats;
-module.exports = moduleExports;
+module.exports = eventEmitter;
