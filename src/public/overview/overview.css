@@ -4,11 +4,11 @@
 }
 
 .constrained-large {
-  width: 150px;
+  width: 100px;
 }
 
 .constrained-small {
-  width: 100px;
+  width: 75px;
 }
 
 .bar-cell {
@@ -51,6 +51,10 @@
   margin-top: 8px;
   text-align: center;
   font-size: smaller;
+}
+
+.extra {
+  margin: 0 8px;
 }
 
 .tier-state {

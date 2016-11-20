@@ -16,12 +16,11 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-6">
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title inline">AC Tiers</h3>
+              <h3 class="panel-title inline">AC Power</h3>
               <div class="connection-state">
                 <span class="glyphicon glyphicon-star"></span>
               </div>
@@ -85,7 +84,83 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="extra-info">42° F</div>
+              <div class="extra-info">60° F</div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title inline">DC Power</h3>
+              <div class="connection-state">
+                <span class="glyphicon glyphicon-star"></span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <tbody>
+                  <tr>
+                    <td class="constrained-large">
+                      Generated
+                    </td>
+                    <td class="constrained-small text-right">
+                      12 W
+                    </td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator input" style="width: 20%"></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="constrained-large">
+                      Consumed
+                    </td>
+                    <td class="constrained-small text-right">
+                      12 W
+                    </td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator output" style="width: 20%"></span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="extra-info">
+                <span class="extra">32 V</span>
+                <span class="extra">3 shunts</span>
+                <span class="extra">95° F</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col-md-6">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title inline">AC Sensors</h3>
+              <div class="connection-state">
+                12 <span class="glyphicon glyphicon-star"></span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <tbody class="js-dataTable">
+            {{#rows}}
+                  <tr>
+                    <td class="constrained-large {{# unlabeled }}text-muted{{/ unlabeled }}">{{ label }}</td>
+                    <td class="constrained-small text-right">{{ power }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator output" style="width: {{ power_pct }}%"></span>
+                      </div>
+                    </td>
+                  </tr>
+            {{/rows}}
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -115,34 +190,7 @@
             </div>
           </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title inline">AC Sensors</h3>
-              <div class="connection-state">
-                12 <span class="glyphicon glyphicon-star"></span>
-              </div>
-            </div>
-            <div class="panel-body">
-              <table class="table table-condensed">
-                <tbody class="js-dataTable">
-            {{#rows}}
-                  <tr>
-                    <td class="constrained-large {{# unlabeled }}text-muted{{/ unlabeled }}">{{ label }}</td>
-                    <td class="constrained-small text-right">{{ power }} W</td>
-                    <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator output" style="width: {{ power_pct }}%"></span>
-                      </div>
-                    </td>
-                  </tr>
-            {{/rows}}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
         </div>
-        <div class="col-md-2"></div>
       </div>
     </div>
 
