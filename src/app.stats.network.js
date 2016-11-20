@@ -110,10 +110,6 @@ statsCalc[app_constants.MachineKinds.AC_NETWORK] = function (dataArray) {
 
 //// LOGIC
 
-var _nodeIdentifier = function(data) {
-  return([data.msg.kind, data.msg.uid, data.address].join('_'));
-};
-
 var resetBuffers = function() {
   _.values(app_constants.MachineKinds).forEach(function (kind) {
     dataBuffers[kind] = {};
@@ -121,21 +117,20 @@ var resetBuffers = function() {
 }
 
 var bufferData = function(data) {
-  var id = _nodeIdentifier(data);
-  if (!dataBuffers[data.msg.kind][id]) {
-    dataBuffers[data.msg.kind][id] = [];
+  if (!dataBuffers[data.msg.kind][data.msg.uid]) {
+    dataBuffers[data.msg.kind][data.msg.uid] = [];
   }
-  dataBuffers[data.msg.kind][id].push(data);
+  dataBuffers[data.msg.kind][data.msg.uid].push(data);
 };
 
 var sendStats = function() {
   var allStats = {};
   _.forIn(dataBuffers, function (buffers, kind) {
     allStats[kind] = [];
-    _.forIn(buffers, function (buffer, id) {
+    _.forIn(buffers, function (buffer, uid) {
       if (buffer.length) {
         var stats = statsCalc[kind](buffer);
-        stats.id = id;
+        stats.device_id = uid;
         allStats[kind].push(stats);
       }
     });

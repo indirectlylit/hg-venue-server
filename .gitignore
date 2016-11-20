@@ -2,6 +2,7 @@
 node_modules/*
 data/*
 venue_server_config.json
+venue_server_settings.json
 
 .DS_Store
 .vagrant*

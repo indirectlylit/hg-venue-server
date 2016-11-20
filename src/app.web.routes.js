@@ -14,6 +14,7 @@ var app_stats_server = require("./app.stats.server");
 var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 var app_web_routes_logger = require("./app.web.routes.logger");
+var MachineKinds = require("./app.constants").MachineKinds;
 
 
 var bootstrapAdmin = function(baseName, req, res) {
@@ -76,7 +77,7 @@ app_web.route('put', '/api/labels/:uid', function (req, res) {
     res.json(400, err);
   }
 
-  var type = newLabels.length == 1 ? 'bikes' : 'ac';
+  var type = newLabels.length === 1 ? MachineKinds.BIKE : MachineKinds.AC;
   var currentLabels = app_settings.get('labels');
   _.forEach(currentLabels[type], function(labels, uid) {
     if (uid == req.params.uid) {

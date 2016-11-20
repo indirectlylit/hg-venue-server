@@ -115,8 +115,8 @@
         });
       }
 
-      updateLabels(this.bikeSensors, app.state.labels.bikes);
-      updateLabels(this.acSensors, app.state.labels.ac);
+      updateLabels(this.bikeSensors, app.state.labels['bike']);
+      updateLabels(this.acSensors, app.state.labels['4-ac']);
     });
 
 

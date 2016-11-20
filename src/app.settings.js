@@ -6,24 +6,22 @@ var fs = require('fs');
 var os = require('os');
 var path = require('path');
 
+var MachineKinds = require("./app.constants").MachineKinds;
+
 
 //// LOCAL VARIABLES
 
 var externalDir = _.find(["/media/usbhdd", "/vagrant", "../"], fs.existsSync);
-
-
-var CONFIG_FILE = path.join(externalDir, "venue_server_config.json");
-
-
+var CONFIG_FILE = path.join(externalDir, "venue_server_settings.json");
 
 var defaults = {
-  log_external : true,
-  client_update_period : 650, // ms
-  labels : {
-    "bikes": {},
-    "ac":{},
-  },
+  log_external: true,
+  client_update_period: 650, // ms
+  labels: {},
 };
+
+defaults.labels[MachineKinds.BIKE] = {};
+defaults.labels[MachineKinds.AC] = {};
 
 var settings = {};
 
@@ -53,7 +51,7 @@ function set(key, value, callback) {
     return;
   }
   settings[key] = value;
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), function () {
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings, null, 2), function () {
     if (callback) {
       callback();
     }
@@ -61,12 +59,12 @@ function set(key, value, callback) {
 }
 
 function reset(callback) {
-  fs.writeFile(CONFIG_FILE, JSON.stringify(settings), callback);
+  fs.writeFile(CONFIG_FILE, JSON.stringify(settings, null, 2), callback);
   settings = _.clone(defaults);
 }
 
 function resetSync() {
-  fs.writeFileSync(CONFIG_FILE, JSON.stringify(settings));
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify(settings, null, 2));
   settings = _.clone(defaults);
   console.log("Reset to default settings: "+CONFIG_FILE);
 }

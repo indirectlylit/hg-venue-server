@@ -43,9 +43,9 @@ var updateLabelIDs = function(data) {
   var label_object = undefined;
 
   if (data.msg.kind === app_constants.MachineKinds.BIKE) {
-    label_object = labels.bikes;
+    label_object = labels[app_constants.MachineKinds.BIKE];
   } else if (data.msg.kind === app_constants.MachineKinds.AC) {
-    label_object = labels.ac;
+    label_object = labels[app_constants.MachineKinds.AC];
   }
 
   if (label_object && !label_object[data.msg.uid]) {
