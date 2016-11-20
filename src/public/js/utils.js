@@ -8,31 +8,6 @@
 app.utils = app.utils || {};
 
 
-
-app.utils.setLabelClass = function(elem, labelClass) {
-  var classes = [
-    'label-default',
-    'label-primary',
-    'label-success',
-    'label-info',
-    'label-warning',
-    'label-danger'
-  ];
-  _.forEach(classes, function (className) {
-    $(elem).toggleClass(className, className==labelClass);
-  });
-};
-
-
-app.utils.genTableRow = function() {
-  var row = "<tr>";
-  _.each(arguments, function (arg) {
-      row = row + "<td>" + arg + "</td>";
-  });
-  return row + "</tr>";
-};
-
-
 app.utils.formatKBytes = function(kbytes) {
   // these values are relative to 1 KByte (2^10 bytes).
   var MB = Math.pow(2, 10);

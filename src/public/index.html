@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Venue Server</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="overview/overview.css">
+  </head>
+  <body>
+
+    <br>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Charge Controller
+                <span class="ctrl-state">
+                  <span class="ctrl-label">Inverter:</span> {{ inv }}
+                  <span class="ctrl-label">Tiers:</span> {{ tiers }}
+                  <span class="ctrl-label">Shunts:</span> {{ shunts }}
+                </span>
+              </h3>
+            </div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <tbody>
+                  <tr>
+                    <td class="constrained-large">Generation</td>
+                    <td class="constrained-small text-right">{{ power_in }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator input" style="width: {{ power_in_pct }}%"></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="constrained-large">Consumption</td>
+                    <td class="constrained-small text-right">{{ power_out }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator output" style="width: {{ power_out_pct }}%"></span>
+                      </div>
+                    </td>
+                  </tr>
+            {{#tierInfo}}
+                  <tr>
+                    <td class="constrained-large ctrl-tier">{{ label_disp }}</td>
+                    <td class="constrained-small text-right">{{ power }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator output" style="width: {{ power_pct }}%"></span>
+                      </div>
+                    </td>
+                  </tr>
+            {{/tierInfo}}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">Bikes</h3>
+            </div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <tbody class="js-dataTable">
+            {{#rows}}
+                  <tr>
+                    <td class="constrained-large {{# unlabeled }}text-muted{{/ unlabeled }}">{{ label }}</td>
+                    <td class="constrained-small text-right">{{ power_out }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator input" style="width: {{ power_out_pct }}%"></span>
+                      </div>
+                    </td>
+                  </tr>
+            {{/rows}}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">AC Sensors</h3>
+            </div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <tbody class="js-dataTable">
+            {{#rows}}
+                  <tr>
+                    <td class="constrained-large {{# unlabeled }}text-muted{{/ unlabeled }}">{{ label }}</td>
+                    <td class="constrained-small text-right">{{ power }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator output" style="width: {{ power_pct }}%"></span>
+                      </div>
+                    </td>
+                  </tr>
+            {{/rows}}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+
+
+    <!-- vendor -->
+    <script src="/js/vendor/jquery.min.js"></script>
+    <script src="/js/vendor/lodash.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+    <script src="/js/vendor/backbone-min.js"></script>
+    <script src="/js/vendor/sockjs-0.3.4.js"></script>
+    <script src="/js/vendor/jquery.cookie.min.js"></script>
+    <script src="/js/vendor/vue.js"></script>
+
+    <!-- application -->
+    <script>
+      var app = app || {};
+    </script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/websocket.js"></script>
+    <script src="/overview/main.js"></script>
+  </body>
+</html>

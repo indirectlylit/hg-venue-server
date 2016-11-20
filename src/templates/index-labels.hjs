@@ -37,8 +37,9 @@
 
     <!-- app data -->
     <script>
-      var app = app || {};
-      app.state = {{{initState}}};
+      var app = {};
+      app.state = {};
+      app.state.labels = {};
     </script>
 
     <!-- vendor -->
@@ -55,16 +56,16 @@
     <script src="/js/vendor/riot+compiler.min.js"></script>
 
     <!-- views -->
-    <script src="/js/views/NotConnectedLayer.js"></script>
-    <script src="/tags/labels_page.tag" type="riot/tag"></script>
-    <script src="/tags/bike_label.tag" type="riot/tag"></script>
-    <script src="/tags/ac_label.tag" type="riot/tag"></script>
+    <script src="/admin/views/NotConnectedLayer.js"></script>
+    <script src="/labels/tags/labels_page.tag" type="riot/tag"></script>
+    <script src="/labels/tags/bike_label.tag" type="riot/tag"></script>
+    <script src="/labels/tags/ac_label.tag" type="riot/tag"></script>
 
     <!-- application -->
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
-    <script src="/js/ctrl-labels.js"></script>
-    <script src="/js/main-labels.js"></script>
+    <script src="/labels/ctrl.js"></script>
+    <script src="/labels/main.js"></script>
 
 
   </body>

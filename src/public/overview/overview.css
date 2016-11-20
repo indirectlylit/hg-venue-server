@@ -1,0 +1,104 @@
+
+.ctrl-label {
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.table .ctrl-tier {
+  padding-left: 20px;
+}
+
+@media (min-width: 768px) {
+  .dl-horizontal dd {
+    margin-left: 160px;
+  }
+
+  .dl-horizontal dt {
+    width: 140px;
+  }
+}
+
+.helptext {
+  cursor: help;
+  border-bottom: 1px dotted #7a8288;
+}
+
+.recorder-timestamp-help {
+  margin-left: 3px;
+  margin-top: 6px;
+}
+
+.recorder-bytesize {
+  margin-top: 6px;
+  height: 44px;
+  text-align: center;
+  padding: 0;
+  white-space: nowrap;
+}
+
+thead td {
+  font-weight: bold;
+}
+
+.logList-time-col {
+  width: 30%;
+}
+
+.logList-label-col {
+  width: 50%;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.table > tbody > tr > td {
+  border: none;
+}
+
+.constrained-large {
+  width: 150px
+}
+
+.constrained-small {
+  width: 100px
+}
+
+.bar-cell {
+  vertical-align: middle !important;
+}
+
+.bar {
+  background-color: black;
+  height: 14px;
+  padding: 0;
+  position: relative;
+}
+
+.bar-indicator {
+  background-color: gray;
+  height: 14px;
+  display: inline-block;
+  position: absolute;
+  border: 1px solid black;
+}
+
+.bar-indicator.input {
+  background-color: #5bc0de;
+}
+
+.bar-indicator.output {
+  background-color: #f0ad4e;
+}
+
+.icon-clapper {
+  background-image: url("/admin/clapper.png");
+  background-position: center center;
+  height: 14px;
+}
+
+
+
+body {
+  background-color: black;
+}

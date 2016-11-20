@@ -21,6 +21,6 @@ app.views.Clapper = Backbone.Viewmaster.extend({
   },
 });
 
-app.views.Clapper.audio = new Audio('/glass.mp3');
+app.views.Clapper.audio = new Audio('/admin/glass.mp3');
 
 

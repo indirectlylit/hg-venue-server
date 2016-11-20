@@ -12,14 +12,6 @@
 */
 
 $(function() {
-
-  app.KIND = {
-    AC: "4-ac",
-    CTRL: "ctrl",
-    TIERS: "ctrl-ac",
-    BIKE: "bike",
-  };
-
   app.views = app.views || {};
   app.views.connection = new app.views.NotConnectedLayer().render();
   riot.compile(function() {

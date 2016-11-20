@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/vendor/jquery.pnotify.default.css">
     <link rel="stylesheet" href="css/vendor/jquery.pnotify.default.icons.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="admin/admin.css">
 
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   </head>
@@ -21,17 +22,24 @@
       </div>
     </div>
 
-    <br/>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-text">Venue Server Admin</div>
+      <div class="navbar-text navbar-right js-clapper"></div>
+      <div class="navbar-text navbar-right js-connectionIndicator"></div>
+    </nav>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <div class="panel panel-default js-chargecontroller"></div>
-          <div class="panel panel-default js-bikes"></div>
-          <div class="panel panel-default js-acsensors"></div>
+        <div class="col-md-4 js-recorder"></div>
+        <div class="col-md-8 js-logList"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="panel panel-default js-serverStats"></div>
+          <div class="panel panel-default js-settings"></div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-8">
+        </div>
       </div>
     </div>
 
@@ -64,14 +72,14 @@
 
     <!-- views -->
 {{#viewData}}
-    <script src="/js/views/{{id}}.js"></script>
+    <script src="/admin/views/{{id}}.js"></script>
 {{/viewData}}
 
     <!-- application -->
-    <script src="/js/jquery.hotkeys-mod.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
-    <script src="/js/ctrl.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/admin/jquery.hotkeys-mod.js"></script>
+    <script src="/admin/ctrl.js"></script>
+    <script src="/admin/main.js"></script>
   </body>
 </html>

@@ -53,31 +53,7 @@ app.ctrl.setLogExternal = function(newState) {
 };
 
 
-/***********************/
-/* Data Network Events */
-/***********************/
-
 app.pauseRendering = false;
-
-app.websocket.on('stats.network', function (newStats) {
-  app.state.networkStats = newStats;
-  if (app.pauseRendering) {
-    return;
-  }
-  app.views.acsensors.render();
-  app.views.bikes.render();
-  app.views.chargeController.render();
-});
-
-app.websocket.on('network.ping', function (msg) {
-  console.log("PING!", msg);
-});
-
-app.websocket.on('stats.labels', function (labels) {
-  app.state.labels = labels;
-  app.views.acsensors.render();
-  app.views.bikes.render();
-});
 
 
 /*********************/
@@ -152,7 +128,6 @@ app.ctrl.deleteFile = function(fileID) {
 app.ctrl.clap = function() {
   _ajax('get', '/api/logger/clap')
 };
-
 
 
 

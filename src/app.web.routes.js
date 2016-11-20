@@ -16,14 +16,15 @@ var app_web = require("./app.web");
 var app_web_routes_logger = require("./app.web.routes.logger");
 
 
-var base = function(baseName, req, res) {
+var bootstrapAdmin = function(baseName, req, res) {
+  var viewsDir = path.join('public', 'admin', 'views');
   // render the index with all templates embedded; also auto-load view files
-  app_web.loadFiles('templates/inner', '.hjs', function (err, templateData) {
+  app_web.loadFiles(viewsDir, '.hjs', function (err, templateData) {
     if (err) {
       console.log("Error:", err);
       return res.json(500, err);
     }
-    app_web.loadFiles(path.join('public', 'js', 'views'), '.js', function (err, viewData) {
+    app_web.loadFiles(viewsDir, '.js', function (err, viewData) {
       if (err) {
         console.log("Error:", err);
         return res.json(500, err);
@@ -37,7 +38,6 @@ var base = function(baseName, req, res) {
         var initState = {
           logger_info:    logger_info,
           serverStats:    app_stats_server.getStats(),
-          labels:         app_settings.get('labels'),
         };
         res.render('templates/'+baseName, {
           templateData: templateData,
@@ -49,16 +49,17 @@ var base = function(baseName, req, res) {
   });
 };
 
-app_web.route('get', '/', function (req, res) {
-  base('index', req, res);
-});
+// handled as a static file out of public
+// app_web.route('get', '/', function (req, res) {
+//   res.sendfile('index-overview.html');
+// });
 
 app_web.route('get', '/admin', function (req, res) {
-  base('admin', req, res);
+  bootstrapAdmin('index-admin', req, res);
 });
 
 app_web.route('get', '/labels', function (req, res) {
-  base('index-labels', req, res);
+  res.render('templates/index-labels');
 });
 
 app_web.route('get', '/api/socket_ready', function (req, res) {
