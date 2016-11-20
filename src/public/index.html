@@ -18,59 +18,83 @@
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <div class="panel panel-default">
 
+          <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">
-                Charge Controller
-                <span class="ctrl-state">
-                  <span class="ctrl-label">Inverter:</span> {{ inv }}
-                  <span class="ctrl-label">Tiers:</span> {{ tiers }}
-                  <span class="ctrl-label">Shunts:</span> {{ shunts }}
-                </span>
-              </h3>
+              <h3 class="panel-title inline">AC Tiers</h3>
+              <div class="connection-state">
+                <span class="glyphicon glyphicon-star"></span>
+              </div>
             </div>
             <div class="panel-body">
               <table class="table table-condensed">
                 <tbody>
                   <tr>
-                    <td class="constrained-large">Generation</td>
-                    <td class="constrained-small text-right">{{ power_in }} W</td>
+                    <td class="constrained-large">
+                      <span class="glyphicon glyphicon-ok tier-state"></span>
+                      Tier 1
+                    </td>
+                    <td class="constrained-small text-right">
+                      <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    </td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <span class="bar-indicator input" style="width: {{ power_in_pct }}%"></span>
+                        <span class="bar-indicator output" style="width: 0%"></span>
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <td class="constrained-large">Consumption</td>
-                    <td class="constrained-small text-right">{{ power_out }} W</td>
+                    <td class="constrained-large">
+                      <span class="glyphicon glyphicon-ok tier-state"></span>
+                      Tier 2
+                    </td>
+                    <td class="constrained-small text-right">
+                      12 W
+                    </td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <span class="bar-indicator output" style="width: {{ power_out_pct }}%"></span>
+                        <span class="bar-indicator output" style="width: 32%"></span>
                       </div>
                     </td>
                   </tr>
-            {{#tierInfo}}
                   <tr>
-                    <td class="constrained-large ctrl-tier">{{ label_disp }}</td>
-                    <td class="constrained-small text-right">{{ power }} W</td>
+                    <td class="constrained-large">
+                      <span class="glyphicon glyphicon-remove tier-state"></span>
+                      Tier 3
+                    </td>
+                    <td class="constrained-small text-right">
+                    </td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <span class="bar-indicator output" style="width: {{ power_pct }}%"></span>
+                        <span class="bar-indicator output" style="width: 0%"></span>
                       </div>
                     </td>
                   </tr>
-            {{/tierInfo}}
+                  <tr>
+                    <td class="constrained-large">
+                      <span class="glyphicon glyphicon-remove tier-state"></span>
+                      Tier 4
+                    </td>
+                    <td class="constrained-small text-right">
+                    </td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <span class="bar-indicator output" style="width: 0%"></span>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
+              <div class="extra-info">42° F</div>
             </div>
-
           </div>
-          <div class="panel panel-default">
 
+          <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Bikes</h3>
+              <h3 class="panel-title inline">Bikes</h3>
+              <div class="connection-state">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+              </div>
             </div>
             <div class="panel-body">
               <table class="table table-condensed">
@@ -89,12 +113,14 @@
                 </tbody>
               </table>
             </div>
-
           </div>
-          <div class="panel panel-default">
 
+          <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">AC Sensors</h3>
+              <h3 class="panel-title inline">AC Sensors</h3>
+              <div class="connection-state">
+                12 <span class="glyphicon glyphicon-star"></span>
+              </div>
             </div>
             <div class="panel-body">
               <table class="table table-condensed">
@@ -113,8 +139,8 @@
                 </tbody>
               </table>
             </div>
-
           </div>
+
         </div>
         <div class="col-md-2"></div>
       </div>
