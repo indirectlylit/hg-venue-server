@@ -28,6 +28,8 @@
   display: inline-block;
   position: absolute;
   border: 1px solid black;
+  -webkit-transition: width 1s;
+  transition: width 1s;
 }
 
 .bar-indicator.input {
@@ -60,3 +62,10 @@
 .state-icon {
   margin-right: 8px;
 }
+
+.disconnected-header {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+

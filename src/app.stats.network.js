@@ -58,21 +58,31 @@ function _calcAverages(arrayOfData, objectKeys) {
 
 var statsCalc = {};
 
-statsCalc[app_constants.MachineKinds.AC] = function (dataArray) {
+statsCalc[app_constants.MachineKinds.AC] = function (dataArray, uid) {
   var averages = _calcAverages(dataArray,
     ['c_1', 'c_2', 'c_3', 'c_4', 'v']
   );
-  return {
+  var stats = {
     c_ckts: [averages.c_1, averages.c_2, averages.c_3, averages.c_4],
     v: averages.v,
   };
+  var labels = app_settings.get('labels')[app_constants.MachineKinds.AC];
+  if (labels && labels[uid]) {
+    stats.labels = labels[uid];
+  }
+  return stats;
 };
 
-statsCalc[app_constants.MachineKinds.BIKE] = function (dataArray) {
-  return _calcAverages(dataArray, ['c_out', 'v']);
+statsCalc[app_constants.MachineKinds.BIKE] = function (dataArray, uid) {
+  var stats = _calcAverages(dataArray, ['c_out', 'v']);
+  var labels = app_settings.get('labels')[app_constants.MachineKinds.BIKE];
+  if (labels && labels[uid]) {
+    stats.label = labels[uid][0];
+  }
+  return stats;
 };
 
-statsCalc[app_constants.MachineKinds.INVERTER] = function (dataArray) {
+statsCalc[app_constants.MachineKinds.INVERTER] = function (dataArray, uid) {
   var mostRecent = _.last(dataArray);
   stats = {
     inv: mostRecent.msg.inv,
@@ -81,15 +91,13 @@ statsCalc[app_constants.MachineKinds.INVERTER] = function (dataArray) {
   return stats;
 };
 
-statsCalc[app_constants.MachineKinds.CAPS_SHUNTS] = function (dataArray) {
-  var stats = _calcAverages(dataArray,
-    ['c_in', 'c_out_fwd', 'c_out_rev', 'v', 'temp']
+statsCalc[app_constants.MachineKinds.CAPS_SHUNTS] = function (dataArray, uid) {
+  return _calcAverages(dataArray,
+    ['c_in', 'c_out_fwd', 'c_out_rev', 'c_shunt', 'v', 'temp', 'shunts']
   );
-  stats.shuntsOn = _.last(dataArray).msg.shunts;
-  return stats;
 };
 
-statsCalc[app_constants.MachineKinds.AC_NETWORK] = function (dataArray) {
+statsCalc[app_constants.MachineKinds.AC_NETWORK] = function (dataArray, uid) {
   var averages = _calcAverages(dataArray,
     ['c_t1', 'c_t2', 'c_t3', 'c_t4', 'v_ac', 'temp']
   );
@@ -129,7 +137,7 @@ var sendStats = function() {
     allStats[kind] = [];
     _.forIn(buffers, function (buffer, uid) {
       if (buffer.length) {
-        var stats = statsCalc[kind](buffer);
+        var stats = statsCalc[kind](buffer, uid);
         stats.device_id = uid;
         allStats[kind].push(stats);
       }

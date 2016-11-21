@@ -14,137 +14,82 @@
 
     <br>
 
-    <div class="container">
+    <div class="container" id="root-view">
       <div class="row">
         <div class="col-md-6">
 
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title inline">AC Power</h3>
-              <div class="connection-state">
-                <span class="glyphicon glyphicon-star"></span>
-              </div>
-            </div>
-            <div class="panel-body">
+            <panel-heading title="AC Power" :connected="acNetBoxConnected"></panel-heading>
+            <div class="panel-body" v-if="acNetBoxConnected">
               <table class="table table-condensed">
                 <tbody>
-                  <tr>
+                  <tr v-for="tier in acNetBoxState.tiers">
                     <td class="constrained-large">
-                      <span class="glyphicon glyphicon-ok state-icon"></span>
-                      Tier 1
+                      <onoff-icon :on="tier.on"></onoff-icon>
+                      Tier {{ tier.number }}
                     </td>
                     <td class="constrained-small text-right">
-                      <span class="glyphicon glyphicon-exclamation-sign"></span>
+                      <span v-if="tier.error" class="glyphicon glyphicon-exclamation-sign"></span>
+                      <span v-if="tier.on && !tier.error">{{ tier.watts }} W</span>
                     </td>
                     <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator output" style="width: 0%"></span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="constrained-large">
-                      <span class="glyphicon glyphicon-ok state-icon"></span>
-                      Tier 2
-                    </td>
-                    <td class="constrained-small text-right">
-                      12 W
-                    </td>
-                    <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator output" style="width: 32%"></span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="constrained-large">
-                      <span class="glyphicon glyphicon-remove state-icon"></span>
-                      Tier 3
-                    </td>
-                    <td class="constrained-small text-right">
-                    </td>
-                    <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator output" style="width: 0%"></span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="constrained-large">
-                      <span class="glyphicon glyphicon-remove state-icon"></span>
-                      Tier 4
-                    </td>
-                    <td class="constrained-small text-right">
-                    </td>
-                    <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator output" style="width: 0%"></span>
-                      </div>
+                      <bar-chart type="output" :percent="pct(tier.watts)"></bar-chart>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="extra-info">60° F</div>
+              <div class="extra-info">{{ acNetBoxState.temperature }}° F</div>
             </div>
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title inline">DC Power</h3>
-              <div class="connection-state">
-                <span class="glyphicon glyphicon-star"></span>
-              </div>
-            </div>
-            <div class="panel-body">
+            <panel-heading title="DC Power" :connected="capsShuntsBoxConnected"></panel-heading>
+            <div class="panel-body" v-if="capsShuntsBoxConnected">
               <table class="table table-condensed">
                 <tbody>
                   <tr>
-                    <td class="constrained-large">
-                      Generated
-                    </td>
+                    <td class="constrained-large">Input</td>
                     <td class="constrained-small text-right">
-                      12 W
+                      {{ capsShuntsBoxState.wattsGenerated }} W
                     </td>
                     <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator input" style="width: 20%"></span>
-                      </div>
+                      <bar-chart type="input" :percent="pct(capsShuntsBoxState.wattsGenerated)"></bar-chart>
                     </td>
                   </tr>
                   <tr>
-                    <td class="constrained-large">
-                      Consumed
-                    </td>
+                    <td class="constrained-large">Output</td>
                     <td class="constrained-small text-right">
-                      12 W
+                      {{ capsShuntsBoxState.wattsConsumed }} W
                     </td>
                     <td class="bar-cell">
-                      <div class="bar">
-                        <span class="bar-indicator output" style="width: 20%"></span>
-                      </div>
+                      <bar-chart type="output" :percent="pct(capsShuntsBoxState.wattsConsumed)"></bar-chart>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="constrained-large">Shunts</td>
+                    <td class="constrained-small text-right">
+                      {{ capsShuntsBoxState.wattsShunted }} W
+                    </td>
+                    <td class="bar-cell">
+                      <bar-chart :percent="pct(capsShuntsBoxState.wattsShunted)"></bar-chart>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <div class="extra-info">
-                <span class="extra">32 V</span>
-                <span class="extra">3 shunts</span>
-                <span class="extra">95° F</span>
+                <span class="extra">{{ capsShuntsBoxState.voltage }} V</span>
+                <span class="extra">{{ capsShuntsBoxState.nShunts }} shunts</span>
+                <span class="extra">{{ capsShuntsBoxState.temperature }}° F</span>
               </div>
             </div>
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title inline">Inverter</h3>
-              <div class="connection-state">
-                <span class="glyphicon glyphicon-star"></span>
-              </div>
-            </div>
-            <div class="panel-body">
+            <panel-heading title="Inverter" :connected="inverterBoxConnected"></panel-heading>
+            <div class="panel-body" v-if="inverterBoxConnected">
               <div>
-                <span class="glyphicon glyphicon-remove state-icon"></span>
-                <span class="extra">Off</span>
+                <onoff-icon :on="inverterBoxState.on"></onoff-icon>
+                <span class="extra">{{ inverterBoxState.text }}</span>
               </div>
             </div>
           </div>
@@ -153,23 +98,18 @@
         <div class="col-md-6">
 
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title inline">AC Sensors</h3>
-              <div class="connection-state">
-                12 <span class="glyphicon glyphicon-star"></span>
-              </div>
-            </div>
-            <div class="panel-body">
+            <panel-heading title="AC Sensors" :number="numACDevices"></panel-heading>
+            <div class="panel-body" v-if="acSensors.length">
               <table class="table table-condensed">
                 <tbody class="js-dataTable">
-                  <tr v-for="ac in acSensors">
-                    <td class="constrained-large" :class="{'text-muted': dc.unlabeled}">
+                  <tr v-for="ac in acSensors" :key="ac.device_id">
+                    <td class="constrained-large" :class="{'text-muted': ac.unlabeled}">
                       {{ ac.label }}
                     </td>
                     <td class="constrained-small text-right">{{ ac.watts }} W</td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <span class="bar-indicator output" style="width: {{ ac.pct }}%"></span>
+                        <bar-chart type="output" :percent="pct(ac.watts)"></bar-chart>
                       </div>
                     </td>
                   </tr>
@@ -179,23 +119,18 @@
           </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title inline">Bikes</h3>
-              <div class="connection-state">
-                <span class="glyphicon glyphicon-ban-circle"></span>
-              </div>
-            </div>
-            <div class="panel-body">
+            <panel-heading title="Bikes" :number="dcSensors.length"></panel-heading>
+            <div class="panel-body" v-if="dcSensors.length">
               <table class="table table-condensed">
                 <tbody class="js-dataTable">
-                  <tr v-for="dc in dcSensors">
+                  <tr v-for="dc in dcSensors" :key="dc.device_id">
                     <td class="constrained-large" :class="{'text-muted': dc.unlabeled}">
                       {{ dc.label }}
                     </td>
                     <td class="constrained-small text-right">{{ dc.watts }} W</td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <span class="bar-indicator input" style="width: {{ dc.pct }}%"></span>
+                        <bar-chart type="input" :percent="pct(dc.watts)"></bar-chart>
                       </div>
                     </td>
                   </tr>
@@ -224,6 +159,7 @@
     </script>
     <script src="/js/utils.js"></script>
     <script src="/js/websocket.js"></script>
+    <script src="/overview/components.js"></script>
     <script src="/overview/main.js"></script>
   </body>
 </html>
