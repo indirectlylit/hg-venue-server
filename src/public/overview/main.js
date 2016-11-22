@@ -18,6 +18,14 @@ function celsiusToFahrenheit(c) {
   return 32 + c * 9 / 5;
 }
 
+function comparator(a, b) {
+  if (!a.unlabeled && b.unlabeled) { return -1; }
+  if (!b.unlabeled && a.unlabeled) { return 1; }
+  if (a.label < b.label) { return -1; }
+  if (b.label < a.label) { return 1; }
+  return 0;
+}
+
 
 views = {
   bikes: function() {
@@ -130,12 +138,7 @@ app.view = new Vue({
           rows.push(row);
         }
       });
-      return rows;
-      return { 'rows': _.sortByOrder(rows, [
-          'unlabeled',
-          function (i) { return i.label.toLowerCase(); }
-        ])
-      };
+      return rows.sort(comparator);
     },
     dcSensors: function() {
       return this.network[MachineKinds.BIKE].map(function (stats, i) {
@@ -153,7 +156,7 @@ app.view = new Vue({
           row.label = '# ' + stats.device_id;
         }
         return row;
-      });
+      }).sort(comparator);
     },
   },
   methods: {
