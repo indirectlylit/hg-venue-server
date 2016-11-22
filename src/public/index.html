@@ -19,30 +19,6 @@
         <div class="col-md-6">
 
           <div class="panel panel-default">
-            <panel-heading title="AC Power" :connected="acNetBoxConnected"></panel-heading>
-            <div class="panel-body" v-if="acNetBoxConnected">
-              <table class="table table-condensed">
-                <tbody>
-                  <tr v-for="tier in acNetBoxState.tiers">
-                    <td class="constrained-large">
-                      <onoff-icon :on="tier.on"></onoff-icon>
-                      Tier {{ tier.number }}
-                    </td>
-                    <td class="constrained-small text-right">
-                      <span v-if="tier.error" class="glyphicon glyphicon-exclamation-sign"></span>
-                      <span v-if="tier.on && !tier.error">{{ tier.watts }} W</span>
-                    </td>
-                    <td class="bar-cell">
-                      <bar-chart type="output" :percent="pct(tier.watts)"></bar-chart>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="extra-info">{{ acNetBoxState.temperature }}° F</div>
-            </div>
-          </div>
-
-          <div class="panel panel-default">
             <panel-heading title="DC Power" :connected="capsShuntsBoxConnected"></panel-heading>
             <div class="panel-body" v-if="capsShuntsBoxConnected">
               <table class="table table-condensed">
@@ -94,29 +70,32 @@
             </div>
           </div>
 
-        </div>
-        <div class="col-md-6">
-
           <div class="panel panel-default">
-            <panel-heading title="AC Sensors" :number="numACDevices"></panel-heading>
-            <div class="panel-body" v-if="acSensors.length">
+            <panel-heading title="AC Power" :connected="acNetBoxConnected"></panel-heading>
+            <div class="panel-body" v-if="acNetBoxConnected">
               <table class="table table-condensed">
-                <tbody class="js-dataTable">
-                  <tr v-for="ac in acSensors" :key="ac.device_id">
-                    <td class="constrained-large" :class="{'text-muted': ac.unlabeled}">
-                      {{ ac.label }}
+                <tbody>
+                  <tr v-for="tier in acNetBoxState.tiers">
+                    <td class="constrained-large">
+                      <onoff-icon :on="tier.on"></onoff-icon>
+                      Tier {{ tier.number }}
                     </td>
-                    <td class="constrained-small text-right">{{ ac.watts }} W</td>
+                    <td class="constrained-small text-right">
+                      <span v-if="tier.error" class="glyphicon glyphicon-exclamation-sign"></span>
+                      <span v-if="tier.on && !tier.error">{{ tier.watts }} W</span>
+                    </td>
                     <td class="bar-cell">
-                      <div class="bar">
-                        <bar-chart type="output" :percent="pct(ac.watts)"></bar-chart>
-                      </div>
+                      <bar-chart type="output" :percent="pct(tier.watts)"></bar-chart>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div class="extra-info">{{ acNetBoxState.temperature }}° F</div>
             </div>
           </div>
+
+        </div>
+        <div class="col-md-6">
 
           <div class="panel panel-default">
             <panel-heading title="Bikes" :number="dcSensors.length"></panel-heading>
@@ -131,6 +110,27 @@
                     <td class="bar-cell">
                       <div class="bar">
                         <bar-chart type="input" :percent="pct(dc.watts)"></bar-chart>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <panel-heading title="AC Sensors" :number="numACDevices"></panel-heading>
+            <div class="panel-body" v-if="acSensors.length">
+              <table class="table table-condensed">
+                <tbody class="js-dataTable">
+                  <tr v-for="ac in acSensors" :key="ac.device_id">
+                    <td class="constrained-large" :class="{'text-muted': ac.unlabeled}">
+                      {{ ac.label }}
+                    </td>
+                    <td class="constrained-small text-right">{{ ac.watts }} W</td>
+                    <td class="bar-cell">
+                      <div class="bar">
+                        <bar-chart type="output" :percent="pct(ac.watts)"></bar-chart>
                       </div>
                     </td>
                   </tr>
