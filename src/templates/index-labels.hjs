@@ -21,6 +21,14 @@
       </div>
     </div>
 
+    <nav class="top-nav">
+      <ul>
+        <li><a href="/">Charts</a></li>
+        <li><a href="/admin">Logging</a></li>
+        <li class="active">Labels</li>
+      </ul>
+    </nav>
+
     <div class="main">
       <vs-labels-page></vs-labels-page>
     </div>
