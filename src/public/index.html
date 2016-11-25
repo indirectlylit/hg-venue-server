@@ -111,7 +111,7 @@
             <div class="panel-body" v-if="dcSensors.length">
               <table class="table table-condensed">
                 <tbody class="js-dataTable">
-                  <tr v-for="dc in dcSensors" :key="dc.device_id">
+                  <tr v-for="dc in dcSensors">
                     <td class="constrained-large" :class="{'text-muted': dc.unlabeled}">
                       {{ dc.label }}
                     </td>
@@ -132,7 +132,7 @@
             <div class="panel-body" v-if="acSensors.length">
               <table class="table table-condensed">
                 <tbody class="js-dataTable">
-                  <tr v-for="ac in acSensors" :key="ac.device_id">
+                  <tr v-for="ac in acSensors">
                     <td class="constrained-large" :class="{'text-muted': ac.unlabeled}">
                       {{ ac.label }}
                     </td>
