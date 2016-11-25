@@ -136,7 +136,7 @@ app.view = new Vue({
       _.forEach(acStats, function(stats){
         for (var i=0; i < stats.c_ckts.length; i++) {
           var power_out = stats.v * stats.c_ckts[i];
-          power_out = power_out < 5 ? 0 : power_out; // zero below some threshold
+          // power_out = power_out < 5 ? 0 : power_out; // zero below some threshold
           var row = {
             watts: power_out.toFixed(0),
             device_id: stats.device_id,
@@ -156,7 +156,7 @@ app.view = new Vue({
     dcSensors: function() {
       return this.network[MachineKinds.BIKE].map(function (stats, i) {
         var power_out = stats.v * stats.c_out;
-        power_out = power_out < 5 ? 0 : power_out; // zero below some threshold
+        // power_out = power_out < 5 ? 0 : power_out; // zero below some threshold
         var row = {
           watts: power_out.toFixed(0),
           device_id: stats.device_id,
