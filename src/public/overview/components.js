@@ -52,7 +52,7 @@ var barChart = '\
   <div class="bar">\
     <span class="bar-indicator"\
       :class="[type]"\
-      :style="{width: percent + \'%\'}"\
+      :style="barStyle"\
     ></span>\
   </div>\
 ';
@@ -68,6 +68,11 @@ Vue.component('bar-chart', {
     },
   },
   template: barChart,
+  computed: {
+    barStyle: function() {
+      return { transform: 'scaleX(' + this.percent + ')' };
+    },
+  },
 });
 
 

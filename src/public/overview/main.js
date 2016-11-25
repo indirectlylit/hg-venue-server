@@ -161,7 +161,7 @@ app.view = new Vue({
   },
   methods: {
     pct: function (watts) {
-      return Math.round(100 * watts / maxGraph);
+      return watts / maxGraph;
     },
   },
   data: {

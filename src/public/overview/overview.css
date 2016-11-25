@@ -17,19 +17,25 @@
 
 .bar {
   background-color: black;
-  height: 14px;
+  height: 12px;
   padding: 0;
   position: relative;
+  border: 1px solid black;
+  box-sizing: border-box;
 }
 
 .bar-indicator {
   background-color: gray;
-  height: 14px;
+  height: 10px;
   display: inline-block;
   position: absolute;
-  border: 1px solid black;
-  -webkit-transition: width 1s;
-  transition: width 1s;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-transform-origin: top left;
+  transform-origin: top left;
+  -webkit-transition: transform 0.75s;
+  transition: transform 0.75s;
 }
 
 .bar-indicator.input {
