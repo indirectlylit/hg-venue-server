@@ -21,8 +21,10 @@
     </nav>
 
     <div class="container" id="root-view">
-
-      <div class="row" style="display: none" :style="{display: 'block'}">
+      <div class="row vs-connection-state" v-if="!connected">
+        connecting…
+      </div>
+      <div class="row" style="display: none" :style="{display: 'block'}" v-if="connected">
         <div class="col-md-6">
 
           <div class="panel panel-default">

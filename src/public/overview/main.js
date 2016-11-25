@@ -54,6 +54,19 @@ app.view = new Vue({
     var that = this;
     app.websocket.on('stats.network', function (stats) {
       that.network = stats;
+      that.connected = true;
+    });
+    app.websocket.on('connecting', function (msg) {
+      that.connected = false;
+    });
+    app.websocket.on('error', function (msg) {
+      that.connected = false;
+    });
+    app.websocket.on('close', function (msg) {
+      that.connected = false;
+    });
+    app.websocket.on('open', function (msg) {
+      that.connected = true;
     });
   },
   computed: {
@@ -165,6 +178,7 @@ app.view = new Vue({
     },
   },
   data: {
+    connected: false,
     network: {
       "4-ac": [],
       "bike": [],
