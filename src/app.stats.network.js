@@ -125,6 +125,10 @@ var resetBuffers = function() {
 }
 
 var bufferData = function(data) {
+  if (!dataBuffers[data.msg.kind]) {
+    console.log('No data buffer for kind: ', data.msg.kind);
+    return;
+  }
   if (!dataBuffers[data.msg.kind][data.msg.uid]) {
     dataBuffers[data.msg.kind][data.msg.uid] = [];
   }
