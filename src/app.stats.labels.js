@@ -56,9 +56,7 @@ var updateLabelIDs = function(data) {
 }
 
 app_network.on('data', function (data) {
-  if (!data.error) {
-    updateLabelIDs(data);
-  }
+  updateLabelIDs(data);
 });
 
 

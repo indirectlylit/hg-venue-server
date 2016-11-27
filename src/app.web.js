@@ -23,18 +23,21 @@ var webSockets = [];
 var sockjsServer = sockjs.createServer();
 var httpStreamServer = http.createServer();
 
+var app_logger = require("./app.logger");
+
+
 sockjsServer.on('connection', function (conn) {
   webSockets.push(conn);
-  console.log("sockjsServer connection: "+webSockets.length);
+  app_logger.info("sockjsServer connection: "+webSockets.length);
   conn.on('close', function (conn) {
     webSockets.pop(conn);
-    console.log("sockjsServer connection close: "+webSockets.length);
+    app_logger.info("sockjsServer connection close: "+webSockets.length);
   });
 });
 
 sockjsServer.installHandlers(httpStreamServer, {prefix:'/data'});
 httpStreamServer.listen(8081, function (){
-  console.log("Stream server listening on port 8081");
+  app_logger.info("Stream server listening on port 8081");
 });
 
 
@@ -118,7 +121,7 @@ module.exports.route = function(verb, url, handler) {
 };
 
 http.createServer(expressApp).listen(expressApp.get('port'), function (){
-  console.log("Web server listening on port " + expressApp.get('port'));
+  app_logger.info("Web server listening on port " + expressApp.get('port'));
 });
 
 

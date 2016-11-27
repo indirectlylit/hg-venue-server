@@ -13,6 +13,7 @@ var events = require('events');
 
 //// INTERNAL MODULES
 
+var app_logger = require("./app.logger");
 var app_network_serial = require("./app.network.serial");
 var app_network_udp = require("./app.network.udp");
 var app_settings = require("./app.settings");
@@ -37,32 +38,29 @@ var handleIncomingData = function(message, address) {
   var data = {};
   try {
     data.msg = JSON.parse(message);
-
-    // for replaying old data
-    if (data.msg.address) {
-      address = data.msg.address;
-      delete data.msg.address;
-    }
-
-    // UIDs are sometimes not reported or reported as negative numbers
-    data.msg.uid = data.msg.uid || 0;
-    data.msg.uid = Math.abs(data.msg.uid);
-
-    // turn it into a string so it can be used as a JSON key
-    data.msg.uid = _paddedString(data.msg.uid);
   }
   catch(e) {
-    data.error = e;
-    data.text = message;
+    app_logger.error('could not parse message:', message, '|', address, '|', e);
+    return;
   }
+
+  // for replaying old data
+  if (data.msg.address) {
+    address = data.msg.address;
+    delete data.msg.address;
+  }
+
+  // UIDs are sometimes not reported or reported as negative numbers
+  data.msg.uid = data.msg.uid || 0;
+  data.msg.uid = Math.abs(data.msg.uid);
+
+  // turn it into a string so it can be used as a JSON key
+  data.msg.uid = _paddedString(data.msg.uid);
+
   data.address = address;
   data.size = message.length;
 
-  if (!data.msg) {
-    console.log("No msg attribute", data);
-  }
-
-  if (data.msg && data.msg.ping) {
+  if (data.msg.ping) {
     eventEmitter.emit('ping', data);
   } else {
     eventEmitter.emit('data', data);

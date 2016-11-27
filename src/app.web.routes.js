@@ -15,6 +15,7 @@ var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 var app_web_routes_logger = require("./app.web.routes.logger");
 var MachineKinds = require("./app.constants").MachineKinds;
+var app_logger = require("./app.logger");
 
 
 var bootstrapAdmin = function(baseName, req, res) {
@@ -22,17 +23,17 @@ var bootstrapAdmin = function(baseName, req, res) {
   // render the index with all templates embedded; also auto-load view files
   app_web.loadFiles(viewsDir, '.hjs', function (err, templateData) {
     if (err) {
-      console.log("Error:", err);
+      app_logger.error("routing error:", err);
       return res.json(500, err);
     }
     app_web.loadFiles(viewsDir, '.js', function (err, viewData) {
       if (err) {
-        console.log("Error:", err);
+        app_logger.error("routing error:", err);
         return res.json(500, err);
       }
       app_disklogger.getState(function (err, logger_info) {
         if (err) {
-          console.log("Error:", err);
+          app_logger.error("routing error:", err);
           return res.json(500, err);
         }
         // gets put in app.state on the client
@@ -69,11 +70,11 @@ app_web.route('get', '/api/socket_ready', function (req, res) {
 
 app_web.route('put', '/api/labels/:uid', function (req, res) {
   var newLabels = req.body;
-  console.log("Put labels", req.params.uid, newLabels);
+  app_logger.info("Put labels", req.params.uid, newLabels);
 
   if (!newLabels) {
     var err = "No labels sent"
-    console.log(err);
+    app_logger.error(err);
     res.json(400, err);
   }
 

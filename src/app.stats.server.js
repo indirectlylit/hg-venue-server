@@ -15,6 +15,7 @@ var os = require('os');
 
 //// INTERNAL MODULES
 
+var app_logger = require("./app.logger");
 var app_disklogger = require('./app.disklogger');
 
 
@@ -37,7 +38,7 @@ var retrieveDiskSpace = function() {
     if (error) {
       stats.totaldisk = null;
       stats.freedisk = null;
-      console.log("Could not retrieve disk space:", stderr.toString());
+      app_logger.error("Could not retrieve disk space:", stderr.toString());
     }
     else {
       // stdout will return something like:

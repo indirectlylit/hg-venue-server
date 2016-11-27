@@ -24,6 +24,7 @@ var childProcess = require('child_process');
 
 //// INTERNAL MODULES
 
+var app_logger = require("./app.logger");
 var app_settings = require('./app.settings');
 
 
@@ -104,7 +105,7 @@ var recordingTime = function() {
 var getFileList = function(callback) {
   fs.readdir(dataDir(), function (err, fileNames) {
     if (err) {
-      console.log("Could not list files:", err);
+      app_logger.error("Could not list files:", err);
       callback(err);
     }
 
@@ -123,7 +124,7 @@ var getFileList = function(callback) {
             parsedName = parseFileName(fName);
           }
           catch(e) {
-            console.log("Error:", e);
+            app_logger.error("could not parse filename", fName, e);
             parsedName = {
               name: fName,
               time: new Date(stats.ctime.getTime()),
@@ -170,7 +171,7 @@ var startLogging = function(callback) {
     fileStream = fs.createWriteStream(tempFileName());
     backPressure = false;
     fileStream.on('error', function (err) {
-      console.log("File stream error:", err);
+      app_logger.error("File stream error:", err);
     });
     fileStream.on('drain', function () {
       backPressure = false;
@@ -188,7 +189,7 @@ var stopLogging = function(callback) {
   fileStream.stopped = true;
   fileStream.end(function (err){
     if (err) {
-      console.log("Could not close the file stream:", err);
+      app_logger.error("Could not close the file stream:", err);
       callback(err);
       return;
     }
@@ -232,7 +233,7 @@ var saveAs = function(label, callback) {
       startTime = new Date();
     }
     var target = path.join(dataDir(), genFileName(startTime, label));
-    console.log("Rename '"+tempFileName()+"' to '"+target+"'");
+    app_logger.info("Rename '"+tempFileName()+"' to '"+target+"'");
     childProcess.exec('mv '+ tempFileName() + ' "' + target + '"', function (err, std_out, std_err) {
       if (!err) {
         startTime = null;

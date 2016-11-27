@@ -31,6 +31,7 @@ var GPIO = require('onoff').Gpio;
 
 //// INTERNAL MODULES
 
+var app_logger = require("./app.logger");
 var app_disklogger = require("./app.disklogger");
 var app_pubsub = require("./app.pubsub");
 var app_network = require("./app.network");
@@ -42,12 +43,17 @@ var app_web = require("./app.web");
 
 //// MODULE LOGIC
 
+// server logging
+app_logger.eventEmitter.on('log', function (data) {
+  app_pubsub.publish('serverlog', data);
+});
+
 // server stats
 setInterval(function () {
   app_pubsub.publish('stats.server', app_stats_server.getStats());
   app_disklogger.getRecordingState(function (err, recording_state) {
     if (err) {
-      console.log("Error getting recording state:", err);
+      app_logger.error("Error getting recording state:", err);
     }
     else if (recording_state.recording) {
       app_pubsub.publish('logger.state.recording_state', recording_state);
@@ -74,6 +80,7 @@ app_network.on('ping', function (data) {
 
 // web socket output
 app_pubsub.subscribe([
+  'serverlog',
   'stats.network',
   'stats.labels',
   'stats.server',
@@ -90,5 +97,5 @@ try {
   var status_pin = new GPIO(48, 'out');
   status_pin.writeSync(1);
 } catch (msg) {
-  console.log("GPIO ERROR:", msg);
+  app_logger.error("GPIO ERROR:", msg);
 }

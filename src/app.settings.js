@@ -7,6 +7,7 @@ var os = require('os');
 var path = require('path');
 
 var MachineKinds = require("./app.constants").MachineKinds;
+var app_logger = require("./app.logger");
 
 
 //// LOCAL VARIABLES
@@ -66,7 +67,7 @@ function reset(callback) {
 function resetSync() {
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(settings, null, 2));
   settings = _.clone(defaults);
-  console.log("Reset to default settings: "+CONFIG_FILE);
+  app_logger.info("Reset to default settings: "+CONFIG_FILE);
 }
 
 
@@ -78,14 +79,14 @@ try {
   if (Date.now() - fs.statSync(CONFIG_FILE).mtime.getTime() < a_week) {
     settings = JSON.parse(fs.readFileSync(CONFIG_FILE));
     _.defaults(settings, defaults);
-    console.log("Loaded existing settings from "+CONFIG_FILE);
+    app_logger.info("Loaded existing settings from "+CONFIG_FILE);
   }
   else {
     resetSync();
   }
 }
 catch (e) {
-  console.log("Couldn't read settings file", CONFIG_FILE, e);
+  app_logger.error("Couldn't read settings file", CONFIG_FILE, e);
   resetSync();
 }
 

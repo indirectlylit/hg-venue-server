@@ -16,6 +16,11 @@ var os = require('os');
 var serialport = require("serialport");
 
 
+//// INTERNAL MODULES
+
+var app_logger = require("./app.logger");
+
+
 //// LOCAL FUNCTIONS
 
 function createSerialPort(name) {
@@ -25,7 +30,7 @@ function createSerialPort(name) {
   );
   port.on("close", function (data) {
     serial_active = false;
-    console.log("\n----\nClosed SerialPort at "+Date.now()+"\n----\n");
+    app_logger.info("Closed SerialPort", portName, serialPort);
   });
   port.on("data", function (data) {
     eventEmitter.emit("data", data);
@@ -41,7 +46,7 @@ function attemptLogging() {
         return;
       }
       serial_active = true;
-      console.log("\n----\nOpened SerialPort at "+Date.now()+"\n----\n");
+      app_logger.info("Opened SerialPort", portName, serialPort);
     });
   }
 }

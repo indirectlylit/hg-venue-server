@@ -13,6 +13,7 @@ var events = require('events');
 
 //// INTERNAL MODULES
 
+var app_logger = require("./app.logger");
 var app_constants = require("./app.constants");
 var app_settings = require("./app.settings");
 var app_network = require("./app.network");
@@ -126,7 +127,7 @@ var resetBuffers = function() {
 
 var bufferData = function(data) {
   if (!dataBuffers[data.msg.kind]) {
-    console.log('No data buffer for kind: ', data.msg.kind);
+    app_logger.error('No data buffer for kind:', data.msg.kind);
     return;
   }
   if (!dataBuffers[data.msg.kind][data.msg.uid]) {
@@ -159,9 +160,7 @@ sendStats();
 //// EVENT HANDLERS
 
 app_network.on('data', function (data) {
-  if (!data.error) {
-    bufferData(data);
-  }
+  bufferData(data);
 });
 
 
