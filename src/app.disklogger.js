@@ -1,14 +1,10 @@
 
 /**
- * Deal with writing data
+ * Deal with writing data to disk
  *
  * Devon Rueckner
  * The Human Grid
  * All rights reserved
- *
- * !!!!!!!!!!!!!!!
- * TODO: remove usage of 'fs.exists' which  may cause race conditions. see Node docs.
- * !!!!!!!!!!!!!!!
  */
 
 
