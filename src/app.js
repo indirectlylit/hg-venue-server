@@ -31,7 +31,7 @@ var GPIO = require('onoff').Gpio;
 
 //// INTERNAL MODULES
 
-var app_logger = require("./app.logger");
+var app_disklogger = require("./app.disklogger");
 var app_pubsub = require("./app.pubsub");
 var app_network = require("./app.network");
 var app_stats_network = require("./app.stats.network");
@@ -45,7 +45,7 @@ var app_web = require("./app.web");
 // server stats
 setInterval(function () {
   app_pubsub.publish('stats.server', app_stats_server.getStats());
-  app_logger.getRecordingState(function (err, recording_state) {
+  app_disklogger.getRecordingState(function (err, recording_state) {
     if (err) {
       console.log("Error getting recording state:", err);
     }
@@ -83,7 +83,7 @@ app_pubsub.subscribe([
 ], app_web.writeToSockets);
 
 // log file output
-app_pubsub.subscribe('*', app_logger.write);
+app_pubsub.subscribe('*', app_disklogger.write);
 
 // set beaglebone GPIO status output on pin 9-15
 try {

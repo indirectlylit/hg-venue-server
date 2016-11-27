@@ -15,7 +15,7 @@ var os = require('os');
 
 //// INTERNAL MODULES
 
-var app_logger = require('./app.logger');
+var app_disklogger = require('./app.disklogger');
 
 
 //// LOCAL VARIABLES
@@ -33,7 +33,7 @@ var stats = {
 //// LOCAL FUNCTIONS
 
 var retrieveDiskSpace = function() {
-  cp.exec("df -k  " + app_logger.dataDir(), function (error, stdout, stderr) {
+  cp.exec("df -k  " + app_disklogger.dataDir(), function (error, stdout, stderr) {
     if (error) {
       stats.totaldisk = null;
       stats.freedisk = null;
@@ -53,7 +53,7 @@ var retrieveDiskSpace = function() {
 getStats = function() {
   var now = new Date();
   return _.merge(stats, {
-    logs_overloaded : app_logger.overloaded(),
+    logs_overloaded : app_disklogger.overloaded(),
     freemem : Math.round(os.freemem()/Math.pow(2, 10)),       // KB
     loadavg : os.loadavg(),                                   // 3-tuple of percentages
     uptime : Math.round(os.uptime()),                         // seconds

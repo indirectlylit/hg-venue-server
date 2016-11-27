@@ -9,7 +9,7 @@ var _ = require('lodash');
 var path = require('path');
 
 
-var app_logger = require("./app.logger");
+var app_disklogger = require("./app.disklogger");
 var app_stats_server = require("./app.stats.server");
 var app_settings = require("./app.settings");
 var app_web = require("./app.web");
@@ -30,7 +30,7 @@ var bootstrapAdmin = function(baseName, req, res) {
         console.log("Error:", err);
         return res.json(500, err);
       }
-      app_logger.getState(function (err, logger_info) {
+      app_disklogger.getState(function (err, logger_info) {
         if (err) {
           console.log("Error:", err);
           return res.json(500, err);
