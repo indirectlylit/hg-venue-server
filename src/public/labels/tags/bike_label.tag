@@ -4,10 +4,18 @@
 
 <vs-bike-label>
   <div>
-    <h3>Bike # {uid}</h3>
-    <div>
-      <input value={label} onkeyup={change}>
-    <div>
+    <h3>Bike # {app.state.currentUID}</h3>
+    <div class="input-wrapper">
+      <input name="input" value={app.state.currentLabels[0]} onkeyup={setLocalState}>
+    </div>
+  </div>
+  <div class="label-controls">
+    <button type="button" class="btn btn-default btn-sm" onclick={save}>
+      <span class="glyphicon glyphicon-remove"></span> Save
+    </button>
+    <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
+      <span class="glyphicon glyphicon-remove"></span> Cancel
+    </button>
   </div>
 
 
@@ -15,12 +23,7 @@
 <!--###########################-->
 <!--#######   STYLES   ########-->
 
-  <style>
-
-    vs-bike-label {
-    }
-
-  </style>
+  <style></style>
 
 
 <!--############################-->
@@ -29,14 +32,17 @@
 
   <script>
 
-    this.label = opts.label
-    this.uid = opts.uid
+    this.newLabels = function() {
+      return [this.input.value];
+    };
 
-    this.change = _.debounce(function(e) {
-        app.ctrl.updateLabels(this.uid, [e.target.value,]);
-      },
-      500
-    );
+    this.setLocalState = function() {
+      app.state.currentLabels = this.newLabels();
+    };
+
+    this.save = function(e) {
+      app.ctrl.updateLabels();
+    };
 
   </script>
 

@@ -29,8 +29,16 @@ var _ajax = function(verb, url, data) {
 /***********/
 
 
-app.ctrl.updateLabels = function(uid, labels) {
-  _ajax('put', '/api/labels/'+uid, labels);
+app.ctrl.updateLabels = function() {
+  _ajax('put', '/api/labels/'+app.state.currentUID, app.state.currentLabels);
+  app.state.currentUID = undefined;
+  app.views.labels.update();
+};
+
+
+app.ctrl.cancelUpdate = function() {
+  app.state.currentUID = undefined;
+  app.views.labels.update();
 };
 
 
@@ -41,7 +49,19 @@ app.ctrl.updateLabels = function(uid, labels) {
 app.pauseRendering = false;
 
 app.websocket.on('network.ping', function (msg) {
-  app.state.currentLabel = msg.msg.uid;
+
+  if (!app.state.labels[msg.msg.kind]) {
+    console.log('No labels found for kind', msg.msg.kind);
+    return;
+  }
+
+  if (!app.state.labels[msg.msg.kind][msg.msg.uid]) {
+    console.log('No labels found for uid', msg.msg.uid);
+    return;
+  }
+
+  app.state.currentUID = msg.msg.uid;
+  app.state.currentLabels = app.state.labels[msg.msg.kind][msg.msg.uid].slice(); // copy
   app.views.labels.update();
 });
 

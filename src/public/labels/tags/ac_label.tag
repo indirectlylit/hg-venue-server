@@ -3,32 +3,35 @@
 <!--#######   HTML   ########-->
 
 <vs-ac-label>
-  <h3>
-    AC # {uid}
-  </h3>
+  <h3>AC # {app.state.currentUID}</h3>
   <div>
-    <div>
-      <label>A:</label><input value={labels[0]} data-receptacle="0" onchange={change}>
-    <div>
-    <div>
-      <label>B:</label><input value={labels[1]} data-receptacle="1" onchange={change}>
-    <div>
-    <div>
-      <label>C:</label><input value={labels[2]} data-receptacle="2" onchange={change}>
-    <div>
-    <div>
-      <label>D:</label><input value={labels[3]} data-receptacle="3" onchange={change}>
-    <div>
+    <div class="input-wrapper">
+      <label>A:</label><input value={app.state.currentLabels[0]} name="input_0" onkeyup={setLocalState}>
+    </div>
+    <div class="input-wrapper">
+      <label>B:</label><input value={app.state.currentLabels[1]} name="input_1" onkeyup={setLocalState}>
+    </div>
+    <div class="input-wrapper">
+      <label>C:</label><input value={app.state.currentLabels[2]} name="input_2" onkeyup={setLocalState}>
+    </div>
+    <div class="input-wrapper">
+      <label>D:</label><input value={app.state.currentLabels[3]} name="input_3" onkeyup={setLocalState}>
+    </div>
   </div>
-
+  <div class="label-controls">
+    <button type="button" class="btn btn-default btn-sm" onclick={save}>
+      <span class="glyphicon glyphicon-remove"></span> Save
+    </button>
+    <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
+      <span class="glyphicon glyphicon-remove"></span> Cancel
+    </button>
+  </div>
 
 
 <!--###########################-->
 <!--#######   STYLES   ########-->
 
-  <style>
-
-  </style>
+  <style></style>
 
 
 <!--############################-->
@@ -36,13 +39,20 @@
 
   <script>
 
-    this.labels = opts.labels
-    this.uid = opts.uid
+    this.newLabels = function() {
+      var newLabels = [];
+      for (var i = 0; i < 4; i++) {
+        newLabels.push(this['input_' + i].value);
+      }
+      return newLabels;
+    };
 
-    this.change = function(e) {
-      var newLabels = this.labels;
-      newLabels[Math.abs(e.target.dataset.receptacle)] = e.target.value;
-      app.ctrl.updateLabels(this.uid, newLabels);
+    this.setLocalState = function() {
+      app.state.currentLabels = this.newLabels();
+    };
+
+    this.save = function(e) {
+      app.ctrl.updateLabels();
     };
 
   </script>

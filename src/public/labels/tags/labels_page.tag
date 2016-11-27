@@ -9,33 +9,34 @@
     </div>
     <hr>
     <div>
-      <vs-bike-label each={bikeSensors} uid={uid} label={labels[0]} class={hidden: !parent.isCurrent(uid)} />
-      <vs-ac-label each={acSensors} uid={uid} labels={labels} class={hidden: !parent.isCurrent(uid)} />
+      <vs-bike-label each={bikeSensors} class={hidden: !parent.isCurrent(uid)} />
+      <vs-ac-label each={acSensors} class={hidden: !parent.isCurrent(uid)} />
     </div>
-    <hr>
-    <h3>Bikes</h3>
-    <div each={bikeSensors}>
-      # {uid}: {labels[0]}
-    </div>
-    <hr>
-    <h3>AC</h3>
-    <div each={acSensors} class="ac-group">
-      <div>
-        # {uid}
+    <div class={hidden: showEditor()}>
+      <h3>Bikes</h3>
+      <div each={bikeSensors}>
+        # {uid}: {labels[0]}
       </div>
-      <div>
-        <label>A:</label>{labels[0]}
+      <hr>
+      <h3>AC</h3>
+      <div each={acSensors} class="ac-group">
+        <div>
+          # {uid}
+        </div>
+        <div>
+          <label>A:</label>{labels[0]}
+        </div>
+        <div>
+          <label>B:</label>{labels[1]}
+        </div>
+        <div>
+          <label>C:</label>{labels[2]}
+        </div>
+        <div>
+          <label>D:</label>{labels[3]}
+        </div>
       </div>
-      <div>
-        <label>B:</label>{labels[1]}
-      </div>
-      <div>
-        <label>C:</label>{labels[2]}
-      </div>
-      <div>
-        <label>D:</label>{labels[3]}
-      </div>
-    </div>
+    <div>
   </div>
 
 
@@ -44,20 +45,30 @@
 <!--#######   STYLES   ########-->
 
   <style>
-    vs-labels-page .header {
+
+    .header {
       text-align: center;
     }
 
-    vs-labels-page .ac-group {
+    .ac-group {
       margin-top: 5px;
     }
 
-    vs-labels-page label {
-      width: 25px;
+    .label-controls, h3 {
+      text-align: center;
+    }
+
+    .input-wrapper {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .input-wrapper label {
+      margin: 0 10px;
       color: grey;
     }
 
-    vs-labels-page input {
+    .input-wrapper input {
       width: 85%;
       color: white;
       background-color: black;
@@ -67,7 +78,7 @@
       padding-right: 5px;
     }
 
-    vs-labels-page .main {
+    .main {
       width: 100%;
       max-width: 500px;
       margin-left: auto;
@@ -93,8 +104,12 @@
     this.currentUid = null;
 
     this.isCurrent = function(uid) {
-      return uid == app.state.currentLabel;
+      return uid == app.state.currentUID;
     }
+
+    this.showEditor = function() {
+      return app.state.currentUID !== undefined;
+    };
 
     this.on('update', function() {
       var updateLabels = function(target, all_labels) {
@@ -113,7 +128,7 @@
             });
           }
         });
-      }
+      };
 
       updateLabels(this.bikeSensors, app.state.labels['bike']);
       updateLabels(this.acSensors, app.state.labels['4-ac']);
