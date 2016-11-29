@@ -8,7 +8,7 @@
     <div class="panel-heading">
       <h3 class="panel-title inline">AC # {app.state.currentUID}</h3>
     </div>
-    <div class="panel-body">
+    <form class="panel-body" onsubmit={app.ctrl.updateLabels} onreset={app.ctrl.cancelUpdate}>
       <div>
         <div class="input-wrapper">
           <label>A:</label><input value={app.state.currentLabels[0]} name="input_0" onkeyup={setLocalState}>
@@ -24,14 +24,14 @@
         </div>
       </div>
       <div class="label-controls">
-        <button type="button" class="btn btn-default btn-sm" onclick={save}>
+        <button type="submit" class="btn btn-default btn-sm">
           <span class="glyphicon glyphicon-remove"></span> Save
         </button>
-        <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
+        <button type="reset" class="btn btn-default btn-sm">
           <span class="glyphicon glyphicon-remove"></span> Cancel
         </button>
       </div>
-    </div>
+    </form>
   </div>
 
 
@@ -56,10 +56,6 @@
 
     this.setLocalState = function() {
       app.state.currentLabels = this.newLabels();
-    };
-
-    this.save = function(e) {
-      app.ctrl.updateLabels();
     };
 
   </script>
