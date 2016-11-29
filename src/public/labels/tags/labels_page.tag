@@ -3,40 +3,55 @@
 <!--#######   HTML   ########-->
 
 <vs-labels-page>
-  <div class="main">
-    <div class="header">
+
+  <div class="container">
+    <div class="row top-info">
       Press a sensor button to select and label it.
     </div>
-    <hr>
-    <div>
-      <vs-bike-label each={bikeSensors} class={hidden: !parent.isCurrent(uid)} />
-      <vs-ac-label each={acSensors} class={hidden: !parent.isCurrent(uid)} />
+    <div class="row" if={showEditor()}>
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <vs-bike-label if={app.state.currentKind == app.kinds.bike} />
+        <vs-ac-label if={app.state.currentKind == app.kinds.ac} />
+      </div>
+      <div class="col-md-3"></div>
     </div>
-    <div class={hidden: showEditor()}>
-      <h3>Bikes</h3>
-      <div each={bikeSensors}>
-        # {uid}: {labels[0]}
-      </div>
-      <hr>
-      <h3>AC</h3>
-      <div each={acSensors} class="ac-group">
-        <div>
-          # {uid}
-        </div>
-        <div>
-          <label>A:</label>{labels[0]}
-        </div>
-        <div>
-          <label>B:</label>{labels[1]}
-        </div>
-        <div>
-          <label>C:</label>{labels[2]}
-        </div>
-        <div>
-          <label>D:</label>{labels[3]}
+    <div class="row" if={!showEditor()}>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title inline">Bikes</h3></div>
+          <div class="panel-body">
+            <div each={bikeSensors}>
+              # {uid}: {labels[0]}
+            </div>
+          </div>
         </div>
       </div>
-    <div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title inline">AC Sensors</h3></div>
+          <div class="panel-body">
+            <div each={acSensors} class="ac-group">
+              <div>
+                # {uid}
+              </div>
+              <div>
+                <label>A:</label>{labels[0]}
+              </div>
+              <div>
+                <label>B:</label>{labels[1]}
+              </div>
+              <div>
+                <label>C:</label>{labels[2]}
+              </div>
+              <div>
+                <label>D:</label>{labels[3]}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -46,25 +61,30 @@
 
   <style>
 
+    .top-info {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
     .header {
       text-align: center;
     }
 
     .ac-group {
-      margin-top: 5px;
+      margin-top: 8px;
     }
 
-    .label-controls, h3 {
-      text-align: center;
+    .label-controls {
+      text-align: right;
     }
 
     .input-wrapper {
       text-align: center;
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
     .input-wrapper label {
-      margin: 0 10px;
+      margin: 0 8px;
       color: grey;
     }
 
@@ -74,18 +94,8 @@
       background-color: black;
       border: none;
       border-radius: 3px;
-      padding-left: 5px;
-      padding-right: 5px;
-    }
-
-    .main {
-      width: 100%;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: #272b30;
-      border-radius: 5px;
-      padding: 10px;
+      padding-left: 8px;
+      padding-right: 8px;
     }
 
   </style>
@@ -102,10 +112,6 @@
     this.bikeSensors = [];
     this.acSensors = [];
     this.currentUid = null;
-
-    this.isCurrent = function(uid) {
-      return uid == app.state.currentUID;
-    }
 
     this.showEditor = function() {
       return app.state.currentUID !== undefined;
@@ -130,8 +136,8 @@
         });
       };
 
-      updateLabels(this.bikeSensors, app.state.labels['bike']);
-      updateLabels(this.acSensors, app.state.labels['4-ac']);
+      updateLabels(this.bikeSensors, app.state.labels[app.kinds.bike]);
+      updateLabels(this.acSensors, app.state.labels[app.kinds.ac]);
     });
 
 

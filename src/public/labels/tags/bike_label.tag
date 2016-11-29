@@ -3,19 +3,24 @@
 <!--#######   HTML   ########-->
 
 <vs-bike-label>
-  <div>
-    <h3>Bike # {app.state.currentUID}</h3>
-    <div class="input-wrapper">
-      <input name="input" value={app.state.currentLabels[0]} onkeyup={setLocalState}>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title inline">Bike # {app.state.currentUID}</h3>
     </div>
-  </div>
-  <div class="label-controls">
-    <button type="button" class="btn btn-default btn-sm" onclick={save}>
-      <span class="glyphicon glyphicon-remove"></span> Save
-    </button>
-    <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
-      <span class="glyphicon glyphicon-remove"></span> Cancel
-    </button>
+    <div class="panel-body">
+      <div class="input-wrapper">
+        <input name="input" value={app.state.currentLabels[0]} onkeyup={setLocalState}>
+      </div>
+      <div class="label-controls">
+        <button type="button" class="btn btn-default btn-sm" onclick={save}>
+          <span class="glyphicon glyphicon-remove"></span> Save
+        </button>
+        <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+      </div>
+    </div>
   </div>
 
 

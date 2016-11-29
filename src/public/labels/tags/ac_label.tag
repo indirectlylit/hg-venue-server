@@ -3,28 +3,35 @@
 <!--#######   HTML   ########-->
 
 <vs-ac-label>
-  <h3>AC # {app.state.currentUID}</h3>
-  <div>
-    <div class="input-wrapper">
-      <label>A:</label><input value={app.state.currentLabels[0]} name="input_0" onkeyup={setLocalState}>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title inline">AC # {app.state.currentUID}</h3>
     </div>
-    <div class="input-wrapper">
-      <label>B:</label><input value={app.state.currentLabels[1]} name="input_1" onkeyup={setLocalState}>
+    <div class="panel-body">
+      <div>
+        <div class="input-wrapper">
+          <label>A:</label><input value={app.state.currentLabels[0]} name="input_0" onkeyup={setLocalState}>
+        </div>
+        <div class="input-wrapper">
+          <label>B:</label><input value={app.state.currentLabels[1]} name="input_1" onkeyup={setLocalState}>
+        </div>
+        <div class="input-wrapper">
+          <label>C:</label><input value={app.state.currentLabels[2]} name="input_2" onkeyup={setLocalState}>
+        </div>
+        <div class="input-wrapper">
+          <label>D:</label><input value={app.state.currentLabels[3]} name="input_3" onkeyup={setLocalState}>
+        </div>
+      </div>
+      <div class="label-controls">
+        <button type="button" class="btn btn-default btn-sm" onclick={save}>
+          <span class="glyphicon glyphicon-remove"></span> Save
+        </button>
+        <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+      </div>
     </div>
-    <div class="input-wrapper">
-      <label>C:</label><input value={app.state.currentLabels[2]} name="input_2" onkeyup={setLocalState}>
-    </div>
-    <div class="input-wrapper">
-      <label>D:</label><input value={app.state.currentLabels[3]} name="input_3" onkeyup={setLocalState}>
-    </div>
-  </div>
-  <div class="label-controls">
-    <button type="button" class="btn btn-default btn-sm" onclick={save}>
-      <span class="glyphicon glyphicon-remove"></span> Save
-    </button>
-    <button type="button" class="btn btn-default btn-sm" onclick={app.ctrl.cancelUpdate}>
-      <span class="glyphicon glyphicon-remove"></span> Cancel
-    </button>
   </div>
 
 

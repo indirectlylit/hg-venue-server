@@ -12,6 +12,12 @@
 */
 
 $(function() {
+
+  app.kinds = {
+    bike: 'bike',
+    ac: '4-ac',
+  };
+
   app.views = app.views || {};
   app.views.connection = new app.views.NotConnectedLayer().render();
   riot.compile(function() {

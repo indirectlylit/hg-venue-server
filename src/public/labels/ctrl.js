@@ -32,12 +32,16 @@ var _ajax = function(verb, url, data) {
 app.ctrl.updateLabels = function() {
   _ajax('put', '/api/labels/'+app.state.currentUID, app.state.currentLabels);
   app.state.currentUID = undefined;
+  app.state.currentKind = undefined;
+  app.state.currentLabels = [];
   app.views.labels.update();
 };
 
 
 app.ctrl.cancelUpdate = function() {
   app.state.currentUID = undefined;
+  app.state.currentKind = undefined;
+  app.state.currentLabels = [];
   app.views.labels.update();
 };
 
@@ -61,6 +65,7 @@ app.websocket.on('network.ping', function (msg) {
   }
 
   app.state.currentUID = msg.msg.uid;
+  app.state.currentKind = msg.msg.kind;
   app.state.currentLabels = app.state.labels[msg.msg.kind][msg.msg.uid].slice(); // copy
   app.views.labels.update();
 });
