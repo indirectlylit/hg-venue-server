@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="css/vendor/jquery.pnotify.default.icons.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="admin/admin.css">
-
-    <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   </head>
   <body>
     <div class="modal fade bs-example-modal-sm js-not-connected-layer" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -30,10 +28,16 @@
       </ul>
     </nav>
 
-    <div class="container">
+    <div class="container js-connecting">
+      <div class="row top-info">
+        connecting…
+      </div>
+    </div>
+
+    <div class="container js-connected">
       <div class="row">
         <div class="col-md-12">
-          <div class="navbar-text navbar-right js-clapper"></div>
+          <div class="clapper js-clapper"></div>
         </div>
       </div>
       <div class="row">
@@ -67,12 +71,10 @@
     <script src="/js/vendor/jquery-1.10.1.js"></script>
     <script src="/js/vendor/lodash.min.js"></script>
     <script src="/js/vendor/hogan.min.js"></script>
-    <script src="/js/vendor/bootstrap.js"></script>
-    <script src="/js/vendor/backbone.js"></script>
-    <script src="/js/vendor/backbone.viewmaster.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+    <script src="/js/vendor/backbone-min.js"></script>
+    <script src="/js/vendor/backbone.viewmaster.min.js"></script>
     <script src="/js/vendor/sockjs-0.3.4.js"></script>
-    <script src="/js/vendor/bootstrap.js"></script>
-    <script src="/js/vendor/bootstrap-lightbox.js"></script>
     <script src="/js/vendor/jquery.pnotify.js"></script>
     <script src="/js/vendor/jquery.cookie.min.js"></script>
     <script src="/js/vendor/moment.min.js"></script>

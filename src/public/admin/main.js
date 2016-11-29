@@ -24,7 +24,6 @@ $(function() {
   app.views.serverSettings  = new app.views.ServerSettings().render();
   app.views.logList         = new app.views.LogList().render();
   app.views.recorder        = new app.views.Recorder().render();
-  app.views.connection      = new app.views.NotConnectedLayer().render();
   app.views.clapper         = new app.views.Clapper().render();
 
   // configure bootstrap tooltips

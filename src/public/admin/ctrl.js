@@ -135,18 +135,23 @@ app.ctrl.clap = function() {
 /* General Websocket events */
 /****************************/
 
+function setConnected(state) {
+  $('.js-connected').toggle(state);
+  $('.js-connecting').toggle(!state);
+}
+
 app.websocket.on('connecting', function (e) {
-  app.views.connection.render();
+  setConnected(false);
 });
 
 app.websocket.on('error', function (e) {
-  app.views.connection.render();
+  setConnected(false);
 });
 
 app.websocket.on('close', function (e) {
-  app.views.connection.render();
+  setConnected(false);
 });
 
 app.websocket.on('open', function (e) {
-  app.views.connection.render();
+  setConnected(true);
 });

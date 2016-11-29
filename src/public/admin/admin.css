@@ -42,6 +42,11 @@
   white-space: nowrap;
 }
 
+.clapper {
+  text-align: right;
+  margin: 16px;
+}
+
 .icon-clapper {
   background-image: url("/admin/clapper.png");
   background-position: center center;
@@ -56,3 +61,6 @@
   width: 50%;
 }
 
+.top-info {
+  text-align: center;
+}
