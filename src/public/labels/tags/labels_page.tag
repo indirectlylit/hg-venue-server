@@ -22,7 +22,7 @@
           <div class="panel-heading"><h3 class="panel-title inline">Bikes</h3></div>
           <div class="panel-body">
             <div each={bikeSensors}>
-              # {uid}: {labels[0]}
+              <span class="id-label bike-id-label"># {uid}:</span> {labels[0]}
             </div>
           </div>
         </div>
@@ -32,7 +32,7 @@
           <div class="panel-heading"><h3 class="panel-title inline">AC Sensors</h3></div>
           <div class="panel-body">
             <div each={acSensors} class="ac-group">
-              <div>
+              <div class="id-label">
                 # {uid}
               </div>
               <div>
@@ -61,31 +61,36 @@
 
   <style>
 
+    label {
+      margin-right: 8px;
+      color: grey;
+    }
+
     .top-info {
       text-align: center;
       margin-bottom: 16px;
     }
 
-    .header {
-      text-align: center;
+    .id-label {
+      font-weight: bold;
+    }
+
+    .bike-id-label {
+      display: inline-block;
+      margin-right: 16px;
     }
 
     .ac-group {
-      margin-top: 8px;
+      margin-bottom: 8px;
     }
 
     .label-controls {
-      text-align: right;
+      text-align: center;
     }
 
     .input-wrapper {
       text-align: center;
       margin: 8px 0;
-    }
-
-    .input-wrapper label {
-      margin: 0 8px;
-      color: grey;
     }
 
     .input-wrapper input {
@@ -96,6 +101,15 @@
       border-radius: 3px;
       padding-left: 8px;
       padding-right: 8px;
+    }
+
+    .inline {
+      display: inline-block;
+    }
+
+    .clear-btn {
+      float: right;
+      display: inline-block;
     }
 
   </style>

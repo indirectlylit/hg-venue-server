@@ -24,6 +24,8 @@ var _ajax = function(verb, url, data) {
   });
 };
 
+
+
 /***********/
 /* Updates */
 /***********/
@@ -46,9 +48,19 @@ app.ctrl.cancelUpdate = function() {
 };
 
 
+app.ctrl.clearFields = function() {
+  for (var i = 0; i < app.state.currentLabels.length; i++) {
+    app.state.currentLabels[i] = '';
+  }
+  app.views.labels.update();
+}
+
+
+
 /***********************/
 /* Data Network Events */
 /***********************/
+
 
 app.pauseRendering = false;
 
@@ -76,9 +88,11 @@ app.websocket.on('stats.labels', function (labels) {
 });
 
 
+
 /****************************/
 /* General Websocket events */
 /****************************/
+
 
 app.websocket.on('connecting', function (e) {
   app.views.connection.render();

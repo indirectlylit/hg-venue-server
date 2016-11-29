@@ -7,6 +7,9 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title inline">Bike # {app.state.currentUID}</h3>
+      <button type="button" class="btn btn-default btn-xs clear-btn" onclick={app.ctrl.clearFields}>
+        Clear Fields
+      </button>
     </div>
     <form class="panel-body" onsubmit={app.ctrl.updateLabels} onreset={app.ctrl.cancelUpdate}>
       <div class="input-wrapper">
