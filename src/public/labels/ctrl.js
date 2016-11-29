@@ -33,6 +33,7 @@ var _ajax = function(verb, url, data) {
 
 app.ctrl.updateLabels = function() {
   _ajax('put', '/api/labels/'+app.state.currentUID, app.state.currentLabels);
+  app.state.labels[app.state.currentKind][app.state.currentUID] = app.state.currentLabels;
   app.state.currentUID = undefined;
   app.state.currentKind = undefined;
   app.state.currentLabels = [];
