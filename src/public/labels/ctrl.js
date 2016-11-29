@@ -20,7 +20,7 @@ var _ajax = function(verb, url, data) {
     if (jqXHR.readyState === 0 || jqXHR.status === 0) {
       err = "No response received from server.";
     }
-    app.utils.error(err);
+    console.log('ERROR:', err);
   });
 };
 
@@ -37,7 +37,7 @@ app.ctrl.updateLabels = function() {
   app.state.currentUID = undefined;
   app.state.currentKind = undefined;
   app.state.currentLabels = [];
-  app.views.labels.update();
+  app.view.update();
 };
 
 
@@ -45,7 +45,7 @@ app.ctrl.cancelUpdate = function() {
   app.state.currentUID = undefined;
   app.state.currentKind = undefined;
   app.state.currentLabels = [];
-  app.views.labels.update();
+  app.view.update();
 };
 
 
@@ -53,7 +53,7 @@ app.ctrl.clearFields = function() {
   for (var i = 0; i < app.state.currentLabels.length; i++) {
     app.state.currentLabels[i] = '';
   }
-  app.views.labels.update();
+  app.view.update();
 }
 
 
@@ -80,12 +80,13 @@ app.websocket.on('network.ping', function (msg) {
   app.state.currentUID = msg.msg.uid;
   app.state.currentKind = msg.msg.kind;
   app.state.currentLabels = app.state.labels[msg.msg.kind][msg.msg.uid].slice(); // copy
-  app.views.labels.update();
+  app.view.update();
 });
 
 app.websocket.on('stats.labels', function (labels) {
   app.state.labels = labels;
-  app.views.labels.update();
+  app.state.connecting = false;
+  app.view.update();
 });
 
 
@@ -96,17 +97,16 @@ app.websocket.on('stats.labels', function (labels) {
 
 
 app.websocket.on('connecting', function (e) {
-  app.views.connection.render();
+  app.state.connecting = true;
 });
 
 app.websocket.on('error', function (e) {
-  app.views.connection.render();
+  app.state.connecting = true;
 });
 
 app.websocket.on('close', function (e) {
-  app.views.connection.render();
+  app.state.connecting = true;
 });
 
 app.websocket.on('open', function (e) {
-  app.views.connection.render();
 });

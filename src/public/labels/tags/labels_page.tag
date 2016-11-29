@@ -6,7 +6,12 @@
 
   <div class="container">
     <div class="row top-info">
-      Press a sensor button to select and label it.
+      <span if={app.state.connecting}>
+        connecting…
+      </span>
+      <span if={!app.state.connecting}>
+        Press a sensor button to select and label it.
+      </span>
     </div>
     <div class="row" if={showEditor()}>
       <div class="col-md-3"></div>
@@ -16,7 +21,7 @@
       </div>
       <div class="col-md-3"></div>
     </div>
-    <div class="row" if={!showEditor()}>
+    <div class="row" if={showLabels()}>
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading"><h3 class="panel-title inline">Bikes</h3></div>
@@ -129,6 +134,10 @@
 
     this.showEditor = function() {
       return app.state.currentUID !== undefined;
+    };
+
+    this.showLabels = function() {
+      return !app.state.connecting && !this.showEditor();
     };
 
     this.on('update', function() {
