@@ -152,7 +152,7 @@ var sendStats = function() {
   resetBuffers();
 }
 
-setInterval(sendStats, windowPeriod*5);
+setInterval(sendStats, windowPeriod);
 resetBuffers();
 sendStats();
 
