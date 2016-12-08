@@ -93,9 +93,19 @@ statsCalc[app_constants.MachineKinds.INVERTER] = function (dataArray, uid) {
 };
 
 statsCalc[app_constants.MachineKinds.CAPS_SHUNTS] = function (dataArray, uid) {
+  // uncomment the lines below to return the 'average shunts on'
+  /*
   return _calcAverages(dataArray,
     ['c_in', 'c_out_fwd', 'c_out_rev', 'c_shunt', 'v', 'temp', 'shunts']
   );
+  */
+
+  // this returns the most recent shunts on rather than average
+  var stats = _calcAverages(dataArray,
+    ['c_in', 'c_out_fwd', 'c_out_rev', 'c_shunt', 'v', 'temp']
+  );
+  stats.shunts = _.last(dataArray).shunts;
+  return stats;
 };
 
 statsCalc[app_constants.MachineKinds.AC_NETWORK] = function (dataArray, uid) {
