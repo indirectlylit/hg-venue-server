@@ -12,7 +12,9 @@ var MachineKinds = {
   AC_NETWORK: "acnet",
 };
 
-var maxGraph = 1600; // watts
+var wattageScale = d3.scaleSqrt()
+    .domain([0, 4000])
+    .range([0, 1]);
 
 function celsiusToFahrenheit(c) {
   return 32 + c * 9 / 5;
@@ -174,7 +176,7 @@ app.view = new Vue({
   },
   methods: {
     pct: function (watts) {
-      return watts / maxGraph;
+      return wattageScale(watts);
     },
   },
   data: {
