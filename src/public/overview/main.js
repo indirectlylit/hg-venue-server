@@ -12,7 +12,11 @@ var MachineKinds = {
   AC_NETWORK: "acnet",
 };
 
-var wattageScale = d3.scaleSqrt()
+var wattageScale1k = d3.scaleLinear()
+    .domain([0, 1000])
+    .range([0, 1]);
+
+var wattageScale4k = d3.scaleLinear()
     .domain([0, 4000])
     .range([0, 1]);
 
@@ -172,11 +176,6 @@ app.view = new Vue({
         }
         return row;
       }).sort(comparator);
-    },
-  },
-  methods: {
-    pct: function (watts) {
-      return wattageScale(watts);
     },
   },
   data: {

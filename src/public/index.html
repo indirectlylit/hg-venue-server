@@ -38,7 +38,7 @@
                       {{ capsShuntsBoxState.wattsGenerated }} W
                     </td>
                     <td class="bar-cell">
-                      <bar-chart type="input" :percent="pct(capsShuntsBoxState.wattsGenerated)"></bar-chart>
+                      <bar-chart type="input" :percent="wattageScale4k(capsShuntsBoxState.wattsGenerated)"></bar-chart>
                     </td>
                   </tr>
                   <tr>
@@ -47,7 +47,7 @@
                       {{ capsShuntsBoxState.wattsConsumed }} W
                     </td>
                     <td class="bar-cell">
-                      <bar-chart type="output" :percent="pct(capsShuntsBoxState.wattsConsumed)"></bar-chart>
+                      <bar-chart type="output" :percent="wattageScale4k(capsShuntsBoxState.wattsConsumed)"></bar-chart>
                     </td>
                   </tr>
                   <tr>
@@ -56,7 +56,7 @@
                       {{ capsShuntsBoxState.wattsShunted }} W
                     </td>
                     <td class="bar-cell">
-                      <bar-chart :percent="pct(capsShuntsBoxState.wattsShunted)"></bar-chart>
+                      <bar-chart :percent="wattageScale4k(capsShuntsBoxState.wattsShunted)"></bar-chart>
                     </td>
                   </tr>
                 </tbody>
@@ -94,7 +94,7 @@
                       <span v-if="tier.on && !tier.error">{{ tier.watts }} W</span>
                     </td>
                     <td class="bar-cell">
-                      <bar-chart type="output" :percent="pct(tier.watts)"></bar-chart>
+                      <bar-chart type="output" :percent="wattageScale4k(tier.watts)"></bar-chart>
                     </td>
                   </tr>
                 </tbody>
@@ -118,7 +118,7 @@
                     <td class="constrained-small text-right">{{ dc.watts }} W</td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <bar-chart type="input" :percent="pct(dc.watts)"></bar-chart>
+                        <bar-chart type="input" :percent="wattageScale1k(dc.watts)"></bar-chart>
                       </div>
                     </td>
                   </tr>
@@ -139,7 +139,7 @@
                     <td class="constrained-small text-right">{{ ac.watts }} W</td>
                     <td class="bar-cell">
                       <div class="bar">
-                        <bar-chart type="output" :percent="pct(ac.watts)"></bar-chart>
+                        <bar-chart type="output" :percent="wattageScale1k(ac.watts)"></bar-chart>
                       </div>
                     </td>
                   </tr>
