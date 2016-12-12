@@ -104,7 +104,7 @@ statsCalc[app_constants.MachineKinds.CAPS_SHUNTS] = function (dataArray, uid) {
   var stats = _calcAverages(dataArray,
     ['c_in', 'c_out_fwd', 'c_out_rev', 'c_shunt', 'v', 'temp']
   );
-  stats.shunts = _.last(dataArray).shunts;
+  stats.shunts = _.last(dataArray).msg.shunts;
   return stats;
 };
 
