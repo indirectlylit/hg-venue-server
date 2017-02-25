@@ -16,6 +16,7 @@ var events = require('events');
 var app_logger = require("./app.logger");
 var app_network_serial = require("./app.network.serial");
 var app_network_udp = require("./app.network.udp");
+var validateMsg = require("./app.network.validate");
 var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 
@@ -38,9 +39,10 @@ var handleIncomingData = function(message, address) {
   var data = {};
   try {
     data.msg = JSON.parse(message);
+    validateMsg(data.msg);
   }
   catch(e) {
-    app_logger.error('could not parse message:', message, '|', address, '|', e);
+    app_logger.error('Malformed data from', address, '|', e, '| Message:', message);
     return;
   }
 
