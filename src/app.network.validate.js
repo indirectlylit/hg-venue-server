@@ -13,18 +13,18 @@ var _ = require('lodash');
 //// INTERNALS
 
 var INV_BOX_KEYS = [
-  'i', 'inv', 'kind', 'ms', 'soft', 'uid', 'v'
+  'i', 'inv', 'kind', 'ms', 'soft', 'v'
 ];
 
 var CAP_BOX_KEYS = [
   'c_in', 'c_out_fwd', 'c_out_rev', 'c_shunt', 'error',
-  'fan', 'i', 'kind', 'ms', 'shunts', 'temp', 'uid', 'v'
+  'fan', 'i', 'kind', 'ms', 'shunts', 'temp', 'v'
 ];
 
 var AC_BOX_KEYS = [
   'btn', 'c_t1', 'c_t2', 'c_t3', 'c_t4', 'error', 'fan',
   'i', 'kind', 'ms', 'reset', 'server', 'temp', 'tiers',
-  'uid', 'v_ac', 'v_dc', 'v_t1', 'v_t2', 'v_t3', 'v_t4'
+  'v_ac', 'v_dc', 'v_t1', 'v_t2', 'v_t3', 'v_t4'
 ];
 
 function _checkKeys(expected, msg) {
