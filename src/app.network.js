@@ -16,7 +16,7 @@ var events = require('events');
 var app_logger = require("./app.logger");
 var app_network_serial = require("./app.network.serial");
 var app_network_udp = require("./app.network.udp");
-var validateMsg = require("./app.network.validate");
+var validate = require("./app.network.validate");
 var app_settings = require("./app.settings");
 var app_web = require("./app.web");
 
@@ -38,8 +38,9 @@ var _paddedString = function(number) {
 var handleIncomingData = function(message, address) {
   var data = {};
   try {
+    validate.checksumReport(message);
     data.msg = JSON.parse(message);
-    validateMsg(data.msg);
+    validate.validateProps(data.msg);
   }
   catch(e) {
     app_logger.error('Malformed data from', address, '|', e, '| Message:', message);

@@ -40,9 +40,23 @@ function _checkKeys(expected, msg) {
 }
 
 
-//// EXPORT
+//// EXPORTS
 
-function validateMsg(msg) {
+// The Serial-to-Ethernet converter will append three bytes of
+// error reporting data if it detects a checksum issue.
+function checksumReport(msg) {
+  var FLAG = msg.length-1;
+  var RECEIVED = msg.length-2;
+  var EXPECTED = msg.length-3;
+  if (msg[FLAG] === '!') {
+    var errorMsg = 'Serial-to-Ethernet checksum failure.' +
+      ' Expected: 0x' + msg.charCodeAt(EXPECTED).toString(16) +
+      ' Received: 0x' + msg.charCodeAt(RECEIVED).toString(16)
+    throw new Error(errorMsg);
+  }
+}
+
+function validateProps(msg) {
   if (msg.kind === 'inv') {
     _checkKeys(INV_BOX_KEYS, msg);
   } else if (msg.kind === 'caps') {
@@ -53,4 +67,7 @@ function validateMsg(msg) {
 }
 
 
-module.exports = validateMsg;
+module.exports = {
+  checksumReport: checksumReport,
+  validateProps: validateProps,
+};
