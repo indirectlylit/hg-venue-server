@@ -28,7 +28,7 @@ var AC_BOX_KEYS = [
 ];
 
 function _checkKeys(expected, msg) {
-  received = _.keys(msg);
+  var received = _.keys(msg);
   if (expected.length !== received.length) {
     throw new Error('Expected properties: ' + expected.toString() + '; received: ' + received.toString());
   }
